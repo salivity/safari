@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Safari&#39;s Copy Subject Feature Isolates Image Objects - safari</title>
+    <meta name="description" content="Safari’s &quot;Copy Subject&quot; feature allows users to instantly extract the main object of an image away from its background with a single right-click or long-press. This article provides an overview of how this tool works under the hood, detailing the combinat">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/how-safari-s-copy-subject-feature-isolates-image-objects">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Safari&#39;s Copy Subject Feature Isolates Image Objects - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/how-safari-s-copy-subject-feature-isolates-image-objects" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Safari’s &quot;Copy Subject&quot; feature allows users to instantly extract the main object of an image away from its background with a single right-click or long-press. This article provides an overview of how this tool works under the hood, detailing the combinat" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="how-safaris-copy-subject-feature-isolates-image-objects">How
+Safari's Copy Subject Feature Isolates Image Objects</h1>
+<p>Safari’s "Copy Subject" feature allows users to instantly extract the
+main object of an image away from its background with a single
+right-click or long-press. This article provides an overview of how this
+tool works under the hood, detailing the combination of Apple's Vision
+framework, on-device machine learning algorithms, semantic segmentation,
+and hardware acceleration via the Neural Engine that processes and cuts
+out the image in milliseconds.</p>
+<h3 id="triggering-the-vision-framework">Triggering the Vision
+Framework</h3>
+<p>When you right-click on Mac or long-press an image on iOS and iPadOS
+within Safari, the browser does not send the image to a cloud server for
+processing. Instead, Safari passes the image data directly to the
+operating system's built-in VisionKit and Core ML frameworks. Before the
+context menu even finishes animating on your screen, the system quickly
+analyzes the image to determine if a distinct foreground subject
+actually exists. If it detects one, the "Copy Subject" option is made
+available.</p>
+<h3 id="step-1-saliency-detection">Step 1: Saliency Detection</h3>
+<p>The first phase of isolating the object is called saliency detection.
+The machine learning model scans the image to determine what naturally
+draws the human eye. It looks for sharp focus, contrast differences,
+spatial positioning, and recognizable patterns like human faces,
+animals, or prominent objects. This creates a rough "heat map" of the
+image, telling the system where the primary subject is located and what
+part of the image is merely background noise.</p>
+<h3 id="step-2-semantic-segmentation">Step 2: Semantic Segmentation</h3>
+<p>Once the general area of the subject is located, the system uses a
+computer vision technique called semantic segmentation. Apple’s machine
+learning models have been trained on millions of labeled images to
+understand what different objects look like. During this step, the
+algorithm evaluates the image at the pixel level, classifying every
+single pixel as either part of the "foreground subject" or part of the
+"background." This creates a distinct boundary line around the
+object.</p>
+<h3 id="step-3-edge-refinement-and-alpha-matting">Step 3: Edge
+Refinement and Alpha Matting</h3>
+<p>A simple pixel classification often leaves jagged edges, especially
+around complex details like human hair, animal fur, or semi-transparent
+objects. To solve this, the algorithm applies an advanced refinement
+process known as alpha matting.</p>
+<p>The model generates a high-resolution alpha mask—a grayscale map
+where pure white represents the solid subject, pure black represents the
+background to be deleted, and shades of gray represent partial
+transparency. This allows Safari to accurately capture fine strands of
+hair and soft edges without including chunks of the background
+color.</p>
+<h3 id="hardware-acceleration-via-the-neural-engine">Hardware
+Acceleration via the Neural Engine</h3>
+<p>Performing saliency detection, pixel-by-pixel segmentation, and alpha
+matting requires billions of mathematical operations. Safari achieves
+this instantaneously by offloading the task from the main CPU to the
+Apple Neural Engine (found in Apple Silicon M-series and A-series
+chips). The Neural Engine is purpose-built to run these specific Core ML
+matrix multiplications concurrently, reducing a process that used to
+take minutes in professional photo editing software down to a fraction
+of a second.</p>
+<h3 id="delivering-the-final-cutout">Delivering the Final Cutout</h3>
+<p>Once the alpha mask is finalized by the Neural Engine, the system
+strips away all pixels designated as the background, replacing them with
+transparency. Safari then packages the remaining foreground pixels into
+a Portable Network Graphics (PNG) file—a format that natively supports
+transparent backgrounds—and places it directly onto your device's
+universal clipboard, ready to be pasted into another application.</p></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/how-safari-s-copy-subject-feature-isolates-image-objects';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

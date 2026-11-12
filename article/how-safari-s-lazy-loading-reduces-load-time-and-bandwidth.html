@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Safari&#39;s Lazy Loading Reduces Load Time and Bandwidth - safari</title>
+    <meta name="description" content="This article explores how implementing the loading=&quot;lazy&quot; HTML attribute on images and iframes significantly improves web performance in the Safari web browser. By deferring the downloading of off-screen media until a user scrolls near them, Safari reduce">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/how-safari-s-lazy-loading-reduces-load-time-and-bandwidth">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Safari&#39;s Lazy Loading Reduces Load Time and Bandwidth - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/how-safari-s-lazy-loading-reduces-load-time-and-bandwidth" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article explores how implementing the loading=&quot;lazy&quot; HTML attribute on images and iframes significantly improves web performance in the Safari web browser. By deferring the downloading of off-screen media until a user scrolls near them, Safari reduce" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="how-safaris-lazy-loading-reduces-load-time-and-bandwidth">How
+Safari's Lazy Loading Reduces Load Time and Bandwidth</h1>
+<p>This article explores how implementing the
+<code>loading="lazy"</code> HTML attribute on images and iframes
+significantly improves web performance in the Safari web browser. By
+deferring the downloading of off-screen media until a user scrolls near
+them, Safari reduces initial page load times and conserves valuable
+bandwidth. Below is a straightforward breakdown of how Safari’s WebKit
+engine handles native lazy loading, eliminates network contention, and
+optimizes both data usage and rendering speed.</p>
+<h3 id="how-safari-processes-the-loadinglazy-attribute">How Safari
+Processes the <code>loading="lazy"</code> Attribute</h3>
+<p>Normally, when Safari loads a webpage, its WebKit engine parses the
+HTML and immediately begins fetching every image and iframe it
+encounters, regardless of whether those elements are visible to the
+user.</p>
+<p>When you add the <code>loading="lazy"</code> attribute to an
+<code>&lt;img&gt;</code> or <code>&lt;iframe&gt;</code> tag, you
+instruct Safari to pause the network request for that specific resource
+if it is located below the fold (outside the user's current screen
+view). Instead of downloading the media immediately, Safari places a
+lightweight internal Intersection Observer on the element. The browser
+only initiates the download when the user scrolls down and the element
+approaches a specific distance threshold from the viewport.</p>
+<h3 id="reducing-initial-page-load-time">Reducing Initial Page Load
+Time</h3>
+<p>Lazy loading directly accelerates the initial page load time in
+Safari through three main mechanisms:</p>
+<ul>
+<li><strong>Eliminating Network Contention:</strong> Bandwidth is
+finite. When Safari tries to download dozens of off-screen images and
+iframes at once, those files compete for network resources with critical
+files like CSS, fonts, and JavaScript. By deferring off-screen media,
+Safari allocates 100% of the available network connection to downloading
+and rendering the visible, above-the-fold content first.</li>
+<li><strong>Freeing Up the Main Thread:</strong> Loading an
+<code>&lt;iframe&gt;</code>—such as an embedded YouTube video or a
+third-party map—is essentially loading an entire secondary webpage. It
+requires Safari to parse additional HTML, execute heavy JavaScript, and
+style new elements. Deferring iframes prevents this background
+processing from blocking Safari’s main thread, allowing the main page to
+become interactive much faster.</li>
+<li><strong>Faster <code>load</code> Event Firing:</strong> Because
+Safari does not have to wait for deferred images and iframes to finish
+downloading, the browser reaches its final loaded state much faster.
+This improves core web vitals, specifically Largest Contentful Paint
+(LCP) and First Input Delay (FID).</li>
+</ul>
+<h3 id="conserving-bandwidth">Conserving Bandwidth</h3>
+<p>The bandwidth savings provided by <code>loading="lazy"</code> in
+Safari are directly tied to user behavior. Many users never scroll all
+the way to the bottom of a webpage; they often find the information they
+need at the top and navigate away.</p>
+<ul>
+<li><strong>Zero Wasted Bytes:</strong> Without lazy loading, a user who
+bounces from a page after three seconds still downloads all the heavy
+images and iframes located at the bottom of the page. With
+<code>loading="lazy"</code>, if a user never scrolls down, Safari never
+requests those files from the server.</li>
+<li><strong>Server and Client Savings:</strong> This benefits both the
+website owner and the visitor. Website servers save money by
+transferring less data, and users—especially those using Safari on iOS
+and iPadOS devices with limited cellular data plans—avoid burning
+through their bandwidth allowances on content they never actually
+see.</li>
+</ul>
+<h3 id="best-practices-for-safari-implementation">Best Practices for
+Safari Implementation</h3>
+<p>To ensure Safari calculates the page layout correctly before the
+lazy-loaded elements are downloaded, developers must include explicit
+<code>width</code> and <code>height</code> attributes on the
+<code>&lt;img&gt;</code> and <code>&lt;iframe&gt;</code> tags. This
+allows Safari to reserve the correct amount of empty space on the page,
+preventing sudden layout shifts when the user scrolls down and the media
+finally loads. Additionally, you should never apply
+<code>loading="lazy"</code> to images or iframes that are immediately
+visible at the top of the page, as this will unnecessarily delay Safari
+from rendering the initial view.</p></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/how-safari-s-lazy-loading-reduces-load-time-and-bandwidth';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

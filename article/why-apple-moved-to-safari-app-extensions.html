@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Why Apple Moved to Safari App Extensions - safari</title>
+    <meta name="description" content="This article explores the primary reasons behind Apple&#39;s decision to phase out legacy .safariextz extensions in favor of Safari App Extensions bundled within native macOS applications. By examining the impacts on user security, browser performance, develo">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/why-apple-moved-to-safari-app-extensions">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Why Apple Moved to Safari App Extensions - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/why-apple-moved-to-safari-app-extensions" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article explores the primary reasons behind Apple&#39;s decision to phase out legacy .safariextz extensions in favor of Safari App Extensions bundled within native macOS applications. By examining the impacts on user security, browser performance, develo" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="why-apple-moved-to-safari-app-extensions">Why Apple Moved to
+Safari App Extensions</h1>
+<p>This article explores the primary reasons behind Apple's decision to
+phase out legacy <code>.safariextz</code> extensions in favor of Safari
+App Extensions bundled within native macOS applications. By examining
+the impacts on user security, browser performance, developer
+monetization, and ecosystem integration, this overview breaks down why
+Apple fundamentally changed how Safari add-ons are built and
+distributed.</p>
+<h3 id="enhanced-security-and-user-privacy">Enhanced Security and User
+Privacy</h3>
+<p>The primary driver behind the transition was security. Legacy
+<code>.safariextz</code> files were built entirely using web
+technologies (HTML, CSS, and JavaScript) and could be downloaded and
+installed directly from any website. Bad actors frequently exploited
+this open system to distribute adware, spyware, and browser hijackers
+disguised as helpful tools.</p>
+<p>By forcing extensions to be bundled inside native macOS apps, Apple
+brought them under the strict protections of the macOS security model.
+Safari App Extensions are required to run in a secure "sandbox," which
+restricts their access to the rest of the system and user data.
+Furthermore, distributing these extensions through the Mac App Store
+means every extension must pass Apple's rigorous notarization and app
+review processes, drastically reducing the risk of malicious extensions
+reaching users.</p>
+<h3 id="better-performance-and-battery-life">Better Performance and
+Battery Life</h3>
+<p>Legacy extensions relied heavily on injected scripts that ran
+continuously in the background, often degrading Safari’s speed and
+draining MacBook batteries. Because they were written purely in
+JavaScript, they lacked the efficiency of compiled code.</p>
+<p>Safari App Extensions shift the heavy lifting from JavaScript to
+native macOS code, specifically Swift and Objective-C. Native code
+executes much faster and requires significantly less memory and CPU
+power. Additionally, Apple designed the new architecture to be
+event-driven, meaning extensions only use system resources when actively
+needed, rather than running persistently in the background.</p>
+<h3 id="streamlined-distribution-and-monetization">Streamlined
+Distribution and Monetization</h3>
+<p>Previously, Apple maintained a separate website called the Safari
+Extensions Gallery for users to find add-ons. This created a fragmented
+experience, as macOS users had to look in the Mac App Store for apps,
+but go to a webpage for browser extensions. Updating legacy extensions
+was also a disjointed process managed inside Safari's preferences.</p>
+<p>Moving extensions into the Mac App Store unified the software
+ecosystem. Users now download, manage, and automatically update their
+browser extensions in the exact same place as their standard
+applications. For developers, this shift unlocked built-in monetization
+tools. Under the old system, charging for an extension required setting
+up third-party payment processors and complex licensing systems. With
+the Mac App Store, developers gained immediate access to upfront
+payments, in-app purchases, and subscriptions.</p>
+<h3 id="deeper-integration-with-macos">Deeper Integration with
+macOS</h3>
+<p>Legacy extensions were isolated inside the Safari browser, making it
+difficult for them to communicate with companion desktop apps. For
+example, a password manager needed complex workarounds to allow its
+browser extension to talk to its main desktop application.</p>
+<p>Because Safari App Extensions are packaged directly inside a parent
+macOS app, they can easily and securely share data with that app using
+standard Apple frameworks. This tight integration allows developers to
+build more powerful tools that bridge the gap between the web browser
+and the operating system, utilizing native macOS features like Touch ID,
+Apple keychain, and system notifications effortlessly.</p></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/why-apple-moved-to-safari-app-extensions';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

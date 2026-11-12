@@ -1,0 +1,2396 @@
+[
+  [
+    399,
+    "Why Safari Kept Its Iconic Blue Compass Since 2003",
+    "Since its introduction in 2003, Apple’s Safari web browser has maintained the same core visual identity: a blue compass rose with a red and white needle. This article explores the reasons behind the longevity of the Safari icon across macOS, iOS, iPadOS,",
+    false
+  ],
+  [
+    398,
+    "What the Blue Progress Bar in Safari Actually Measures",
+    "The blue progress bar that sweeps across the bottom of the Smart Search Field in Safari does not measure the exact percentage of bytes downloaded from a server. Instead, this article explains how Safari uses a combination of network milestones, dynamic re",
+    false
+  ],
+  [
+    397,
+    "Disable Show Color in Compact Tab Bar in Safari",
+    "Safari features a dynamic design that changes the color of the browser's top toolbar to match the background color of the webpage you are currently viewing. While some find this visually appealing, many users prefer a consistent, neutral system toolbar th",
+    false
+  ],
+  [
+    396,
+    "How Safari Samples Webpage Colors for Tab Bar Tinting",
+    "This article explains the technical process behind Safari’s dynamic tab bar tinting feature, which changes the color of the browser's window toolbar to match the active webpage. By utilizing a combination of developer-defined HTML meta tags, CSS backgroun",
+    false
+  ],
+  [
+    395,
+    "What Safari's Orange SnapBack Arrow Allowed Users to Do",
+    "In early versions of Apple's Safari web browser, the orange SnapBack arrow icon served as a convenient navigation shortcut located inside both the address bar and the search field. This article explains how the SnapBack feature allowed users to instantly",
+    false
+  ],
+  [
+    394,
+    "The Controversy Behind the Safari 15 Tab Bar Redesign",
+    "In the summer of 2021, Apple introduced a radical redesign for version 15 of its Safari web browser across macOS, iOS, and iPadOS, aiming to maximize screen real estate with a streamlined tab bar. However, the early beta versions sparked immediate and wid",
+    false
+  ],
+  [
+    393,
+    "How Safari's Legacy Activity Window Allowed Media Downloads",
+    "Early versions of Apple's Safari web browser featured a built-in utility called the Activity Window, which provided users with a real-time list of every individual file a webpage loaded. This article explains how the Activity Window functioned, the specif",
+    false
+  ],
+  [
+    392,
+    "What Was Safari’s Top Sites 3D Curved Wall View?",
+    "Introduced in 2009 with Safari 4, the Top Sites 3D curved wall view was a visually striking feature that displayed a user's most frequently visited websites in a panoramic, concave grid. This article explores the origins, core features, and functionality",
+    false
+  ],
+  [
+    391,
+    "How Safari 4 Used 3D Cover Flow for History and Bookmarks",
+    "This article explores the mechanics and user experience of the 3D Cover Flow interface introduced in Apple's Safari 4 web browser. It covers how the browser captured full-page snapshots of visited websites, utilized hardware-accelerated graphics to render",
+    false
+  ],
+  [
+    390,
+    "Why Apple Added and Removed Safari's Built-in RSS Reader",
+    "This article explores the history of \"Safari RSS,\" the built-in RSS and Atom feed reader introduced by Apple in Safari version 2, and examines the strategic and technological reasons why Apple ultimately removed the feature in Safari version 6. It covers",
+    false
+  ],
+  [
+    389,
+    "Restore Closed Safari Tabs and Windows After Relaunching",
+    "Accidentally quitting the Safari web browser or closing an important window can disrupt your workflow, especially if you had multiple research tabs open. Fortunately, Safari includes built-in recovery features within its History menu that allow you to qui",
+    false
+  ],
+  [
+    388,
+    "Clearing Safari History and Website Data on Your iPhone",
+    "Selecting \"Clear History and Website Data\" in your iPhone's Safari settings removes your browsing history, cookies, and cached files, while also giving you the choice to either keep your current browser tabs open or close them all at once. This article ex",
+    false
+  ],
+  [
+    387,
+    "Switch Your Default Browser from Safari on macOS and iOS",
+    "This article provides a straightforward guide on how to change your default web browser away from Safari on both Apple macOS and iOS devices. By adjusting a few options in macOS System Settings or iOS Settings, you can easily set third-party browsers like",
+    false
+  ],
+  [
+    386,
+    "Why SIP and SSV Prevent Deleting Safari on Apple Devices",
+    "This article explains why users cannot uninstall or delete the Safari web browser on macOS and iOS devices. It explores the core security mechanisms Apple uses to lock down its operating systems, specifically focusing on System Integrity Protection (SIP),",
+    false
+  ],
+  [
+    385,
+    "Fixing Safari DNS Stalls via Cache and IP Tracking",
+    "Intermittent domain resolution stalls in Safari typically occur when the browser gets stuck translating a website's name into its numerical IP address, resulting in a frozen loading bar. This article provides a technical breakdown of how two specific trou",
+    false
+  ],
+  [
+    384,
+    "Fixing Safari's Secure Connection Error on Your Network",
+    "Encountering the \"Safari can't establish a secure connection to the server\" error while other browsers like Chrome or Firefox load the same website effortlessly indicates a localized issue within Safari or your Apple device's system settings. Because thir",
+    false
+  ],
+  [
+    383,
+    "Where macOS Stores Safari Crash Reports and Hang Logs",
+    "When the Safari web browser or a Safari Web Content process terminates unexpectedly, macOS automatically generates diagnostic files to record the state of the application at the moment of failure. This article provides a direct guide to locating these cra",
+    false
+  ],
+  [
+    382,
+    "How to Troubleshoot Misbehaving Webpages in Apple Safari",
+    "When a webpage fails to load properly, displays broken layouts, or refuses to respond in Safari, the culprit is usually corrupted site data or a conflicting third-party browser extension. This article provides a straightforward guide on how to quickly iso",
+    false
+  ],
+  [
+    381,
+    "How to Quickly Clear Only the Safari Cache on macOS",
+    "This article explains the fastest method to clear the network cache in the Safari web browser on macOS without deleting your cookies, browsing history, or active login sessions. By enabling Safari's hidden Develop menu, you can bypass the standard history",
+    false
+  ],
+  [
+    380,
+    "How to Launch Safari Without Reopening Old Tabs on macOS",
+    "This article provides a quick and effective method for macOS users to launch the Safari web browser with a clean slate. By utilizing the Shift key during the application's startup process, you can easily prevent previous windows and problematic tabs from",
+    false
+  ],
+  [
+    379,
+    "Customizing the Safari Share Menu on Mac and iOS",
+    "The Safari Share menu is a powerful tool for sending web pages to other apps and triggering quick browser actions, but it can quickly become cluttered with unused options. This guide provides a complete overview of how to customize the Safari Share menu o",
+    false
+  ],
+  [
+    378,
+    "Opening Safari Webarchive Files on Non-Apple Systems",
+    "This article explores whether .webarchive files created by the Safari web browser can be opened natively on non-Apple operating systems such as Windows, Linux, and Android. In short, you cannot open .webarchive files natively on non-Apple platforms withou",
+    false
+  ],
+  [
+    377,
+    "Safari Print Previews: @media print and @page CSS Support",
+    "This article provides a comprehensive overview of how the Safari web browser interprets and applies @media print and @page CSS rules when generating print previews. While Safari reliably executes standard @media print queries to hide unnecessary interface",
+    false
+  ],
+  [
+    376,
+    "How Safari's Quick Note Highlights Text Persistently",
+    "This article explains the technical mechanics behind Apple's \"Add to Quick Note\" feature, specifically how the Safari web browser creates persistent yellow highlights on live webpages that link directly back to the Apple Notes app. By combining webpage te",
+    false
+  ],
+  [
+    375,
+    "How to Email Webpages in Safari in Four Different Formats",
+    "Sharing web content directly from the Safari browser via email is a straightforward process that offers multiple formatting options. Whether you need to send a quick reference link or a fully formatted document, Safari and Apple Mail work together to give",
+    false
+  ],
+  [
+    374,
+    "Capturing Screenshots and Full Page PDFs in iOS Safari",
+    "This article explains how iOS users can capture and share both standard viewport screenshots and full-page scrolling PDFs in the Safari web browser. By utilizing the built-in iOS screenshot editor alongside the Safari Share Sheet and its native format opt",
+    false
+  ],
+  [
+    373,
+    "Why Safari Reader View Creates Clutter-Free Prints",
+    "Printing long web articles often results in wasted paper and ink due to intrusive advertisements, navigation menus, and cluttered sidebars. Activating Safari's Reader View before printing solves this problem by stripping away irrelevant webpage elements a",
+    false
+  ],
+  [
+    372,
+    "How to Print Background Colors and Graphics in Safari",
+    "This article provides a quick guide on how to enable or disable background colors and images when printing a webpage from the Safari web browser. By default, Safari excludes background graphics to conserve printer ink and keep text readable, but you can e",
+    false
+  ],
+  [
+    371,
+    "Inside the Apple Safari .webarchive File Format",
+    "This article explores the Apple Web Archive (.webarchive) file format used by the Safari web browser to save complete web pages for offline viewing. It explains the core purpose of the format, its underlying binary property list (plist) architecture, and",
+    false
+  ],
+  [
+    370,
+    "Safari Export as PDF vs. macOS Print to PDF Differences",
+    "While both Safari's \"Export as PDF\" option and the standard macOS \"Print to PDF\" feature allow you to save webpages for offline viewing, they produce very different results. This article explains the key differences between the two methods—focusing on pag",
+    false
+  ],
+  [
+    369,
+    "Using the open -a Safari Command in the macOS Terminal",
+    "This article provides a concise guide for developers on using the open -a Safari command in the macOS Terminal. You will learn the exact syntax required to launch external URLs, open local HTML files for testing, utilize helpful command flags, and set up",
+    false
+  ],
+  [
+    368,
+    "How Safari Prompts Users for External Apple Events",
+    "This article explains how the Safari web browser security model interacts with macOS to protect user privacy when external applications attempt to read or control open browser tabs using Apple Events. It covers the role of the macOS Transparency, Consent,",
+    false
+  ],
+  [
+    367,
+    "Using Automator to Batch-Download from Safari on macOS",
+    "Yes, Automator workflows on macOS can still interact directly with the Safari web browser to batch-download linked images and URLs from an active webpage. This article provides a straightforward guide on how this functionality works in modern versions of",
+    false
+  ],
+  [
+    366,
+    "How Shortcuts Uses Safari Reader Without Opening Windows",
+    "This article explains how the \"Get Article using Safari Reader\" action in Apple’s Shortcuts app extracts clean text and metadata from URLs entirely in the background. By utilizing headless system frameworks, background networking, and WebKit's content-sco",
+    false
+  ],
+  [
+    365,
+    "How to Automate Safari Workspaces and URLs with Shortcuts",
+    "This article provides a step-by-step guide on how to use the Apple Shortcuts app to automatically launch specific Safari Tab Groups, Profiles, and predefined sets of URLs. You will learn how to organize your Safari workspaces, build the necessary shortcut",
+    false
+  ],
+  [
+    364,
+    "Safari AppleScript Commands and Properties on macOS",
+    "This article provides a comprehensive reference to the AppleScript dictionary exposed by the Safari web browser on macOS. It covers the core classes, properties, and specific commands available in the Safari Suite and Standard Suite for automating web bro",
+    false
+  ],
+  [
+    363,
+    "Convert Safari Articles to Markdown with iOS Shortcuts",
+    "This article provides a step-by-step guide on how to build an iOS Shortcut that captures the active webpage from the Safari Share Sheet, strips away clutter using Safari Reader, converts the article into Markdown text, and saves the result directly to App",
+    false
+  ],
+  [
+    362,
+    "Extract Safari Titles and URLs via AppleScript and JXA",
+    "This article explains how to automate the extraction of webpage titles and URLs from all open windows and tabs in the Safari web browser on macOS. It provides ready-to-use scripts and clear explanations for both AppleScript and JavaScript for Automation (",
+    false
+  ],
+  [
+    361,
+    "Why Safari Requires Allowing JavaScript from Apple Events",
+    "This article explains why Apple requires users to manually enable the \"Allow JavaScript from Apple Events\" setting in the Safari web browser. It covers the security risks of automated scripts, how this feature protects your sensitive web data from malicio",
+    false
+  ],
+  [
+    360,
+    "How to Build Multi-Step Safari Workflows in Apple Shortcuts",
+    "This article provides a direct guide to building multi-step automation workflows for the Safari web browser using the Apple Shortcuts app. You will learn how to capture active browser data using the Get Current Web Page action, manipulate webpage elements",
+    false
+  ],
+  [
+    359,
+    "How Smart App Banners Work in the Safari Web Browser",
+    "This article provides a complete overview of how Apple’s Smart App Banners use HTML metadata to display a native App Store banner at the top of a webpage in Safari. You will learn the exact meta tag syntax required for implementation, how the Safari brows",
+    false
+  ],
+  [
+    358,
+    "How Universal Links Route Safari Traffic to Native Apps",
+    "Universal Links allow iOS and macOS devices to seamlessly redirect users from standard HTTPS web links clicked in Safari directly into a corresponding native application. This article explains the underlying architecture of Universal Links, detailing how",
+    false
+  ],
+  [
+    357,
+    "Safari User Agent Strings and Why Version Tokens Are Frozen",
+    "This article provides a comprehensive overview of the Safari web browser's user agent string structure across both macOS and iOS devices. Additionally, it explains why Apple and the WebKit team have intentionally frozen and simplified specific version tok",
+    false
+  ],
+  [
+    356,
+    "OAuth SSO in iOS Using ASWebAuthenticationSession",
+    "This article provides a comprehensive guide on implementing OAuth single sign-on (SSO) flows in an iOS application using Apple's ASWebAuthenticationSession API. You will learn how to configure the authentication session, handle redirects to capture author",
+    false
+  ],
+  [
+    355,
+    "Why Apple Forced iOS Browsers to Use the WebKit Engine",
+    "Prior to the enforcement of the European Union's Digital Markets Act, Apple maintained a strict App Store policy requiring all third-party web browsers on iOS—such as Google Chrome and Mozilla Firefox—to run on its proprietary WebKit rendering engine. Thi",
+    false
+  ],
+  [
+    354,
+    "Why the EU Required Apple to Allow Rival iOS Browser Engines",
+    "This article provides an overview of why the European Union’s Digital Markets Act (DMA) forced Apple to lift its long-standing ban on alternative browser engines on iOS. By examining the pre-existing WebKit monopoly, the anti-steering provisions of the DM",
+    false
+  ],
+  [
+    353,
+    "Why Apple Isolated SFSafariViewController Cookies in iOS 11",
+    "In iOS 11, Apple fundamentally changed how its in-app browser, SFSafariViewController, handles user data by isolating its cookies from the main Safari web browser and other apps. Previously, a shared cookie space allowed developers to offer seamless singl",
+    false
+  ],
+  [
+    352,
+    "SFSafariViewController and Safari Data Sharing on iOS",
+    "Yes, SFSafariViewController on iOS shares AutoFill data, Reader View preferences, and Content Blockers directly with the main Safari web browser app. This article explains how these three core features integrate between in-app browsing sessions and the na",
+    false
+  ],
+  [
+    351,
+    "Why Apple Deprecated UIWebView in Favor of WKWebView",
+    "This article explores the primary reasons behind Apple's decision to deprecate the legacy UIWebView API and mandate the transition to WKWebView for all iOS and macOS applications. By examining critical factors such as performance bottlenecks, security vul",
+    false
+  ],
+  [
+    350,
+    "WKWebView vs SFSafariViewController Architecture in iOS",
+    "When an iOS application needs to display web content, developers primarily choose between WKWebView and SFSafariViewController. While both components utilize WebKit—the same rendering engine that powers the Safari web browser—they are built on fundamental",
+    false
+  ],
+  [
+    349,
+    "The Evolution of Safari's Feature Release Cadence",
+    "The Safari web browser has significantly transformed its update schedule over the past several years, moving away from a rigid annual cycle to a dynamic year-round release model. Historically, new web platform features were locked behind major autumn oper",
+    false
+  ],
+  [
+    348,
+    "How Safari's New APIs Boost Framework Interoperability",
+    "The introduction of Import Maps, Declarative Shadow DOM, and the Popover API in the Safari web browser has fundamentally improved how different JavaScript frameworks coexist within the same application. By moving module resolution, server-side encapsulati",
+    false
+  ],
+  [
+    347,
+    "Why Safari Blocks Web APIs Over Privacy and Security Risks",
+    "Apple’s WebKit team, the engineers behind the Safari web browser, has refused to implement several proposed modern Web APIs, most notably Web Bluetooth and Web USB. This article provides an overview of why Apple blocks these features, detailing how they e",
+    false
+  ],
+  [
+    346,
+    "How Web Platform Tests Track Safari Standards Compliance",
+    "This article provides an overview of how the Web Platform Tests (WPT) project uses automated testing pipelines to measure the standards compliance of the Safari web browser. By utilizing Apple's native WebDriver implementation, JavaScript assertion framew",
+    false
+  ],
+  [
+    345,
+    "Guide to the WebKit Standards Positions Repository",
+    "This article explains where web developers can find the official WebKit Standards Positions repository, how to navigate it to track the Safari browser team's stance on emerging web specifications, and what the various status labels mean for the future of",
+    false
+  ],
+  [
+    344,
+    "How Apple Participates in W3C and WHATWG for Safari",
+    "This article provides an overview of how Apple, primarily through its WebKit engineering team, actively shapes the modern web by participating in the World Wide Web Consortium (W3C) and the Web Hypertext Application Technology Working Group (WHATWG). It c",
+    false
+  ],
+  [
+    343,
+    "Why Developers Compared Safari to IE and WebKit's Response",
+    "For several years, web developers frequently compared Apple's Safari to legacy browsers like Internet Explorer due to its slow adoption of modern web APIs and infrequent release cycles. This article explores the technical and strategic reasons behind Safa",
+    false
+  ],
+  [
+    342,
+    "Inside the Interop Project: Boosting Safari Compatibility",
+    "This article explores the annual Interop project, a collaborative initiative where Apple engineers work directly with peers from Google, Mozilla, and Microsoft to standardize web technologies. It examines how this cross-industry partnership identifies key",
+    false
+  ],
+  [
+    341,
+    "How WebKit Achieved a 100/100 Acid3 Score in 2008",
+    "In March 2008, the WebKit development team made browser history by achieving a perfect 100/100 score on the newly released Acid3 web standards test using development builds of Apple’s Safari browser. This article outlines how the team reached this milesto",
+    false
+  ],
+  [
+    340,
+    "The Significance of Safari Passing the Acid2 Test in 2005",
+    "In April 2005, Apple’s Safari became the first web browser to pass the rigorous Acid2 standards compliance test. This achievement was a watershed moment in the history of the internet. By successfully rendering the test, Safari validated the capabilities",
+    false
+  ],
+  [
+    339,
+    "How Safari Uses HTTP/3 and QUIC to Reduce Cellular Latency",
+    "This article provides an overview of how the Safari web browser utilizes the HTTP/3 and QUIC protocols to significantly reduce connection latency on unstable, high-packet-loss cellular networks. By shifting away from traditional TCP connections in favor o",
+    false
+  ],
+  [
+    338,
+    "How Safari's Lazy Loading Reduces Load Time and Bandwidth",
+    "This article explores how implementing the loading=\"lazy\" HTML attribute on images and iframes significantly improves web performance in the Safari web browser. By deferring the downloading of off-screen media until a user scrolls near them, Safari reduce",
+    false
+  ],
+  [
+    337,
+    "Track Safari Web Content RAM and CPU in Activity Monitor",
+    "This article provides a step-by-step guide on how to track the exact CPU and RAM usage of individual Safari Web Content processes using the macOS Activity Monitor. By configuring Activity Monitor to display processes hierarchically, you can easily isolate",
+    false
+  ],
+  [
+    336,
+    "How Safari Uses Apple Silicon's Memory and Media Engines",
+    "This article provides a comprehensive overview of how the Safari web browser maximizes performance and battery efficiency by leveraging the hardware capabilities of Apple silicon M-series chips. By utilizing the Unified Memory Architecture (UMA), Safari e",
+    false
+  ],
+  [
+    335,
+    "How macOS App Nap Saves Energy with Hidden Safari Windows",
+    "This article explains how the macOS App Nap feature interacts with hidden Safari browser windows to minimize CPU wakeups and conserve battery life. By detecting when Safari windows are completely obscured by other applications or minimized, macOS intellig",
+    false
+  ],
+  [
+    334,
+    "What Happens When iOS Safari Reloads Background Tabs",
+    "When an iPhone or iPad runs low on available RAM, iOS automatically reclaims memory from inactive background processes, including open Safari tabs. This article provides a clear breakdown of why this memory purging happens, the exact technical steps Safar",
+    false
+  ],
+  [
+    333,
+    "Why Safari Displays the Significant Energy or Memory Banner",
+    "This article provides a quick overview of the specific reasons why Apple's Safari web browser displays a warning banner stating that a webpage is using significant energy or memory. We will examine how unoptimized website code, aggressive advertising netw",
+    false
+  ],
+  [
+    332,
+    "How Safari Throttles Background Tabs to Save Battery Life",
+    "This article explains how Apple’s Safari web browser extends battery life on MacBooks and iPhones by aggressively managing background web activity. By suspending requestAnimationFrame callbacks and throttling JavaScript timers like setTimeout and setInter",
+    false
+  ],
+  [
+    331,
+    "How JetStream and MotionMark Benchmark Safari Performance",
+    "This article provides a comprehensive overview of how the JetStream and MotionMark benchmark suites evaluate the performance of the Safari web browser. It breaks down the exact methodologies JetStream uses to test JavaScript and WebAssembly compilation th",
+    false
+  ],
+  [
+    330,
+    "Speedometer 3.0: The Joint Effort to Benchmark Web Browsers",
+    "This article explores the Speedometer benchmark, a critical tool used to measure web browser responsiveness, and examines the unprecedented collaboration between Apple, Google, and Mozilla to create Speedometer 3.0. By uniting the rival teams behind the S",
+    false
+  ],
+  [
+    329,
+    "Safari Private Browsing and LocalStorage QuotaExceededError",
+    "This article provides an overview of how the Safari web browser manages LocalStorage and triggers the QuotaExceededError exception during Private Browsing mode. It covers the significant shift from Safari's legacy zero-byte quota restriction to its modern",
+    false
+  ],
+  [
+    328,
+    "How Safari Handles navigator.storage.persist() Requests",
+    "This article provides an overview of how the navigator.storage.persist() API functions within the Safari web browser to protect local web application data from automatic deletion. It covers Safari's default storage eviction policies, the specific criteria",
+    false
+  ],
+  [
+    327,
+    "Why Safari Partitions Storage and Caches to Stop Tracking",
+    "This article provides a comprehensive look at why Apple’s Safari web browser partitions third-party storage and HTTP caches by the top-level site origin. By isolating browser data based on the specific website a user is currently visiting, Safari prevents",
+    false
+  ],
+  [
+    326,
+    "Safari BroadcastChannel API: Real-Time Same-Origin Messaging",
+    "This article explores how the BroadcastChannel API in the Safari web browser facilitates seamless, real-time communication between different browsing contexts—such as tabs, windows, and iframes—that share the same origin. We will cover the underlying mech",
+    false
+  ],
+  [
+    325,
+    "Safari Empty Caches: Service Workers and Cache Storage",
+    "This article provides a quick overview of what happens when you select \"Empty Caches\" from the Develop menu in the Safari web browser. Specifically, it explains how this action impacts active Service Worker registrations and the Cache Storage API, why Saf",
+    false
+  ],
+  [
+    324,
+    "Manage Single-Domain Storage and Cookies in Safari",
+    "This article provides a step-by-step guide on how to inspect and manually delete specific web storage data—including Cookies, LocalStorage, SessionStorage, and IndexedDB databases—for a single domain in the Safari web browser. By utilizing Safari’s built-",
+    false
+  ],
+  [
+    323,
+    "How Safari Service Workers Enable Offline Caching and Sync",
+    "This article explains how Service Workers function within the Safari web browser to intercept network requests, manage offline caching, and handle background data synchronization. By acting as a client-side proxy between the web application and the networ",
+    false
+  ],
+  [
+    322,
+    "Safari ITP and the 7-Day Storage Eviction Rule",
+    "This article explains the specific conditions under which Apple's Intelligent Tracking Prevention (ITP) in the Safari web browser deletes all script-writable storage for a website origin after seven days. It outlines the exact user interaction requirement",
+    false
+  ],
+  [
+    321,
+    "How Safari Expanded Origin Storage and Cache Quotas",
+    "This article explains how updates to the storage quota architecture in the Safari web browser drastically increased the disk space available for web applications. By replacing restrictive static limits with a dynamic, unified quota system based on total d",
+    false
+  ],
+  [
+    320,
+    "Safari Data Storage: IndexedDB, LocalStorage, and OPFS",
+    "This article provides a comprehensive overview of how the Safari web browser stores and manages structured client-side data using LocalStorage, IndexedDB, and the Origin Private File System (OPFS). It breaks down the underlying WebKit architecture for eac",
+    false
+  ],
+  [
+    319,
+    "Choosing Precise or Approximate Location in iOS Safari",
+    "This article provides an overview of how the Safari web browser on iOS lets users control the accuracy of the location data they share with websites. Through a combination of system-level privacy controls and browser prompts, iOS allows users to choose be",
+    false
+  ],
+  [
+    318,
+    "Persistent Per-Domain Content Blocker Settings in Safari",
+    "This article explains how the Safari web browser utilizes its built-in Website Settings feature to let users disable Content Blockers on a per-domain basis. It covers the underlying mechanism of how Safari remembers your preferences, as well as the step-b",
+    false
+  ],
+  [
+    317,
+    "Configuring Safari Push Notification Permissions on macOS",
+    "This article provides a quick, step-by-step guide on how to configure the Safari web browser on macOS to manage Web Push notification requests. By adjusting your browser settings, you can ensure websites must ask for your permission before sending notific",
+    false
+  ],
+  [
+    316,
+    "Why Safari Revokes Temporary Camera and Mic Permissions",
+    "The Safari web browser automatically revokes temporary camera and microphone permissions for tabs that are closed or left inactive primarily to protect user privacy and enhance system security. By resetting these permissions, Apple ensures that websites c",
+    false
+  ],
+  [
+    315,
+    "How Safari Handles getDisplayMedia Screen Sharing Prompts",
+    "This article provides an overview of how the screen sharing permission prompt functions in the Safari web browser when a website invokes the navigator.mediaDevices.getDisplayMedia() API. It covers the strict security prerequisites required to trigger the",
+    false
+  ],
+  [
+    314,
+    "Viewing Custom Website Permissions in Safari Settings",
+    "This article provides a clear guide on how to locate and manage the centralized list of websites that have been granted custom permissions within the Safari web browser. By accessing the dedicated Websites tab inside Safari's Settings window, users can qu",
+    false
+  ],
+  [
+    313,
+    "How Safari's Per-Domain Desktop and Mobile Toggle Works",
+    "Safari’s Website Settings include a powerful feature that lets users permanently choose between the mobile and desktop versions of a site on a per-domain basis. This article provides a straightforward explanation of the technical mechanisms behind the \"Re",
+    false
+  ],
+  [
+    312,
+    "How to Allow Pop-Ups on Specific Websites in Safari",
+    "This article provides a step-by-step guide on how to allow pop-up windows for a single, trusted domain in the Safari web browser on a Mac while keeping the global pop-up blocker active for all other websites. By utilizing Safari's site-specific preference",
+    false
+  ],
+  [
+    311,
+    "How Safari's Auto-Play Blocks Audio and Allows Muted Videos",
+    "This article explains the technical mechanisms behind the Safari web browser's Auto-Play feature. It covers how Safari's underlying WebKit engine inspects HTML attributes, analyzes media tracks, enforces user gesture requirements, and monitors playback in",
+    false
+  ],
+  [
+    310,
+    "Managing Camera, Mic, and Location Settings in Safari",
+    "This article provides a straightforward guide on how to manage per-website permissions in the Safari web browser. You will learn how to customize access to your device's camera, microphone, and location services by setting specific websites to always allo",
+    false
+  ],
+  [
+    309,
+    "Switch to Open Safari Tabs Using the Smart Search Field",
+    "Managing dozens of open browser tabs can quickly become overwhelming, often leading to duplicate tabs of the exact same webpage. Fortunately, Apple's Safari web browser includes a built-in feature within its Smart Search Field that allows you to jump dire",
+    false
+  ],
+  [
+    308,
+    "How Safari Ranks Bookmarks, History, and Open Tabs",
+    "This article explains the underlying logic Apple's Safari web browser uses to rank and prioritize autocomplete suggestions in the Smart Search Field. By examining how Safari weighs Bookmarks, browsing History, and currently Open Tabs, you will understand",
+    false
+  ],
+  [
+    307,
+    "How the Apple-Google Deal Shaped Safari's Default Search",
+    "This article examines the multi-billion-dollar revenue-sharing agreement between Google and Apple, detailing how massive annual payments secured Google's dominance as the default search engine on the Safari web browser. It breaks down the financial mechan",
+    false
+  ],
+  [
+    306,
+    "How to Always Show the Full Website URL in Safari",
+    "By default, the Safari web browser simplifies the Smart Search Field by only displaying the domain name of the website you are visiting rather than the full URL path. While this creates a minimalist interface, viewing the complete web address is essential",
+    false
+  ],
+  [
+    305,
+    "How Safari Handles Math and Currency in the Search Bar",
+    "This article provides a complete overview of what happens when you type a mathematical equation or a currency conversion directly into the Safari web browser's Smart Search Field. It covers how Safari generates instant answers in the drop-down menu before",
+    false
+  ],
+  [
+    304,
+    "How Safari's Preload Top Hit Speeds Up Page Loading",
+    "This article explains how the Preload Top Hit feature in Apple's Safari web browser accelerates your browsing experience. By predicting the most likely website you want to visit as you type in the address bar, Safari works in the background to resolve the",
+    false
+  ],
+  [
+    303,
+    "How to Disable Search Engine Suggestions in Safari",
+    "By default, the Safari web browser sends the text you type into the address bar directly to your default search engine to generate live autocomplete suggestions. While this feature is designed to speed up your browsing experience, it can compromise your p",
+    false
+  ],
+  [
+    302,
+    "How Safari Suggestions Deliver Live Previews As You Type",
+    "This article provides a complete overview of how Apple’s Safari browser delivers live data—such as weather forecasts, sports scores, stock quotes, and knowledge graph summaries—directly within the Smart Search Field before you ever press the Return key. B",
+    false
+  ],
+  [
+    301,
+    "How to Set a Private Browsing Search Engine in Safari",
+    "Apple's Safari web browser allows users to assign a separate default search engine specifically for Private Browsing mode, keeping it completely distinct from standard browsing. Introduced with iOS 17, iPadOS 17, and macOS Sonoma (Safari 17), this feature",
+    false
+  ],
+  [
+    300,
+    "Built-In Search Engine Choices in Safari Settings",
+    "This article provides a complete overview of the built-in search engines available in the Search settings of Apple's Safari web browser. While Google is configured as the default option for most users, Safari allows you to easily switch your primary searc",
+    false
+  ],
+  [
+    299,
+    "How Safari Handles Dynamic Blob and Data URL Downloads",
+    "This article provides an overview of how the Safari web browser processes and manages file downloads initiated dynamically through client-side JavaScript using blob: and data: URLs. It covers how Safari's WebKit engine interacts with the HTML5 download at",
+    false
+  ],
+  [
+    298,
+    "How to Drag Files from the Safari Downloads Popover",
+    "This article provides a quick overview and step-by-step instructions on how to move or attach downloaded files directly from the Safari web browser's Downloads popover. By utilizing macOS drag-and-drop functionality, you can place newly downloaded items s",
+    false
+  ],
+  [
+    297,
+    "Safari PDF Floating Controls on macOS Explained",
+    "This article provides a complete breakdown of the floating control bar that appears at the bottom of the screen when viewing a PDF document in the Safari web browser on macOS. By moving your cursor toward the bottom center of an open PDF, Safari reveals a",
+    false
+  ],
+  [
+    296,
+    "How to Sign and Annotate PDFs in Safari on iOS and iPadOS",
+    "Apple’s built-in Markup tool seamlessly integrates with the Safari web browser on iOS and iPadOS, allowing users to annotate, highlight, and sign PDF documents directly from the web without needing third-party applications. This article explains how to ac",
+    false
+  ],
+  [
+    295,
+    "How to Resume Interrupted Downloads in Safari",
+    "This article provides a straightforward guide on how to quickly resume paused or interrupted file downloads directly within the Safari web browser. By utilizing the built-in Downloads popover, users can easily restart stalled transfers without having to b",
+    false
+  ],
+  [
+    294,
+    "Why You Should Disable \"Open Safe Files\" in Safari",
+    "Security experts routinely advise Mac users to disable the \"Open 'safe' files after downloading\" setting in the Safari web browser. While Apple designed this feature for convenience by automatically opening downloaded files like PDFs, images, and ZIP arch",
+    false
+  ],
+  [
+    293,
+    "What Does Safari's Open Safe Files Setting Do?",
+    "This article provides a quick overview of the \"Open 'safe' files after downloading\" setting found in the General preferences of the Safari web browser. It explains how this feature automatically processes common file types—specifically zip archives, image",
+    false
+  ],
+  [
+    292,
+    "How to Automatically Clear Safari's Downloads List",
+    "This article provides a straightforward guide on how to configure the Safari web browser to automatically clear its Downloads list. You will learn the exact steps to set Safari on both Mac and iOS devices to remove downloaded items from the list after one",
+    false
+  ],
+  [
+    291,
+    "Safari Download Locations on Mac, iPhone, and iPad",
+    "This article provides a quick guide to locating your downloaded files from the Safari web browser and changing where they are stored across Apple devices. By default, Safari saves files to the local Downloads folder on macOS, while iOS and iPadOS store th",
+    false
+  ],
+  [
+    290,
+    "How Safari Renders PDFs Without Third-Party Plugins",
+    "This article explains the underlying technologies that allow the Safari web browser to display PDF documents directly within a browser tab without relying on external software like Adobe Acrobat Reader. By leveraging Apple’s operating system-level graphic",
+    false
+  ],
+  [
+    289,
+    "How Clicking a Tel Link on a Mac Starts an iPhone Call",
+    "Clicking a phone number link in Safari on a Mac seamlessly initiates a cellular call through a nearby iPhone using a combination of web standards, macOS system routing, and Apple’s Continuity technology. When you click a tel: link, Safari passes the reque",
+    false
+  ],
+  [
+    288,
+    "Disable Safari Shared with You for Specific Messages",
+    "This article provides a quick, step-by-step guide on how to stop web links from a specific Messages conversation from appearing in the \"Shared with You\" section of your Safari browser. By adjusting a single setting within an individual chat thread on your",
+    false
+  ],
+  [
+    287,
+    "Why Safari Handoff Needs Apple Account, Bluetooth, and Wi-Fi",
+    "Apple’s Handoff feature allows you to start browsing a webpage in Safari on one device and instantly pick up where you left off on another. For this technology to work, both devices must be signed into the same Apple Account and have both Bluetooth and Wi",
+    false
+  ],
+  [
+    286,
+    "Using Continuity Sketch and Markup with Safari",
+    "This article provides a complete guide on how to use Apple's Continuity Sketch and Continuity Markup features when handling files and documents through the Safari web browser. While Safari does not have a built-in drawing canvas, macOS bridges the gap bet",
+    false
+  ],
+  [
+    285,
+    "Continuity Camera for Safari File Uploads on Mac",
+    "Continuity Camera is an Apple ecosystem feature that bridges macOS and iOS, allowing you to use your iPhone’s camera to capture content directly onto your Mac. This article explains the underlying technology, system prerequisites, and the exact steps requ",
+    false
+  ],
+  [
+    284,
+    "How AirDrop Instantly Shares Webpages from Safari",
+    "This article explains the underlying technology that allows Apple's AirDrop feature to instantly transfer and open an active Safari webpage on a nearby iPhone, iPad, or Mac. By combining Safari's native data packaging, Bluetooth Low Energy for device disc",
+    false
+  ],
+  [
+    283,
+    "Copying from Mac Safari to iPad with Universal Clipboard",
+    "This article explains how Apple’s Universal Clipboard feature enables the seamless copying and pasting of text and images from the Safari web browser on a Mac directly to an iPad. By exploring the underlying technologies, necessary system requirements, an",
+    false
+  ],
+  [
+    282,
+    "How to Pin or Remove Shared with You Links in Safari",
+    "This article provides a straightforward guide on managing the \"Shared with You\" section on your Safari Start Page. You will learn the exact steps required to either pin important web links so they remain easily accessible or remove unwanted links to keep",
+    false
+  ],
+  [
+    281,
+    "Where Safari Finds Your Shared with You Message Links",
+    "This article explains how the Safari web browser collects, filters, and displays web links in its \"Shared with You\" section. By integrating directly with the Apple Messages app and your device's Contacts list, Safari automatically scans your text conversa",
+    false
+  ],
+  [
+    280,
+    "How Handoff Transfers Safari Tabs from iPhone to Mac",
+    "Apple's Handoff feature allows users to seamlessly transition an active Safari webpage from an iPhone directly to a Mac with a single click. This article provides an overview of the underlying technology that makes this possible—specifically the combinati",
+    false
+  ],
+  [
+    279,
+    "Moving Safari Sessions to Apple Vision Pro",
+    "Users can easily transition an active Safari browsing session from an iPhone or Mac directly to the Safari web browser on Apple Vision Pro. Because visionOS does not feature a traditional app Dock where standard Handoff icons usually appear, Apple’s Conti",
+    false
+  ],
+  [
+    278,
+    "How Safari on visionOS Renders Panoramic and Spatial Photos",
+    "This article explains how the Safari web browser on visionOS processes and displays panoramic and spatial photos embedded on webpages. While these media types initially render as standard, flat 2D images within the normal webpage layout, Safari utilizes t",
+    false
+  ],
+  [
+    277,
+    "How Voice Dictation Works in Safari on visionOS",
+    "This article explains how to use voice dictation to enter URLs and search queries into the Safari web browser on visionOS. By utilizing advanced eye-tracking technology and built-in microphones, users can navigate the web almost entirely hands-free by loo",
+    false
+  ],
+  [
+    276,
+    "How Safari on visionOS Protects Eye-Tracking Privacy",
+    "This article provides a complete overview of how the Safari web browser on Apple's visionOS protects user privacy by isolating eye-tracking data from websites. It explains the inherent privacy risks of gaze tracking, how the operating system handles visua",
+    false
+  ],
+  [
+    275,
+    "Arranging Multiple Safari Windows in 3D on Apple Vision Pro",
+    "This article provides a step-by-step guide on how to open, position, and manage multiple floating Safari browser windows in three-dimensional space using the Apple Vision Pro. By utilizing simple eye-tracking and hand-gesture controls in visionOS, you can",
+    false
+  ],
+  [
+    274,
+    "How Apple's HTML Model Element Powers 3D Web on visionOS",
+    "This article explores how Apple’s proposed HTML <model> element enables web developers to seamlessly embed interactive 3D objects into Safari web pages on visionOS. By functioning similarly to standard media tags like <video> and <img>, the <model> elemen",
+    false
+  ],
+  [
+    273,
+    "How Safari on visionOS Supports the WebXR Device API",
+    "This article provides a comprehensive overview of how the Safari web browser on Apple’s visionOS supports the WebXR Device API to deliver immersive virtual reality (VR) and augmented reality (AR) experiences. It covers the supported WebXR session modes, t",
+    false
+  ],
+  [
+    272,
+    "Viewing 3D USDZ Models with AR Quick Look in Safari",
+    "This article provides a complete overview of how Apple's AR Quick Look technology works within the Safari web browser on iOS and visionOS to project 3D USDZ models into a user's physical space. It covers the role of the USDZ file format, how web developer",
+    false
+  ],
+  [
+    271,
+    "How Safari on visionOS Dims the Environment for Video",
+    "This article explains the technical mechanisms behind how the Safari web browser on Apple's visionOS dims the user's physical surroundings during fullscreen and spatial video playback. By bridging standard web APIs with Apple’s native system compositor an",
+    false
+  ],
+  [
+    270,
+    "Eye and Hand Navigation in Safari on Apple Vision Pro",
+    "This article provides a complete breakdown of how users browse the web in Safari on the Apple Vision Pro using only their eyes and hands. By combining high-precision eye tracking with downward-facing cameras that detect subtle finger movements, Apple's vi",
+    false
+  ],
+  [
+    269,
+    "Apple Intelligence Safari Summarization Requirements",
+    "This article provides a complete overview of the hardware, operating system, and device configuration requirements needed to use the Apple Intelligence article summarization feature inside the Safari web browser. Because Apple Intelligence relies on advan",
+    false
+  ],
+  [
+    268,
+    "Restoring Hidden Elements in Safari Distraction Control",
+    "This article provides a quick and easy guide on how to restore webpage elements that you have previously hidden using the Distraction Control feature in Apple's Safari web browser. Whether you are browsing on an iPhone, iPad, or Mac, you will learn the ex",
+    false
+  ],
+  [
+    267,
+    "Does Safari Distraction Control Sync Across Your Devices?",
+    "This article explains how Apple's Distraction Control feature in the Safari web browser manages the webpage elements you choose to hide. It clarifies that hidden items are stored locally on each individual device rather than syncing across your Apple devi",
+    false
+  ],
+  [
+    266,
+    "Safari 18: Inside the Redesigned Unified Page Menu",
+    "This article provides an overview of how Safari 18 redesigned the unified Page Menu in the address bar to create a more streamlined browsing experience. It details how Apple replaced the legacy format menu to consolidate essential tools—specifically Reade",
+    false
+  ],
+  [
+    265,
+    "How Safari 18's Video Viewer Mode Clears Webpage Clutter",
+    "This article explores the redesigned Video Viewer mode in Safari 18, explaining how the feature transforms the online viewing experience by automatically stripping away webpage distractions, centering the video content, providing native system playback co",
+    false
+  ],
+  [
+    264,
+    "How Apple Intelligence Summarizes Articles in Safari Reader",
+    "This article explains the technical process behind Apple Intelligence's ability to automatically generate concise summaries and tables of contents in Safari's Reader View. It covers how the browser isolates webpage text, utilizes on-device large language",
+    false
+  ],
+  [
+    263,
+    "How Apple Intelligence Writing Tools Work in Safari",
+    "This article explains the technical mechanics of how Apple Intelligence Writing Tools operate within Safari’s <textarea> and contenteditable elements. By leveraging deep integration between the WebKit rendering engine and Apple's operating system text ser",
+    false
+  ],
+  [
+    262,
+    "Why Safari Distraction Control Doesn't Block Refreshing Ads",
+    "Apple’s Distraction Control feature in Safari allows users to hide annoying webpage elements with a tap, but it is intentionally designed not to permanently block dynamically refreshing advertisements. This specific limitation exists because Apple wanted",
+    false
+  ],
+  [
+    261,
+    "How Safari's Distraction Control Hides Web Page Elements",
+    "This article provides a complete breakdown of how the Distraction Control feature in Apple's Safari web browser works. You will learn how to manually activate the tool to remove annoying static overlays, sign-in banners, and cluttered page elements, how t",
+    false
+  ],
+  [
+    260,
+    "Understanding the Highlights Feature in Safari 18",
+    "This article provides a comprehensive overview of the Highlights feature introduced in version 18 of the Safari web browser. It explains the core mechanics of the tool and details how Safari automatically detects and surfaces actionable information—specif",
+    false
+  ],
+  [
+    259,
+    "Does Safari On-Device Translation Work Offline?",
+    "This article explains whether the Safari web browser can translate web content offline using downloaded language packs. You will learn how Apple's on-device translation functions without an internet connection, the exact System Settings required to enable",
+    false
+  ],
+  [
+    258,
+    "How Safari's Look Up Feature Displays Definitions and Info",
+    "This article provides a comprehensive overview of the technical mechanisms behind the \"Look Up\" feature in the Safari web browser. By examining how Safari communicates with the underlying Apple operating system, we will explore how the browser instantly r",
+    false
+  ],
+  [
+    257,
+    "Why Safari Only Shows the Translate Icon for Foreign Pages",
+    "This article explains why the translation icon in the Safari web browser only appears in the Smart Search Field when you visit a webpage written in a language different from your device's preferred system languages. This behavior is an intentional design",
+    false
+  ],
+  [
+    256,
+    "Using Live Text Quick Actions in the Safari Web Browser",
+    "Yes, the Live Text feature in the Safari web browser can automatically recognize phone numbers, email addresses, and physical addresses embedded inside photos and offer convenient quick action menus. This article provides a straightforward guide on how Li",
+    false
+  ],
+  [
+    255,
+    "Switching Between Translated and Original Pages in Safari",
+    "Safari's built-in translation feature makes it easy to read foreign websites, and toggling back and forth between the translated version and the original language is just as simple. This article provides the exact steps to switch between a translated webp",
+    false
+  ],
+  [
+    254,
+    "How Safari Visual Look Up Identifies Objects in Photos",
+    "This article explains the technological process behind Apple's Visual Look Up feature in the Safari web browser. It covers how on-device machine learning, the Apple Neural Engine, and cloud-based databases work together to accurately identify landmarks, p",
+    false
+  ],
+  [
+    253,
+    "How Safari's Copy Subject Feature Isolates Image Objects",
+    "Safari’s \"Copy Subject\" feature allows users to instantly extract the main object of an image away from its background with a single right-click or long-press. This article provides an overview of how this tool works under the hood, detailing the combinat",
+    false
+  ],
+  [
+    252,
+    "How Safari's Live Text Extracts Text from Images and Videos",
+    "This article explores the underlying technology and user mechanics of Apple's Live Text feature within the Safari web browser. It explains how on-device machine learning and optical character recognition work together to detect, isolate, and convert flatt",
+    false
+  ],
+  [
+    251,
+    "How Safari's On-Device Webpage Translation Works",
+    "This article explains the mechanics behind the Safari web browser's built-in translation feature. It covers how Safari detects foreign languages on a webpage, seamlessly replaces the text while preserving the site's layout, and utilizes downloadable langu",
+    false
+  ],
+  [
+    250,
+    "How Safari’s WebKit Inspector Exposes the ARIA Tree",
+    "This article explains how the WebKit Accessibility Inspector in the Safari web browser processes, translates, and exposes the ARIA accessibility tree of a webpage. By bridging the gap between the Document Object Model (DOM) and native macOS accessibility",
+    false
+  ],
+  [
+    249,
+    "How to Stop Auto-Playing GIFs in Safari",
+    "Animated GIFs and auto-playing web images can be distracting, overwhelming, and even trigger motion sensitivity for some users while browsing the internet. Fortunately, Apple provides a built-in Accessibility feature that stops these moving images from lo",
+    false
+  ],
+  [
+    248,
+    "How Live Captions Transcribe Safari Audio on macOS and iOS",
+    "This article explains the underlying technology that enables Live Captions on macOS and iOS to transcribe audio from the Safari web browser in real time. By combining system-level audio interception through Core Audio with the dedicated processing power o",
+    false
+  ],
+  [
+    247,
+    "How Speak Screen and Speak Selection Work in Safari",
+    "This article explains the technical process behind Apple's Speak Screen and Speak Selection accessibility features within the Safari web browser. It covers how Safari extracts text from a webpage's code, filters out unnecessary elements for a clean readin",
+    false
+  ],
+  [
+    246,
+    "Safari Tab Highlighting and Keyboard Focus Navigation",
+    "Enabling the \"Press Tab to highlight each item on a webpage\" setting in the Safari web browser fundamentally alters how users interact with web content using a keyboard. By default, Safari restricts the Tab key to navigating only between text fields and p",
+    false
+  ],
+  [
+    245,
+    "Setting a Minimum Font Size in the Safari Web Browser",
+    "Reading small text on websites can cause eye strain and make browsing the internet difficult. Fortunately, Apple's Safari web browser for Mac includes a built-in accessibility feature that forces webpages to display text at a comfortable, readable size. T",
+    false
+  ],
+  [
+    244,
+    "How Safari Honors Accessibility CSS Media Queries",
+    "This article provides a comprehensive overview of how the Safari web browser translates operating system accessibility configurations into actionable CSS media queries. Specifically, it explains how Apple’s WebKit engine listens to macOS, iOS, and iPadOS",
+    false
+  ],
+  [
+    243,
+    "Difference Between Page Zoom and Text Zoom in Safari",
+    "This article explains the differences between zooming an entire webpage layout and zooming only the text size in the Safari web browser. By comparing standard full-page scaling with the Option-Command-Plus text-only shortcut, you will understand how each",
+    false
+  ],
+  [
+    242,
+    "Set Custom Website Zoom Levels in Safari on Mac and iOS",
+    "This article provides a step-by-step guide on how to set and save a custom Page Zoom level for individual websites in the Safari web browser across both macOS and iOS devices. By adjusting these site-specific settings, Safari will automatically remember a",
+    false
+  ],
+  [
+    241,
+    "How Safari and VoiceOver Integrate on macOS and iOS",
+    "This article provides a comprehensive overview of how Apple’s Safari web browser integrates with the built-in VoiceOver screen reader on both macOS and iOS devices. It explains the underlying mechanics of how Safari translates web code into accessible dat",
+    false
+  ],
+  [
+    240,
+    "How to Swipe Between Open Tabs in Safari on iPhone",
+    "This article explains the horizontal swipe gesture used on the bottom address bar in the iPhone's Safari web browser to quickly switch between open tabs. You will learn the exact mechanics of this left-and-right swiping motion, how to use the same bar to",
+    false
+  ],
+  [
+    239,
+    "How to Cycle Through Safari Tabs With Keyboard Shortcuts",
+    "Navigating between multiple open tabs in the Safari web browser can be done rapidly without ever reaching for your mouse or trackpad. This article provides a quick guide on how to efficiently cycle both forward and backward through your open Safari tabs u",
+    false
+  ],
+  [
+    238,
+    "Safari Shortcut to Focus the Smart Search Field",
+    "This article provides a quick guide on the keyboard shortcut used to instantly focus and highlight the Smart Search Field in the Safari web browser. You will learn the exact key combination required to immediately begin typing a URL or search query withou",
+    false
+  ],
+  [
+    237,
+    "How to View Safari Shortcuts on iPad Magic Keyboard",
+    "Using an Apple Magic Keyboard with an iPad transforms the tablet into a productivity powerhouse, especially when browsing the web. While memorizing every command can be difficult, iPadOS includes a built-in cheat sheet that displays every available keyboa",
+    false
+  ],
+  [
+    236,
+    "What Happens When You Tap the Status Bar in Safari",
+    "This article provides a quick overview of the built-in \"scroll to top\" function on iPhones and iPads. It explains exactly what happens when you tap the very top edge of the screen or status bar while scrolling down a long webpage in the Safari browser, ho",
+    false
+  ],
+  [
+    235,
+    "How Quick Website Search Works in Safari",
+    "This article provides a complete overview of the Quick Website Search feature in Apple's Safari web browser. It explains the underlying mechanism of how Safari automatically detects and remembers a website's internal search engine, how you can use this fe",
+    false
+  ],
+  [
+    234,
+    "Navigate Safari Tabs Fast With Command and Number Keys",
+    "This article provides a quick guide on how to instantly switch between the first nine open tabs in the Safari web browser using the Command and number keys. You will learn the exact keyboard combinations required to jump to specific tabs, how the browser",
+    false
+  ],
+  [
+    233,
+    "Using the Command Key to Open Links in Safari",
+    "This article explains how holding down the Command key while clicking a link in the Safari web browser alters the way new tabs are opened. It covers the default behavior of this keyboard shortcut, how to use additional keys to modify the action on the fly",
+    false
+  ],
+  [
+    232,
+    "Navigating Safari History with Two-Finger Swipe Gestures",
+    "This article provides a complete guide on how two-finger swipe gestures on an Apple Magic Trackpad and Magic Mouse allow you to navigate backward and forward through your browsing history in Safari. It covers the physical mechanics of the gestures, the vi",
+    false
+  ],
+  [
+    231,
+    "How to Reopen a Closed Tab or Window in Safari on macOS",
+    "This article provides a quick guide on how to immediately restore accidentally closed tabs or windows in the Safari web browser on macOS. By using a simple built-in keyboard shortcut, Mac users can quickly recover their lost browsing sessions without sear",
+    false
+  ],
+  [
+    230,
+    "How Safari Handles OCSP Stapling and Revocation Checks",
+    "This article provides a quick overview of how Apple's Safari web browser manages SSL/TLS certificate revocation to keep users secure without sacrificing privacy or browsing speed. It explains how Safari relies on underlying operating system frameworks to",
+    false
+  ],
+  [
+    229,
+    "How iOS Managed Open In Controls Corporate Links in Safari",
+    "This article provides a comprehensive overview of how iOS Managed Open In restrictions govern the flow of web links between corporate applications and a user's personal Safari browser. By utilizing Mobile Device Management (MDM) policies, IT administrator",
+    false
+  ],
+  [
+    228,
+    "How to Inspect a Website's Certificate Chain in Safari",
+    "This article provides a quick, step-by-step guide on how to view and inspect the full SSL/TLS certificate chain of a secure website directly from the Safari web browser. By accessing the security information in the address bar, users can easily verify a w",
+    false
+  ],
+  [
+    227,
+    "How Safari Verifies Certificate Transparency Logs",
+    "This article explains how the Safari web browser utilizes Certificate Transparency (CT) to validate newly issued TLS certificates before establishing a secure connection to a website. It covers the role and delivery methods of Signed Certificate Timestamp",
+    false
+  ],
+  [
+    226,
+    "Safari Minimum TLS Version and Legacy Server Behavior",
+    "This article provides an overview of the default minimum Transport Layer Security (TLS) protocol version required by the Apple Safari web browser. It also explains what happens when a user attempts to connect to legacy web servers that only support older",
+    false
+  ],
+  [
+    225,
+    "How Safari Handles mTLS Client Certificate Prompts",
+    "This article provides a complete overview of how the Safari web browser interacts with macOS Keychain Access to authenticate users during a mutual TLS (mTLS) handshake. When a web server requests a client certificate, Safari relies on native macOS securit",
+    false
+  ],
+  [
+    224,
+    "Safari Support for Kerberos and SPNEGO SSO on Intranets",
+    "This article explains how the Safari web browser utilizes Kerberos and the Simple and Protected GSSAPI Negotiation Mechanism (SPNEGO) to provide seamless Single Sign-On (SSO) authentication on corporate intranets. By leveraging native Apple operating syst",
+    false
+  ],
+  [
+    223,
+    "Managing Safari Settings with Enterprise MDM Profiles",
+    "This article provides a comprehensive guide for enterprise IT administrators on how to configure and secure the Safari web browser across corporate Apple devices using Mobile Device Management (MDM) configuration profiles. It covers the exact payloads, pr",
+    false
+  ],
+  [
+    222,
+    "Why Apple Enforced a 398-Day Limit for TLS Certificates",
+    "In September 2020, Apple began enforcing a strict policy across its operating systems and the Safari web browser, capping the maximum validity period of newly issued, publicly trusted TLS server certificates at 398 days. This article provides a direct bre",
+    false
+  ],
+  [
+    221,
+    "How Safari Validates SSL/TLS Certificates on macOS and iOS",
+    "This article provides a comprehensive overview of the process the Safari web browser uses to validate SSL/TLS server certificates on macOS and iOS devices. It covers the steps from the initial TLS handshake and chain-of-trust verification against the buil",
+    false
+  ],
+  [
+    220,
+    "How Safari Enforces CORS and COOP Security Headers",
+    "This article provides a direct overview of how Apple’s Safari web browser, powered by the WebKit engine, enforces Cross-Origin Resource Sharing (CORS) and Cross-Origin-Opener-Policy (COOP) headers. It breaks down the exact mechanisms Safari uses to valida",
+    false
+  ],
+  [
+    219,
+    "Safari's Warning Screen for Invalid SSL/TLS Certificates",
+    "This article provides a complete overview of the security warning screen displayed by the Safari web browser when it encounters an expired, self-signed, or mismatched SSL/TLS certificate. It details the exact warning messages presented to the user, explai",
+    false
+  ],
+  [
+    218,
+    "How Safari's CSP Blocks XSS and Unauthorized Scripts",
+    "This article provides a comprehensive overview of how the Safari web browser enforces Content Security Policy (CSP) to neutralize cross-site scripting (XSS) attacks and halt unauthorized script execution. Powered by the WebKit rendering engine, Safari rea",
+    false
+  ],
+  [
+    217,
+    "How Safari Mitigated Spectre and Meltdown Attacks",
+    "In early 2018, the discovery of the Spectre and Meltdown hardware vulnerabilities forced web browser developers to urgently rethink how they handle memory and timing operations. Because modern web browsers execute untrusted JavaScript code from across the",
+    false
+  ],
+  [
+    216,
+    "How Safari Automatically Upgrades HTTP Requests to HTTPS",
+    "This article explains the technical mechanisms the Safari web browser uses to automatically upgrade insecure HTTP navigation requests to secure HTTPS connections. By leveraging a combination of local preload lists, HTTP Strict Transport Security (HSTS) po",
+    false
+  ],
+  [
+    215,
+    "Why Apple Uses a Proxy for Safari Safe Browsing Lookups",
+    "Apple introduced a proxy server for Safari's Safe Browsing lookups to protect user privacy by hiding their IP addresses from third-party security providers like Google and Tencent. By routing these security checks through its own servers first, Apple ensu",
+    false
+  ],
+  [
+    214,
+    "How Safari Privately Blocks Phishing Websites",
+    "This article explains how the Safari web browser protects users from malicious phishing sites without compromising their privacy. By combining Google Safe Browsing databases, cryptographic hashing, and Apple-operated proxy servers, Safari verifies the saf",
+    false
+  ],
+  [
+    213,
+    "How to Exclude Websites from Lockdown Mode in Safari",
+    "Apple's Lockdown Mode provides extreme security by strictly limiting certain functionalities, which often causes trusted websites to display incorrectly or stop working entirely. This article explains how to bypass these restrictions for specific websites",
+    false
+  ],
+  [
+    212,
+    "Safari Web Features Disabled in Apple's Lockdown Mode",
+    "This article provides a comprehensive breakdown of the specific web technologies and features that are disabled in the Safari browser when Apple's Lockdown Mode is activated. Designed for individuals facing sophisticated cyber threats, Lockdown Mode signi",
+    false
+  ],
+  [
+    211,
+    "Safari Security: Site Isolation and Per-Tab Sandboxing",
+    "This article provides an overview of how the Safari web browser utilizes per-tab sandboxing and site isolation to defend users against web-based cyber threats. By separating web content into tightly restricted, independent processes, Safari ensures that a",
+    false
+  ],
+  [
+    210,
+    "Using Safari Extensions in Safari Technology Preview",
+    "This article explains how extensions downloaded from the Mac App Store for the standard Safari browser are fully compatible with Safari Technology Preview, detailing how the two browsers share extension resources and providing the exact steps required to",
+    false
+  ],
+  [
+    209,
+    "How STP Release Notes Map WebKit to Future Safari",
+    "Safari Technology Preview (STP) release notes serve as a vital translation layer between the fast-moving, open-source WebKit repository and the stable, future releases of the Safari web browser. This article explains how these bi-weekly documents aggregat",
+    false
+  ],
+  [
+    208,
+    "Why Safari Technology Preview Is Not Available on iOS",
+    "Safari Technology Preview is an experimental browser provided by Apple for macOS users, allowing web developers and enthusiasts to test upcoming web technologies and features before they are officially released. However, a standalone version of this appli",
+    false
+  ],
+  [
+    207,
+    "How Safari Technology Preview Receives Updates on macOS",
+    "Yes, Safari Technology Preview receives updates directly through the standard macOS System Settings Software Update mechanism. This article explains how the update process works for Apple's experimental browser, covering the initial installation requireme",
+    false
+  ],
+  [
+    206,
+    "How to Submit Safari Bug Reports to Apple Engineers",
+    "Encountering bugs in the Safari web browser requires a clear reporting process so Apple engineers can identify and resolve the underlying issues. Users and developers have two primary channels for submitting bug reports: Apple's Feedback Assistant for bro",
+    false
+  ],
+  [
+    205,
+    "How to Enable Experimental WebKit Feature Flags in Safari",
+    "This article provides a step-by-step guide on how web developers can unlock and enable experimental WebKit feature flags in both the standard Safari browser and Safari Technology Preview. By activating the hidden developer tools in Safari's settings on ma",
+    false
+  ],
+  [
+    204,
+    "Running Safari Technology Preview Side by Side with Safari",
+    "This article explains how Safari Technology Preview operates alongside the standard Safari web browser on macOS. In short, yes, you can run both browsers simultaneously, as Safari Technology Preview functions as a completely independent application with i",
+    false
+  ],
+  [
+    203,
+    "Why Safari Technology Preview Uses a Purple Compass Icon",
+    "Apple's Safari Technology Preview features a distinct purple compass icon instead of the classic blue icon found on the standard Safari browser. This color change primarily serves as a visual indicator for web developers and testers, allowing them to easi",
+    false
+  ],
+  [
+    202,
+    "How Often Apple Updates Safari Technology Preview",
+    "This article explains the update schedule for Apple's Safari Technology Preview, detailing how frequently web developers and designers can expect new releases. It also covers what these updates typically contain, how the release cycle aligns with the WebK",
+    false
+  ],
+  [
+    201,
+    "The Purpose of the Safari Technology Preview Browser",
+    "Safari Technology Preview is an experimental, standalone version of Apple’s default web browser designed primarily for web developers and tech enthusiasts. This article explains the core purpose of this specialized macOS application, detailing how it prov",
+    false
+  ],
+  [
+    200,
+    "Why Text Looks Heavier and Smoother in Safari on macOS",
+    "This article explains the technical reasons why typography in the Safari web browser often appears slightly bolder and smoother than the exact same font rendered in other browsers like Google Chrome or Mozilla Firefox on macOS. It covers the differences i",
+    false
+  ],
+  [
+    199,
+    "Safari Support for Variable Fonts and OpenType in CSS",
+    "This article provides a comprehensive overview of how Apple's Safari web browser supports Variable Fonts and OpenType font features through Cascading Style Sheets (CSS). It covers the required system milestones, the correct declaration of @font-face rules",
+    false
+  ],
+  [
+    198,
+    "CSS :has() Performance Inside Safari's Selector Engine",
+    "This article explores how Safari’s WebKit engine processes and optimizes the CSS :has() relational pseudo-class. Once considered too performance-heavy for browsers to implement, the long-awaited \"parent selector\" became a reality in Safari through advance",
+    false
+  ],
+  [
+    197,
+    "How Dynamic Viewport Units Fixed Mobile Safari's Address Bar",
+    "For years, web developers struggled with mobile Safari's expanding and collapsing address bar, which caused elements sized with the traditional 100vh CSS unit to overflow the screen and hide critical content. The introduction of new CSS viewport units—spe",
+    false
+  ],
+  [
+    196,
+    "How Safari Renders San Francisco via System Font Keywords",
+    "This article provides a complete overview of how the Safari web browser translates CSS system font keywords into Apple’s proprietary San Francisco typeface. You will learn the functional differences between the legacy -apple-system keyword and the modern",
+    false
+  ],
+  [
+    195,
+    "Why Safari Still Uses the -webkit- CSS Vendor Prefix",
+    "This article explores the reasons why the Safari web browser continues to support and sometimes require the -webkit- vendor prefix for certain CSS properties, such as -webkit-backdrop-filter. It covers the history of browser rendering engines, the timelin",
+    false
+  ],
+  [
+    194,
+    "Smooth Web Animations with Safari's View Transitions API",
+    "This article explores how the View Transitions API in the Safari web browser enables seamless, animated transitions between different DOM states and across multi-page navigations. By leveraging WebKit's rendering engine, Safari captures visual snapshots o",
+    false
+  ],
+  [
+    193,
+    "How CSS Container Queries Work in Safari",
+    "CSS Container Queries, supported natively starting in Safari 16, fundamentally change responsive web design by allowing components to adapt their styles based on the size of their parent container rather than the entire browser viewport. This article expl",
+    false
+  ],
+  [
+    192,
+    "How Safari Implements CSS Grid and Subgrid for Web Layouts",
+    "This article provides a technical breakdown of how the Safari web browser implements CSS Grid and CSS Subgrid to render complex two-dimensional webpage layouts. It examines the underlying mechanics of Safari's WebKit rendering engine, detailing how the br",
+    false
+  ],
+  [
+    191,
+    "How Safari Pioneered Wide-Gamut CSS and Display-P3 Colors",
+    "Apple's Safari web browser single-handedly led the transition of the web from the aging sRGB color space to the vibrant world of wide-gamut colors. Driven by the rollout of Display P3 screens across its hardware lineup, Apple's WebKit team worked with web",
+    false
+  ],
+  [
+    190,
+    "How to Diagnose WebGL Context Loss Events in Safari",
+    "WebGL context loss is a frequent challenge for developers targeting Apple devices, primarily due to Safari’s strict memory management and hardware constraints on both macOS and iOS. This article provides a comprehensive guide on how to diagnose these even",
+    false
+  ],
+  [
+    189,
+    "How Safari Renders HDR Content on Apple XDR Displays",
+    "This article provides a comprehensive overview of how the Safari web browser processes and renders High Dynamic Range (HDR) videos and images on Apple’s Extreme Dynamic Range (XDR) displays. It covers the underlying system frameworks like Extended Dynamic",
+    false
+  ],
+  [
+    188,
+    "CSS Properties Triggering Hardware Acceleration in Safari",
+    "This article provides a comprehensive overview of the specific CSS properties that trigger hardware-accelerated compositing layers in Safari's WebKit rendering engine. By offloading specific rendering tasks from the CPU to the GPU, Safari achieves smoothe",
+    false
+  ],
+  [
+    187,
+    "OffscreenCanvas in Safari: Rendering Graphics in Web Workers",
+    "This article provides a comprehensive overview of how the OffscreenCanvas API enables the Safari web browser to execute heavy graphics rendering inside a Web Worker thread, keeping the main user interface thread completely responsive. By decoupling the HT",
+    false
+  ],
+  [
+    186,
+    "Safari 120Hz ProMotion: Scrolling and Animation Timing",
+    "Apple’s ProMotion technology brings adaptive 120Hz refresh rates to compatible Mac, iPhone, and iPad devices, fundamentally changing how the Safari web browser handles visual rendering. While native webpage scrolling automatically benefits from this ultra",
+    false
+  ],
+  [
+    185,
+    "How Safari Supports Display-P3 in CSS, Canvas, and Images",
+    "This article provides a direct overview of how the Safari web browser implements and supports the Wide Gamut Display-P3 color space. It breaks down the exact methods and syntax Safari uses to render these vibrant colors across three core web technologies:",
+    false
+  ],
+  [
+    184,
+    "Why High-Res Canvas and WebGL Crash Safari Memory Limits",
+    "This article provides an overview of why webpages in the Safari browser frequently exceed memory limits and crash when generating multiple high-resolution HTML5 Canvas or WebGL contexts. The issue primarily stems from WebKit’s strict per-tab memory ceilin",
+    false
+  ],
+  [
+    183,
+    "How Safari Offloads HTML5 Canvas 2D Operations to the GPU",
+    "This article provides a technical breakdown of how the Safari web browser utilizes hardware acceleration to render HTML5 Canvas 2D elements. By leveraging its underlying WebKit engine and Apple’s native graphics frameworks—specifically Metal, Core Graphic",
+    false
+  ],
+  [
+    182,
+    "How Safari's WebGPU API Exposes Low-Level GPU Capabilities",
+    "This article explores how the WebGPU API in Apple's Safari browser provides web applications with direct access to modern graphics processing units (GPUs). By succeeding the aging WebGL standard, WebGPU in Safari maps directly to Apple's native Metal API,",
+    false
+  ],
+  [
+    181,
+    "How Safari Transitioned WebGL from OpenGL to Metal",
+    "This article explores how Apple transitioned the Safari web browser's WebGL rendering backend from the aging OpenGL framework to Apple's modern Metal graphics API. By leveraging the open-source ANGLE translation layer, the WebKit team successfully bridged",
+    false
+  ],
+  [
+    180,
+    "Customizing Safari Playback with the Media Session API",
+    "This article explores how the Media Session API in the Safari web browser empowers web developers to customize media playback controls and metadata displayed directly on the iOS Lock Screen, Control Center, and macOS Now Playing widget. By utilizing this",
+    false
+  ],
+  [
+    179,
+    "Why iPhone Safari Needs the playsinline Video Attribute",
+    "This article explains the historical, technical, and user experience reasons why Apple's Safari browser on the iPhone requires the playsinline HTML attribute to prevent videos from automatically launching into fullscreen mode. It covers the original scree",
+    false
+  ],
+  [
+    178,
+    "How FairPlay Streaming Integrates with EME in Safari",
+    "This article provides a technical overview of how Apple’s FairPlay Streaming (FPS) integrates with the W3C Encrypted Media Extensions (EME) API to play DRM-protected video in the Safari web browser. It covers the role of the Content Decryption Module, the",
+    false
+  ],
+  [
+    177,
+    "How Safari Supports Spatial Audio and Dynamic Head Tracking",
+    "This article provides an overview of how the Safari web browser delivers an immersive, theater-like sound experience through Spatial Audio with dynamic head tracking. It explains how Safari detects and processes multichannel media, how the browser communi",
+    false
+  ],
+  [
+    176,
+    "Audio and Video Codecs Supported by the Safari Browser",
+    "This article provides a complete breakdown of the audio and video codecs supported by Apple’s Safari web browser. It details how specific compression formats—including HEVC, VP8, VP9, and Opus—are supported inside media containers like MP4, WebM, and Quic",
+    false
+  ],
+  [
+    175,
+    "How Safari Handles WebRTC Audio and Video Streaming",
+    "This article provides a comprehensive overview of how Apple's Safari web browser processes WebRTC for peer-to-peer audio and video streaming in browser-based video conferencing. It covers the fundamental steps Safari takes to establish connections, the sp",
+    false
+  ],
+  [
+    174,
+    "How the Safari AirPlay Icon Streams Video to Your Smart TV",
+    "This article explains the underlying technology of the AirPlay icon found inside Safari web video players and how it seamlessly streams media to an Apple TV or AirPlay-compatible smart TV. By utilizing local network discovery, Safari's built-in web engine",
+    false
+  ],
+  [
+    173,
+    "When Safari Added Hardware AV1 Support on Apple Silicon",
+    "Apple officially added hardware-accelerated AV1 decoding support to the Safari web browser in September 2023 with the release of Safari 17. However, because hardware acceleration requires a dedicated physical media engine, this feature was only enabled on",
+    false
+  ],
+  [
+    172,
+    "How Safari Supports Picture-in-Picture Video Playback",
+    "This article provides a comprehensive overview of how the Safari web browser enables Picture-in-Picture (PiP) video playback across macOS, iOS, and iPadOS. It covers the underlying web technologies Safari uses to separate video streams from web pages, how",
+    false
+  ],
+  [
+    171,
+    "Why Apple Created HLS for Safari and HTML5 Video",
+    "Apple created the HTTP Live Streaming (HLS) protocol and integrated it directly into the HTML5 video element of the Safari web browser to solve the unique challenges of delivering video to mobile devices. Released in 2009 alongside iOS 3.0, this initiativ",
+    false
+  ],
+  [
+    170,
+    "Customizing Safari Web App Icons and Names",
+    "Safari allows users to turn their favorite websites into standalone web apps using the \"Add to Dock\" feature on macOS and the \"Add to Home Screen\" feature on iOS and iPadOS. This article provides a complete guide on how to customize the application name a",
+    false
+  ],
+  [
+    169,
+    "Safari Home Screen Web App Storage and Eviction Rules",
+    "This article provides a quick overview of the storage quota limits and data eviction exemptions that apply to Home Screen web apps created through the Safari web browser. It explains how much device space these web applications can utilize, how isolated s",
+    false
+  ],
+  [
+    168,
+    "Safari: Legacy Meta Tags vs. Modern Web App Manifests",
+    "This article provides an overview of how the Safari web browser handles the interaction between legacy apple-mobile-web-app-capable meta tags and modern Web App Manifest settings. It covers the historical context of both methods, the exact precedence rule",
+    false
+  ],
+  [
+    167,
+    "iOS Storage Isolation: Safari vs. Home Screen Web Apps",
+    "This article explains how iOS handles data sharing between the main Safari web browser and standalone Progressive Web Apps (PWAs) saved to the Home Screen. In short, both cookies and local storage are completely isolated between the two environments. Belo",
+    false
+  ],
+  [
+    166,
+    "How Safari Web Apps Use the Badging API for Notifications",
+    "This article explains how the Badging API enables web applications installed through the Safari browser to display unread notification counts directly on their Home Screen or macOS Dock icons. It covers the system and permission prerequisites for using th",
+    false
+  ],
+  [
+    165,
+    "Web App Manifest Properties Supported by Safari",
+    "This article provides a breakdown of the specific Web App Manifest JSON properties that Apple's Safari browser reads and applies when configuring a standalone Progressive Web Application (PWA). By understanding how Safari utilizes properties for display m",
+    false
+  ],
+  [
+    164,
+    "Why Apple Removed and Restored EU PWA Support in iOS 17.4",
+    "During the iOS 17.4 beta cycle in early 2024, Apple temporarily disabled standalone Progressive Web App (PWA) functionality in the European Union, downgrading Home Screen web apps into simple browser shortcuts. Apple initially made this move as a response",
+    false
+  ],
+  [
+    163,
+    "Turning Websites into Standalone Apps in macOS Sonoma",
+    "With the release of macOS Sonoma, Apple significantly upgraded the Safari browser by introducing the ability to convert any website into a standalone web app that lives directly in the Mac's Dock. This article explores how Apple implemented this feature,",
+    false
+  ],
+  [
+    162,
+    "When Apple Added Web Push Notifications to iOS and iPadOS",
+    "This article provides a concise history and breakdown of when Apple introduced Web Push notifications for Safari web apps on iOS and iPadOS. It covers the exact release date, the specific software update that enabled the feature, and the operational requi",
+    false
+  ],
+  [
+    161,
+    "Install a PWA to Your Home Screen or Dock from Safari",
+    "This article provides a step-by-step guide on how to install Progressive Web Apps (PWAs) directly from the Safari web browser. You will learn the exact processes required to add web applications to the Home Screen on an iPhone or iPad, as well as how to i",
+    false
+  ],
+  [
+    160,
+    "Safari Merchant Domain Verification via Association Files",
+    "This article explains the technical process of how the Safari web browser and Apple's ecosystem verify merchant domain ownership using the apple-developer-merchantid-domain-association file. It covers the initial server configuration, the cryptographic re",
+    false
+  ],
+  [
+    159,
+    "What Happens If You Turn Off Check for Apple Pay in Safari",
+    "Disabling the \"Check for Apple Pay\" setting in Safari's privacy preferences prevents websites from automatically detecting whether you have an active Apple Pay account and a valid card in your Apple Wallet. While turning this feature off enhances your onl",
+    false
+  ],
+  [
+    158,
+    "Apple Pay Subscriptions and Deferred Charges in Safari",
+    "The Safari web browser supports recurring payments, subscriptions, and deferred charges through advanced capabilities within the Apple Pay JS API. By passing specific payment request objects to the browser, merchants can customize the native Apple Pay pay",
+    false
+  ],
+  [
+    157,
+    "How to Change Apple Pay Shipping and Billing in Safari",
+    "This article provides a straightforward guide on how to change your default billing card and shipping address directly within the Apple Pay payment sheet while shopping in the Safari web browser. Whether you are using an iPhone, iPad, or Mac, you can easi",
+    false
+  ],
+  [
+    156,
+    "How Safari and Apple Pay Protect Your Credit Card Number",
+    "This article explains how the Safari web browser and Apple Pay work together to keep your actual credit card number completely hidden during online checkouts. By utilizing a technology called tokenization, Apple replaces your sensitive card details with a",
+    false
+  ],
+  [
+    155,
+    "What Does ApplePaySession.canMakePayments Check?",
+    "This article explains the exact functionality of the ApplePaySession.canMakePayments method when executed by a script within the Safari web browser. It covers the specific hardware, software, and user restriction criteria this method evaluates to determin",
+    false
+  ],
+  [
+    154,
+    "iOS 16 Expands Apple Pay to Third-Party Browsers on iPhone",
+    "With the release of iOS 16, Apple ended the exclusivity of Apple Pay on the Safari web browser by extending support to third-party browsers like Chrome, Edge, and Firefox on the iPhone. This article explains how Apple updated its underlying WebKit engine",
+    false
+  ],
+  [
+    153,
+    "Why Apple Pay Requires Domain Validation and TLS 1.2+",
+    "To offer Apple Pay in the Safari web browser, ecommerce merchants must adhere to strict security protocols: validating their domain, establishing a secure merchant session, and using Transport Layer Security (TLS) 1.2 or higher. This article explains why",
+    false
+  ],
+  [
+    152,
+    "Using Apple Pay on a Mac Without Touch ID",
+    "This article provides a complete guide on how to use Apple Pay in the Safari web browser on a Mac that does not have a Touch ID sensor. By utilizing Apple's Continuity features, you can initiate a purchase on your computer and securely authorize the trans",
+    false
+  ],
+  [
+    151,
+    "How Apple Pay JS API Enables One-Touch Checkout in Safari",
+    "This article provides a comprehensive overview of how the Apple Pay JS API facilitates a seamless, one-touch checkout experience within the Safari web browser across macOS, iOS, and iPadOS. It covers the essential technical steps of the transaction lifecy",
+    false
+  ],
+  [
+    150,
+    "How to Manually Trigger Safari Password Suggestions",
+    "This article explains how to manually force the Safari web browser to display its password suggestion and AutoFill popover when a website's registration or login form fails to trigger it automatically. By using built-in context menus, keyboard shortcuts,",
+    false
+  ],
+  [
+    149,
+    "HTML Autocomplete Attributes for Safari Password Forms",
+    "This article provides a concise guide on the exact HTML autocomplete attributes web developers must use so the Safari web browser can accurately detect password creation and password change forms. By implementing the username, current-password, and new-pa",
+    false
+  ],
+  [
+    148,
+    "How to Share Passwords and Passkeys in Safari with Family",
+    "This article provides a step-by-step guide on how to securely share groups of saved website passwords and passkeys with family members for seamless use in the Safari web browser. By utilizing Apple's built-in iCloud Keychain feature on an iPhone, iPad, or",
+    false
+  ],
+  [
+    147,
+    "How Safari AutoFill Populates Addresses Using Your My Card",
+    "This article explains the mechanics behind Safari's Contact AutoFill feature and how it utilizes the designated \"My Card\" in Apple's Contacts app to automatically populate shipping and billing address fields on the web. It covers the system-level integrat",
+    false
+  ],
+  [
+    146,
+    "Why Safari Requires Biometrics or Passcodes for Auto-Fill",
+    "This article explains why Apple’s Safari web browser mandates authentication via Touch ID, Face ID, or a device passcode before automatically filling in saved passwords and credit card details. By exploring physical security risks, protection against mali",
+    false
+  ],
+  [
+    145,
+    "How to Manage AutoFill Credit Cards in Safari Settings",
+    "This article provides a complete guide on how to manage, add, and remove saved credit cards using the AutoFill feature in the Safari web browser. Whether you are using a Mac, iPhone, or iPad, configuring these settings allows you to streamline online chec",
+    false
+  ],
+  [
+    144,
+    "How Safari Alerts You to Breached and Reused Passwords",
+    "This article explains how the Safari web browser protects your online accounts by actively monitoring your saved passwords for security vulnerabilities. It covers the specific visual alerts Safari generates when a password is found in a known data breach",
+    false
+  ],
+  [
+    143,
+    "How Passkeys Replace Passwords in the Safari Browser",
+    "This article provides a complete overview of how passkeys eliminate the need for traditional passwords when signing into websites on the Safari browser. By leveraging the FIDO2 and WebAuthn standards, Safari replaces vulnerable text-based credentials with",
+    false
+  ],
+  [
+    142,
+    "How Safari Auto-Fills One-Time Verification Codes",
+    "This article provides a complete overview of how Apple’s Safari web browser automatically detects, extracts, and fills one-time verification codes from the Apple Mail and Messages apps. It covers the underlying HTML triggers used by websites, the on-devic",
+    false
+  ],
+  [
+    141,
+    "Safari, iCloud Keychain, and Apple Passwords Integration",
+    "This article provides a comprehensive overview of how the Safari web browser integrates with iCloud Keychain and the Apple Passwords app to manage your digital security. It covers the automated process of generating complex passwords during account creati",
+    false
+  ],
+  [
+    140,
+    "How to Open All Bookmarks in a Folder at Once in Safari",
+    "This article provides a straightforward guide on how to simultaneously open all bookmarks stored within a single folder into new tabs in the Safari web browser. Whether you are using a Mac, iPhone, or iPad, Safari allows you to launch an entire collection",
+    false
+  ],
+  [
+    139,
+    "Where Safari Stores History.db and Bookmarks.plist on macOS",
+    "This article provides the exact file system locations for the Safari web browser's History.db SQLite database and Bookmarks.plist file on macOS. Additionally, it covers the straightforward steps required to access this hidden directory via Finder or the T",
+    false
+  ],
+  [
+    138,
+    "How to Edit Safari Favorites Titles and URLs",
+    "This article provides a complete guide on how to modify the display title and target URL of icons in the Safari Favorites grid. Whether you are using a Mac, iPhone, or iPad, managing your bookmarked shortcuts is a straightforward process. Below are the ex",
+    false
+  ],
+  [
+    137,
+    "What Happens When You Hold Safari's Navigation Buttons",
+    "This article explains the functionality triggered when you click and hold the Back or Forward navigation buttons in the Apple Safari web browser. Instead of moving just one page at a time, holding these buttons reveals a history list for your current tab,",
+    false
+  ],
+  [
+    136,
+    "How to Organize and Sort Bookmarks in the Safari Sidebar",
+    "This article provides a quick and easy guide on how to manage your saved websites in the Apple Safari web browser. You will learn how to access the Bookmarks sidebar, create nested folders for detailed categorization, move your links, and automatically so",
+    false
+  ],
+  [
+    135,
+    "How to Clear Specific Browsing History in Safari",
+    "Managing your digital footprint does not always require wiping your entire browser data. This article provides a complete overview of how to selectively delete your Safari browsing history on both Mac and iOS devices. You will learn the exact steps to cle",
+    false
+  ],
+  [
+    134,
+    "How Spotlight Indexes Safari History and Bookmarks",
+    "This article explains the technical mechanisms behind how Apple’s Spotlight search indexes and retrieves Safari browsing history and bookmarks on both macOS and iOS. It covers where Safari stores your browsing data locally, how macOS uses background metad",
+    false
+  ],
+  [
+    133,
+    "Safari Favorites Bar vs. Bookmarks Menu Explained",
+    "In Apple's Safari web browser, both the Favorites bar and the general Bookmarks menu are tools designed to save and organize links to websites, yet they serve distinct purposes based on accessibility and workflow. This article breaks down the core differe",
+    false
+  ],
+  [
+    132,
+    "How to Export Safari Bookmarks to an HTML File",
+    "This article provides a straightforward guide on how to export your saved bookmarks from the Safari web browser into a standard HTML file. Whether you are creating a secure backup of your favorite websites or migrating your data to a different browser lik",
+    false
+  ],
+  [
+    131,
+    "How to Import Chrome and Firefox Data into Safari",
+    "Switching your primary web browser does not mean you have to leave your saved data behind. This article provides a straightforward guide on how to seamlessly transfer your bookmarks, browsing history, and saved passwords from Google Chrome or Mozilla Fire",
+    false
+  ],
+  [
+    130,
+    "How the iOS Share Sheet Adds Links to Safari's Reading List",
+    "This article explains the technical and user-facing mechanisms that allow the iOS Share Sheet to save web links from third-party applications directly into the Safari Reading List. By leveraging Apple's system-wide App Extensions framework and standardize",
+    false
+  ],
+  [
+    129,
+    "Manage Safari Reading List Items Using Swipe Gestures",
+    "This article provides a quick overview of how to efficiently manage your Safari Reading List using simple swipe gestures. By swiping left or right directly on items within the Safari sidebar, you can quickly mark articles as read, unread, or remove them e",
+    false
+  ],
+  [
+    128,
+    "Why the Safari Reader View Button is Sometimes Grayed Out",
+    "Safari’s Reader View is a convenient feature that removes advertisements, navigation menus, and other distractions to present online articles in a clean, readable format. However, users frequently notice that the Reader View icon in the address bar is gra",
+    false
+  ],
+  [
+    127,
+    "Safari Reader View Keyboard Shortcut on macOS",
+    "This article provides a quick guide to the keyboard shortcut used to toggle Reader View on and off in the Safari web browser on macOS. It also briefly explains how to determine if a webpage is eligible for this feature and how to use alternative keys to e",
+    false
+  ],
+  [
+    126,
+    "How to Filter and Search Your Safari Reading List",
+    "This article provides a quick and simple guide on how to organize and navigate your Safari Reading List on Mac, iPhone, and iPad. You will learn the exact steps to filter your saved webpages to display only unread articles, as well as how to use the built",
+    false
+  ],
+  [
+    125,
+    "Enable Automatic Offline Reading List in Safari on iOS",
+    "This article provides a quick and easy guide on how to enable the Automatic Offline Saving feature for your Safari Reading List on an iPhone or iPad. By turning on this specific setting in iOS, every webpage you add to your Reading List will automatically",
+    false
+  ],
+  [
+    124,
+    "How Safari Reading List Works Offline Across Apple Devices",
+    "This article explains how the Safari web browser's Reading List feature captures, stores, and synchronizes full webpages for offline viewing across Mac, iPhone, and iPad. It covers the underlying caching technology used to download page assets locally, th",
+    false
+  ],
+  [
+    123,
+    "Safari Reader View: Fonts, Themes, and Text Sizes",
+    "Safari’s Reader View strips away webpage clutter, advertisements, and navigation bars to provide a clean, distraction-free reading experience. This article covers the exact customization options built into Safari's Reader View across macOS, iOS, and iPadO",
+    false
+  ],
+  [
+    122,
+    "Auto-Enable Safari Reader View on Specific Websites",
+    "Safari's Reader View removes advertisements, navigation bars, and other distractions from web articles, leaving only the core text and images. Instead of manually toggling this feature every time you read the news, you can configure Safari on both Mac and",
+    false
+  ],
+  [
+    121,
+    "How Safari's Reader View Strips Away Page Clutter",
+    "Safari’s Reader View transforms cluttered web pages into clean, easy-to-read articles by utilizing a specialized content-extraction algorithm. By examining the underlying HTML structure of a webpage, Safari identifies the core content—such as the main tex",
+    false
+  ],
+  [
+    120,
+    "Diagnostic Logs for Safari WebDriver Session Timeouts",
+    "This article provides a quick overview of the specific diagnostic logs you can capture when a WebDriver session times out while automating the Safari web browser. By collecting safaridriver diagnostic files, WebKit crash reports, macOS unified system logs",
+    false
+  ],
+  [
+    119,
+    "How to Debug iOS WebViews with Safari Web Inspector",
+    "Debugging web content embedded within native iOS applications is essential for ensuring a seamless user experience in hybrid apps. This article provides a step-by-step guide on how developers can use macOS Safari's built-in Web Inspector to inspect, debug",
+    false
+  ],
+  [
+    118,
+    "How Safari Prevents WebDriver Session Hijacking",
+    "This article explains the security mechanisms built into Apple's Safari web browser to prevent unauthorized automated scripts from hijacking an active user's browsing session. By requiring explicit administrator opt-in, enforcing strict session isolation,",
+    false
+  ],
+  [
+    117,
+    "Safaridriver Flags for Diagnosing Session Failures",
+    "This article provides a direct overview of the command-line flags accepted by safaridriver to diagnose and resolve session creation failures in the Safari web browser. It covers how to enable diagnostic logging, locate the generated log files, and use sup",
+    false
+  ],
+  [
+    116,
+    "Inspecting Service Workers in Safari via the Develop Menu",
+    "This article provides a straightforward guide on how web developers can inspect and debug Service Worker background scripts in the Safari web browser. It covers enabling the hidden Develop menu, locating active Service Workers, and utilizing Safari's Web",
+    false
+  ],
+  [
+    115,
+    "How to Debug iPhone Safari Wirelessly Over Wi-Fi",
+    "Yes, it is entirely possible to debug the Safari web browser on an iPhone over a local Wi-Fi network without keeping a physical USB or Lightning cable attached. This article provides a step-by-step guide on how to configure both your iPhone and Mac to ena",
+    false
+  ],
+  [
+    114,
+    "Connect Safari Web Inspector to the Xcode iOS Simulator",
+    "This article provides a step-by-step guide for developers on how to connect the macOS Safari Web Inspector to an instance of the Safari web browser running inside the Xcode iOS Simulator. By linking these tools, you can inspect elements, debug JavaScript,",
+    false
+  ],
+  [
+    113,
+    "Why Safari Requires You to Allow Remote Automation",
+    "This article explains why Apple requires users to manually enable the \"Allow Remote Automation\" setting in the Safari web browser before executing automated WebDriver scripts. By examining the pre-installed nature of Safari's driver, system security impli",
+    false
+  ],
+  [
+    112,
+    "The Role of safaridriver in Automated Selenium Testing",
+    "This article explores the essential role of the safaridriver executable in executing automated Selenium and WebDriver tests on the Safari web browser. It covers how safaridriver acts as a vital communication bridge between test scripts and the browser, it",
+    false
+  ],
+  [
+    111,
+    "How to Debug iPhone Safari Webpages Using a Mac",
+    "This article provides a complete walkthrough for developers on how to inspect and debug live webpages running in Safari on a physical iPhone using a Mac. The process involves enabling hidden developer settings on both your iOS and macOS devices, establish",
+    false
+  ],
+  [
+    110,
+    "Mastering the Sources Tab in Safari Web Inspector",
+    "This article provides a quick overview of how developers can streamline their debugging workflow using the Sources tab in the Safari Web Inspector. Specifically, it explains how the Sources tab supports setting event breakpoints to pause on specific brows",
+    false
+  ],
+  [
+    109,
+    "Force Dark Mode, Print, and Reduced Motion in Safari",
+    "This article provides a quick guide on how web developers can test and force dark mode, print media styles, and reduced motion preferences directly within the Safari Web Inspector. Instead of changing your macOS system settings repeatedly to test CSS medi",
+    false
+  ],
+  [
+    108,
+    "How to Export HAR Files Using Safari Web Inspector",
+    "This article provides a direct guide on how the Network tab in the Safari Web Inspector captures and exports HTTP traffic logs into the HTTP Archive (HAR) file format. It covers enabling the developer tools in Safari, recording network requests, how the b",
+    false
+  ],
+  [
+    107,
+    "Debugging in the Safari Web Inspector Graphics Tab",
+    "This article provides a quick overview of the Graphics tab in the Safari Web Inspector and its essential role in modern web development. Specifically, it explains how developers use this built-in tool to monitor, record, and debug HTML5 Canvas contexts, W",
+    false
+  ],
+  [
+    106,
+    "How to Audit Accessibility in Safari Web Inspector",
+    "This article provides a step-by-step guide on how developers can identify and resolve common webpage accessibility violations using the built-in Audit tab within the Safari Web Inspector. By leveraging these native developer tools, you can quickly test yo",
+    false
+  ],
+  [
+    105,
+    "Safari Web Inspector: Layers 3D Tool and Memory Usage",
+    "This article explores the Layers 3D visualization tool within the Safari Web Inspector, detailing how it exposes a webpage's compositing layers and tracks memory consumption. By providing an interactive three-dimensional view of the rendered page, this to",
+    false
+  ],
+  [
+    104,
+    "How to Use Local Overrides in Safari Web Inspector",
+    "This article provides a step-by-step guide on using Local Overrides in the Safari Web Inspector. You will learn how to enable the feature, persistently modify CSS and JavaScript files across page reloads, mock API network responses, and manage your active",
+    false
+  ],
+  [
+    103,
+    "How Safari's Responsive Design Mode Simulates iOS Devices",
+    "Safari’s Responsive Design Mode is a built-in developer tool that allows web creators to test how their sites look and behave across various Apple devices without needing physical hardware. This article explains the specific mechanisms Safari uses to accu",
+    false
+  ],
+  [
+    102,
+    "Safari Timelines: Layout, Rendering, and CPU Usage",
+    "This article provides a direct overview of the Timelines tab within the Safari Web Inspector, specifically focusing on how it tracks layout, rendering, and CPU usage. By examining the exact metrics, thread activity, and visual data provided by these speci",
+    false
+  ],
+  [
+    101,
+    "How to Enable the Safari Develop Menu on macOS",
+    "This article provides a step-by-step guide on how to unlock the hidden Develop menu and Web Inspector tools in the Safari web browser on macOS. By adjusting a single setting in Safari's preferences, you can quickly gain access to advanced web debugging fe",
+    false
+  ],
+  [
+    100,
+    "Managing Safari Content Blockers and WebExtensions on iOS",
+    "This article provides a straightforward guide on how to distinguish and separately manage Content Blockers and standard WebExtensions in Safari on iOS. While Apple groups both tool types under a single menu in the system settings, they operate differently",
+    false
+  ],
+  [
+    99,
+    "Why Safari Content Blockers Use Less Battery and RAM",
+    "Safari Content Blockers consume significantly less battery and RAM than traditional JavaScript-based request interceptors because they offload the filtering process directly to the browser's core engine. Instead of running persistent background scripts th",
+    false
+  ],
+  [
+    98,
+    "Safari declarativeNetRequest Rule Priority Explained",
+    "This article provides a complete overview of how the Safari web browser resolves conflicts when multiple extensions use the declarativeNetRequest API to intercept the same network request. By understanding how WebKit evaluates action types, rule prioritie",
+    false
+  ],
+  [
+    97,
+    "Safari Content Blocker Resource Triggers Explained",
+    "This article provides a comprehensive overview of the specific resource triggers that Safari Content Blockers can target to filter web traffic, enhance privacy, and improve page load speeds. By utilizing WebKit's content-blocking architecture, developers",
+    false
+  ],
+  [
+    96,
+    "How to Reload Safari Pages Without Content Blockers",
+    "Content blockers are essential for a fast and private browsing experience, but they can occasionally break critical website functionality like video players, login prompts, or checkout pages. This article provides a quick, straightforward guide on how to",
+    false
+  ],
+  [
+    95,
+    "Why Dynamic Ad Blockers Struggle With Safari's API",
+    "Traditional dynamic ad blockers like uBlock Origin cannot function at full capacity on the Safari web browser due to the strict architectural limitations of Apple's Content Blocker API. While traditional blockers rely on active, real-time inspection and m",
+    false
+  ],
+  [
+    94,
+    "How Safari Content Blockers Hide DOM Elements with CSS",
+    "This article explains the technical mechanism behind element hiding in the Safari web browser. It covers how Safari Content Blockers utilize a declarative JSON syntax to define rules, how the css-display-none action targets specific Document Object Model",
+    false
+  ],
+  [
+    93,
+    "Evolution of Safari Content Blocker Rule Limits",
+    "This article provides a complete overview of the rule limits imposed on Safari Content Blockers, detailing the transition from the original legacy restrictions to the expanded capacity in modern versions of the browser. Initially, Apple restricted a singl",
+    false
+  ],
+  [
+    92,
+    "Why Safari Compiles JSON Content Blocker Rules to Bytecode",
+    "Safari compiles JSON content blocker rules into deterministic bytecode to maximize browsing performance, protect user privacy, and reduce battery consumption. Instead of allowing extensions to actively intercept and evaluate every network request using Ja",
+    false
+  ],
+  [
+    91,
+    "How Safari's Content Blocking API Protects Browsing Privacy",
+    "Safari’s declarative Content Blocking API enables extensions to filter out unwanted network requests, such as ads and tracking scripts, without allowing the extension to see what websites the user is visiting. This article explains how Safari achieves thi",
+    false
+  ],
+  [
+    90,
+    "Are Safari WebExtensions Enabled in Private Browsing?",
+    "This article provides a complete overview of how the Safari web browser handles WebExtensions during Private Browsing sessions. By default, Safari disables WebExtensions when you enter Private Browsing mode to ensure maximum user privacy and security. Bel",
+    false
+  ],
+  [
+    89,
+    "How to Load Unsigned Extensions in Safari",
+    "This article explains how software engineers can test unverified extensions in the Safari web browser using the \"Allow Unsigned Extensions\" setting. It covers the steps required to reveal Safari's hidden developer options, how to enable the specific setti",
+    false
+  ],
+  [
+    88,
+    "How Safari Syncs Extensions Across Your Apple Devices",
+    "This article explains the mechanics and usage of the \"Sync Across Devices\" feature in the Safari web browser. By leveraging iCloud and the App Store's app-matching database, this toggle allows users to seamlessly view, download, and manage compatible Safa",
+    false
+  ],
+  [
+    87,
+    "Safari Web Extension Native Messaging with Swift",
+    "This article provides a quick overview and step-by-step guide on establishing communication between a Safari Web Extension and its containing native macOS or iOS application using Swift. By leveraging Apple's Native Messaging APIs, developers can pass dat",
+    false
+  ],
+  [
+    86,
+    "Safari WebExtensions: Manifest V2 vs. Manifest V3 Support",
+    "This article provides a direct comparison of Manifest V2 (MV2) and Manifest V3 (MV3) support within the Apple Safari web browser. As the web extension ecosystem transitions from MV2 to MV3 to improve privacy, security, and performance, Safari has implemen",
+    false
+  ],
+  [
+    85,
+    "How Safari's Per-Site Extension Permissions Work",
+    "This article explores the per-site permission model for extensions in Apple's Safari web browser. It explains how the browser protects user privacy by restricting extension access by default, and details the exact mechanisms that allow users to grant temp",
+    false
+  ],
+  [
+    84,
+    "Why Apple Mandates Notarization for Safari Extensions",
+    "This article explains why Apple requires all Safari web browser extensions to be either notarized or distributed directly through the Apple App Store. By enforcing these strict distribution pathways, Apple aims to protect users from malware, safeguard per",
+    false
+  ],
+  [
+    83,
+    "When Apple Added Safari WebExtensions to iOS and iPadOS",
+    "This article provides a direct overview of when Apple introduced third-party WebExtensions to the Safari web browser on iOS and iPadOS. It covers the initial developer announcement, the official public release date, and how this update transformed the mob",
+    false
+  ],
+  [
+    82,
+    "Porting Extensions with safari-web-extension-converter",
+    "This article explores how Apple’s xcrun safari-web-extension-converter command-line tool simplifies the process of porting existing Chrome and Firefox extensions to the Safari web browser. By automating the creation of a native Xcode project, wrapping sta",
+    false
+  ],
+  [
+    81,
+    "Why Apple Moved to Safari App Extensions",
+    "This article explores the primary reasons behind Apple's decision to phase out legacy .safariextz extensions in favor of Safari App Extensions bundled within native macOS applications. By examining the impacts on user security, browser performance, develo",
+    false
+  ],
+  [
+    80,
+    "How Siri Suggestions Surfaces Links in Safari",
+    "This article explains the mechanisms behind the Siri Suggestions section on the Safari Start Page, detailing how Apple’s on-device machine learning scans the Mail and Calendar applications to automatically extract, rank, and display relevant web links bas",
+    false
+  ],
+  [
+    79,
+    "Deleting a Safari Profile: What Happens to Your Data?",
+    "This article provides a quick overview of what happens to your digital footprint when you delete a custom Profile in Apple's Safari web browser. It covers the immediate and permanent removal of your browsing history, cookies, website data, and open tabs a",
+    false
+  ],
+  [
+    78,
+    "How to Open External Links in a Specific Safari Profile",
+    "This article explains how to configure the Safari web browser on Mac, iPhone, and iPad to automatically open links from external applications in a specific Profile. By leveraging Apple's built-in Focus Filters, managing active window states, or utilizing",
+    false
+  ],
+  [
+    77,
+    "How Bookmarks and Favorites Work Across Safari Profiles",
+    "In Apple's Safari web browser, your main library of Bookmarks is shared globally across all of your profiles, meaning you cannot have completely separate bookmark databases. However, Safari allows each individual profile to designate its own specific book",
+    false
+  ],
+  [
+    76,
+    "How Focus Mode Switches Safari Profiles and Tab Groups",
+    "This article explains how Apple's Focus mode on macOS and iOS integrates with the Safari web browser to automatically switch active Profiles or Tab Groups. By utilizing a built-in feature called Focus Filters, users can link specific browsing environments",
+    false
+  ],
+  [
+    75,
+    "How to Add and Sync a Custom Safari Start Page Background",
+    "Personalizing the Safari Start Page with a custom background image is a simple way to make your web browser feel uniquely yours. This article provides a step-by-step guide on how to upload your own photos to the Safari Start Page on both Mac and iOS devic",
+    false
+  ],
+  [
+    74,
+    "Customizable Sections on the Safari Start Page",
+    "This article provides a complete breakdown of the customizable sections available on the Safari web browser's Start Page. By toggling these specific features on or off, users can tailor their new tab experience to maximize productivity, monitor their onli",
+    false
+  ],
+  [
+    73,
+    "Customizing Safari Profiles with Icons and Color Themes",
+    "This article provides a step-by-step guide on how to customize your Safari browser Profiles using unique icons and color themes. By assigning distinct visual identifiers to your work, school, and personal profiles, you can easily tell them apart at a glan",
+    false
+  ],
+  [
+    72,
+    "Safari Profiles: Custom Extensions and Search Engines",
+    "This article explains how Safari Profiles handle the customization of browser extensions and default search engines. While Apple's web browser allows users to assign a distinct set of enabled extensions to each individual profile, it does not currently su",
+    false
+  ],
+  [
+    71,
+    "How Safari 17 Profiles Separate Work and Personal Data",
+    "Introduced in Safari 17, the Profiles feature allows users to compartmentalize their browsing experiences into distinct contexts, such as work and personal use. This article provides an overview of the technical and practical ways Safari Profiles isolate",
+    false
+  ],
+  [
+    70,
+    "Separate vs. Compact Tabs in Safari on macOS",
+    "This article explains the fundamental differences between the Separate and Compact tab layout options in the Safari web browser on macOS. It covers how each layout organizes the address bar and open tabs, how they impact your available screen space, and h",
+    false
+  ],
+  [
+    69,
+    "View and Close Safari iCloud Tabs from the Start Page",
+    "Apple's iCloud Tabs feature allows you to seamlessly access and manage the web pages you have open in Safari across your iPhone, iPad, and Mac. This article provides a straightforward guide on how to set up iCloud Tabs, view open webpages from your other",
+    false
+  ],
+  [
+    68,
+    "How to Identify and Mute Audio Tabs in Safari",
+    "This article provides a quick guide on how to locate and control audio playing in the Safari web browser. It explains the visual indicator that Safari displays on tabs actively producing sound and details the simple steps required to mute individual or mu",
+    false
+  ],
+  [
+    67,
+    "How to Copy All Tab Group URLs in Safari at Once",
+    "This article provides a quick and easy guide on how to simultaneously copy the web addresses of every open tab within a specific Safari Tab Group. Whether you are using a Mac, iPhone, or iPad, Safari includes a built-in feature that extracts all your grou",
+    false
+  ],
+  [
+    66,
+    "How Safari's Tab Overview Searches Hundreds of Open Tabs",
+    "This article explains how the Tab Overview grid in the Safari web browser enables users to quickly search and filter through hundreds of open tabs at once. By combining local metadata indexing, real-time text filtering, and visual webpage previews, Safari",
+    false
+  ],
+  [
+    65,
+    "How to Auto-Close Inactive Safari Tabs on iOS",
+    "This article provides a quick and easy guide on how to configure the Safari web browser on iOS to automatically close inactive tabs. By adjusting a single setting on your iPhone or iPad, you can set your browser to clear out old, unused tabs after one day",
+    false
+  ],
+  [
+    64,
+    "How Safari Handles External Links in Pinned Tabs",
+    "Pinned Tabs in Apple's Safari web browser are designed to keep your most frequently visited websites permanently accessible on the left side of the tab bar. This article provides a straightforward explanation of how Safari handles navigation when you clic",
+    false
+  ],
+  [
+    63,
+    "What Happens When You Pin a Tab in macOS Safari",
+    "Pinning a tab in the Safari web browser on macOS locks a website to the left side of the tab bar for quick and permanent access. This article covers the exact behaviors triggered when you pin a tab, including its visual transformation, how it handles inte",
+    false
+  ],
+  [
+    62,
+    "Collaborating on Safari Shared Tab Groups Using Messages",
+    "Apple's Safari browser allows multiple users to work together in real-time by sharing Tab Groups through the Messages app. This article provides a straightforward guide on the system requirements needed to get started, how to create and send a shared Tab",
+    false
+  ],
+  [
+    61,
+    "How Safari Tab Groups Sync Across Apple Devices via iCloud",
+    "This article explains the mechanics behind Safari Tab Groups and how they use Apple's iCloud infrastructure to seamlessly synchronize open web pages across Mac, iPhone, and iPad. It covers the essential system requirements, the automatic background syncin",
+    false
+  ],
+  [
+    60,
+    "How Safari Prevents WebRTC STUN IP Address Leaks",
+    "This article explains the specific security mechanisms the Safari web browser uses to prevent WebRTC STUN requests from leaking your local and public IP addresses. By obfuscating local network addresses with Multicast DNS (mDNS), gating network discovery",
+    false
+  ],
+  [
+    59,
+    "iCloud Private Relay: HTTP vs. HTTPS Protection in Safari",
+    "This article explains the differences in how Apple’s iCloud Private Relay protects unencrypted HTTP traffic compared to encrypted HTTPS traffic within the Safari web browser. While Private Relay masks your IP address and secures your DNS requests for both",
+    false
+  ],
+  [
+    58,
+    "Configuring iCloud Private Relay IP Location for Safari",
+    "This article provides a straightforward guide on how to configure iCloud Private Relay IP address settings for the Safari web browser. It explains the difference between the two available location privacy tiers—maintaining a general region IP address vers",
+    false
+  ],
+  [
+    57,
+    "Why Carriers and Networks Block Safari Private Relay",
+    "This article explains why Apple users frequently encounter warnings in the Safari web browser stating that their network traffic cannot be privately relayed. It covers the basic mechanics of iCloud Private Relay, the security and compliance reasons why en",
+    false
+  ],
+  [
+    56,
+    "How Safari Handles Oblivious DNS over HTTPS (ODoH)",
+    "This article explains how the Safari web browser utilizes Oblivious DNS over HTTPS (ODoH) to protect user privacy by separating a user's IP address from their DNS queries. While standard DNS over HTTPS (DoH) encrypts domain name lookups, the DNS provider",
+    false
+  ],
+  [
+    55,
+    "iCloud Private Relay vs. Traditional System-Wide VPNs",
+    "This article explores the fundamental differences between Apple’s iCloud Private Relay in Safari and traditional system-wide Virtual Private Networks (VPNs). While both tools enhance online privacy by masking your IP address and encrypting internet traffi",
+    false
+  ],
+  [
+    54,
+    "How Safari Generates Hide My Email Aliases in Web Forms",
+    "This article explains the technical and user-facing processes behind Safari’s Hide My Email integration. It covers how the browser detects email input fields on websites, connects with Apple's iCloud+ servers to dynamically generate random email aliases,",
+    false
+  ],
+  [
+    53,
+    "Temporarily Show Your Real IP in Safari With Private Relay",
+    "This article provides a quick and easy guide on how to temporarily disable iCloud Private Relay for a specific website in the Safari web browser. While iCloud Private Relay enhances your privacy by masking your IP address, some websites require your real",
+    false
+  ],
+  [
+    52,
+    "Why iCloud Private Relay Uses a Two-Hop Architecture",
+    "This article explains the reasoning behind iCloud Private Relay's two-hop architecture in the Safari web browser. By splitting internet traffic routing between Apple and trusted third-party content delivery networks (CDNs), the system ensures that no sing",
+    false
+  ],
+  [
+    51,
+    "How iCloud Private Relay Encrypts DNS and Hides Your IP",
+    "This article explains the technical mechanisms behind Apple's iCloud Private Relay and how it enhances user privacy in the Safari web browser. Specifically, it covers how the service utilizes a dual-hop architecture to conceal your IP address and employs",
+    false
+  ],
+  [
+    50,
+    "Why Safari Requires User Interaction for Iframe Cookies",
+    "This article explains why the Safari web browser mandates explicit user interaction through the Storage Access API before allowing embedded cross-origin iframes to access cookies. By examining Safari's Intelligent Tracking Prevention (ITP), the mechanics",
+    false
+  ],
+  [
+    49,
+    "How Safari Strips Tracking Parameters from URLs",
+    "This article explains how Apple's Safari web browser protects user privacy through Link Tracking Protection, a feature that automatically identifies and removes known tracking parameters from web addresses. It covers what URL tracking parameters are, the",
+    false
+  ],
+  [
+    48,
+    "Safari Private Browsing: Cookies, Storage, and History",
+    "This article provides a quick overview of how the Safari web browser handles your temporary session data when you exit Private Browsing mode. Specifically, it explains the immediate deletion of cookies, the wiping of local storage, and the absence of brow",
+    false
+  ],
+  [
+    47,
+    "How Safari's PCM Enables Private Ad Attribution",
+    "This article explores how Apple’s Private Click Measurement (PCM) in the Safari web browser enables advertisers to measure the effectiveness of their ad campaigns without compromising user privacy. By utilizing on-device storage, strict data limits, and d",
+    false
+  ],
+  [
+    46,
+    "Why Safari Blocked All Third-Party Cookies in Early 2020",
+    "In March 2020, Apple updated its Safari web browser to block all third-party cookies by default, marking a major milestone in digital privacy. This article provides an overview of the primary reasons behind Apple's decision, which include halting invasive",
+    false
+  ],
+  [
+    45,
+    "How Safari Fights Fingerprinting via System Simplification",
+    "This article provides an overview of how Apple’s Safari web browser protects user privacy by combating browser fingerprinting. Rather than blocking data requests outright, which can break website functionality, Safari intentionally masks unique device cha",
+    false
+  ],
+  [
+    44,
+    "What Information is in the Safari Privacy Report?",
+    "The Safari Privacy Report panel provides a transparent look into how Apple’s Intelligent Tracking Prevention (ITP) protects your browsing history from cross-site trackers. This article breaks down the exact metrics, lists, and data points displayed in the",
+    false
+  ],
+  [
+    43,
+    "How Safari Blocks CNAME Cloaking by Third-Party Trackers",
+    "This article explores how Apple's Safari web browser defends user privacy against CNAME cloaking, a workaround used by third-party analytics providers to bypass anti-tracking protections. It covers the mechanics of CNAME cloaking, how Safari's Intelligent",
+    false
+  ],
+  [
+    42,
+    "Why Safari Caps JavaScript Cookies to Seven Days",
+    "Apple’s Safari browser limits the lifespan of client-side cookies created through JavaScript's document.cookie API to a maximum of seven days. This restriction is a core component of WebKit's Intelligent Tracking Prevention (ITP) feature, designed to prot",
+    false
+  ],
+  [
+    41,
+    "How Safari's ITP Uses Machine Learning to Stop Trackers",
+    "Safari’s Intelligent Tracking Prevention (ITP) protects user privacy by using on-device machine learning to identify and isolate cross-site trackers. This article breaks down the exact mechanisms ITP uses to monitor domain behavior, how its classification",
+    false
+  ],
+  [
+    40,
+    "Why iOS Safari Updates Are Tied to Annual OS Releases",
+    "This article explores the technical and strategic reasons why Apple ties major updates for the Safari web browser directly to its annual iOS releases. Unlike third-party browsers that update continuously through the App Store, Safari is woven directly int",
+    false
+  ],
+  [
+    39,
+    "How Pull-to-Refresh Works in Safari on iOS and iPadOS",
+    "This article provides a complete breakdown of the pull-to-refresh gesture in the mobile Safari web browser on iOS and iPadOS. It covers how users physically trigger the gesture, the history of its implementation, the underlying technical mechanics within",
+    false
+  ],
+  [
+    38,
+    "Limitations That Kept Adobe Flash Off iOS Safari",
+    "This article explores the technical and strategic limitations that prevented Adobe Flash Player from ever running in the Safari web browser on iOS devices. At the dawn of the modern smartphone era, Apple made the controversial decision to block Flash from",
+    false
+  ],
+  [
+    37,
+    "How to View Two Websites Side by Side in iPadOS Safari",
+    "This article explains how the Split View feature in the Safari web browser on iPadOS enables users to view and interact with two websites simultaneously. It covers the underlying multitasking mechanics, the exact methods to activate Split View using touch",
+    false
+  ],
+  [
+    36,
+    "How to Move the iPhone Safari Address Bar Back to the Top",
+    "With recent iOS updates, Apple moved the Safari address bar to the bottom of the iPhone screen by default, a change that not every user prefers. Fortunately, reverting the browser layout back to the classic single tab bar at the top of the screen is simpl",
+    false
+  ],
+  [
+    35,
+    "Why Apple Moved the iOS 15 Safari Address Bar to the Bottom",
+    "In iOS 15, Apple relocated the Safari address bar from the top of the screen to the bottom to improve ergonomics and one-handed usability on increasingly large iPhone displays. This article explores the core reasons behind this major design shift, includi",
+    false
+  ],
+  [
+    34,
+    "How iPadOS 13 Transformed Safari Into a Desktop Browser",
+    "The release of iPadOS 13 marked a significant milestone for the iPad, notably by upgrading the Safari web browser from a scaled-up mobile app into a true desktop-class browsing experience. This article explores the key features introduced in iPadOS 13—suc",
+    false
+  ],
+  [
+    33,
+    "Double-Tap to Zoom: Adapting Desktop Layouts for Mobile",
+    "When the original iPhone launched in 2007, its mobile Safari browser introduced the \"double-tap to zoom\" gesture, a feature that instantly made the desktop-centric internet usable on a pocket-sized touchscreen. At the time, websites were built with wide,",
+    false
+  ],
+  [
+    32,
+    "Why Steve Jobs Pushed Web Apps Over a Native iPhone SDK",
+    "When the original iPhone launched in 2007, Steve Jobs famously told developers that they did not need a native Software Development Kit (SDK). Instead, he promoted the idea of building web applications using Web 2.0 standards that would run directly insid",
+    false
+  ],
+  [
+    31,
+    "Mobile Safari: The 2007 iPhone Web Browsing Revolution",
+    "In 2007, the original iPhone forever changed our relationship with the internet by introducing the mobile version of the Safari web browser. This article explores how Mobile Safari shattered the limitations of early mobile internet by replacing stripped-d",
+    false
+  ],
+  [
+    30,
+    "Why Enterprise Admins Blocked Safari on Windows Networks",
+    "During the late 2000s, enterprise system administrators frequently blocked the automatic installation of Apple's Safari web browser on corporate Windows networks. This widespread restriction stemmed from Apple's aggressive software bundling tactics, the b",
+    false
+  ],
+  [
+    29,
+    "Windows Aero and the Safari Browser's Custom Chrome",
+    "This article explores the visual and technical interaction between Microsoft's Windows Aero glass interface and Apple's Safari web browser during its brief lifespan on the Windows operating system. When Safari first launched on Windows, its custom-drawn,",
+    false
+  ],
+  [
+    28,
+    "Can You Use Safari for Windows to Test Mac Web Layouts?",
+    "This article explains why web developers cannot use the Windows build of the Safari web browser to reliably test website layouts meant for Mac users. It covers the history of Safari on Windows, the specific technical limitations of the outdated software,",
+    false
+  ],
+  [
+    27,
+    "Safari Browser Market Share in 2008: Windows vs. macOS",
+    "This article examines the stark contrast in adoption rates for Apple’s Safari web browser between Windows and macOS (then known as Mac OS X) during the year 2008. While Safari enjoyed massive dominance as the default browser on its native Apple operating",
+    false
+  ],
+  [
+    26,
+    "Security Flaws in Unpatched Safari for Windows",
+    "Apple quietly discontinued the Windows version of its Safari web browser in May 2012, leaving version 5.1.7 as the final release for the Microsoft operating system. Because Apple never officially announced the end of support, many Windows users continued",
+    false
+  ],
+  [
+    25,
+    "How Apple's Safari Bundling Sparked Controversy on Windows",
+    "In 2008, Apple triggered significant backlash in the tech community by using its Apple Software Update utility on Windows to automatically push the Safari web browser to millions of users. By bundling Safari alongside routine updates for iTunes and QuickT",
+    false
+  ],
+  [
+    24,
+    "Why Apple Discontinued Safari for Windows in 2012",
+    "In 2012, Apple quietly ended support for the Windows version of its Safari web browser after just five years on the market. This silent discontinuation was primarily driven by a dismal market share on the PC platform, the explosive rise of Google Chrome,",
+    false
+  ],
+  [
+    23,
+    "The Final Version of the Safari Browser for Windows",
+    "This article provides a concise look at the discontinuation of Apple's Safari web browser for the Microsoft Windows operating system. It identifies the exact final version number released for Windows, outlines the timeline of the software's launch and qui",
+    false
+  ],
+  [
+    22,
+    "Why Safari on Windows Used Its Own Font Rendering Engine",
+    "When Apple released the Safari web browser for Windows in 2007, it bypassed Microsoft's native ClearType technology in favor of its own custom font rendering engine. Apple made this decision to preserve strict typographic design fidelity, maintain cross-p",
+    false
+  ],
+  [
+    21,
+    "When Apple Released Safari for Windows XP and Vista",
+    "This article covers the history of Apple's Safari web browser on Microsoft Windows operating systems. It details the exact release dates for the Windows XP and Windows Vista versions, the strategic reasons behind Apple's decision to enter the Windows brow",
+    false
+  ],
+  [
+    20,
+    "Why Google Forked WebKit into Blink While Apple Kept WebKit",
+    "In 2013, Google made the monumental decision to fork the open-source WebKit rendering engine to create Blink, the engine that now powers Google Chrome and other Chromium-based browsers. Meanwhile, Apple chose to stay the course and continue developing Web",
+    false
+  ],
+  [
+    19,
+    "Balancing Speed and Optimization in Safari's DFG JIT",
+    "This article explores how the Data Flow Graph (DFG) Just-In-Time (JIT) compiler in Safari’s JavaScriptCore engine strikes a critical balance between rapid compilation times and high-speed code execution. By operating as an intermediate tier within a multi",
+    false
+  ],
+  [
+    18,
+    "The Role of LLInt in Safari's JavaScript Engine",
+    "This article explores the primary purpose of the Low Level Interpreter (LLInt), the foundational execution tier within JavaScriptCore, the engine that powers the Safari web browser. By examining how the LLInt processes bytecode, prioritizes rapid startup",
+    false
+  ],
+  [
+    17,
+    "How WebKit2 Isolates Web Content Crashes in Safari",
+    "This article explores how the WebKit2 multi-process architecture protects the Safari web browser from complete failure when individual web pages crash. By splitting the browser's operations into separate system processes for the main user interface and we",
+    false
+  ],
+  [
+    16,
+    "Why WebKit Replaced LLVM with the B3 Backend in Safari",
+    "In 2016, Apple’s WebKit team made a major architectural change to JavaScriptCore, the engine that powers the Safari web browser, by replacing the LLVM compiler backend with their own custom-built Bare Bones Backend (B3). This article provides an overview",
+    false
+  ],
+  [
+    15,
+    "Safari's FTL JIT Compiler: Optimizing Code Execution",
+    "This article explores how the Fourth Tier LLVM (FTL) Just-In-Time (JIT) compiler optimizes JavaScript execution within the Safari web browser's JavaScriptCore engine. It covers the multi-tiered compilation pipeline, how the engine identifies and promotes",
+    false
+  ],
+  [
+    14,
+    "The 2008 Nitro Engine: Architectural Changes in Safari",
+    "In 2008, the WebKit team revolutionized the Safari web browser by introducing the Nitro JavaScript engine, developed under the codenames SquirrelFish and SquirrelFish Extreme. This article provides an overview of the core architectural changes Nitro broug",
+    false
+  ],
+  [
+    13,
+    "How SquirrelFish Improved Safari's JavaScript Performance",
+    "In June 2008, the WebKit team introduced SquirrelFish, a revamped JavaScript engine that drastically improved the performance of Apple's Safari web browser. This article provides an overview of how SquirrelFish achieved this leap in speed by replacing the",
+    false
+  ],
+  [
+    12,
+    "The Role of JavaScriptCore in the Safari Browser",
+    "This article explores the fundamental role of JavaScriptCore, the built-in JavaScript engine for WebKit, in executing scripts within Apple's Safari web browser. It breaks down how the engine translates human-readable code into machine instructions, utiliz",
+    false
+  ],
+  [
+    11,
+    "How WebCore Handles HTML Parsing and Layout in Safari",
+    "This article provides a technical overview of how the WebCore component within the WebKit engine processes web pages for the Safari browser. It covers the essential stages of preparing a webpage for display, specifically detailing how WebCore parses raw H",
+    false
+  ],
+  [
+    10,
+    "How Safari's Brushed-Metal UI Reflected Mac OS X Jaguar",
+    "This article explores how the original brushed-metal user interface of the Safari web browser embodied the evolving design language of Mac OS X 10.2 Jaguar. By examining Apple's shift from the standard pinstripe Aqua aesthetic to a more tactile, hardware-",
+    false
+  ],
+  [
+    9,
+    "Open-Source Engines Forked by Apple to Build Safari",
+    "This article provides a concise breakdown of the open-source components Apple forked to create the Safari web browser. It covers how Apple selected KHTML and KJS from the KDE project in the early 2000s and transformed them into WebCore and JavaScriptCore,",
+    false
+  ],
+  [
+    8,
+    "How a 1997 Microsoft Deal Led to the Safari Browser",
+    "In 1997, a financially struggling Apple entered a historic five-year agreement with Microsoft that made Internet Explorer the default web browser on Macintosh computers. As the 2002 expiration date of this contract approached, Apple realized the critical",
+    false
+  ],
+  [
+    7,
+    "Why Apple Codenamed Early Safari Development \"Alexander\"",
+    "During the secretive early development of Apple's Safari web browser, engineers referred to the software internally as \"Alexander.\" This article explores the origins of this historical codename, detailing how Apple's need to replace Microsoft's Internet E",
+    false
+  ],
+  [
+    6,
+    "The Impact of Safari 1.0 Launching with Mac OS X Panther",
+    "The release of Safari 1.0 and its integration as the default browser in Mac OS X Panther in 2003 marked a pivotal moment in technology history, granting Apple complete independence from Microsoft's Internet Explorer. This milestone introduced the revoluti",
+    false
+  ],
+  [
+    5,
+    "How Apple Kept the Safari Web Browser Secret Until 2003",
+    "Before Steve Jobs unveiled Safari in January 2003, Apple spent over a year secretly building the web browser right under the tech industry's nose. Seeking to end its reliance on Microsoft's aging Internet Explorer for Mac without alerting competitors, a s",
+    false
+  ],
+  [
+    4,
+    "The Browser Safari Replaced as Default on Mac OS X",
+    "This article explains the history behind the default web browser on Apple's Mac OS X, specifically detailing how the Safari web browser replaced Microsoft's Internet Explorer for Mac. It covers the historic 1997 agreement between Apple and Microsoft that",
+    false
+  ],
+  [
+    3,
+    "Don Melton: The Leader of Apple's Secret Safari Team",
+    "This article explores the origins of Apple's Safari web browser and identifies Don Melton as the leader of the original software engineering team that developed it in secret. It covers why Apple needed its own browser, how Melton assembled a small group o",
+    false
+  ],
+  [
+    2,
+    "Why Apple Chose KHTML for the Safari Web Browser",
+    "In the early 2000s, Apple sought to create its own web browser to gain independence from Microsoft's Internet Explorer. After evaluating several existing rendering engines, Apple chose the KDE project's KHTML engine as the foundation for what would become",
+    false
+  ],
+  [
+    1,
+    "Steve Jobs Announces Safari at the 2003 Macworld Expo",
+    "Steve Jobs first announced the Safari web browser on January 7, 2003, during his keynote address at the Macworld Conference & Expo in San Francisco. This article covers the details of that historic announcement, the reasons Apple developed its own browser",
+    false
+  ]
+]

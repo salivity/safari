@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Safari Enforces CORS and COOP Security Headers - safari</title>
+    <meta name="description" content="This article provides a direct overview of how Apple’s Safari web browser, powered by the WebKit engine, enforces Cross-Origin Resource Sharing (CORS) and Cross-Origin-Opener-Policy (COOP) headers. It breaks down the exact mechanisms Safari uses to valida">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/how-safari-enforces-cors-and-coop-security-headers">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Safari Enforces CORS and COOP Security Headers - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/how-safari-enforces-cors-and-coop-security-headers" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article provides a direct overview of how Apple’s Safari web browser, powered by the WebKit engine, enforces Cross-Origin Resource Sharing (CORS) and Cross-Origin-Opener-Policy (COOP) headers. It breaks down the exact mechanisms Safari uses to valida" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="how-safari-enforces-cors-and-coop-security-headers">How Safari
+Enforces CORS and COOP Security Headers</h1>
+<p>This article provides a direct overview of how Apple’s Safari web
+browser, powered by the WebKit engine, enforces Cross-Origin Resource
+Sharing (CORS) and Cross-Origin-Opener-Policy (COOP) headers. It breaks
+down the exact mechanisms Safari uses to validate cross-origin network
+requests through CORS, explains how the browser isolates top-level
+documents using COOP to prevent side-channel attacks, and highlights
+WebKit-specific nuances developers must handle when configuring these
+security policies.</p>
+<h2 id="cross-origin-resource-sharing-cors-in-safari">Cross-Origin
+Resource Sharing (CORS) in Safari</h2>
+<p>Safari uses the WebKit layout engine to enforce the Same-Origin
+Policy (SOP) by default, which prevents a document or script loaded from
+one origin from interacting with resources from another origin. To allow
+legitimate cross-origin network requests, Safari relies on the strict
+evaluation of CORS headers.</p>
+<h3 id="1-simple-requests">1. Simple Requests</h3>
+<p>When Safari makes a "simple" cross-origin request (such as a basic
+<code>GET</code> or <code>POST</code> request with standard headers), it
+automatically appends the <code>Origin</code> header to the outgoing
+request.</p>
+<p>When the server responds, Safari checks for the
+<code>Access-Control-Allow-Origin</code> header:</p>
+<ul>
+<li><strong>Match:</strong> If the header value matches the requesting
+origin (or is a wildcard <code>*</code> for non-credentialed requests),
+Safari passes the response data to the JavaScript environment.</li>
+<li><strong>Mismatch or Missing:</strong> If the header is missing or
+does not match, Safari blocks the JavaScript code from reading the
+response and logs a CORS error in the Web Inspector console, even though
+the network request itself succeeded at the HTTP level.</li>
+</ul>
+<h3 id="2-preflight-requests">2. Preflight Requests</h3>
+<p>For complex operations—such as requests using <code>PUT</code> or
+<code>DELETE</code> methods, <code>application/json</code> content
+types, or custom headers—Safari enforces a mandatory preflight
+check.</p>
+<ul>
+<li>Before sending the actual request, Safari dispatches an
+<code>OPTIONS</code> request to the server.</li>
+<li>This request includes <code>Access-Control-Request-Method</code> and
+<code>Access-Control-Request-Headers</code>.</li>
+<li>Safari waits for a <code>2xx</code> status code response containing
+the corresponding <code>Access-Control-Allow-Methods</code> and
+<code>Access-Control-Allow-Headers</code>.</li>
+<li>If the preflight fails or attempts an HTTP redirect, Safari
+immediately aborts the actual request.</li>
+</ul>
+<h3 id="3-credentials-and-intelligent-tracking-prevention-itp">3.
+Credentials and Intelligent Tracking Prevention (ITP)</h3>
+<p>When a fetch or XMLHttpRequest includes credentials (cookies,
+authorization headers, or TLS client certificates), Safari enforces
+stricter CORS rules:</p>
+<ul>
+<li>The server must respond with
+<code>Access-Control-Allow-Credentials: true</code>.</li>
+<li>Safari strictly forbids the use of the <code>*</code> wildcard in
+the <code>Access-Control-Allow-Origin</code> header when credentials are
+included. The exact origin must be echoed back.</li>
+<li><strong>The ITP Factor:</strong> Even if CORS headers are configured
+correctly for credentials, Safari’s Intelligent Tracking Prevention
+(ITP) blocks third-party cookies by default. Therefore, cross-origin
+credentialed requests will not send cookies in Safari unless the user
+has explicitly granted permission via the Storage Access API.</li>
+</ul>
+<h3 id="4-safari-specific-cors-strictness">4. Safari-Specific CORS
+Strictness</h3>
+<p>Safari is notably stricter than other browsers regarding how it
+caches and processes certain CORS requests:</p>
+<ul>
+<li><strong>Media Elements:</strong> Safari strictly requires CORS
+headers on <code>&lt;video&gt;</code> and <code>&lt;audio&gt;</code>
+elements if they are drawn into a <code>&lt;canvas&gt;</code> or
+manipulated via the Web Audio API. Without the <code>crossorigin</code>
+attribute on the HTML tag and the corresponding server headers, Safari
+taints the canvas and blocks data extraction.</li>
+<li><strong>Vary Header:</strong> If a server dynamically generates the
+<code>Access-Control-Allow-Origin</code> header based on the request,
+Safari requires the server to include <code>Vary: Origin</code> in the
+response. Without this, Safari may serve a cached response with the
+wrong CORS header to a different origin, resulting in a failure.</li>
+</ul>
+<h2
+id="cross-origin-opener-policy-coop-in-safari">Cross-Origin-Opener-Policy
+(COOP) in Safari</h2>
+<p>Introduced to Safari in version 15.2, the Cross-Origin-Opener-Policy
+(COOP) header is enforced by WebKit to provide process isolation for
+top-level documents. This prevents malicious cross-origin pages from
+exploiting side-channel attacks (like Spectre) or abusing the
+<code>window.opener</code> object.</p>
+<h3 id="1-managing-browsing-context-groups">1. Managing Browsing Context
+Groups</h3>
+<p>When a website opens a new window or tab using
+<code>window.open()</code> or an anchor tag with
+<code>target="_blank"</code>, the two windows normally share a "browsing
+context group." This allows them to communicate synchronously via the
+<code>window.opener</code> DOM property. Safari enforces COOP by
+breaking this link and placing documents into separate browsing context
+groups (and often separate operating system processes) based on the
+header's value.</p>
+<h3 id="2-enforcement-of-coop-values">2. Enforcement of COOP Values</h3>
+<p>Safari only evaluates the COOP header on top-level documents; it
+completely ignores the header if it is present on iframes or
+subresources. Safari enforces the three standard COOP directives as
+follows:</p>
+<ul>
+<li><strong><code>unsafe-none</code> (Default):</strong> Safari takes no
+action. The document stays in the same browsing context group as its
+opener, unless the opener itself has a strict COOP policy.</li>
+<li><strong><code>same-origin-allow-popups</code>:</strong> Safari
+isolates the current document from any cross-origin window that opened
+it. However, if the current document opens a new popup using
+<code>window.open()</code>, Safari allows them to stay in the same group
+<em>unless</em> that new popup explicitly enforces its own COOP policy
+of <code>same-origin</code>.</li>
+<li><strong><code>same-origin</code>:</strong> This is the strictest
+enforcement. Safari places the document into a dedicated browsing
+context group. It can only share this group with other documents that
+are from the exact same origin <em>and</em> also declare a
+<code>same-origin</code> COOP header. If a <code>same-origin</code>
+document opens a cross-origin popup, Safari sets
+<code>window.opener</code> to <code>null</code> in the popup, and the
+opener loses the ability to control or inspect the popup reference.</li>
+</ul>
+<h3 id="3-enabling-cross-origin-isolation">3. Enabling Cross-Origin
+Isolation</h3>
+<p>Safari uses COOP enforcement as a prerequisite for enabling powerful
+web features that pose security risks in shared memory environments,
+specifically <code>SharedArrayBuffer</code> and high-resolution timers
+(<code>performance.now()</code>).</p>
+<p>To unlock these features, Safari requires the document to be in a
+"cross-origin isolated" state. Safari only grants this state if the
+server sends both of the following headers on the main document:</p>
+<ol type="1">
+<li><code>Cross-Origin-Opener-Policy: same-origin</code></li>
+<li><code>Cross-Origin-Embedder-Policy: require-corp</code> (or
+<code>credentialless</code>)</li>
+</ol>
+<p>When Safari detects both headers, it isolates the page's process from
+other origins via COOP, ensures all subresources opt-in to being loaded
+via COEP (Cross-Origin-Embedder-Policy) or CORS, and subsequently sets
+the <code>window.crossOriginIsolated</code> property to
+<code>true</code>. If either header is missing or misconfigured, Safari
+blocks access to <code>SharedArrayBuffer</code>.</p></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/how-safari-enforces-cors-and-coop-security-headers';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

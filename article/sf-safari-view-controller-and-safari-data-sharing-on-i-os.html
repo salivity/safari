@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SFSafariViewController and Safari Data Sharing on iOS - safari</title>
+    <meta name="description" content="Yes, SFSafariViewController on iOS shares AutoFill data, Reader View preferences, and Content Blockers directly with the main Safari web browser app. This article explains how these three core features integrate between in-app browsing sessions and the na">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/sf-safari-view-controller-and-safari-data-sharing-on-i-os">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="SFSafariViewController and Safari Data Sharing on iOS - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/sf-safari-view-controller-and-safari-data-sharing-on-i-os" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Yes, SFSafariViewController on iOS shares AutoFill data, Reader View preferences, and Content Blockers directly with the main Safari web browser app. This article explains how these three core features integrate between in-app browsing sessions and the na" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1
+id="sfsafariviewcontroller-and-safari-data-sharing-on-ios">SFSafariViewController
+and Safari Data Sharing on iOS</h1>
+<p>Yes, <code>SFSafariViewController</code> on iOS shares AutoFill data,
+Reader View preferences, and Content Blockers directly with the main
+Safari web browser app. This article explains how these three core
+features integrate between in-app browsing sessions and the native
+Safari application, providing users with a consistent, secure, and
+familiar web experience without ever needing to leave the host app.</p>
+<h2 id="autofill-data-sharing">AutoFill Data Sharing</h2>
+<p><code>SFSafariViewController</code> has full access to a user's
+Safari AutoFill data. When a user encounters a login screen,
+registration page, or checkout form within an app using
+<code>SFSafariViewController</code>, they can automatically populate
+their information just as they would in the main Safari app.</p>
+<p>This shared AutoFill data includes:</p>
+<ul>
+<li><strong>Saved Passwords:</strong> Credentials stored in the iCloud
+Keychain are readily available for quick sign-ins.</li>
+<li><strong>Credit Cards:</strong> Saved payment methods can be used for
+seamless in-app web purchases.</li>
+<li><strong>Contact Information:</strong> Names, addresses, emails, and
+phone numbers can be filled in with a single tap.</li>
+</ul>
+<p>For security reasons, <code>SFSafariViewController</code> runs in a
+separate process from the host application. This means that while the
+user can utilize their Safari AutoFill data inside the view controller,
+the third-party app hosting it cannot read, intercept, or access that
+sensitive information.</p>
+<h2 id="reader-view-preferences">Reader View Preferences</h2>
+<p>The clutter-free Reader View available in the main Safari app is
+fully supported in <code>SFSafariViewController</code>. When a user
+opens a compatible article, they can tap the Reader button in the
+address bar to strip away advertisements, navigation bars, and other
+distractions.</p>
+<p>The integration includes the following capabilities:</p>
+<ul>
+<li><strong>Visual Preferences:</strong> Any adjustments the user makes
+to the background color, font style, or text size within Reader View are
+shared and remembered across both Safari and
+<code>SFSafariViewController</code>.</li>
+<li><strong>Automatic Activation:</strong> App developers can configure
+<code>SFSafariViewController</code> to automatically enter Reader View
+if the web page supports it, using the
+<code>entersReaderIfAvailable</code> configuration property.</li>
+</ul>
+<h2 id="content-blockers">Content Blockers</h2>
+<p>Content Blockers—such as ad blockers, tracker blockers, and privacy
+extensions—that a user has installed and enabled for Safari in the iOS
+Settings app are automatically applied to
+<code>SFSafariViewController</code>.</p>
+<p>Users do not need to configure these extensions separately for
+individual apps. If a Content Blocker is active in the main Safari
+browser, it will filter out unwanted content, scripts, and images in the
+exact same way when browsing the web through
+<code>SFSafariViewController</code>. Developers cannot disable a user's
+Content Blockers within this view controller, ensuring the user's
+privacy and browsing preferences are strictly respected.</p></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/sf-safari-view-controller-and-safari-data-sharing-on-i-os';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

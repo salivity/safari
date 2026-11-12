@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Safari Fights Fingerprinting via System Simplification - safari</title>
+    <meta name="description" content="This article provides an overview of how Apple’s Safari web browser protects user privacy by combating browser fingerprinting. Rather than blocking data requests outright, which can break website functionality, Safari intentionally masks unique device cha">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/how-safari-fights-fingerprinting-via-system-simplification">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Safari Fights Fingerprinting via System Simplification - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/how-safari-fights-fingerprinting-via-system-simplification" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article provides an overview of how Apple’s Safari web browser protects user privacy by combating browser fingerprinting. Rather than blocking data requests outright, which can break website functionality, Safari intentionally masks unique device cha" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="how-safari-fights-fingerprinting-via-system-simplification">How
+Safari Fights Fingerprinting via System Simplification</h1>
+<p>This article provides an overview of how Apple’s Safari web browser
+protects user privacy by combating browser fingerprinting. Rather than
+blocking data requests outright, which can break website functionality,
+Safari intentionally masks unique device characteristics and presents a
+standardized, simplified system configuration to websites. We will cover
+the mechanics of fingerprinting, the specific hardware and software
+metrics Safari alters, and how this strategy makes individual users
+blend into the crowd.</p>
+<h3 id="understanding-browser-fingerprinting">Understanding Browser
+Fingerprinting</h3>
+<p>When you visit a website, trackers can identify you without using
+cookies by collecting dozens of specific details about your device. They
+query your browser for your exact screen resolution, operating system
+version, installed fonts, graphics card model, and CPU cores. When
+combined, these seemingly innocent details create a unique "fingerprint"
+that can track you across the web.</p>
+<h3 id="safaris-strategy-hiding-in-the-crowd">Safari’s Strategy: Hiding
+in the Crowd</h3>
+<p>To defeat fingerprinting, a browser must eliminate the uniqueness of
+the data it shares. Safari achieves this by presenting a simplified
+system configuration to every website you visit. Instead of reporting
+your actual, detailed setup, Safari reports a generic profile. Because
+Apple controls both the hardware and software of its ecosystem, Safari
+can easily make millions of different Macs, iPhones, and iPads look
+completely identical to tracking scripts.</p>
+<h3 id="key-data-points-safari-simplifies">Key Data Points Safari
+Simplifies</h3>
+<p>Safari’s Intelligent Tracking Prevention (ITP) targets and
+standardizes the most common vectors used for fingerprinting:</p>
+<ul>
+<li><strong>Standardized Font Lists:</strong> Trackers routinely check
+which custom fonts you have installed, as a unique combination of fonts
+easily identifies a specific user. Safari prevents websites from seeing
+locally installed user fonts. It only reports the default system fonts
+that come pre-installed on every Apple device.</li>
+<li><strong>Frozen User-Agent Strings:</strong> The User-Agent string
+tells a website what browser and operating system you are using. Safari
+freezes and caps this information. Instead of reporting the exact macOS
+or iOS point-release you have installed, it reports a generic, older
+version number shared by millions of other users.</li>
+<li><strong>Uniform Hardware Metrics:</strong> Websites use APIs like
+WebGL to check your device's GPU, CPU cores, and memory. Safari masks
+these specific hardware traits, returning a generalized hardware profile
+rather than your exact system specifications.</li>
+<li><strong>Canvas and WebGL Defenses:</strong> Trackers often force
+browsers to silently draw hidden 2D or 3D graphics (known as Canvas
+fingerprinting) to measure tiny variations in how your specific hardware
+renders the pixels. Safari strips out these hardware-specific
+micro-variations and normalizes the rendering process, ensuring the
+output is identical across similar devices.</li>
+<li><strong>Audio Context Masking:</strong> Similar to graphics
+rendering, trackers measure how your device's audio stack processes
+sound waves. Safari simplifies and standardizes the audio output data
+(or injects subtle noise during Private Browsing) so the resulting audio
+fingerprint cannot be tied to a single device.</li>
+<li><strong>Screen and Window Normalization:</strong> Safari limits the
+ability of trackers to use unique screen resolutions, color depths, or
+peripheral monitor setups to identify a user, returning standardized
+display metrics whenever possible.</li>
+</ul>
+<h3 id="refusing-high-risk-web-apis">Refusing High-Risk Web APIs</h3>
+<p>In addition to simplifying existing data, Safari mitigates
+fingerprinting by outright refusing to implement certain web APIs that
+expose too much system configuration data. Apple has intentionally
+omitted or removed features like the Battery Status API, the Device
+Memory API, and detailed Network Information APIs. While these features
+have legitimate uses, Apple deemed the fingerprinting risk too high,
+further reducing the surface area trackers can use to build a profile of
+your device.</p>
+<h3 id="conclusion">Conclusion</h3>
+<p>Browser fingerprinting relies entirely on the uniqueness of your
+device. By intercepting requests for system data and replying with a
+simplified, uniform configuration, Safari destroys the accuracy of
+tracking scripts. Websites still receive the baseline information they
+need to format pages correctly, while your specific device remains
+indistinguishable from millions of other Apple products.</p></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/how-safari-fights-fingerprinting-via-system-simplification';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Safari Renders San Francisco via System Font Keywords - safari</title>
+    <meta name="description" content="This article provides a complete overview of how the Safari web browser translates CSS system font keywords into Apple’s proprietary San Francisco typeface. You will learn the functional differences between the legacy -apple-system keyword and the modern">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/how-safari-renders-san-francisco-via-system-font-keywords">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Safari Renders San Francisco via System Font Keywords - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/how-safari-renders-san-francisco-via-system-font-keywords" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article provides a complete overview of how the Safari web browser translates CSS system font keywords into Apple’s proprietary San Francisco typeface. You will learn the functional differences between the legacy -apple-system keyword and the modern" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="how-safari-renders-san-francisco-via-system-font-keywords">How
+Safari Renders San Francisco via System Font Keywords</h1>
+<p>This article provides a complete overview of how the Safari web
+browser translates CSS system font keywords into Apple’s proprietary San
+Francisco typeface. You will learn the functional differences between
+the legacy <code>-apple-system</code> keyword and the modern
+<code>system-ui</code> standard, why Apple restricts direct access to
+the font by name, and how Safari's WebKit engine utilizes macOS and iOS
+APIs to automatically manage optical sizing, weights, and language
+fallbacks when rendering text.</p>
+<h2 id="the-evolution-of-system-font-keywords">The Evolution of System
+Font Keywords</h2>
+<p>To render the San Francisco typeface on a webpage in Safari,
+developers cannot simply write <code>font-family: "San Francisco"</code>
+or <code>font-family: "SF Pro"</code>. For licensing and user-privacy
+reasons (specifically to prevent browser fingerprinting), Safari blocks
+websites from accessing locally installed system fonts by their literal
+names. Instead, WebKit—the rendering engine behind Safari—relies on
+generic CSS font family keywords.</p>
+<p>There are two primary keywords Safari uses to trigger the default San
+Francisco UI font:</p>
+<ul>
+<li><strong><code>-apple-system</code></strong>: Introduced by Apple
+when the system font transitioned from Helvetica Neue to San Francisco
+in 2015. This vendor-prefixed keyword was designed to let web developers
+match the native look of iOS and macOS apps before a web standard
+existed.</li>
+<li><strong><code>system-ui</code></strong>: Standardized by the W3C in
+the CSS Fonts Module Level 4 specification. This keyword serves as a
+universal cross-platform declaration to use whatever default interface
+font the host operating system provides.</li>
+</ul>
+<p>In modern versions of Safari, <code>-apple-system</code> and
+<code>system-ui</code> are functionally identical. When WebKit parses a
+stylesheet containing either keyword, it bypasses the standard local
+font directory lookup and routes the request directly to the operating
+system's native text-rendering engine.</p>
+<h2 id="how-webkit-communicates-with-core-text">How WebKit Communicates
+with Core Text</h2>
+<p>When Safari encounters <code>system-ui</code> or
+<code>-apple-system</code>, WebKit hands the font resolution process
+over to <strong>Core Text</strong>, Apple's low-level text layout and
+rendering API.</p>
+<p>Core Text determines which specific variant of the San Francisco
+family to load based on the device and operating system:</p>
+<ol type="1">
+<li><strong>macOS, iOS, and iPadOS</strong>: Core Text maps the keyword
+to <strong>SF Pro</strong>.</li>
+<li><strong>watchOS</strong>: Core Text maps the keyword to <strong>SF
+Compact</strong> (though full Safari is limited on watchOS, WebKit views
+are used for rendering web content in messages and mail).</li>
+<li><strong>visionOS</strong>: Core Text maps the keyword to <strong>SF
+Pro</strong> with specific adjustments optimized for spatial
+readability.</li>
+</ol>
+<p>Furthermore, San Francisco only covers Latin, Greek, and Cyrillic
+scripts. If a webpage contains text in another script—such as Japanese,
+Arabic, or Chinese—Safari uses Core Text's cascading fallback list. It
+seamlessly blends San Francisco with the system's native counterpart for
+that language (for example, rendering PingFang SC for Simplified
+Chinese) while maintaining consistent vertical metrics and visual
+weight.</p>
+<h2 id="automatic-optical-sizing-and-variable-fonts">Automatic Optical
+Sizing and Variable Fonts</h2>
+<p>One of the main advantages of using <code>system-ui</code> in Safari
+is automatic optical sizing. The San Francisco typeface was originally
+engineered with two distinct optical sub-families: <strong>SF Pro
+Text</strong> (optimized for legibility at sizes below 20 points with
+wider spacing and sturdier strokes) and <strong>SF Pro Display</strong>
+(optimized for headlines at 20 points or larger with tighter
+spacing).</p>
+<p>In older versions of macOS and iOS, Safari automatically switched
+between the Text and Display variants based on the computed CSS
+<code>font-size</code> of the element.</p>
+<p>In modern Apple operating systems, San Francisco is deployed as a
+<strong>variable font</strong>. Rather than switching abruptly at the
+20-pixel threshold, Safari uses the
+<code>font-optical-sizing: auto</code> CSS property (which is enabled by
+default) to smoothly interpolate the letterforms along the optical size
+(<code>opsz</code>) axis. As the CSS font size increases, Safari
+dynamically adjusts the tracking and stroke thickness via Core Text
+without requiring extra CSS declarations from the developer.</p>
+<h2 id="extended-ui-font-keywords-in-safari">Extended UI Font Keywords
+in Safari</h2>
+<p>Beyond the standard sans-serif interface font, Safari supports
+additional CSS Fonts Level 4 generic keywords that map to other branches
+of Apple's system typography:</p>
+<ul>
+<li><strong><code>ui-sans-serif</code></strong>: Functions identically
+to <code>system-ui</code>, resolving to <strong>SF Pro</strong>.</li>
+<li><strong><code>ui-rounded</code></strong>: Instructs Safari to render
+<strong>SF Pro Rounded</strong>, which softens the terminals of the
+standard San Francisco letterforms.</li>
+<li><strong><code>ui-monospace</code></strong>: Maps directly to
+<strong>SF Mono</strong>, Apple’s coding and tabular typeface.</li>
+<li><strong><code>ui-serif</code></strong>: Maps to <strong>New
+York</strong>, Apple's system serif typeface designed to complement San
+Francisco's metrics.</li>
+</ul>
+<p>By relying on these keywords, Safari ensures that web content renders
+with the exact typographic behavior, weight distribution, and rendering
+performance of a native Apple application.</p></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/how-safari-renders-san-francisco-via-system-font-keywords';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

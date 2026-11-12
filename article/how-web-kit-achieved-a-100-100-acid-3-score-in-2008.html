@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How WebKit Achieved a 100/100 Acid3 Score in 2008 - safari</title>
+    <meta name="description" content="In March 2008, the WebKit development team made browser history by achieving a perfect 100/100 score on the newly released Acid3 web standards test using development builds of Apple’s Safari browser. This article outlines how the team reached this milesto">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/how-web-kit-achieved-a-100-100-acid-3-score-in-2008">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How WebKit Achieved a 100/100 Acid3 Score in 2008 - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/how-web-kit-achieved-a-100-100-acid-3-score-in-2008" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="In March 2008, the WebKit development team made browser history by achieving a perfect 100/100 score on the newly released Acid3 web standards test using development builds of Apple’s Safari browser. This article outlines how the team reached this milesto" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="how-webkit-achieved-a-100100-acid3-score-in-2008">How WebKit
+Achieved a 100/100 Acid3 Score in 2008</h1>
+<p>In March 2008, the WebKit development team made browser history by
+achieving a perfect 100/100 score on the newly released Acid3 web
+standards test using development builds of Apple’s Safari browser. This
+article outlines how the team reached this milestone through a rapid,
+public engineering sprint that resolved dozens of complex bugs across
+the Document Object Model (DOM), ECMAScript (JavaScript), CSS3, and
+Scalable Vector Graphics (SVG) specifications, ultimately culminating in
+a fully compliant, high-performance rendering engine by September
+2008.</p>
+<h2 id="understanding-the-acid3-challenge">Understanding the Acid3
+Challenge</h2>
+<p>Released on March 3, 2008, by Ian Hickson of the Web Standards
+Project, the Acid3 test was designed to push browsers to their limits
+regarding Web 2.0 technologies. Unlike Acid2, which primarily tested
+HTML and CSS rendering, Acid3 consisted of 100 individual subtests
+divided into six groups called "buckets."</p>
+<p>When the test was officially announced, WebKit nightly builds scored
+roughly 87/100. To reach 100/100, the browser had to not only render a
+reference image pixel-for-pixel, but also execute complex JavaScript and
+DOM manipulations without errors.</p>
+<h2 id="the-master-bug-and-open-source-coordination">The Master Bug and
+Open-Source Coordination</h2>
+<p>To conquer the remaining subtests, WebKit lead Maciej Stachowiak and
+the core engineering team utilized a highly organized, transparent
+approach.</p>
+<ol type="1">
+<li><strong>The Metabug:</strong> The team created a master tracking bug
+in the WebKit Bugzilla database. Every failed subtest in Acid3 was
+isolated, reduced to a minimal test case, and assigned its own
+individual bug report linked to the master bug.</li>
+<li><strong>Real-Time Collaboration:</strong> Developers coordinated in
+real-time via the <code>#webkit</code> IRC channel. As soon as Ian
+Hickson finalized the test, WebKit contributors—including Apple
+engineers and independent open-source developers—began claiming specific
+bugs to fix.</li>
+<li><strong>Rapid Iteration:</strong> Because WebKit utilized automated
+nightly builds, anyone could download the latest version of Safari every
+few hours to watch the score climb in real-time.</li>
+</ol>
+<h2 id="conquering-the-technical-hurdles">Conquering the Technical
+Hurdles</h2>
+<p>The WebKit team had to implement entirely new features and fix
+obscure edge cases across four primary areas of the browser engine to
+pass all 100 subtests.</p>
+<h3 id="1-dom2-traversal-and-range">1. DOM2 Traversal and Range</h3>
+<p>The first bucket of Acid3 heavily tested DOM Level 2 Traversal and
+Range specifications. WebKit already had basic support, but Acid3
+intentionally triggered edge cases, such as modifying the DOM tree while
+an iterator was actively traversing it. The team rewrote portions of
+WebKit's node iteration and range handling code to strictly adhere to
+W3C specifications under these extreme conditions.</p>
+<h3 id="2-ecmascript-javascript-edge-cases">2. ECMAScript (JavaScript)
+Edge Cases</h3>
+<p>Acid3 tested the dark corners of the ECMAScript specification. To
+pass these tests, developers working on JavaScriptCore (WebKit’s
+JavaScript engine) had to fix bugs related to:</p>
+<ul>
+<li>Unicode zero-width characters in identifiers.</li>
+<li>Strict compliance in <code>Array</code> methods and regular
+expression quantifiers.</li>
+<li>Proper exception throwing and scoping rules within
+<code>try-catch</code> blocks.</li>
+</ul>
+<h3 id="3-svg-fonts-and-smil-animation">3. SVG Fonts and SMIL
+Animation</h3>
+<p>One of WebKit's biggest hurdles was the fifth bucket, which tested
+Scalable Vector Graphics (SVG) and Synchronized Multimedia Integration
+Language (SMIL). At the start of 2008, WebKit had an incomplete
+implementation of these standards. Within weeks, the team implemented
+support for SVG Fonts, complex path manipulations, and basic SMIL
+animation timing so the browser could natively parse and render vector
+data manipulated by JavaScript.</p>
+<h3 id="4-css3-selectors-and-web-fonts">4. CSS3 Selectors and Web
+Fonts</h3>
+<p>To pass the visual rendering aspect of the test, WebKit engineers
+finalized support for advanced CSS3 selectors (such as
+<code>:nth-child()</code> and <code>:last-child</code>), CSS3 Media
+Queries, and downloadable <code>@font-face</code> web fonts. They also
+resolved subtle layout bugs involving negative margins, white-space
+collapsing, and z-index layering.</p>
+<h2 id="winning-the-race-on-march-26-2008">Winning the Race on March 26,
+2008</h2>
+<p>After just over three weeks of relentless patching, the WebKit team
+resolved the final rendering bug—an issue related to SVG text path
+rendering. On March 26, 2008, WebKit Revision 31342 officially scored
+100/100 and rendered the test identically to the reference image.</p>
+<p>While the Opera browser team announced a 100/100 score using an
+internal lab build earlier that same day, WebKit was the first to
+provide a publicly downloadable build that anyone could use to verify
+the 100/100 score.</p>
+<h2 id="the-final-requirement-smoothness">The Final Requirement:
+Smoothness</h2>
+<p>Scoring 100/100 was only part of the Acid3 specification. For a
+browser to officially pass the test, the animation of the score counting
+up from 0 to 100 had to be completely smooth, meaning no single subtest
+could take longer than 33 milliseconds to execute on reference
+hardware.</p>
+<p>In March 2008, a few of WebKit's subtests still paused briefly during
+execution. Over the summer of 2008, the WebKit team introduced
+<strong>SquirrelFish</strong>, a brand-new bytecode interpreter for
+JavaScriptCore that drastically increased execution speed. Combined with
+further DOM optimizations, WebKit eliminated all rendering lag. In
+September 2008, Safari development builds officially met the strict
+timing requirements, making WebKit the first browser engine to fully and
+unconditionally pass the Acid3 test.</p></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/how-web-kit-achieved-a-100-100-acid-3-score-in-2008';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

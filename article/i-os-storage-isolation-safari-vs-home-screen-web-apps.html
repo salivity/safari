@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iOS Storage Isolation: Safari vs. Home Screen Web Apps - safari</title>
+    <meta name="description" content="This article explains how iOS handles data sharing between the main Safari web browser and standalone Progressive Web Apps (PWAs) saved to the Home Screen. In short, both cookies and local storage are completely isolated between the two environments. Belo">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/i-os-storage-isolation-safari-vs-home-screen-web-apps">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="iOS Storage Isolation: Safari vs. Home Screen Web Apps - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/i-os-storage-isolation-safari-vs-home-screen-web-apps" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article explains how iOS handles data sharing between the main Safari web browser and standalone Progressive Web Apps (PWAs) saved to the Home Screen. In short, both cookies and local storage are completely isolated between the two environments. Belo" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="ios-storage-isolation-safari-vs-home-screen-web-apps">iOS
+Storage Isolation: Safari vs. Home Screen Web Apps</h1>
+<p>This article explains how iOS handles data sharing between the main
+Safari web browser and standalone Progressive Web Apps (PWAs) saved to
+the Home Screen. In short, both cookies and local storage are completely
+isolated between the two environments. Below, we cover the exact storage
+mechanisms affected, how this strict sandboxing impacts user
+authentication, and practical strategies developers can use to create a
+seamless user experience despite these limitations.</p>
+<h3 id="the-core-rule-complete-sandboxing">The Core Rule: Complete
+Sandboxing</h3>
+<p>Yes, cookies and local storage are strictly isolated between the
+Safari browser and standalone Home Screen web apps on iOS.</p>
+<p>When a web application includes a Web App Manifest with the
+<code>display</code> property set to <code>standalone</code> (or
+<code>fullscreen</code>), or uses the legacy
+<code>apple-mobile-web-app-capable</code> meta tag, iOS does not open
+the saved bookmark in Safari. Instead, it launches the web app in a
+separate, dedicated WebKit environment. Apple enforces a strict security
+sandbox around this environment, treating the Home Screen web app as an
+entirely separate application from Safari.</p>
+<p>Furthermore, if a user adds the same web app to their Home Screen
+twice, iOS isolates the storage between those two individual Home Screen
+instances as well.</p>
+<h3 id="what-data-is-isolated">What Data is Isolated?</h3>
+<p>Because the standalone web app runs in its own isolated container, no
+client-side storage is shared with Safari. This isolation applies
+to:</p>
+<ul>
+<li><strong>Cookies:</strong> Session cookies and persistent cookies set
+in Safari cannot be read by the Home Screen app, and vice versa.</li>
+<li><strong>Local Storage and Session Storage:</strong> Any key-value
+pairs saved via <code>localStorage</code> or <code>sessionStorage</code>
+in the browser are completely unavailable in the standalone app.</li>
+<li><strong>IndexedDB:</strong> Databases created in Safari do not exist
+in the Home Screen app's context.</li>
+<li><strong>Cache API and Service Workers:</strong> Service workers must
+be registered again when the user launches the Home Screen app, and
+cached assets are not shared.</li>
+</ul>
+<h3 id="how-this-impacts-user-experience">How This Impacts User
+Experience</h3>
+<p>The most noticeable consequence of storage isolation is interrupted
+user authentication.</p>
+<p>A common user flow involves a person discovering a web app in Safari,
+creating an account, logging in, and then deciding to add the app to
+their Home Screen. When the user closes Safari and taps the newly
+created Home Screen icon, they will find themselves logged out. Because
+the authentication token (stored in <code>localStorage</code>) or the
+session cookie (stored in Safari's cookie jar) did not transfer to the
+standalone environment, the user is forced to log in a second time.</p>
+<h3 id="workarounds-for-developers">Workarounds for Developers</h3>
+<p>While you cannot bypass Apple's sandboxing rules to directly merge
+local storage or cookies, you can design your onboarding and
+authentication flows to minimize friction:</p>
+<p><strong>1. Prompt Installation Before Authentication</strong> The
+most effective strategy is to ask the user to add the app to their Home
+Screen <em>before</em> they log in. If the landing page detects that the
+user is on iOS Safari (and not yet in standalone mode), display
+instructions to install the web app first. Once they open the app from
+the Home Screen, they can log in directly within the isolated
+environment.</p>
+<p><strong>2. Leverage iCloud Keychain and Passkeys</strong> While
+browser storage is isolated, the operating system's password manager is
+not. If you properly configure your login forms with standard
+<code>autocomplete</code> attributes, or implement Passkeys (WebAuthn),
+iOS will allow the user to authenticate in the Home Screen app with a
+single tap via Face ID or Touch ID, using the credentials they just
+saved in Safari.</p>
+<p><strong>3. Pass a One-Time Token via the URL</strong> Just before a
+logged-in Safari user adds the app to their Home Screen, you can
+dynamically append a unique, short-lived token to the page's URL using
+the History API (<code>history.replaceState</code>) or by dynamically
+generating the Web App Manifest <code>start_url</code>. When the user
+launches the Home Screen app for the first time, it opens that specific
+URL. Your server can read the token, authenticate the user in the new
+standalone environment, and immediately invalidate the token for
+security.</p></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/i-os-storage-isolation-safari-vs-home-screen-web-apps';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

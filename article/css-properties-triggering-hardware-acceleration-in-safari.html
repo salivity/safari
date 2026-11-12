@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Properties Triggering Hardware Acceleration in Safari - safari</title>
+    <meta name="description" content="This article provides a comprehensive overview of the specific CSS properties that trigger hardware-accelerated compositing layers in Safari&#39;s WebKit rendering engine. By offloading specific rendering tasks from the CPU to the GPU, Safari achieves smoothe">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/css-properties-triggering-hardware-acceleration-in-safari">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="CSS Properties Triggering Hardware Acceleration in Safari - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/css-properties-triggering-hardware-acceleration-in-safari" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article provides a comprehensive overview of the specific CSS properties that trigger hardware-accelerated compositing layers in Safari&#39;s WebKit rendering engine. By offloading specific rendering tasks from the CPU to the GPU, Safari achieves smoothe" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="css-properties-triggering-hardware-acceleration-in-safari">CSS
+Properties Triggering Hardware Acceleration in Safari</h1>
+<p>This article provides a comprehensive overview of the specific CSS
+properties that trigger hardware-accelerated compositing layers in
+Safari's WebKit rendering engine. By offloading specific rendering tasks
+from the CPU to the GPU, Safari achieves smoother animations and
+scrolling. Understanding which CSS declarations promote an HTML element
+to its own compositing layer allows developers to optimize rendering
+performance and prevent memory-related crashes on macOS and iOS
+devices.</p>
+<h2 id="3d-transform-properties">3D Transform Properties</h2>
+<p>The most reliable way to force Safari to promote an element to a
+hardware-accelerated compositing layer is by applying 3D
+transformations. Even if the visual result remains two-dimensional,
+WebKit treats the element as a 3D object and hands it off to the
+GPU.</p>
+<ul>
+<li><strong><code>transform</code>:</strong> Using any 3D function such
+as <code>translate3d(x, y, z)</code>, <code>translateZ(z)</code>,
+<code>scale3d(x, y, z)</code>, <code>rotate3d(x, y, z, angle)</code>,
+<code>rotateX(angle)</code>, <code>rotateY(angle)</code>,
+<code>rotateZ(angle)</code>, or <code>matrix3d(...)</code>. The
+declaration <code>transform: translateZ(0)</code> or
+<code>transform: translate3d(0, 0, 0)</code> is traditionally called the
+"null transform hack" because it triggers a layer without altering the
+element's appearance.</li>
+<li><strong><code>perspective</code>:</strong> Applying this property to
+a parent element creates a 3D rendering context, promoting the affected
+elements.</li>
+<li><strong><code>transform-style</code>:</strong> Setting this property
+to <code>preserve-3d</code> forces child elements to exist in a shared
+3D space, triggering hardware acceleration.</li>
+<li><strong><code>backface-visibility</code>:</strong> Setting this
+property to <code>hidden</code> triggers a compositing layer, as the GPU
+must calculate the 3D orientation of the element to determine if its
+back is facing the user.</li>
+</ul>
+<h2 id="the-will-change-property">The <code>will-change</code>
+Property</h2>
+<p>The <code>will-change</code> property is the modern,
+specification-compliant method to instruct Safari that an element
+requires its own compositing layer ahead of an impending change.</p>
+<p>Safari immediately promotes an element to a composited layer when
+<code>will-change</code> is set to any of the following values:</p>
+<ul>
+<li><code>transform</code></li>
+<li><code>opacity</code></li>
+<li><code>filter</code></li>
+<li><code>backdrop-filter</code> (or
+<code>-webkit-backdrop-filter</code>)</li>
+<li><code>top</code>, <code>left</code>, <code>bottom</code>, or
+<code>right</code></li>
+</ul>
+<h2 id="active-animations-and-transitions">Active Animations and
+Transitions</h2>
+<p>Safari does not always promote elements with 2D transforms or opacity
+changes to the GPU while they are static. However, it will dynamically
+create a compositing layer the moment a CSS <code>@keyframes</code>
+animation or a CSS <code>transition</code> becomes active on specific
+properties. Once the animation or transition completes, Safari typically
+destroys the layer to free up memory.</p>
+<p>The properties that trigger layer creation during active animation
+include:</p>
+<ul>
+<li><strong><code>transform</code>:</strong> Standard 2D transforms like
+<code>translate()</code>, <code>scale()</code>, and
+<code>rotate()</code>.</li>
+<li><strong><code>opacity</code>:</strong> Fading elements in or
+out.</li>
+<li><strong><code>filter</code>:</strong> Animating effects like
+<code>blur()</code>, <code>brightness()</code>, or
+<code>contrast()</code>.</li>
+</ul>
+<h2 id="visual-effects-filters-and-blending">Visual Effects, Filters,
+and Blending</h2>
+<p>Complex visual calculations are difficult for the CPU to process at
+60 or 120 frames per second. Safari automatically delegates elements
+using the following visual properties to the GPU, even when they are not
+actively animating:</p>
+<ul>
+<li><strong><code>filter</code>:</strong> Any value other than
+<code>none</code> (e.g., <code>blur()</code>,
+<code>drop-shadow()</code>, <code>grayscale()</code>).</li>
+<li><strong><code>-webkit-backdrop-filter</code> /
+<code>backdrop-filter</code>:</strong> Blurring or shifting colors of
+the content behind an element requires real-time GPU compositing.</li>
+<li><strong><code>mix-blend-mode</code>:</strong> Any value other than
+<code>normal</code> (e.g., <code>multiply</code>, <code>screen</code>,
+<code>overlay</code>) forces the browser to use the GPU to blend the
+element's pixels with the layers beneath it.</li>
+<li><strong><code>opacity</code>:</strong> While a simple
+<code>opacity</code> value less than <code>1</code> does not always
+trigger a layer on a solitary element, it will trigger a compositing
+layer in Safari if the element contains child elements that already have
+their own compositing layers.</li>
+<li><strong><code>-webkit-mask</code> / <code>mask</code>:</strong>
+Applying image or gradient masks to an element offloads the
+alpha-channel calculations to the GPU.</li>
+<li><strong><code>clip-path</code>:</strong> Complex clipping paths
+(such as <code>polygon()</code> or <code>circle()</code>) often trigger
+hardware acceleration to handle anti-aliasing and boundary clipping
+efficiently.</li>
+</ul>
+<h2 id="positioning-and-scrolling">Positioning and Scrolling</h2>
+<p>To ensure smooth scrolling—particularly on touchscreens like iPhones
+and iPads—Safari promotes specific layout containers to their own
+compositing layers:</p>
+<ul>
+<li><strong><code>position: fixed</code> and
+<code>position: sticky</code>:</strong> Elements that remain stationary
+while the rest of the document moves are placed on separate layers so
+the GPU can move the page layer underneath them without repainting the
+screen on every frame.</li>
+<li><strong><code>overflow: scroll</code> or
+<code>overflow: auto</code>:</strong> Scrollable containers are given
+compositing layers to support momentum scrolling. In older versions of
+Safari, this required <code>-webkit-overflow-scrolling: touch</code>,
+though modern WebKit handles this automatically for scrollable
+regions.</li>
+</ul>
+<h2 id="implicit-compositing-the-overlap-rule">Implicit Compositing (The
+Overlap Rule)</h2>
+<p>In Safari, an element can be promoted to a hardware-accelerated layer
+even if you do not apply any of the CSS properties listed above. This is
+known as implicit compositing.</p>
+<p>If Element A is promoted to a compositing layer (for example, via
+<code>transform: translateZ(0)</code>), and Element B sits visually on
+top of Element A due to a higher <code>z-index</code> or later DOM
+order, Safari must also promote Element B to its own compositing layer.
+Otherwise, the GPU-rendered Element A would incorrectly render on top of
+the CPU-rendered Element B. Developers must manage <code>z-index</code>
+carefully to prevent one intentional GPU layer from inadvertently
+creating dozens of implicit layers, which can exhaust device memory and
+crash the Safari tab.</p></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/css-properties-triggering-hardware-acceleration-in-safari';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

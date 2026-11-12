@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Why Developers Compared Safari to IE and WebKit&#39;s Response - safari</title>
+    <meta name="description" content="For several years, web developers frequently compared Apple&#39;s Safari to legacy browsers like Internet Explorer due to its slow adoption of modern web APIs and infrequent release cycles. This article explores the technical and strategic reasons behind Safa">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/why-developers-compared-safari-to-ie-and-web-kit-s-response">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Why Developers Compared Safari to IE and WebKit&#39;s Response - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/why-developers-compared-safari-to-ie-and-web-kit-s-response" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="For several years, web developers frequently compared Apple&#39;s Safari to legacy browsers like Internet Explorer due to its slow adoption of modern web APIs and infrequent release cycles. This article explores the technical and strategic reasons behind Safa" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="why-developers-compared-safari-to-ie-and-webkits-response">Why
+Developers Compared Safari to IE and WebKit's Response</h1>
+<p>For several years, web developers frequently compared Apple's Safari
+to legacy browsers like Internet Explorer due to its slow adoption of
+modern web APIs and infrequent release cycles. This article explores the
+technical and strategic reasons behind Safari's delayed feature
+implementations, the frustration it caused within the developer
+community, and how the WebKit team ultimately responded by overhauling
+their communication, joining cross-browser initiatives, and rapidly
+closing the compatibility gap.</p>
+<h2 id="the-root-of-the-frustration">The Root of the Frustration</h2>
+<p>During the late 2010s and early 2020s, a vocal segment of the web
+development community began referring to Safari as the "new Internet
+Explorer." This comparison stemmed from the era of Internet Explorer 6,
+when developers had to write workarounds and polyfills just to make
+websites function on a single, dominant browser that lagged behind web
+standards.</p>
+<p>Developers leveled this criticism at Safari for three main
+reasons:</p>
+<ul>
+<li><strong>OS-Coupled Updates:</strong> Unlike Chrome, Firefox, and
+Edge—which update automatically in the background every few weeks—Safari
+updates were historically tied to major, annual macOS and iOS releases.
+If a bug existed in Safari, developers and users often had to wait
+months for an operating system update to fix it.</li>
+<li><strong>Missing Modern APIs:</strong> Safari was noticeably slow to
+implement features that were already standard in Chromium-based browsers
+and Firefox. Key omissions included Web Push notifications, Service
+Workers, Web Bluetooth, WebUSB, and various CSS grid and flexbox
+properties. This actively hindered the growth of Progressive Web Apps
+(PWAs), which rely on these APIs to function like native mobile
+apps.</li>
+<li><strong>The iOS WebKit Monopoly:</strong> On iOS, Apple mandates
+that all third-party browsers (including Chrome and Firefox) must use
+Apple's WebKit rendering engine under the hood. Because of this
+restriction, developers could not simply tell iOS users to download a
+different browser to access missing web features; every browser on an
+iPhone was fundamentally limited by Safari's capabilities.</li>
+</ul>
+<h2 id="apples-justification-for-delays">Apple's Justification for
+Delays</h2>
+<p>The WebKit team did not delay these APIs out of negligence; rather,
+their hesitation was driven by Apple’s strict focus on user privacy,
+security, and battery life.</p>
+<p>Google, the primary driver behind the Chromium project, often pushed
+new APIs rapidly to make the web as capable as native platforms.
+However, the WebKit team frequently rejected or delayed these APIs
+because they posed fingerprinting risks. For example, APIs that expose
+device hardware—like Web Bluetooth, WebUSB, and the Network Information
+API—can be used by malicious trackers to uniquely identify users without
+their consent. Safari engineers argued that they needed time to design
+privacy-preserving versions of these features before shipping them to
+over a billion devices.</p>
+<h2 id="how-the-webkit-team-responded">How the WebKit Team
+Responded</h2>
+<p>By 2022, the "Safari is the new IE" narrative had reached a boiling
+point, prompting a massive shift in how the WebKit team operated and
+communicated with the public.</p>
+<h3 id="direct-developer-outreach">Direct Developer Outreach</h3>
+<p>Apple’s Developer Evangelist team, led heavily by figures like Jen
+Simmons, took to social media to confront the criticism head-on. Instead
+of dismissing the complaints, they asked developers to list the exact
+bugs and missing APIs that were causing them problems. The team noted
+that many developers were still complaining about bugs that had actually
+been fixed years prior, highlighting a communication issue regarding
+Safari's progress.</p>
+<h3 id="joining-the-interop-project">Joining the Interop Project</h3>
+<p>To prove their commitment to web standards, Apple partnered with
+Google, Mozilla, and Microsoft to launch the "Interop" project (starting
+with Interop 2022). This initiative is a public benchmark that tests how
+well the major browser engines implement agreed-upon web standards. By
+participating, the WebKit team aligned their roadmap directly with other
+browser vendors, focusing on fixing incompatibility issues in layout,
+CSS, and JavaScript.</p>
+<h3 id="accelerating-feature-releases">Accelerating Feature
+Releases</h3>
+<p>Apple increased its investment in the WebKit team and began shipping
+features at a much faster pace. Within a remarkably short window, Safari
+introduced long-requested features that developers thought might never
+arrive:</p>
+<ul>
+<li><strong>Web Push for iOS:</strong> Finally allowing web apps added
+to the home screen to send notifications, a massive win for PWAs.</li>
+<li><strong>Cutting-Edge CSS:</strong> Safari was actually the first
+browser to ship critical modern CSS features, such as the
+<code>:has()</code> relational selector and CSS Container Queries,
+beating Chrome and Firefox to the punch.</li>
+<li><strong>Passkeys and WebAuthn:</strong> Apple led the charge in
+implementing passwordless authentication standards across the web.</li>
+</ul>
+<p>By decoupling some Safari updates from major OS releases, actively
+participating in cross-browser benchmarks, and aggressively shipping
+modern CSS and JavaScript APIs, the WebKit team successfully shed the
+legacy browser comparisons and repositioned Safari as a modern,
+standards-compliant browser.</p></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/why-developers-compared-safari-to-ie-and-web-kit-s-response';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

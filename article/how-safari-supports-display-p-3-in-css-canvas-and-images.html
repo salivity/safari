@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Safari Supports Display-P3 in CSS, Canvas, and Images - safari</title>
+    <meta name="description" content="This article provides a direct overview of how the Safari web browser implements and supports the Wide Gamut Display-P3 color space. It breaks down the exact methods and syntax Safari uses to render these vibrant colors across three core web technologies:">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/how-safari-supports-display-p-3-in-css-canvas-and-images">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Safari Supports Display-P3 in CSS, Canvas, and Images - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/how-safari-supports-display-p-3-in-css-canvas-and-images" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article provides a direct overview of how the Safari web browser implements and supports the Wide Gamut Display-P3 color space. It breaks down the exact methods and syntax Safari uses to render these vibrant colors across three core web technologies:" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="how-safari-supports-display-p3-in-css-canvas-and-images">How
+Safari Supports Display-P3 in CSS, Canvas, and Images</h1>
+<p>This article provides a direct overview of how the Safari web browser
+implements and supports the Wide Gamut Display-P3 color space. It breaks
+down the exact methods and syntax Safari uses to render these vibrant
+colors across three core web technologies: CSS, the HTML5 Canvas
+element, and standard image formats, allowing developers to utilize the
+25% larger color range that Display-P3 offers over traditional sRGB.</p>
+<h2 id="display-p3-in-css">Display-P3 in CSS</h2>
+<p>Safari was the first browser to introduce wide-gamut color support in
+CSS, starting with Safari 10. Because standard hexadecimal and
+<code>rgb()</code> values are restricted to the sRGB color space, Safari
+utilizes the CSS Color Module Level 4 specification to access
+Display-P3.</p>
+<h3 id="the-color-function">The <code>color()</code> Function</h3>
+<p>To define a Display-P3 color in CSS, Safari supports the
+<code>color()</code> function. This function takes the color space name
+followed by red, green, and blue decimal values ranging from
+<code>0</code> to <code>1</code>.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode css"><code class="sourceCode css"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">.vibrant-element</span> {</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">/* Fallback for sRGB browsers */</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">background-color</span><span class="ch">:</span> <span class="fu">rgb(</span><span class="dv">255</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="fu">)</span><span class="op">;</span> </span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="co">/* Display-P3 bright red */</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">background-color</span><span class="ch">:</span> <span class="fu">color(</span><span class="dv">display-p3 1</span> <span class="dv">0</span> <span class="dv">0</span><span class="fu">)</span><span class="op">;</span> </span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<h3 id="detecting-display-p3-support">Detecting Display-P3 Support</h3>
+<p>Safari supports the <code>color-gamut</code> media query, which
+checks if the user's device screen and browser can render P3 colors.
+Combined with the <code>@supports</code> rule, developers can safely
+progressively enhance their stylesheets.</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode css"><code class="sourceCode css"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">@media</span> <span class="fu">(</span><span class="kw">color-gamut</span><span class="ch">:</span> <span class="dv">p3</span><span class="fu">)</span> {</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="im">@supports</span> <span class="fu">(</span><span class="kw">color</span><span class="ch">:</span> <span class="fu">color(</span><span class="dv">display-p3 1</span> <span class="dv">1</span> <span class="dv">1</span><span class="fu">))</span> {</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">.vibrant-element</span> {</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>      <span class="kw">background-color</span><span class="ch">:</span> <span class="fu">color(</span><span class="dv">display-p3 1</span> <span class="dv">0</span> <span class="dv">0</span><span class="fu">)</span><span class="op">;</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<h3 id="color-spaces-lch-and-oklch">Color Spaces (LCH and OKLCH)</h3>
+<p>Starting in Safari 15 and 15.4 respectively, Safari added support for
+hardware-independent color functions like <code>lch()</code> and
+<code>oklch()</code>. These functions are not restricted to sRGB and
+will automatically render within the Display-P3 gamut in Safari if the
+specified lightness, chroma, and hue values fall outside the standard
+sRGB range.</p>
+<h2 id="display-p3-in-html5-canvas">Display-P3 in HTML5 Canvas</h2>
+<p>Beginning with Safari 15.1, Apple introduced wide-gamut color support
+for the HTML5 <code>&lt;canvas&gt;</code> element. By default, a canvas
+defaults to sRGB to prevent breaking older web applications, meaning
+developers must explicitly opt-in to Display-P3.</p>
+<h3 id="2d-rendering-context">2D Rendering Context</h3>
+<p>To draw with Display-P3 colors in a 2D canvas, you must pass the
+<code>colorSpace</code> parameter when initializing the context. Once
+initialized, you can use the CSS <code>color(display-p3 ...)</code>
+syntax for fills and strokes.</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> canvas <span class="op">=</span> <span class="bu">document</span><span class="op">.</span><span class="fu">getElementById</span>(<span class="st">&#39;myCanvas&#39;</span>)<span class="op">;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> ctx <span class="op">=</span> canvas<span class="op">.</span><span class="fu">getContext</span>(<span class="st">&#39;2d&#39;</span><span class="op">,</span> { <span class="dt">colorSpace</span><span class="op">:</span> <span class="st">&#39;display-p3&#39;</span> })<span class="op">;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>ctx<span class="op">.</span><span class="at">fillStyle</span> <span class="op">=</span> <span class="st">&#39;color(display-p3 0 1 0)&#39;</span><span class="op">;</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>ctx<span class="op">.</span><span class="fu">fillRect</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span></span></code></pre></div>
+<h3 id="pixel-manipulation-with-imagedata">Pixel Manipulation with
+ImageData</h3>
+<p>When manipulating raw pixel data in a canvas using
+<code>getImageData()</code> or <code>createImageData()</code>, Safari
+allows you to specify the Display-P3 color space so that pixel arrays
+are calculated using the wider gamut.</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> imageData <span class="op">=</span> <span class="kw">new</span> <span class="bu">ImageData</span>(<span class="dv">100</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> { <span class="dt">colorSpace</span><span class="op">:</span> <span class="st">&#39;display-p3&#39;</span> })<span class="op">;</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co">// Manipulate pixel data here</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>ctx<span class="op">.</span><span class="fu">putImageData</span>(imageData<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span>)<span class="op">;</span></span></code></pre></div>
+<h3 id="webgl-support">WebGL Support</h3>
+<p>For 3D graphics, Safari supports Display-P3 in WebGL and WebGL2
+contexts. After creating the WebGL context, you can change the drawing
+buffer's color space property.</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> gl <span class="op">=</span> canvas<span class="op">.</span><span class="fu">getContext</span>(<span class="st">&#39;webgl&#39;</span>)<span class="op">;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>gl<span class="op">.</span><span class="at">drawingBufferColorSpace</span> <span class="op">=</span> <span class="st">&#39;display-p3&#39;</span><span class="op">;</span></span></code></pre></div>
+<h2 id="display-p3-in-images">Display-P3 in Images</h2>
+<p>Images are the easiest way to utilize Display-P3 in Safari, as they
+require no special HTML or CSS code to render correctly. Safari features
+automatic color management and has supported embedded ICC color profiles
+for years.</p>
+<h3 id="how-safari-processes-wide-gamut-images">How Safari Processes
+Wide-Gamut Images</h3>
+<p>To display an image in the P3 color space on Safari, the image file
+itself must be exported from an image editor (like Adobe Photoshop or
+Affinity Photo) with the <strong>Display-P3 ICC profile
+embedded</strong>.</p>
+<p>When Safari loads the image:</p>
+<ol type="1">
+<li>It reads the embedded ICC profile metadata.</li>
+<li>It checks the color capabilities of the display the user is
+currently viewing the browser on.</li>
+<li>If the screen supports P3 (which most modern Macs, iPhones, and
+iPads do), Safari renders the full wide-gamut image.</li>
+<li>If the user is on an older sRGB monitor, Safari automatically
+converts the P3 colors to the closest sRGB equivalents to prevent the
+image from looking washed out.</li>
+</ol>
+<h3 id="supported-image-formats">Supported Image Formats</h3>
+<p>Safari supports embedded Display-P3 profiles across all major modern
+web image formats, including:</p>
+<ul>
+<li>JPEG</li>
+<li>PNG</li>
+<li>WebP</li>
+<li>AVIF</li>
+<li>HEIC</li>
+</ul>
+<p>For optimal performance, ensure the "Embed Color Profile" option is
+checked when exporting assets, as stripping metadata during image
+compression will cause Safari to default back to rendering the image in
+standard sRGB.</p></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/how-safari-supports-display-p-3-in-css-canvas-and-images';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

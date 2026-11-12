@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Turning Websites into Standalone Apps in macOS Sonoma - safari</title>
+    <meta name="description" content="With the release of macOS Sonoma, Apple significantly upgraded the Safari browser by introducing the ability to convert any website into a standalone web app that lives directly in the Mac&#39;s Dock. This article explores how Apple implemented this feature,">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/turning-websites-into-standalone-apps-in-mac-os-sonoma">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Turning Websites into Standalone Apps in macOS Sonoma - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/turning-websites-into-standalone-apps-in-mac-os-sonoma" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="With the release of macOS Sonoma, Apple significantly upgraded the Safari browser by introducing the ability to convert any website into a standalone web app that lives directly in the Mac&#39;s Dock. This article explores how Apple implemented this feature," />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="turning-websites-into-standalone-apps-in-macos-sonoma">Turning
+Websites into Standalone Apps in macOS Sonoma</h1>
+<p>With the release of macOS Sonoma, Apple significantly upgraded the
+Safari browser by introducing the ability to convert any website into a
+standalone web app that lives directly in the Mac's Dock. This article
+explores how Apple implemented this feature, the mechanics behind
+creating these web apps, and how they function independently with their
+own simplified window, toolbar, and system-level integrations.</p>
+<h2 id="the-creation-process">The Creation Process</h2>
+<p>Apple designed the web app creation process to be frictionless,
+bypassing the need for developers to rewrite their websites for macOS.
+Users can turn any webpage into an app directly from Safari's
+interface.</p>
+<p>To do this, a user simply navigates to the desired website in Safari,
+clicks the <strong>File</strong> menu in the macOS menu bar, and selects
+<strong>Add to Dock</strong> (alternatively, this option is available
+via the Safari <strong>Share</strong> button). A configuration dialogue
+immediately appears, allowing the user to type a custom name for the
+application and even click the auto-generated icon to replace it with a
+custom image from their file system. Clicking <strong>Add</strong>
+instantly places the new web app into the macOS Dock and saves it to a
+dedicated <code>Applications</code> folder within the user's home
+directory.</p>
+<h2 id="the-standalone-window-and-simplified-toolbar">The Standalone
+Window and Simplified Toolbar</h2>
+<p>Once launched from the Dock, Spotlight, or Launchpad, the website
+does not open as a new tab in Safari. Instead, macOS Sonoma encapsulates
+the site within a specialized, standalone WebKit wrapper.</p>
+<p>This creates an app-like experience by stripping away the standard
+Safari user interface. Gone are the address bar, tab bar, bookmarks, and
+extension icons. In their place, the web app features a streamlined,
+minimalist toolbar at the top of its dedicated window. This toolbar
+contains only essential controls:</p>
+<ul>
+<li>Back and Forward navigation buttons.</li>
+<li>A Share button, which also houses options to copy the URL or open
+the current page in the main Safari browser.</li>
+<li>Privacy and media indicators (such as microphone or camera
+usage).</li>
+</ul>
+<p>To make the web app feel even more native, Safari reads the website's
+code—specifically looking for Web App Manifest files—to automatically
+match the color of the simplified toolbar to the website's specific
+theme color.</p>
+<h2 id="intelligent-scope-and-link-handling">Intelligent Scope and Link
+Handling</h2>
+<p>A critical aspect of how Safari manages these web apps is "scoping."
+A web app needs to know which links should open inside its own window
+and which links belong in the main web browser.</p>
+<p>Safari determines the scope of the web app based on the domain and
+path used when the app was created. When a user clicks a link that stays
+within the same host domain, it loads seamlessly inside the web app's
+window. However, if a user clicks an external link that leads to a
+different website, the web app automatically routes that link to open in
+a new tab in the main Safari browser. For complex login flows—such as
+using a Google or Microsoft account to log into a third-party
+service—Safari intelligently opens an auxiliary popup window within the
+web app so the user can authenticate without being kicked out to the
+main browser.</p>
+<h2 id="deep-macos-integration">Deep macOS Integration</h2>
+<p>Because Safari saves these websites as actual <code>.app</code>
+bundles in the user's local directory, macOS Sonoma treats them like
+native applications. This provides several system-level benefits:</p>
+<ul>
+<li><strong>Window Management:</strong> Web apps function independently
+in Mission Control, Stage Manager, and the Command-Tab application
+switcher. Users can resize the windows freely, and the web app will
+remember its window size and position the next time it is opened.</li>
+<li><strong>Data and Privacy:</strong> Upon creation, Safari copies the
+website's existing cookies into the web app's isolated storage. This
+means if you are already logged into a website in Safari, you will
+remain logged in when you open the new web app. Moving forward, the web
+app maintains its own separate storage, meaning clearing history in
+Safari does not log you out of your Dock web apps.</li>
+<li><strong>AutoFill and Keychain:</strong> Web apps maintain full
+access to iCloud Keychain and Passkeys, allowing users to autofill
+passwords and two-factor authentication codes just as they would in
+Safari.</li>
+<li><strong>Notifications:</strong> If a website utilizes standard Web
+Push technology, the standalone web app can request permission to send
+alerts. These alerts appear as native macOS notifications, and the web
+app's icon in the Dock can display red notification badges for unread
+messages or updates.</li>
+</ul>
+<p>By combining WebKit's rendering power with macOS's native windowing
+and notification systems, Safari in macOS Sonoma effectively bridged the
+gap between traditional websites and native desktop software.</p></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/turning-websites-into-standalone-apps-in-mac-os-sonoma';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

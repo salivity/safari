@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Safari Auto-Fills One-Time Verification Codes - safari</title>
+    <meta name="description" content="This article provides a complete overview of how Apple’s Safari web browser automatically detects, extracts, and fills one-time verification codes from the Apple Mail and Messages apps. It covers the underlying HTML triggers used by websites, the on-devic">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/how-safari-auto-fills-one-time-verification-codes">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Safari Auto-Fills One-Time Verification Codes - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/how-safari-auto-fills-one-time-verification-codes" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article provides a complete overview of how Apple’s Safari web browser automatically detects, extracts, and fills one-time verification codes from the Apple Mail and Messages apps. It covers the underlying HTML triggers used by websites, the on-devic" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="how-safari-auto-fills-one-time-verification-codes">How Safari
+Auto-Fills One-Time Verification Codes</h1>
+<p>This article provides a complete overview of how Apple’s Safari web
+browser automatically detects, extracts, and fills one-time verification
+codes from the Apple Mail and Messages apps. It covers the underlying
+HTML triggers used by websites, the on-device machine learning that
+scans incoming communications, the security measures that prevent
+phishing, and how Apple’s ecosystem syncs these codes across different
+devices.</p>
+<h3 id="website-input-detection">Website Input Detection</h3>
+<p>The autofill process begins before a message or email even arrives.
+Safari identifies where to place a verification code by reading the
+webpage's underlying HTML. Web developers add a specific
+attribute—<code>autocomplete="one-time-code"</code>—to the input field
+designed for the security code.</p>
+<p>When you click or tap on this specific field, Safari recognizes the
+attribute and alerts the operating system to listen for an incoming
+authentication code. If a website developer fails to include this
+specific HTML tag, Safari falls back on heuristics, scanning the webpage
+text near the input box for keywords like "verification," "passcode," or
+"two-factor" to guess the field's purpose.</p>
+<h3 id="on-device-message-and-email-scanning">On-Device Message and
+Email Scanning</h3>
+<p>When an SMS arrives in Messages or an email arrives in the Apple Mail
+app, the operating system (iOS, iPadOS, or macOS) immediately scans the
+incoming text in the background.</p>
+<p>To maintain user privacy, this scanning process happens entirely on
+the device using Apple's local Natural Language Processing (NLP)
+frameworks. The system does not send your messages or emails to external
+servers to be read. Instead, the on-device intelligence looks for
+standard conversational patterns, such as "Your verification code is" or
+"Use this code to log in," paired with a numerical or alphanumeric
+string. Once identified, the system temporarily extracts just the code
+segment.</p>
+<h3 id="domain-binding-and-security">Domain Binding and Security</h3>
+<p>To protect users from phishing attacks, Safari utilizes a security
+feature known as domain-bound codes. Apple encourages developers to
+format their verification messages with a specific syntax at the bottom
+of the text or email: an <code>@</code> symbol followed by the website's
+domain, and a <code>#</code> symbol followed by the code (for example,
+<code>@example.com #123456</code>).</p>
+<p>When the operating system detects this syntax, it pairs the code
+exclusively with that specific URL. Safari will then verify the URL of
+the website you are currently visiting. If you are on a legitimate site,
+Safari offers the code. If you are on a deceptive phishing site with a
+different URL, Safari will refuse to display the autofill suggestion,
+protecting your account from being compromised.</p>
+<h3 id="cross-device-syncing-via-continuity">Cross-Device Syncing via
+Continuity</h3>
+<p>Often, a user is browsing Safari on a Mac, but the SMS verification
+code is sent to their iPhone. Safari handles this seamlessly using
+Apple’s Continuity architecture.</p>
+<p>For this to work, both devices must be signed into the same Apple ID,
+have Bluetooth and Wi-Fi enabled, and have "Text Message Forwarding"
+turned on in the iPhone's settings. When the iPhone receives the SMS, it
+performs the detection process and securely relays the extracted code
+over the local network to the Mac, displaying it in the desktop Safari
+browser within seconds. For emails, the Mac’s native Mail app simply
+needs to be open or fetching mail in the background to detect the code
+locally.</p>
+<h3 id="code-insertion-and-automatic-deletion">Code Insertion and
+Automatic Deletion</h3>
+<p>Once the code is extracted and matched to the active Safari input
+field, the system presents it to the user. On an iPhone or iPad, the
+code appears directly above the on-screen keyboard. On a Mac, it appears
+as a small dropdown prompt right below the text box on the webpage.</p>
+<p>With a single tap or click, Safari populates the field and often
+automatically submits the form. To keep your inboxes clutter-free, iOS
+17, iPadOS 17, and macOS Sonoma (and later versions) include a "Clean Up
+Automatically" toggle in the system password settings. When enabled, the
+operating system will automatically move the verification text or email
+to the trash immediately after Safari successfully uses the code.</p></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/how-safari-auto-fills-one-time-verification-codes';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

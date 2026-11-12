@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Open-Source Engines Forked by Apple to Build Safari - safari</title>
+    <meta name="description" content="This article provides a concise breakdown of the open-source components Apple forked to create the Safari web browser. It covers how Apple selected KHTML and KJS from the KDE project in the early 2000s and transformed them into WebCore and JavaScriptCore,">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/open-source-engines-forked-by-apple-to-build-safari">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Open-Source Engines Forked by Apple to Build Safari - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/open-source-engines-forked-by-apple-to-build-safari" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article provides a concise breakdown of the open-source components Apple forked to create the Safari web browser. It covers how Apple selected KHTML and KJS from the KDE project in the early 2000s and transformed them into WebCore and JavaScriptCore," />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="open-source-engines-forked-by-apple-to-build-safari">Open-Source
+Engines Forked by Apple to Build Safari</h1>
+<p>This article provides a concise breakdown of the open-source
+components Apple forked to create the Safari web browser. It covers how
+Apple selected KHTML and KJS from the KDE project in the early 2000s and
+transformed them into WebCore and JavaScriptCore, the foundational
+pillars of the WebKit framework that powers Safari today.</p>
+<p>In the early 2000s, Apple relied on Microsoft's Internet Explorer for
+Mac as its default web browser. Seeking independence and better
+performance for Mac OS X, Apple decided to develop its own browser,
+which would become Safari. Rather than writing the core technologies
+from scratch, Apple engineers evaluated existing open-source projects
+and chose to fork two specific components developed by the KDE project
+for the Konqueror web browser: KHTML and KJS.</p>
+<p>For the rendering engine—the component responsible for parsing HTML
+and CSS to display web pages on the screen—Apple forked KHTML. Apple
+selected KHTML over other open-source alternatives, such as Mozilla's
+Gecko engine, because KHTML had a significantly smaller codebase, was
+cleanly written, and already possessed high compliance with web
+standards. Apple adapted KHTML to work within the macOS environment
+using an Objective-C wrapper and renamed their forked version
+WebCore.</p>
+<p>For the scripting engine—the component responsible for executing
+JavaScript code on web pages—Apple forked KJS, which was KDE's
+JavaScript engine. Apple integrated KJS alongside their newly minted
+WebCore rendering engine and renamed the scripting component
+JavaScriptCore. While JavaScriptCore has undergone massive architectural
+rewrites over the decades to introduce just-in-time (JIT) compilation
+and extreme performance improvements, its origins remain directly rooted
+in KJS.</p>
+<p>Apple combined WebCore and JavaScriptCore under a single umbrella
+framework known as WebKit. When Steve Jobs announced the Safari web
+browser in January 2003, Apple released the source code for their
+changes to KHTML and KJS back to the open-source community, fulfilling
+their obligations under the GNU Lesser General Public License (LGPL). In
+2005, Apple made the entirety of WebKit open-source. The decision to
+fork KHTML and KJS ultimately shaped the modern web, as WebKit not only
+powers Safari on macOS and iOS today, but was also later forked by
+Google to create Blink, the engine that powers Google Chrome and
+Microsoft Edge.</p></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/open-source-engines-forked-by-apple-to-build-safari';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

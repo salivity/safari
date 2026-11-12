@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smooth Web Animations with Safari&#39;s View Transitions API - safari</title>
+    <meta name="description" content="This article explores how the View Transitions API in the Safari web browser enables seamless, animated transitions between different DOM states and across multi-page navigations. By leveraging WebKit&#39;s rendering engine, Safari captures visual snapshots o">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/smooth-web-animations-with-safari-s-view-transitions-api">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Smooth Web Animations with Safari&#39;s View Transitions API - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/smooth-web-animations-with-safari-s-view-transitions-api" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article explores how the View Transitions API in the Safari web browser enables seamless, animated transitions between different DOM states and across multi-page navigations. By leveraging WebKit&#39;s rendering engine, Safari captures visual snapshots o" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="smooth-web-animations-with-safaris-view-transitions-api">Smooth
+Web Animations with Safari's View Transitions API</h1>
+<p>This article explores how the View Transitions API in the Safari web
+browser enables seamless, animated transitions between different DOM
+states and across multi-page navigations. By leveraging WebKit's
+rendering engine, Safari captures visual snapshots of web pages before
+and after an update, allowing developers to morph, fade, and slide
+elements effortlessly using standard CSS and minimal JavaScript. Below,
+you will learn about the underlying snapshot mechanism, single-page DOM
+state updates, multi-page navigation transitions, and how to customize
+these animations for individual elements.</p>
+<h3 id="the-core-mechanism-snapshots-and-pseudo-elements">The Core
+Mechanism: Snapshots and Pseudo-Elements</h3>
+<p>Historically, animating between two different DOM states or page
+loads required complex JavaScript frameworks to keep both the old and
+new elements in the DOM simultaneously. Safari's implementation of the
+View Transitions API eliminates this complexity by handling the
+transition at the browser rendering level.</p>
+<p>The process works in four distinct steps:</p>
+<ol type="1">
+<li><strong>Capture the Old State:</strong> Safari takes a lightweight
+rasterized snapshot of the current visual state of the page.</li>
+<li><strong>Update the DOM:</strong> The browser suppresses visual
+rendering while the DOM is updated via JavaScript, or while a new HTML
+document is fetched and parsed.</li>
+<li><strong>Capture the New State:</strong> Safari reads the layout and
+visual representation of the newly updated DOM.</li>
+<li><strong>Animate via Pseudo-Elements:</strong> WebKit constructs a
+temporary overlay tree of CSS pseudo-elements containing the old
+snapshot and the live new representation. It then smoothly animates
+between them—defaulting to a cross-fade—before removing the overlay and
+revealing the interactive new page.</li>
+</ol>
+<h3
+id="transitions-between-dom-states-single-page-applications">Transitions
+Between DOM States (Single-Page Applications)</h3>
+<p>For single-page applications (SPAs) or dynamic in-page updates,
+Safari utilizes the <code>document.startViewTransition()</code>
+JavaScript method. When you wrap a DOM-modifying function inside this
+method, you instruct Safari to automatically orchestrate the snapshot
+lifecycle.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">document</span><span class="op">.</span><span class="fu">startViewTransition</span>(() <span class="kw">=&gt;</span> {</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Modify the DOM here</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  container<span class="op">.</span><span class="at">classList</span><span class="op">.</span><span class="fu">toggle</span>(<span class="st">&#39;expanded-view&#39;</span>)<span class="op">;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<p>When this function executes, Safari immediately captures the current
+screen, runs the callback function to apply the
+<code>.expanded-view</code> class, calculates the new layout, and
+cross-fades between the two states. If the DOM update requires fetching
+data asynchronously, the callback can return a Promise; Safari will hold
+the old snapshot on screen until the Promise resolves, preventing layout
+shifts or blank loading states.</p>
+<h3 id="transitions-across-multi-page-navigations">Transitions Across
+Multi-Page Navigations</h3>
+<p>Safari also supports cross-document view transitions, bringing
+native-like page transitions to traditional Multi-Page Applications
+(MPAs) without requiring any JavaScript.</p>
+<p>To enable transitions between two distinct URLs, both the origin page
+and the destination page must belong to the same web origin (same
+scheme, host, and port) and both must include the following CSS
+rule:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode css"><code class="sourceCode css"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">@view-transition</span> {</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  navigation<span class="in">:</span> auto;</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>When a user clicks a standard link, reloads a page, or uses the
+browser's back and forward buttons, Safari detects the
+<code>@view-transition</code> rule. It freezes the visual display of the
+outgoing page as a snapshot, loads and renders the incoming HTML
+document in the background, and executes the transition animation once
+the new page is ready to be painted.</p>
+<h3 id="morphing-specific-elements">Morphing Specific Elements</h3>
+<p>By default, Safari applies a cross-fade to the entire viewport (the
+<code>root</code> transition group). However, the API shines when moving
+or morphing specific elements—such as expanding a product thumbnail into
+a full-screen header image across pages.</p>
+<p>To animate an element independently from the rest of the page, assign
+it a unique <code>view-transition-name</code> in CSS:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode css"><code class="sourceCode css"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">/* On the old state / page */</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">.thumbnail</span> {</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  view-transition-name<span class="ch">:</span> <span class="dv">product-image</span><span class="op">;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co">/* On the new state / page */</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="fu">.hero-banner</span> {</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  view-transition-name<span class="ch">:</span> <span class="dv">product-image</span><span class="op">;</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>When Safari sees the same <code>view-transition-name</code> in both
+the old and new states, it isolates that element into its own snapshot
+layer. WebKit automatically calculates the differences in the element's
+bounding box (width, height, and screen coordinates) between the two
+states and generates a smooth hardware-accelerated animation that
+interpolates its position and size from the <code>.thumbnail</code>
+layout to the <code>.hero-banner</code> layout.</p>
+<p>For a valid transition, a specific <code>view-transition-name</code>
+can only be applied to one rendered element on the page at any given
+time.</p>
+<h3 id="customizing-animations-with-css">Customizing Animations with
+CSS</h3>
+<p>Because Safari renders view transitions using a generated tree of CSS
+pseudo-elements, developers have full control over the timing, easing,
+and keyframes of the animations using standard CSS.</p>
+<p>For every named transition (including the default <code>root</code>),
+Safari generates the following pseudo-element structure:</p>
+<ul>
+<li><code>::view-transition</code>: The root overlay container that sits
+above the page content.</li>
+<li><code>::view-transition-group(name)</code>: Controls the size and
+position interpolation between the old and new states.</li>
+<li><code>::view-transition-image-pair(name)</code>: A container holding
+the old and new visual representations, handling blend modes.</li>
+<li><code>::view-transition-old(name)</code>: The static snapshot of the
+element before the change.</li>
+<li><code>::view-transition-new(name)</code>: The live representation of
+the element after the change.</li>
+</ul>
+<p>You can override Safari's default cross-fade by targeting the
+<code>old</code> and <code>new</code> pseudo-elements directly with
+custom CSS animations:</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode css"><code class="sourceCode css"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">/* Slow down the position and size morphing */</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="in">::view-transition-group(</span>product-image<span class="in">)</span> {</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">animation-duration</span><span class="ch">:</span> <span class="dv">0.5</span><span class="dt">s</span><span class="op">;</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">animation-timing-function</span><span class="ch">:</span> <span class="dv">ease-in-out</span><span class="op">;</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co">/* Slide the old page out to the left */</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="in">::view-transition-old(</span>root<span class="in">)</span> {</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="kw">animation</span><span class="ch">:</span> <span class="dv">0.4</span><span class="dt">s</span> <span class="dv">ease-in</span> <span class="dv">both</span> <span class="dv">slide-out</span><span class="op">;</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="co">/* Slide the new page in from the right */</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="in">::view-transition-new(</span>root<span class="in">)</span> {</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>  <span class="kw">animation</span><span class="ch">:</span> <span class="dv">0.4</span><span class="dt">s</span> <span class="dv">ease-out</span> <span class="dv">both</span> <span class="dv">slide-in</span><span class="op">;</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>By offloading the snapshot capturing and geometry interpolation to
+WebKit's compositor thread, Safari ensures that these animations run
+smoothly at high frame rates, even when the main thread is busy parsing
+new HTML or executing JavaScript.</p></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/smooth-web-animations-with-safari-s-view-transitions-api';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

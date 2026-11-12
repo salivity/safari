@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Why Apple Removed and Restored EU PWA Support in iOS 17.4 - safari</title>
+    <meta name="description" content="During the iOS 17.4 beta cycle in early 2024, Apple temporarily disabled standalone Progressive Web App (PWA) functionality in the European Union, downgrading Home Screen web apps into simple browser shortcuts. Apple initially made this move as a response">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/why-apple-removed-and-restored-eu-pwa-support-in-i-os-17-4">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Why Apple Removed and Restored EU PWA Support in iOS 17.4 - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/why-apple-removed-and-restored-eu-pwa-support-in-i-os-17-4" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="During the iOS 17.4 beta cycle in early 2024, Apple temporarily disabled standalone Progressive Web App (PWA) functionality in the European Union, downgrading Home Screen web apps into simple browser shortcuts. Apple initially made this move as a response" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="why-apple-removed-and-restored-eu-pwa-support-in-ios-174">Why
+Apple Removed and Restored EU PWA Support in iOS 17.4</h1>
+<p>During the iOS 17.4 beta cycle in early 2024, Apple temporarily
+disabled standalone Progressive Web App (PWA) functionality in the
+European Union, downgrading Home Screen web apps into simple browser
+shortcuts. Apple initially made this move as a response to the EU's
+Digital Markets Act (DMA), claiming that supporting PWAs on newly
+mandated third-party browser engines posed severe security risks and
+required an unfeasible amount of engineering work. However, after facing
+massive backlash from web developers, consumer advocacy groups, and the
+threat of a formal investigation by European regulators, Apple reversed
+its decision. The company restored full PWA functionality for the public
+release of iOS 17.4 by deciding that all Home Screen web apps would
+simply continue to run directly on its native WebKit engine.</p>
+<h3 id="the-catalyst-the-digital-markets-act-dma">The Catalyst: The
+Digital Markets Act (DMA)</h3>
+<p>For years, Apple required all web browsers on iOS—including Chrome,
+Firefox, and Edge—to use its proprietary WebKit rendering engine. Under
+the European Union's Digital Markets Act, which went into effect in
+March 2024, Apple was designated as a "gatekeeper" and forced to open up
+its ecosystem.</p>
+<p>One of the core requirements of the DMA was that Apple had to allow
+third-party browsers to use their own rendering engines (such as
+Google’s Blink or Mozilla’s Gecko) on iOS in the EU.</p>
+<h3 id="why-apple-initially-removed-pwa-functionality">Why Apple
+Initially Removed PWA Functionality</h3>
+<p>Progressive Web Apps are websites that can be saved to a smartphone's
+Home Screen and function like native apps. They operate in a standalone
+window without a browser URL bar, can send push notifications, store
+data locally, and display badges on their icons.</p>
+<p>On iOS, PWAs were built to rely entirely on Safari's WebKit engine to
+enforce strict iOS security and privacy sandboxing. When the DMA forced
+Apple to support alternative browser engines, a complication arose: how
+would iOS handle PWAs installed from non-WebKit browsers?</p>
+<p>In February 2024, during the iOS 17.4 beta testing phase, Apple
+simply turned off standalone PWA functionality in the EU. Instead of
+opening as independent apps, Home Screen web apps merely opened as tabs
+inside the default web browser. Apple justified this removal with the
+following points:</p>
+<ul>
+<li><strong>Engineering Complexity:</strong> Apple stated that allowing
+third-party browser engines to power Home Screen PWAs would require
+building an entirely new integration architecture from scratch, which
+was not practical given the other massive changes required by the
+DMA.</li>
+<li><strong>Security and Privacy Risks:</strong> Without that new
+architecture, Apple claimed that malicious web apps using alternative
+engines could bypass iOS security protocols, read data from other apps,
+and access a user's camera, microphone, or location without proper
+system-level permission.</li>
+<li><strong>Low User Adoption:</strong> Apple argued that very few users
+actually utilized Home Screen web apps, making the massive engineering
+effort unjustifiable.</li>
+</ul>
+<h3 id="the-backlash-and-regulatory-scrutiny">The Backlash and
+Regulatory Scrutiny</h3>
+<p>Apple's decision triggered immediate outrage from the developer
+community, led by groups like the Open Web Advocacy. Developers pointed
+out that stripping PWA functionality removed key features like push
+notifications and persistent local storage, breaking critical workflows
+for businesses and users who relied on web apps.</p>
+<p>More importantly, critics argued that Apple's move was blatantly
+anti-competitive. Because PWAs can be installed directly from the web,
+they represent the only viable way for developers to distribute software
+to iOS users without going through the App Store and paying Apple's
+commissions. By crippling PWAs right as the DMA was supposed to increase
+competition, Apple appeared to be violating the spirit of the law.</p>
+<p>Soon after, the European Commission stepped in. EU regulators began
+sending formal requests for information to Apple and app developers to
+assess the impact of the PWA removal, signaling that a full antitrust
+investigation into the matter was imminent.</p>
+<h3 id="the-reversal-and-compromise">The Reversal and Compromise</h3>
+<p>Faced with mounting public pressure and the threat of heavy fines
+from the European Commission, Apple backed down in early March 2024,
+just days before the DMA compliance deadline.</p>
+<p>Apple announced that it would restore the existing Home Screen web
+app capability in the EU with the final release of iOS 17.4. To bypass
+the security and engineering hurdles it had previously cited, Apple
+implemented a straightforward compromise: all Home Screen PWAs in the EU
+must still be built directly on WebKit.</p>
+<p>Even if an EU user creates a Home Screen web app using an alternative
+browser running a non-WebKit engine, the resulting PWA is forced to run
+on Apple’s WebKit engine and adhere to its security architecture. While
+this meant alternative browser engines still could not power their own
+PWAs, it successfully preserved the existing functionality of web apps
+for developers and users across the European Union.</p></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/why-apple-removed-and-restored-eu-pwa-support-in-i-os-17-4';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

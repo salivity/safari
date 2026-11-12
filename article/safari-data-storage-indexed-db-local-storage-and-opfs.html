@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Safari Data Storage: IndexedDB, LocalStorage, and OPFS - safari</title>
+    <meta name="description" content="This article provides a comprehensive overview of how the Safari web browser stores and manages structured client-side data using LocalStorage, IndexedDB, and the Origin Private File System (OPFS). It breaks down the underlying WebKit architecture for eac">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/safari-data-storage-indexed-db-local-storage-and-opfs">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Safari Data Storage: IndexedDB, LocalStorage, and OPFS - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/safari-data-storage-indexed-db-local-storage-and-opfs" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article provides a comprehensive overview of how the Safari web browser stores and manages structured client-side data using LocalStorage, IndexedDB, and the Origin Private File System (OPFS). It breaks down the underlying WebKit architecture for eac" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="safari-data-storage-indexeddb-localstorage-and-opfs">Safari Data
+Storage: IndexedDB, LocalStorage, and OPFS</h1>
+<p>This article provides a comprehensive overview of how the Safari web
+browser stores and manages structured client-side data using
+LocalStorage, IndexedDB, and the Origin Private File System (OPFS). It
+breaks down the underlying WebKit architecture for each storage
+mechanism, how they process structured data, their performance
+implications, and Safari-specific constraints like Intelligent Tracking
+Prevention (ITP) and storage quotas.</p>
+<h2 id="localstorage">LocalStorage</h2>
+<p>LocalStorage is the simplest client-side storage mechanism, designed
+for small amounts of data. However, it does not natively understand
+structured data.</p>
+<ul>
+<li><strong>Data Formatting:</strong> LocalStorage only supports string
+key-value pairs. To store structured data (like JavaScript objects or
+arrays) in Safari, developers must manually serialize the data into a
+string—typically using <code>JSON.stringify()</code>—before saving it,
+and deserialize it with <code>JSON.parse()</code> upon retrieval.</li>
+<li><strong>WebKit Implementation:</strong> Under the hood, Safari’s
+WebKit engine backs LocalStorage with an SQLite database on the user's
+device. Each origin gets its own SQLite file. When a webpage loads,
+Safari reads the SQLite database into memory so that read and write
+operations can happen immediately. Changes are then asynchronously
+flushed back to the disk.</li>
+<li><strong>Performance and Limits:</strong> Because LocalStorage is a
+synchronous API, serializing large structured objects blocks the main
+browser thread, which can freeze the user interface. Safari strictly
+caps LocalStorage at 5MB per origin.</li>
+</ul>
+<h2 id="indexeddb">IndexedDB</h2>
+<p>IndexedDB is a low-level, NoSQL transactional database built directly
+into the browser, specifically designed to handle significant amounts of
+structured data.</p>
+<ul>
+<li><strong>Data Formatting:</strong> Unlike LocalStorage, IndexedDB
+does not require manual JSON serialization. Safari uses the HTML5
+<strong>Structured Clone Algorithm</strong> to store data. This allows
+developers to natively store complex JavaScript objects, Arrays, Dates,
+Maps, Sets, and binary <code>Blob</code> or <code>File</code>
+objects.</li>
+<li><strong>WebKit Implementation:</strong> Similar to LocalStorage,
+Safari implements IndexedDB on top of SQLite. However, the architecture
+is much more complex. WebKit serializes the cloned JavaScript objects
+into a specialized binary format and stores them as binary large objects
+(BLOBs) inside SQLite tables. If an object exceeds a certain size, or if
+it is an actual <code>Blob</code>/<code>File</code>, Safari will store
+the data as an external file on the disk and simply keep a reference
+pointer to it in the SQLite database to maintain high performance.</li>
+<li><strong>Performance and Limits:</strong> IndexedDB is entirely
+asynchronous, preventing main-thread blocking. It also supports
+indexing, allowing Safari to quickly query specific properties deep
+within your structured data without scanning every record.</li>
+</ul>
+<h2 id="origin-private-file-system-opfs">Origin Private File System
+(OPFS)</h2>
+<p>The Origin Private File System (OPFS) is a modern storage endpoint
+provided by the File System Access API. It gives websites access to a
+private, virtual file system that is hidden from the user's actual file
+system.</p>
+<ul>
+<li><strong>Data Formatting:</strong> OPFS operates at the byte level,
+meaning it does not enforce any specific data structure. To store
+structured data in OPFS, developers write raw binary data
+(<code>ArrayBuffer</code> or <code>TypedArray</code>) directly to
+virtual files. In practice, developers often use OPFS in Safari by
+compiling C-based databases (like SQLite or DuckDB) to WebAssembly
+(Wasm) and using OPFS as the persistent disk backend for those
+databases.</li>
+<li><strong>WebKit Implementation:</strong> Safari maps the virtual
+files and directories created in OPFS directly to obfuscated files on
+the host operating system's disk (macOS or iOS). Safari supports the
+<code>FileSystemSyncAccessHandle</code> interface inside Web Workers.
+This allows the browser to bypass the overhead of the Structured Clone
+Algorithm and WebKit's internal SQLite wrapper, offering near-native
+file I/O speeds.</li>
+<li><strong>Performance and Limits:</strong> OPFS is the fastest way to
+store structured data in Safari. By running a Wasm-based database in a
+Web Worker using synchronous file handles, applications can read and
+write structured data directly to the disk without main-thread blocking
+or serialization bottlenecks.</li>
+</ul>
+<h2 id="safari-specific-storage-rules">Safari-Specific Storage
+Rules</h2>
+<p>Regardless of whether you choose LocalStorage, IndexedDB, or OPFS,
+Safari enforces strict privacy and disk-management rules through
+WebKit:</p>
+<ul>
+<li><strong>Storage Partitioning:</strong> Safari partitions all
+client-side storage by the top-level site. If an iframe from
+<code>example.com</code> is embedded on <code>news.com</code>, the
+structured data saved by the iframe is completely isolated from the data
+<code>example.com</code> has stored when visited directly.</li>
+<li><strong>Intelligent Tracking Prevention (ITP):</strong> Safari
+applies a 7-day cap on all script-writable storage (which includes
+LocalStorage, IndexedDB, and OPFS). If a user does not interact with a
+website for 7 days, Safari will automatically delete all data stored by
+these APIs. This restriction is lifted for Web Apps added to the iOS or
+macOS Home Screen.</li>
+<li><strong>Unified Quotas:</strong> While LocalStorage is locked at
+5MB, IndexedDB and OPFS share a dynamic, unified origin quota in Safari.
+This quota is calculated based on the total available free disk space on
+the user's device, typically allowing for gigabytes of structured data
+storage before the browser prompts the user or evicts data.</li>
+</ul></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/safari-data-storage-indexed-db-local-storage-and-opfs';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

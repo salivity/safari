@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Safari Security: Site Isolation and Per-Tab Sandboxing - safari</title>
+    <meta name="description" content="This article provides an overview of how the Safari web browser utilizes per-tab sandboxing and site isolation to defend users against web-based cyber threats. By separating web content into tightly restricted, independent processes, Safari ensures that a">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/safari-security-site-isolation-and-per-tab-sandboxing">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Safari Security: Site Isolation and Per-Tab Sandboxing - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/safari-security-site-isolation-and-per-tab-sandboxing" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article provides an overview of how the Safari web browser utilizes per-tab sandboxing and site isolation to defend users against web-based cyber threats. By separating web content into tightly restricted, independent processes, Safari ensures that a" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="safari-security-site-isolation-and-per-tab-sandboxing">Safari
+Security: Site Isolation and Per-Tab Sandboxing</h1>
+<p>This article provides an overview of how the Safari web browser
+utilizes per-tab sandboxing and site isolation to defend users against
+web-based cyber threats. By separating web content into tightly
+restricted, independent processes, Safari ensures that a malicious
+website cannot access local operating system resources or steal
+sensitive data from other open tabs and domains.</p>
+<h2 id="the-multi-process-foundation">The Multi-Process Foundation</h2>
+<p>Safari relies on the WebKit browser engine, which uses a
+multi-process architecture. Instead of running the entire browser as a
+single application on your device, Safari divides its workload into
+distinct, specialized processes. There is a main UI process that manages
+the browser interface, a network process that handles internet traffic,
+and multiple "WebContent" processes dedicated to rendering webpages.
+This separation is the foundation for both sandboxing and site
+isolation.</p>
+<h2 id="how-per-tab-sandboxing-protects-the-operating-system">How
+Per-Tab Sandboxing Protects the Operating System</h2>
+<p>Per-tab sandboxing is designed to protect your device's operating
+system (macOS or iOS) from untrusted code running on a webpage. When you
+open a new tab in Safari, the browser places that tab’s WebContent
+process inside a strict, OS-level sandbox.</p>
+<p>This sandbox strips the webpage of all system privileges, preventing
+malicious websites from accessing operating system resources through the
+following mechanisms:</p>
+<ul>
+<li><strong>Blocked File System Access:</strong> A sandboxed tab cannot
+read, write, or modify files on your hard drive. It has no awareness of
+your personal documents, photos, or system files.</li>
+<li><strong>Hardware Restrictions:</strong> The sandbox blocks direct
+access to hardware components like the camera, microphone, and location
+services.</li>
+<li><strong>Kernel Protection:</strong> The sandboxed process is barred
+from making direct system calls to the operating system's kernel,
+preventing attackers from exploiting OS-level vulnerabilities to take
+control of the device.</li>
+<li><strong>Brokered Permissions:</strong> If a legitimate website needs
+to access a file (for an upload) or use the webcam, the sandboxed tab
+cannot do it alone. It must send a request to Safari's main process
+using tightly controlled Inter-Process Communication (IPC). The main
+process acts as a security broker, prompting you for explicit permission
+before passing only the approved data back into the sandbox.</li>
+</ul>
+<p>If a malicious website manages to exploit a vulnerability in Safari's
+rendering engine, the attacker is trapped inside that specific tab's
+sandbox. They cannot install malware on the device, and the moment you
+close the tab, the process is terminated and the threat is erased.</p>
+<h2 id="how-site-isolation-protects-data-from-other-domains">How Site
+Isolation Protects Data From Other Domains</h2>
+<p>While sandboxing protects the operating system from the browser, site
+isolation protects websites from each other.</p>
+<p>Historically, browsers isolated processes by tab. However, a single
+webpage often loads content from multiple domains, such as third-party
+advertisements, social media buttons, or embedded videos (via iframes).
+If a malicious third-party ad shared the same process as the primary
+webpage, it could use hardware-level side-channel attacks (like Spectre)
+to read the memory of that process and steal passwords, session cookies,
+or credit card numbers.</p>
+<p>Safari uses site isolation to enforce the Same-Origin Policy at the
+process level, preventing cross-domain data theft in several ways:</p>
+<ul>
+<li><strong>Process-Per-Domain Separation:</strong> Instead of just
+isolating tabs, Safari isolates specific domains (origins). If you visit
+a news website that contains an embedded ad from a different domain,
+Safari runs the news site in one WebContent process and the ad in a
+completely separate WebContent process.</li>
+<li><strong>Memory Partitioning:</strong> Operating systems strictly
+forbid one unprivileged process from reading the memory of another. By
+putting different domains into different processes, Safari relies on the
+OS to guarantee that a malicious website in one tab—or an embedded
+iframe on the same page—cannot read the memory space of your email or
+banking tab.</li>
+<li><strong>Network-Level Filtering:</strong> A compromised rendering
+process might try to request sensitive data from another domain. Safari
+prevents this by routing all internet traffic through a separate Network
+Process. The Network Process checks security policies (like Cross-Origin
+Resource Sharing) and blocks unauthorized cross-domain data before it is
+ever delivered to the isolated WebContent process.</li>
+</ul>
+<h2 id="the-combined-defense">The Combined Defense</h2>
+<p>By combining per-tab sandboxing and site isolation, Safari creates a
+two-layered containment system. Site isolation builds walls between
+different websites so they cannot spy on each other's data, while
+sandboxing builds a wall between those websites and your device's
+operating system. Even if a malicious site fully compromises the code
+running inside its own isolated space, it has nothing valuable to steal
+and nowhere to go.</p></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/safari-security-site-isolation-and-per-tab-sandboxing';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

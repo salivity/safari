@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Safari Prompts Users for External Apple Events - safari</title>
+    <meta name="description" content="This article explains how the Safari web browser security model interacts with macOS to protect user privacy when external applications attempt to read or control open browser tabs using Apple Events. It covers the role of the macOS Transparency, Consent,">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/how-safari-prompts-users-for-external-apple-events">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Safari Prompts Users for External Apple Events - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/how-safari-prompts-users-for-external-apple-events" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article explains how the Safari web browser security model interacts with macOS to protect user privacy when external applications attempt to read or control open browser tabs using Apple Events. It covers the role of the macOS Transparency, Consent," />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="how-safari-prompts-users-for-external-apple-events">How Safari
+Prompts Users for External Apple Events</h1>
+<p>This article explains how the Safari web browser security model
+interacts with macOS to protect user privacy when external applications
+attempt to read or control open browser tabs using Apple Events. It
+covers the role of the macOS Transparency, Consent, and Control (TCC)
+framework, the specific permission prompts presented to the user, how
+these choices are managed, and the secondary security layer Safari uses
+to block unauthorized JavaScript execution.</p>
+<h2 id="the-role-of-apple-events-and-tcc">The Role of Apple Events and
+TCC</h2>
+<p>Apple Events is the inter-process communication mechanism in macOS
+that allows applications to send commands and request data from one
+another, commonly used via AppleScript or JavaScript for Automation
+(JXA). Safari includes a scripting dictionary that allows external
+processes to query open windows, read the URLs and titles of active
+tabs, and manipulate browser state.</p>
+<p>Because open browser tabs often contain sensitive personal
+information, session tokens, and private data, Safari does not allow
+external applications to freely access this information. Instead, Safari
+relies on the macOS Transparency, Consent, and Control (TCC) subsystem
+to mediate all incoming Apple Events.</p>
+<h2 id="the-initial-user-prompt">The Initial User Prompt</h2>
+<p>When an external application—such as a launcher, a productivity tool,
+or a custom script—sends an Apple Event to Safari for the first time to
+read or control a tab, the following sequence occurs:</p>
+<ol type="1">
+<li><strong>Interception:</strong> The macOS TCC daemon intercepts the
+Apple Event before Safari can process the command.</li>
+<li><strong>Suspension:</strong> The requesting application's command is
+paused while the system checks its internal database to see if the
+application already has permission to automate Safari.</li>
+<li><strong>The Prompt:</strong> If no prior permission exists, the
+system displays a mandatory, system-level modal alert on the
+screen.</li>
+</ol>
+<p>The prompt explicitly names the requesting application and states:
+<em>"[Application Name]" wants access to control "Safari". Allowing
+control will provide access to documents and data in "Safari", and to
+perform actions within that app.</em></p>
+<p>The user is presented with two options: <strong>Don't Allow</strong>
+and <strong>OK</strong> (or <strong>Allow</strong> in newer macOS
+versions).</p>
+<h2 id="what-happens-after-the-prompt">What Happens After the
+Prompt</h2>
+<ul>
+<li><strong>If the user selects Allow/OK:</strong> The TCC database
+records the approval, the paused Apple Event is delivered to Safari, and
+the external application immediately receives the tab data or executes
+the tab control command. Future Apple Events from that specific
+application to Safari will execute silently without triggering
+additional prompts.</li>
+<li><strong>If the user selects Don't Allow:</strong> macOS blocks the
+Apple Event and returns an error (<code>errAEEventNotPermitted</code>,
+error code -1743) to the requesting application. The external
+application cannot read or control Safari's tabs, and the system will
+not prompt the user again for that specific application.</li>
+</ul>
+<p>Users can manually review, revoke, or enable these permissions at any
+time by navigating to <strong>System Settings &gt; Privacy &amp;
+Security &gt; Automation</strong>, finding the requesting application,
+and toggling the switch next to Safari.</p>
+<h2 id="secondary-prompt-javascript-execution">Secondary Prompt:
+JavaScript Execution</h2>
+<p>Granting an external application permission to control Safari via the
+standard TCC prompt allows it to read tab URLs, read tab titles, open
+new tabs, and close existing tabs. However, Safari enforces an
+additional security barrier if the external application attempts to use
+Apple Events to read the actual webpage content (the DOM) or execute
+JavaScript inside an open tab.</p>
+<p>By default, Safari completely blocks JavaScript execution via Apple
+Events, even if the user clicked "Allow" on the system Automation
+prompt. If an application attempts this, Safari rejects the command.</p>
+<p>To permit this level of control, the user must manually bypass
+Safari's secondary defense:</p>
+<ol type="1">
+<li>Open Safari Settings, go to the <strong>Advanced</strong> tab, and
+check <strong>Show features for web developers</strong> (or <strong>Show
+Develop menu in menu bar</strong>).</li>
+<li>Click the <strong>Develop</strong> menu in the top menu bar and
+select <strong>Allow JavaScript from Apple Events</strong> (found under
+the Developer Settings submenu in newer versions).</li>
+<li><strong>The Authentication Prompt:</strong> Selecting this option
+triggers a strict authentication prompt requiring the user to enter
+their macOS administrator password or use Touch ID to confirm the
+change.</li>
+</ol>
+<p>Only after passing both the macOS TCC Automation prompt and the
+Safari-specific administrator password prompt can an external
+application fully read and manipulate the contents of open Safari
+tabs.</p></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/how-safari-prompts-users-for-external-apple-events';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

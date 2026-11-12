@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OAuth SSO in iOS Using ASWebAuthenticationSession - safari</title>
+    <meta name="description" content="This article provides a comprehensive guide on implementing OAuth single sign-on (SSO) flows in an iOS application using Apple&#39;s ASWebAuthenticationSession API. You will learn how to configure the authentication session, handle redirects to capture author">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/o-auth-sso-in-i-os-using-as-web-authentication-session">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="OAuth SSO in iOS Using ASWebAuthenticationSession - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/o-auth-sso-in-i-os-using-as-web-authentication-session" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article provides a comprehensive guide on implementing OAuth single sign-on (SSO) flows in an iOS application using Apple&#39;s ASWebAuthenticationSession API. You will learn how to configure the authentication session, handle redirects to capture author" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="oauth-sso-in-ios-using-aswebauthenticationsession">OAuth SSO in
+iOS Using ASWebAuthenticationSession</h1>
+<p>This article provides a comprehensive guide on implementing OAuth
+single sign-on (SSO) flows in an iOS application using Apple's
+<code>ASWebAuthenticationSession</code> API. You will learn how to
+configure the authentication session, handle redirects to capture
+authorization tokens, and use the
+<code>prefersEphemeralWebBrowserSession</code> property to optionally
+share or isolate session cookies with the Safari web browser.</p>
+<h3 id="understanding-aswebauthenticationsession">Understanding
+ASWebAuthenticationSession</h3>
+<p><code>ASWebAuthenticationSession</code> is the standard Apple
+framework used to authenticate a user through a web service, most
+commonly for OAuth 2.0 and OpenID Connect flows. It presents a secure,
+embedded web view that loads the authentication provider's login page
+and listens for a specific callback URL scheme to return the
+authentication result to your app.</p>
+<h3 id="step-1-set-up-the-presentation-context">Step 1: Set Up the
+Presentation Context</h3>
+<p>To display the authentication view, your view controller must import
+the <code>AuthenticationServices</code> framework and conform to the
+<code>ASWebAuthenticationPresentationContextProviding</code> protocol.
+This tells the system which window should present the browser
+session.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode swift"><code class="sourceCode swift"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="im">UIKit</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="im">AuthenticationServices</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> LoginViewController<span class="op">:</span> <span class="dt">UIViewController</span><span class="op">,</span> <span class="dt">ASWebAuthenticationPresentationContextProviding</span> <span class="op">{</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">var</span> <span class="va">authSession</span><span class="op">:</span> ASWebAuthenticationSession<span class="op">?</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">func</span> <span class="fu">presentationAnchor</span><span class="op">(</span><span class="va">for</span> <span class="va">session</span><span class="op">:</span> <span class="dt">ASWebAuthenticationSession</span><span class="op">)</span> -&gt; <span class="fu">ASPresentationAnchor</span> <span class="op">{</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>        <span class="kw">return</span> <span class="kw">self</span><span class="op">.</span>view<span class="op">.</span>window <span class="op">??</span> ASPresentationAnchor<span class="op">()</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h3 id="step-2-initialize-the-authentication-session">Step 2: Initialize
+the Authentication Session</h3>
+<p>To start an OAuth flow, you need the authorization URL provided by
+your OAuth service and a custom URL scheme registered in your app's
+<code>Info.plist</code> (e.g., <code>myapp://</code>).</p>
+<p>When the user completes the login on the web page, the OAuth provider
+redirects to your custom URL scheme with an authorization code or token
+appended as a query parameter. <code>ASWebAuthenticationSession</code>
+intercepts this redirect and triggers its completion handler.</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode swift"><code class="sourceCode swift"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">func</span> <span class="fu">startOAuthFlow</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">guard</span> <span class="kw">let</span> <span class="va">authURL</span> <span class="op">=</span> URL<span class="op">(</span>string<span class="op">:</span> <span class="st">&quot;https://example-oauth-provider.com/authorize?client_id=123&amp;redirect_uri=myapp://callback&amp;response_type=code&quot;</span><span class="op">)</span> <span class="cf">else</span> <span class="op">{</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>        <span class="kw">return</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> <span class="va">callbackScheme</span> <span class="op">=</span> <span class="st">&quot;myapp&quot;</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    authSession <span class="op">=</span> ASWebAuthenticationSession<span class="op">(</span>url<span class="op">:</span> authURL<span class="op">,</span> callbackURLScheme<span class="op">:</span> callbackScheme<span class="op">)</span> <span class="op">{</span> callbackURL<span class="op">,</span> error <span class="cf">in</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="kw">let</span> <span class="va">error</span> <span class="op">=</span> error <span class="op">{</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>            print<span class="op">(</span><span class="st">&quot;Authentication failed: </span><span class="er">\(</span><span class="st">error.localizedDescription)&quot;</span><span class="op">)</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>            <span class="kw">return</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">guard</span> <span class="kw">let</span> <span class="va">callbackURL</span> <span class="op">=</span> callbackURL <span class="cf">else</span> <span class="op">{</span> <span class="kw">return</span> <span class="op">}</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Extract the authorization code from the callback URL</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>        <span class="kw">let</span> <span class="va">queryItems</span> <span class="op">=</span> URLComponents<span class="op">(</span>string<span class="op">:</span> callbackURL<span class="op">.</span>absoluteString<span class="op">)?.</span>queryItems</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="kw">let</span> <span class="va">code</span> <span class="op">=</span> queryItems<span class="op">?.</span>first<span class="op">(</span><span class="kw">where</span><span class="op">:</span> <span class="op">{</span> $<span class="fl">0.</span>name <span class="op">==</span> <span class="st">&quot;code&quot;</span> <span class="op">})?.</span>value <span class="op">{</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>            print<span class="op">(</span><span class="st">&quot;Successfully received authorization code: </span><span class="er">\(</span><span class="st">code)&quot;</span><span class="op">)</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>            <span class="co">// Proceed to exchange the code for an access token</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>    authSession<span class="op">?.</span>presentationContextProvider <span class="op">=</span> <span class="kw">self</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h3 id="step-3-configure-safari-cookie-sharing">Step 3: Configure Safari
+Cookie Sharing</h3>
+<p>The ability to share session cookies with the Safari browser is
+controlled by a single boolean property on the session instance:
+<code>prefersEphemeralWebBrowserSession</code>.</p>
+<h4 id="option-a-share-cookies-with-safari-enable-sso">Option A: Share
+Cookies with Safari (Enable SSO)</h4>
+<p>By default, <code>prefersEphemeralWebBrowserSession</code> is set to
+<code>false</code>. When set to <code>false</code>, the session shares
+cookies and website data with the user's default Safari browser.</p>
+<p>If the user is already logged into the identity provider in Safari,
+they will not have to enter their credentials again in your app,
+achieving true single sign-on. Because this accesses shared browser
+data, iOS will display a system alert asking the user for permission:
+<em>"App" Wants to Use "domain.com" to Sign In</em>.</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode swift"><code class="sourceCode swift"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Shares cookies with Safari. Triggers the system permission dialog.</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>authSession<span class="op">?.</span>prefersEphemeralWebBrowserSession <span class="op">=</span> <span class="kw">false</span></span></code></pre></div>
+<h4 id="option-b-do-not-share-cookies-private-session">Option B: Do Not
+Share Cookies (Private Session)</h4>
+<p>If you set <code>prefersEphemeralWebBrowserSession</code> to
+<code>true</code>, the authentication session uses a private, temporary
+browser session.</p>
+<p>No cookies or data are read from or written to Safari. The user will
+be forced to enter their login credentials every time, even if they have
+an active session in Safari. This option bypasses the iOS system
+permission alert, providing a slightly faster UI transition at the cost
+of single sign-on convenience.</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode swift"><code class="sourceCode swift"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Isolates the session. No cookies are shared with Safari.</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>authSession<span class="op">?.</span>prefersEphemeralWebBrowserSession <span class="op">=</span> <span class="kw">true</span></span></code></pre></div>
+<h3 id="step-4-start-the-session">Step 4: Start the Session</h3>
+<p>Once you have configured the session and chosen your cookie-sharing
+preference, call the <code>start()</code> method to present the web view
+to the user.</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode swift"><code class="sourceCode swift"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Complete implementation inside your login method</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>authSession<span class="op">?.</span>prefersEphemeralWebBrowserSession <span class="op">=</span> <span class="kw">false</span> <span class="co">// Set to true to disable cookie sharing</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>authSession<span class="op">?.</span>start<span class="op">()</span></span></code></pre></div>
+<h3 id="summary-of-cookie-behavior">Summary of Cookie Behavior</h3>
+<ul>
+<li><strong><code>prefersEphemeralWebBrowserSession = false</code></strong>:
+Uses Safari cookies. Enables seamless SSO across Safari and other apps
+using the same setting. Displays a system consent alert before opening
+the web view.</li>
+<li><strong><code>prefersEphemeralWebBrowserSession = true</code></strong>:
+Ignores Safari cookies. Forces a fresh login every time. Does not
+display the system consent alert. Useful for apps requiring high
+security or providing a "Log in with a different account" feature.</li>
+</ul></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/o-auth-sso-in-i-os-using-as-web-authentication-session';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

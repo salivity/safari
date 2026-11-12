@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Safari&#39;s Per-Site Extension Permissions Work - safari</title>
+    <meta name="description" content="This article explores the per-site permission model for extensions in Apple&#39;s Safari web browser. It explains how the browser protects user privacy by restricting extension access by default, and details the exact mechanisms that allow users to grant temp">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/how-safari-s-per-site-extension-permissions-work">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Safari&#39;s Per-Site Extension Permissions Work - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/how-safari-s-per-site-extension-permissions-work" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article explores the per-site permission model for extensions in Apple&#39;s Safari web browser. It explains how the browser protects user privacy by restricting extension access by default, and details the exact mechanisms that allow users to grant temp" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="how-safaris-per-site-extension-permissions-work">How Safari's
+Per-Site Extension Permissions Work</h1>
+<p>This article explores the per-site permission model for extensions in
+Apple's Safari web browser. It explains how the browser protects user
+privacy by restricting extension access by default, and details the
+exact mechanisms that allow users to grant temporary one-day access or
+permanently limit extension functionality to specific website
+domains.</p>
+<h2 id="the-architecture-of-safari-extension-permissions">The
+Architecture of Safari Extension Permissions</h2>
+<p>Safari utilizes a strict sandboxing model for web extensions. Even if
+an extension is programmed to read and modify data on every webpage a
+user visits, Safari blocks this capability upon installation. Instead of
+granting blanket permissions at the time of download, Safari intercepts
+the extension's request to access webpage content and defers the
+decision to the user on a site-by-site basis.</p>
+<p>For an extension to read data, inject scripts, or alter the
+appearance of a webpage, the browser's underlying engine (WebKit) must
+verify that the user has explicitly authorized the extension to run on
+the active URL's domain.</p>
+<h2 id="how-the-allow-for-one-day-feature-works">How the "Allow for One
+Day" Feature Works</h2>
+<p>When a user interacts with an extension icon in the Safari toolbar on
+a new website, Safari presents a native system prompt asking how much
+access to grant. Selecting "Allow for One Day" triggers a temporary
+authorization process:</p>
+<ol type="1">
+<li><strong>Domain and Timestamp Logging:</strong> Safari records the
+specific domain of the active tab (for example,
+<code>wikipedia.org</code>) and associates it with the extension's
+unique identifier in a local permissions database. Simultaneously, it
+logs the exact timestamp of the approval.</li>
+<li><strong>Script Injection:</strong> Once logged, WebKit immediately
+allows the extension to inject its content scripts and access the
+webpage's Document Object Model (DOM).</li>
+<li><strong>Automatic Expiration:</strong> Safari continuously evaluates
+the timestamp against the system clock. Exactly 24 hours after the
+permission was granted, the temporary rule expires. Safari automatically
+purges the approval, blocks the extension from running on subsequent
+loads of that domain, and resets the permission state back to
+"Ask."</li>
+</ol>
+<p>This allows users to utilize tools—such as coupon finders or page
+translators—for a single shopping or browsing session without giving
+those extensions permanent surveillance capabilities over their future
+activity on that site.</p>
+<h2 id="how-specific-domain-access-works">How Specific Domain Access
+Works</h2>
+<p>If a user wants an extension to work seamlessly on a trusted site
+without daily prompts, they can grant permanent domain-specific access.
+This is achieved by selecting "Always Allow on This Website" from the
+permission prompt.</p>
+<ol type="1">
+<li><strong>Permanent Allowlisting:</strong> Safari writes the base
+domain to a persistent allowlist tied specifically to that
+extension.</li>
+<li><strong>Subdomain Inclusion:</strong> By default, granting access to
+a base domain also grants access to its subdomains, ensuring the
+extension works across the entire service.</li>
+<li><strong>Navigation Verification:</strong> Every time the user
+navigates to a new URL, Safari checks the destination domain against the
+extension's allowlist before the page finishes loading. If a match is
+found, the extension runs automatically. If the user clicks a link that
+takes them to an external, unapproved domain, Safari immediately halts
+the extension's access for that new page.</li>
+</ol>
+<h2 id="managing-permissions-manually">Managing Permissions
+Manually</h2>
+<p>Users do not have to wait for a prompt to configure these settings.
+Safari provides a centralized dashboard to manage domain-specific
+rules:</p>
+<ul>
+<li><strong>Via the Address Bar:</strong> Clicking the puzzle piece icon
+or the specific extension icon in the toolbar allows users to change the
+current site's permission level on the fly.</li>
+<li><strong>Via Safari Settings:</strong> By opening Safari Settings (or
+Preferences) and navigating to the <strong>Extensions</strong> tab,
+users can click "Edit Websites." This reveals a list of all previously
+visited domains where permissions were configured. Users can manually
+switch any domain's setting between <strong>Ask</strong>,
+<strong>Deny</strong>, and <strong>Allow</strong>.</li>
+<li><strong>Via the Websites Tab:</strong> Under the
+<strong>Websites</strong> tab in Settings, users can select an extension
+from the sidebar and configure permissions for all currently open tabs
+at once, or set the default behavior for all unvisited websites.</li>
+</ul></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/how-safari-s-per-site-extension-permissions-work';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

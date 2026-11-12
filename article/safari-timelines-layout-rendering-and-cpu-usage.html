@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Safari Timelines: Layout, Rendering, and CPU Usage - safari</title>
+    <meta name="description" content="This article provides a direct overview of the Timelines tab within the Safari Web Inspector, specifically focusing on how it tracks layout, rendering, and CPU usage. By examining the exact metrics, thread activity, and visual data provided by these speci">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/safari-timelines-layout-rendering-and-cpu-usage">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Safari Timelines: Layout, Rendering, and CPU Usage - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/safari-timelines-layout-rendering-and-cpu-usage" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article provides a direct overview of the Timelines tab within the Safari Web Inspector, specifically focusing on how it tracks layout, rendering, and CPU usage. By examining the exact metrics, thread activity, and visual data provided by these speci" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="safari-timelines-layout-rendering-and-cpu-usage">Safari
+Timelines: Layout, Rendering, and CPU Usage</h1>
+<p>This article provides a direct overview of the Timelines tab within
+the Safari Web Inspector, specifically focusing on how it tracks layout,
+rendering, and CPU usage. By examining the exact metrics, thread
+activity, and visual data provided by these specific timelines, web
+developers can quickly identify performance bottlenecks, eliminate page
+stutter, and reduce battery drain on macOS and iOS devices.</p>
+<h2 id="the-layout--rendering-timeline">The Layout &amp; Rendering
+Timeline</h2>
+<p>The Layout &amp; Rendering timeline records every visual update made
+to the web page. It breaks down the browser's rendering pipeline into
+four distinct event types, allowing you to see exactly why and when the
+browser is forced to redraw the screen.</p>
+<h3 id="1-event-types-tracked">1. Event Types Tracked</h3>
+<ul>
+<li><strong>Styles (Recalculate Styles):</strong> Triggered when CSS
+rules are changed or DOM elements are modified. This shows the time
+Safari spends calculating which CSS rules apply to which elements.</li>
+<li><strong>Layout:</strong> Triggered when changes to styles affect the
+geometry (position or size) of elements. The timeline records when the
+browser has to reflow the page and calculate the new coordinates for
+affected nodes.</li>
+<li><strong>Paint:</strong> Occurs after layout is complete. This event
+tracks the time taken to fill in pixels for text, colors, images,
+borders, and shadows into memory layers.</li>
+<li><strong>Composite:</strong> The final step where Safari takes the
+painted layers, combines them, and sends them to the GPU to be drawn on
+the screen.</li>
+</ul>
+<h3 id="2-detailed-metrics-provided">2. Detailed Metrics Provided</h3>
+<p>For every recorded event in the Layout &amp; Rendering timeline,
+Safari provides a data table containing the following specifics:</p>
+<ul>
+<li><strong>Initiator:</strong> The exact line of JavaScript code or CSS
+change that triggered the rendering event. Clicking this jumps directly
+to the source code.</li>
+<li><strong>Duration:</strong> The exact time (in milliseconds) the
+browser spent executing the task.</li>
+<li><strong>Area / Dimensions:</strong> For Paint and Layout events,
+Safari records the pixel dimensions (width and height) of the updated
+region on the screen.</li>
+<li><strong>DOM Nodes:</strong> The specific DOM node that served as the
+root for the layout or paint operation.</li>
+</ul>
+<h2 id="the-cpu-timeline">The CPU Timeline</h2>
+<p>The CPU timeline measures the processing power your web page requires
+to run, helping you optimize for both speed and battery efficiency.</p>
+<h3 id="1-energy-impact-gauge">1. Energy Impact Gauge</h3>
+<p>At the top of the CPU timeline, Safari displays an <strong>Energy
+Impact</strong> dial, categorized into Low, Medium, High, and Very High.
+This calculates the overall power consumption of the page over the
+recorded timeframe. Maintaining a "Low" impact ensures the webpage will
+not rapidly drain laptop or mobile device batteries or cause hardware
+fans to spin up.</p>
+<h3 id="2-thread-breakdown">2. Thread Breakdown</h3>
+<p>The timeline visualizes CPU usage as a percentage graph over time and
+separates this usage into specific system threads:</p>
+<ul>
+<li><strong>Main Thread:</strong> Displays the workload of the primary
+thread, which handles the DOM, layout, painting, and most JavaScript
+execution. If the Main Thread hits 100%, the page becomes unresponsive
+to user input.</li>
+<li><strong>Worker Threads:</strong> Shows CPU usage for background
+scripts, such as Web Workers and Service Workers.</li>
+<li><strong>WebKit Threads:</strong> Tracks background tasks managed by
+the browser engine itself, such as audio processing, garbage collection,
+and network data decoding.</li>
+</ul>
+<h3 id="3-workload-categorization">3. Workload Categorization</h3>
+<p>When you select a specific time range in the CPU timeline, Safari
+breaks down the Main Thread activity into color-coded categories,
+showing the exact millisecond and percentage split between:</p>
+<ul>
+<li><strong>Script:</strong> Time spent executing JavaScript, including
+event listeners, timers, and animations.</li>
+<li><strong>Layout:</strong> Time spent recalculating styles and
+document geometry.</li>
+<li><strong>Paint:</strong> Time spent rasterizing elements and
+compositing layers.</li>
+<li><strong>Other:</strong> Internal browser tasks required to keep the
+page running.</li>
+</ul>
+<h2 id="correlating-data-with-rendering-frames">Correlating Data with
+Rendering Frames</h2>
+<p>When switching the Timelines view mode from "Events" to "Rendering
+Frames," Safari combines CPU, Layout, and Rendering data into vertical
+bars. Each bar represents a single frame of animation.</p>
+<p>This view clearly illustrates whether the combination of CPU
+processing and Layout/Rendering tasks is completing within the
+16.6-millisecond window required for a smooth 60 frames per second (FPS)
+experience. Frames that exceed this threshold are highlighted, showing
+the exact ratio of Scripting, Layout, and Painting that caused the
+dropped frame.</p></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/safari-timelines-layout-rendering-and-cpu-usage';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

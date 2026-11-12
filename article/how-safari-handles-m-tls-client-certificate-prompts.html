@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Safari Handles mTLS Client Certificate Prompts - safari</title>
+    <meta name="description" content="This article provides a complete overview of how the Safari web browser interacts with macOS Keychain Access to authenticate users during a mutual TLS (mTLS) handshake. When a web server requests a client certificate, Safari relies on native macOS securit">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/how-safari-handles-m-tls-client-certificate-prompts">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Safari Handles mTLS Client Certificate Prompts - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/how-safari-handles-m-tls-client-certificate-prompts" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article provides a complete overview of how the Safari web browser interacts with macOS Keychain Access to authenticate users during a mutual TLS (mTLS) handshake. When a web server requests a client certificate, Safari relies on native macOS securit" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="how-safari-handles-mtls-client-certificate-prompts">How Safari
+Handles mTLS Client Certificate Prompts</h1>
+<p>This article provides a complete overview of how the Safari web
+browser interacts with macOS Keychain Access to authenticate users
+during a mutual TLS (mTLS) handshake. When a web server requests a
+client certificate, Safari relies on native macOS security frameworks to
+search the local Keychain for valid cryptographic identities, displays a
+browser-level dialog for certificate selection, and triggers a
+system-level authorization prompt to access the associated private key
+before completing the secure connection.</p>
+<h3 id="1-the-server-request">1. The Server Request</h3>
+<p>The process begins during the TLS handshake when the user navigates
+to a secure server requiring mTLS. The server sends a
+<code>CertificateRequest</code> message to Safari. This message contains
+specific criteria, most notably a list of Distinguished Names (DNs) of
+Certificate Authorities (CAs) that the server trusts, alongside
+supported cryptographic signature algorithms.</p>
+<h3 id="2-querying-keychain-access">2. Querying Keychain Access</h3>
+<p>Safari does not manage certificates directly; instead, it delegates
+this task to Apple’s native networking and security frameworks
+(<code>Network.framework</code> and the <code>Security</code>
+framework). Upon receiving the server's request, Safari queries the
+macOS Keychain (typically searching the user's <code>login</code>
+keychain, the <code>System</code> keychain, and any connected smart
+cards or hardware tokens) for valid "identities."</p>
+<p>In macOS terminology, an identity is a combination of a client
+certificate and its corresponding private key. Safari filters the
+Keychain results based on the following rules:</p>
+<ul>
+<li>The certificate must have a matching private key stored in the
+Keychain.</li>
+<li>The certificate must be issued by one of the CAs specified in the
+server's <code>CertificateRequest</code> message (or chain up to
+one).</li>
+<li>The certificate must be currently valid (not expired) and designated
+for client authentication in its Extended Key Usage (EKU)
+extension.</li>
+</ul>
+<p>If no matching identities are found, Safari automatically responds to
+the server with an empty certificate message, which usually results in
+the server returning an access denied error.</p>
+<h3 id="3-checking-for-identity-preferences">3. Checking for Identity
+Preferences</h3>
+<p>Before prompting the user, Safari checks Keychain Access for an
+existing "Identity Preference." If the user has previously connected to
+this specific URL and selected a certificate, macOS creates an Identity
+Preference item in the Keychain that maps the URL to that specific
+certificate. If a valid preference exists, Safari skips the browser
+selection prompt and automatically selects that certificate.</p>
+<h3 id="4-the-safari-selection-prompt">4. The Safari Selection
+Prompt</h3>
+<p>If no Identity Preference exists and one or more valid identities are
+found, Safari pauses the TLS handshake and presents a native modal sheet
+attached to the active browser tab.</p>
+<p>This prompt informs the user that the specific website requires a
+certificate to identify them. It presents a list of the filtered, valid
+certificates showing the Common Name (CN), the issuing authority, and
+the expiration date. The user must highlight the desired certificate and
+click <strong>Continue</strong> (or <strong>Cancel</strong> to abort the
+authentication). Once the user clicks <strong>Continue</strong>, Safari
+automatically writes a new Identity Preference to the Keychain so the
+user will not have to select the certificate from the dropdown on future
+visits to that exact domain.</p>
+<h3 id="5-private-key-authorization">5. Private Key Authorization</h3>
+<p>Selecting the certificate in Safari only tells the browser which
+public certificate to present; it does not grant Safari permission to
+use the private key required to cryptographically sign the
+handshake.</p>
+<p>Immediately after clicking <strong>Continue</strong> in Safari, the
+macOS security daemon (<code>securityd</code>) triggers a second,
+system-level modal dialog. This prompt states that "Safari wants to sign
+using key [Key Name] in your keychain." To proceed, the user must
+authenticate using their macOS login password or Touch ID, and choose
+one of three options:</p>
+<ul>
+<li><strong>Always Allow:</strong> Grants Safari permanent access to
+this private key without prompting again in the future.</li>
+<li><strong>Allow:</strong> Grants one-time access to the private key
+for the current session.</li>
+<li><strong>Deny:</strong> Blocks access to the private key, causing the
+mTLS handshake to fail.</li>
+</ul>
+<h3 id="6-completing-the-handshake">6. Completing the Handshake</h3>
+<p>Once the user authorizes access to the private key, Keychain Access
+performs the cryptographic signing operation on behalf of Safari. Safari
+then sends the selected public certificate and the signed
+<code>CertificateVerify</code> payload back to the server, successfully
+completing the mTLS handshake and loading the web page.</p></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/how-safari-handles-m-tls-client-certificate-prompts';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

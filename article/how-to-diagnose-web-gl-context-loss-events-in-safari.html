@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Diagnose WebGL Context Loss Events in Safari - safari</title>
+    <meta name="description" content="WebGL context loss is a frequent challenge for developers targeting Apple devices, primarily due to Safari’s strict memory management and hardware constraints on both macOS and iOS. This article provides a comprehensive guide on how to diagnose these even">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/how-to-diagnose-web-gl-context-loss-events-in-safari">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How to Diagnose WebGL Context Loss Events in Safari - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/how-to-diagnose-web-gl-context-loss-events-in-safari" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="WebGL context loss is a frequent challenge for developers targeting Apple devices, primarily due to Safari’s strict memory management and hardware constraints on both macOS and iOS. This article provides a comprehensive guide on how to diagnose these even" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="how-to-diagnose-webgl-context-loss-events-in-safari">How to
+Diagnose WebGL Context Loss Events in Safari</h1>
+<p>WebGL context loss is a frequent challenge for developers targeting
+Apple devices, primarily due to Safari’s strict memory management and
+hardware constraints on both macOS and iOS. This article provides a
+comprehensive guide on how to diagnose these events in Safari. You will
+learn how to implement event listeners to capture context loss, use
+Safari's built-in Web Inspector tools, simulate crashes for testing, and
+analyze system logs to pinpoint whether memory limits, GPU timeouts, or
+too many active contexts are causing your application to fail.</p>
+<h2 id="1-implement-context-loss-event-listeners">1. Implement Context
+Loss Event Listeners</h2>
+<p>The first step in diagnosing a lost context is capturing the event
+directly in your JavaScript code. When Safari drops a WebGL context, it
+dispatches a <code>webglcontextlost</code> event on the HTML canvas
+element.</p>
+<p>Attach an event listener to log the event details and prevent the
+default behavior, which allows the context to be restored later:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> canvas <span class="op">=</span> <span class="bu">document</span><span class="op">.</span><span class="fu">getElementById</span>(<span class="st">&#39;my-canvas&#39;</span>)<span class="op">;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>canvas<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">&#39;webglcontextlost&#39;</span><span class="op">,</span> (<span class="bu">event</span>) <span class="kw">=&gt;</span> {</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">event</span><span class="op">.</span><span class="fu">preventDefault</span>()<span class="op">;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">error</span>(<span class="st">&#39;WebGL Context Lost:&#39;</span><span class="op">,</span> <span class="bu">event</span><span class="op">.</span><span class="at">statusMessage</span>)<span class="op">;</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Log current application state, active textures, or memory metrics here</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>}<span class="op">,</span> <span class="kw">false</span>)<span class="op">;</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>canvas<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">&#39;webglcontextrestored&#39;</span><span class="op">,</span> () <span class="kw">=&gt;</span> {</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">&#39;WebGL Context Restored.&#39;</span>)<span class="op">;</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Re-initialize WebGL resources here</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>}<span class="op">,</span> <span class="kw">false</span>)<span class="op">;</span></span></code></pre></div>
+<p>Inspecting the <code>event</code> object in the console will confirm
+that a context loss occurred, as opposed to a standard JavaScript
+runtime error.</p>
+<h2 id="2-inspect-the-graphics-tab-in-safari-web-inspector">2. Inspect
+the Graphics Tab in Safari Web Inspector</h2>
+<p>Safari includes a specialized toolset for debugging WebGL directly
+within its developer tools.</p>
+<ol type="1">
+<li>Open Safari and enable the Develop menu via <strong>Settings &gt;
+Advanced &gt; Show features for web developers</strong>.</li>
+<li>Open the <strong>Web Inspector</strong>
+(<code>Cmd + Option + I</code>) and navigate to the
+<strong>Graphics</strong> tab.</li>
+<li>Observe the active canvases listed in the sidebar.</li>
+</ol>
+<p>Use the Graphics tab to diagnose two main culprits of context
+loss:</p>
+<ul>
+<li><strong>Exceeding Maximum Contexts:</strong> Safari enforces a hard
+limit on the number of active WebGL contexts (typically 16 on macOS and
+fewer on iOS). If you create a new context beyond this limit, the oldest
+context is automatically lost. The Graphics tab shows all live contexts,
+helping you identify if you are failing to clean up old canvases.</li>
+<li><strong>Shader Failures:</strong> You can inspect individual shader
+programs here to see if complex shaders are failing to compile or taking
+too long to execute.</li>
+</ul>
+<h2 id="3-monitor-memory-usage-in-the-timelines-tab">3. Monitor Memory
+Usage in the Timelines Tab</h2>
+<p>On iOS and iPadOS, the most common reason for a WebGL context loss is
+running out of memory. Unlike desktop browsers that may swap memory to
+the disk, iOS uses a mechanism called "Jetsam" to aggressively terminate
+processes—including WebGL contexts—that exceed specific RAM and VRAM
+thresholds.</p>
+<p>To check for memory spikes:</p>
+<ol type="1">
+<li>Open the <strong>Timelines</strong> tab in Safari Web
+Inspector.</li>
+<li>Enable the <strong>Memory</strong> timeline (you may need to click
+"Edit" at the top of the sidebar to enable it).</li>
+<li>Record a session while interacting with your WebGL application.</li>
+<li>Look for a steadily climbing memory graph (indicating a memory leak)
+or a sudden spike right before the context is lost. Large, uncompressed
+textures and uncollected geometry buffers are usually responsible.</li>
+</ol>
+<h2 id="4-check-system-console-logs-for-gpu-resets">4. Check System
+Console Logs for GPU Resets</h2>
+<p>Often, Safari’s console will only tell you that the context was lost,
+not <em>why</em>. The underlying reason is recorded by the operating
+system. You can view these logs using the macOS <strong>Console</strong>
+app (which can also read logs from a connected iPhone or iPad).</p>
+<ol type="1">
+<li>Open the <strong>Console</strong> application on your Mac.</li>
+<li>Select your Mac or your connected iOS device from the left
+sidebar.</li>
+<li>Click <strong>Start</strong> to begin streaming logs, then type
+<code>WebGL</code> or <code>GPU</code> into the search bar.</li>
+<li>Reproduce the context loss in Safari.</li>
+</ol>
+<p>Look for the following indicators in the logs:</p>
+<ul>
+<li><strong>JetsamEvent:</strong> Indicates the iOS kernel killed the
+WebKit GPU process because it ran out of memory.</li>
+<li><strong>IOAF code / GPU Hang / Watchdog Timeout:</strong> Indicates
+a shader took too long to execute. If a single frame freezes the GPU for
+more than a couple of seconds, the OS forces a GPU reset to keep the
+user interface responsive, resulting in an immediate context loss.</li>
+</ul>
+<h2 id="5-audit-webgl-api-calls-with-geterror">5. Audit WebGL API Calls
+with <code>getError</code></h2>
+<p>Sometimes, invalid WebGL commands accumulate and destabilize the
+graphics driver, leading to a lost context. During development, wrap
+your rendering loop or resource allocation functions with
+<code>gl.getError()</code> checks.</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">checkGLError</span>(gl<span class="op">,</span> label) {</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> error <span class="op">=</span> gl<span class="op">.</span><span class="fu">getError</span>()<span class="op">;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (error <span class="op">!==</span> gl<span class="op">.</span><span class="at">NO_ERROR</span>) {</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>        <span class="bu">console</span><span class="op">.</span><span class="fu">error</span>(<span class="vs">`WebGL Error (</span><span class="sc">${</span>error<span class="sc">}</span><span class="vs">) at </span><span class="sc">${</span>label<span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>Watch out for <code>gl.OUT_OF_MEMORY</code> (code
+<code>0x0505</code>), which explicitly tells you that the last buffer or
+texture allocation pushed Safari over its hardware limit. Remove these
+checks in production, as calling <code>gl.getError()</code> forces a
+synchronization between the CPU and GPU, severely degrading
+performance.</p>
+<h2 id="6-force-context-loss-to-test-diagnostics">6. Force Context Loss
+to Test Diagnostics</h2>
+<p>Waiting for a natural crash makes debugging difficult. You can use
+the <code>WEBGL_lose_context</code> extension in Safari to manually
+trigger a context loss and verify that your diagnostic logging and
+recovery logic work correctly.</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> gl <span class="op">=</span> canvas<span class="op">.</span><span class="fu">getContext</span>(<span class="st">&#39;webgl&#39;</span>)<span class="op">;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> loseContextExt <span class="op">=</span> gl<span class="op">.</span><span class="fu">getExtension</span>(<span class="st">&#39;WEBGL_lose_context&#39;</span>)<span class="op">;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co">// Trigger context loss</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (loseContextExt) {</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    loseContextExt<span class="op">.</span><span class="fu">loseContext</span>()<span class="op">;</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Restore it after 3 seconds</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="pp">setTimeout</span>(() <span class="kw">=&gt;</span> {</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>        loseContextExt<span class="op">.</span><span class="fu">restoreContext</span>()<span class="op">;</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    }<span class="op">,</span> <span class="dv">3000</span>)<span class="op">;</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<h2 id="7-explicitly-destroy-unused-contexts">7. Explicitly Destroy
+Unused Contexts</h2>
+<p>If your diagnostics reveal that you are hitting Safari's active
+context limit (common in Single Page Applications where components mount
+and unmount frequently), you cannot rely on the browser's garbage
+collector to free the WebGL context in time.</p>
+<p>To fix and verify this issue, manually force the context to be lost
+when unmounting a canvas:</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">disposeWebGL</span>(canvas) {</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> gl <span class="op">=</span> canvas<span class="op">.</span><span class="fu">getContext</span>(<span class="st">&#39;webgl&#39;</span>)<span class="op">;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (gl) {</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>        <span class="kw">const</span> ext <span class="op">=</span> gl<span class="op">.</span><span class="fu">getExtension</span>(<span class="st">&#39;WEBGL_lose_context&#39;</span>)<span class="op">;</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> (ext) ext<span class="op">.</span><span class="fu">loseContext</span>()<span class="op">;</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>If adding this cleanup routine stops the unexpected context loss
+events in your application, you have successfully diagnosed the issue as
+context exhaustion.</p></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/how-to-diagnose-web-gl-context-loss-events-in-safari';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

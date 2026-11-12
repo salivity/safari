@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Viewing 3D USDZ Models with AR Quick Look in Safari - safari</title>
+    <meta name="description" content="This article provides a complete overview of how Apple&#39;s AR Quick Look technology works within the Safari web browser on iOS and visionOS to project 3D USDZ models into a user&#39;s physical space. It covers the role of the USDZ file format, how web developer">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/viewing-3-d-usdz-models-with-ar-quick-look-in-safari">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Viewing 3D USDZ Models with AR Quick Look in Safari - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/viewing-3-d-usdz-models-with-ar-quick-look-in-safari" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article provides a complete overview of how Apple&#39;s AR Quick Look technology works within the Safari web browser on iOS and visionOS to project 3D USDZ models into a user&#39;s physical space. It covers the role of the USDZ file format, how web developer" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="viewing-3d-usdz-models-with-ar-quick-look-in-safari">Viewing 3D
+USDZ Models with AR Quick Look in Safari</h1>
+<p>This article provides a complete overview of how Apple's AR Quick
+Look technology works within the Safari web browser on iOS and visionOS
+to project 3D USDZ models into a user's physical space. It covers the
+role of the USDZ file format, how web developers implement the feature
+using simple HTML, and how both operating systems utilize device sensors
+and the ARKit framework to seamlessly anchor, light, and scale virtual
+objects in the real world without requiring a separate app.</p>
+<h2 id="the-role-of-the-usdz-file-format">The Role of the USDZ File
+Format</h2>
+<p>AR Quick Look relies entirely on the USDZ (Universal Scene
+Description Zip) file format, which was co-developed by Apple and Pixar.
+A USDZ file is a single, uncompressed archive that contains all the
+necessary data to display a 3D object, including its geometry, surface
+textures, shading, skeletal animations, and even spatial audio. Because
+Safari natively supports USDZ, the browser can stream and render these
+files directly from a webpage without needing third-party plugins or
+external software.</p>
+<h2 id="how-safari-triggers-ar-quick-look">How Safari Triggers AR Quick
+Look</h2>
+<p>The transition from a flat webpage to an augmented reality experience
+is triggered by standard HTML code. Web developers embed a link to the
+USDZ file using a standard HTML anchor tag and include the
+<code>rel="ar"</code> attribute.</p>
+<p>When Safari detects this specific attribute, it alters how it handles
+the file. Instead of downloading the USDZ file to the device's storage,
+Safari passes the file directly to the operating system's built-in AR
+Quick Look viewer.</p>
+<h2 id="viewing-models-on-ios">Viewing Models on iOS</h2>
+<p>When a user on an iPhone or iPad taps an AR-enabled link in Safari,
+the operating system immediately opens a full-screen camera view powered
+by Apple's ARKit framework. The process of placing the object happens in
+three steps:</p>
+<ol type="1">
+<li><strong>Environment Scanning:</strong> The device uses its rear
+cameras, motion sensors, and the LiDAR Scanner (on supported models) to
+analyze the physical room. ARKit looks for flat horizontal and vertical
+planes, such as floors, tables, or walls.</li>
+<li><strong>Object Placement and Scaling:</strong> Once a surface is
+detected, the USDZ model is anchored to that physical spot in the camera
+feed at its real-world scale. Users can use multi-touch gestures on the
+screen to rotate the object, drag it to a new location, or pinch to
+shrink and enlarge it.</li>
+<li><strong>Environmental Integration:</strong> ARKit continuously
+measures the ambient light in the physical room and applies matching
+color temperatures, reflections, and directional shadows to the 3D
+model. On newer devices, the system also uses people occlusion, which
+allows real-world people and objects to naturally pass in front of and
+behind the virtual model.</li>
+</ol>
+<h2 id="viewing-models-on-visionos">Viewing Models on visionOS</h2>
+<p>On Apple Vision Pro, visionOS adapts AR Quick Look for spatial
+computing, removing the barrier of a flat screen. Because the headset is
+constantly mapping the user's surroundings, the transition from Safari
+to the physical room is instantaneous.</p>
+<ol type="1">
+<li><strong>Pulling Objects from the Web:</strong> When a user looks at
+an AR link in Safari and taps their fingers together, the 3D USDZ model
+emerges directly out of the 2D browser window and floats in their
+physical space.</li>
+<li><strong>Eye and Hand Manipulation:</strong> Instead of using a
+touchscreen, users look at the 3D object and use hand pinch gestures to
+grab, move, and rotate it. Using two hands, they can pull the object
+apart to scale it up or push their hands together to shrink it. The
+object can be rested on physical furniture or left floating in
+mid-air.</li>
+<li><strong>Stereoscopic Depth and Audio:</strong> Because visionOS
+renders the USDZ model for each eye individually, the user perceives the
+object with true three-dimensional depth and scale. The headset
+continuously updates the model's lighting based on the room's
+conditions, and if the USDZ file contains audio, the sound is emitted
+directly from the specific location in the room where the user placed
+the object.</li>
+</ol></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/viewing-3-d-usdz-models-with-ar-quick-look-in-safari';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

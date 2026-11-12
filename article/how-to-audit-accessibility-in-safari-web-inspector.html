@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Audit Accessibility in Safari Web Inspector - safari</title>
+    <meta name="description" content="This article provides a step-by-step guide on how developers can identify and resolve common webpage accessibility violations using the built-in Audit tab within the Safari Web Inspector. By leveraging these native developer tools, you can quickly test yo">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/how-to-audit-accessibility-in-safari-web-inspector">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How to Audit Accessibility in Safari Web Inspector - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/how-to-audit-accessibility-in-safari-web-inspector" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article provides a step-by-step guide on how developers can identify and resolve common webpage accessibility violations using the built-in Audit tab within the Safari Web Inspector. By leveraging these native developer tools, you can quickly test yo" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="how-to-audit-accessibility-in-safari-web-inspector">How to Audit
+Accessibility in Safari Web Inspector</h1>
+<p>This article provides a step-by-step guide on how developers can
+identify and resolve common webpage accessibility violations using the
+built-in Audit tab within the Safari Web Inspector. By leveraging these
+native developer tools, you can quickly test your DOM elements for
+compliance issues, inspect problematic nodes, and ensure your web
+applications are inclusive for all users without needing third-party
+browser extensions.</p>
+<h3 id="1-enable-the-safari-develop-menu">1. Enable the Safari Develop
+Menu</h3>
+<p>Before you can access the Web Inspector, you must enable Safari's
+developer tools.</p>
+<ol type="1">
+<li>Open the Safari browser.</li>
+<li>In the top menu bar, click <strong>Safari</strong> and select
+<strong>Settings</strong> (or <strong>Preferences</strong> on older
+macOS versions).</li>
+<li>Navigate to the <strong>Advanced</strong> tab.</li>
+<li>At the bottom of the window, check the box next to <strong>Show
+features for web developers</strong> (or <strong>Show Develop menu in
+menu bar</strong>).</li>
+<li>Close the Settings window.</li>
+</ol>
+<h3 id="2-open-the-audit-tab">2. Open the Audit Tab</h3>
+<p>Once the developer tools are active, you can access the Audit
+environment.</p>
+<ol type="1">
+<li>Navigate to the webpage you want to test.</li>
+<li>Right-click anywhere on the page and select <strong>Inspect
+Element</strong>, or press <code>Command + Option + I</code> on your
+keyboard.</li>
+<li>In the Web Inspector panel that appears, click on the
+<strong>Audit</strong> tab located in the top navigation bar. (If you do
+not see it, click the <code>+</code> icon at the end of the tab bar to
+enable it).</li>
+</ol>
+<h3 id="3-run-the-accessibility-audit">3. Run the Accessibility
+Audit</h3>
+<p>Safari includes a predefined set of accessibility tests that check
+for common WCAG and ARIA violations.</p>
+<ol type="1">
+<li>Look at the left sidebar under the <strong>Audits</strong>
+section.</li>
+<li>Locate the <strong>Accessibility</strong> group. By default, all
+accessibility tests are selected. You can expand this folder to check or
+uncheck specific tests, such as checking for <code>alt</code> attributes
+on images or valid ARIA roles.</li>
+<li>Click the <strong>Start</strong> button (the play icon) at the top
+of the left sidebar, or click the <strong>Start</strong> button in the
+center of the main viewport.</li>
+</ol>
+<h3 id="4-analyze-the-audit-results">4. Analyze the Audit Results</h3>
+<p>Safari will scan the current state of the DOM and instantly generate
+a report in the left sidebar.</p>
+<ul>
+<li><strong>Passed Tests:</strong> Marked with a green checkmark. No
+action is needed.</li>
+<li><strong>Warnings:</strong> Marked with a yellow triangle. These
+indicate potential accessibility issues that require manual
+verification.</li>
+<li><strong>Errors:</strong> Marked with a red exclamation point. These
+are confirmed accessibility violations.</li>
+<li><strong>Unsupported/Unevaluated:</strong> Grayed-out items mean the
+specific elements required for that test were not found on the
+page.</li>
+</ul>
+<h3 id="5-locate-and-fix-violations">5. Locate and Fix Violations</h3>
+<p>To resolve the errors and warnings found during the audit:</p>
+<ol type="1">
+<li>Click on any failed test in the left sidebar to open the detailed
+report in the main Audit panel.</li>
+<li>The main panel will display an explanation of the rule and a list of
+the exact <strong>DOM Nodes</strong> that failed the test.</li>
+<li>Hover over a listed DOM node to highlight the offending element
+directly on the webpage.</li>
+<li>Click on the DOM node text or the arrow icon next to it. This will
+automatically take you to that exact line of code inside the
+<strong>Elements</strong> tab.</li>
+<li>In the <strong>Elements</strong> tab, modify the HTML or ARIA
+attributes to fix the issue.</li>
+<li>Navigate back to the <strong>Audit</strong> tab and click the
+<strong>Start</strong> button (play icon) again to re-run the test and
+confirm the violation is resolved.</li>
+</ol>
+<h3 id="6-export-your-results-optional">6. Export Your Results
+(Optional)</h3>
+<p>If you need to share the accessibility report with your team or save
+it for documentation, click the <strong>Export</strong> button at the
+top of the Audit results sidebar. This saves the audit data as a
+<code>.json</code> file, which can be imported into another developer's
+Safari Web Inspector for review.</p></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/how-to-audit-accessibility-in-safari-web-inspector';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

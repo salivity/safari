@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Why Apple Pay Requires Domain Validation and TLS 1.2+ - safari</title>
+    <meta name="description" content="To offer Apple Pay in the Safari web browser, ecommerce merchants must adhere to strict security protocols: validating their domain, establishing a secure merchant session, and using Transport Layer Security (TLS) 1.2 or higher. This article explains why">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/why-apple-pay-requires-domain-validation-and-tls-1-2">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Why Apple Pay Requires Domain Validation and TLS 1.2+ - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/why-apple-pay-requires-domain-validation-and-tls-1-2" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="To offer Apple Pay in the Safari web browser, ecommerce merchants must adhere to strict security protocols: validating their domain, establishing a secure merchant session, and using Transport Layer Security (TLS) 1.2 or higher. This article explains why" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="why-apple-pay-requires-domain-validation-and-tls-12">Why Apple
+Pay Requires Domain Validation and TLS 1.2+</h1>
+<p>To offer Apple Pay in the Safari web browser, ecommerce merchants
+must adhere to strict security protocols: validating their domain,
+establishing a secure merchant session, and using Transport Layer
+Security (TLS) 1.2 or higher. This article explains why Apple enforces
+these specific technical requirements, detailing how each step works to
+verify merchant identity, prevent spoofing, and protect sensitive
+consumer payment data from interception during online transactions.</p>
+<h2 id="the-purpose-of-domain-validation">The Purpose of Domain
+Validation</h2>
+<p>Domain validation is required to prove that the merchant actually
+owns and controls the website where the Apple Pay button is
+displayed.</p>
+<p>When setting up Apple Pay, a merchant must download a domain
+association file from Apple and host it on their web server at a
+specific path. Apple’s servers then check this file to confirm
+ownership. This process is critical for two reasons:</p>
+<ul>
+<li><strong>Preventing Phishing and Spoofing:</strong> Without domain
+validation, a malicious actor could copy a legitimate merchant’s code
+and place an Apple Pay button on a fake website to steal customer
+information or process unauthorized transactions.</li>
+<li><strong>Whitelisting the Environment:</strong> Safari will only
+render the Apple Pay payment sheet if the current webpage’s domain
+matches the pre-validated domain on file with Apple. If the domain is
+not validated, the transaction is blocked before it even begins.</li>
+</ul>
+<h2 id="the-role-of-the-merchant-session">The Role of the Merchant
+Session</h2>
+<p>Establishing a merchant session ensures that every single transaction
+is authenticated in real-time by both the merchant and Apple.</p>
+<p>When a customer clicks the Apple Pay button in Safari, the browser
+cannot simply process the payment on its own. Instead, the merchant's
+server must securely communicate with Apple's servers to request a
+unique, one-time-use session for that specific checkout attempt. This
+requirement serves several security functions:</p>
+<ul>
+<li><strong>Real-Time Authentication:</strong> The merchant must use a
+cryptographic Merchant Identity Certificate to request the session. This
+proves to Apple that the request is coming from an authorized, approved
+merchant server, not an imposter.</li>
+<li><strong>Preventing Replay Attacks:</strong> Because each merchant
+session is unique and expires quickly, hackers cannot record a
+legitimate transaction request and "replay" it later to authorize
+fraudulent payments.</li>
+<li><strong>Revocation Control:</strong> If a merchant's account is
+compromised or violates Apple's terms of service, Apple can immediately
+stop issuing merchant sessions, effectively disabling Apple Pay on that
+site instantly.</li>
+</ul>
+<h2 id="the-necessity-of-tls-12-or-higher">The Necessity of TLS 1.2 or
+Higher</h2>
+<p>Transport Layer Security (TLS) is the cryptographic protocol that
+provides secure communications over the internet. Apple mandates TLS 1.2
+or higher for both the merchant's website and the server-to-server
+communication used to establish the merchant session.</p>
+<p>Older protocols, such as SSL, TLS 1.0, and TLS 1.1, contain severe,
+well-documented security vulnerabilities that hackers can exploit.
+Requiring TLS 1.2 or higher ensures the following:</p>
+<ul>
+<li><strong>Protection Against Man-in-the-Middle (MitM)
+Attacks:</strong> TLS 1.2+ uses strong encryption algorithms that
+prevent attackers from eavesdropping on the connection between the
+customer's Safari browser and the merchant's checkout page.</li>
+<li><strong>Data Integrity:</strong> Modern TLS ensures that the data
+sent between the customer, the merchant, and Apple cannot be altered or
+tampered with while in transit. An attacker cannot intercept the data
+packet and change the transaction amount or shipping address.</li>
+<li><strong>Secure Token Transmission:</strong> Although Apple Pay uses
+tokenized payment data rather than actual credit card numbers, those
+payment tokens and the customer's billing and shipping details still
+require top-tier encryption to ensure absolute privacy.</li>
+</ul>
+<h2 id="how-they-work-together">How They Work Together</h2>
+<p>These three requirements form a complete chain of trust. <strong>TLS
+1.2+</strong> secures the communication pipes so no one can listen in.
+<strong>Domain validation</strong> proves to the customer's browser that
+the storefront is legitimate. Finally, the <strong>merchant
+session</strong> proves to Apple that the backend server handling the
+money is authorized to do so for that exact transaction. Without all
+three elements working in tandem, the security of web-based Apple Pay
+transactions would be compromised.</p></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/why-apple-pay-requires-domain-validation-and-tls-1-2';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

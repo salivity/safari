@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guide to the WebKit Standards Positions Repository - safari</title>
+    <meta name="description" content="This article explains where web developers can find the official WebKit Standards Positions repository, how to navigate it to track the Safari browser team&#39;s stance on emerging web specifications, and what the various status labels mean for the future of">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/guide-to-the-web-kit-standards-positions-repository">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Guide to the WebKit Standards Positions Repository - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/guide-to-the-web-kit-standards-positions-repository" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article explains where web developers can find the official WebKit Standards Positions repository, how to navigate it to track the Safari browser team&#39;s stance on emerging web specifications, and what the various status labels mean for the future of" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="guide-to-the-webkit-standards-positions-repository">Guide to the
+WebKit Standards Positions Repository</h1>
+<p>This article explains where web developers can find the official
+WebKit Standards Positions repository, how to navigate it to track the
+Safari browser team's stance on emerging web specifications, and what
+the various status labels mean for the future of web features.</p>
+<h3 id="where-to-find-the-repository">Where to Find the Repository</h3>
+<p>Web developers can check the Safari and WebKit team’s official stance
+on emerging web specifications on GitHub. The repository is located
+under the official WebKit organization account at
+<strong>github.com/WebKit/standards-positions</strong>.</p>
+<p>WebKit is the browser engine that powers Apple's Safari browser on
+macOS, iOS, iPadOS, and visionOS. This repository serves as the public
+record for how the WebKit team views new proposals from standards bodies
+like the W3C, WHATWG, IETF, and Ecma TC39.</p>
+<h3 id="how-to-check-a-specifications-status">How to Check a
+Specification's Status</h3>
+<p>The repository does not use traditional code files to track
+specifications. Instead, it uses <strong>GitHub Issues</strong>. To find
+the WebKit team's position on a specific feature, follow these
+steps:</p>
+<ol type="1">
+<li>Navigate to the <strong>WebKit/standards-positions</strong>
+repository on GitHub.</li>
+<li>Click on the <strong>Issues</strong> tab at the top of the
+page.</li>
+<li>Use the search bar to type the name of the emerging web
+specification, API, or CSS property you are researching.</li>
+<li>Remove the default <code>is:open</code> filter from the search bar.
+The WebKit team often closes issues once a final position has been
+decided, so searching both open and closed issues is necessary to find
+the correct thread.</li>
+</ol>
+<h3 id="understanding-webkits-position-labels">Understanding WebKit's
+Position Labels</h3>
+<p>When you find the issue corresponding to a web specification, you can
+determine the Safari team's stance by looking at the labels attached to
+that issue on the right-hand sidebar. The primary labels used by the
+WebKit team include:</p>
+<ul>
+<li><strong>position: support</strong> – WebKit agrees with the
+specification's goals and design. They either plan to implement it, are
+actively implementing it, or at least think it is a good addition to the
+web platform.</li>
+<li><strong>position: oppose</strong> – WebKit disagrees with the
+specification. This is usually due to privacy concerns, security risks,
+architectural incompatibilities, or a belief that the feature harms the
+open web. The team will typically leave a detailed comment explaining
+their opposition.</li>
+<li><strong>position: neutral</strong> – WebKit does not object to the
+specification moving forward, but they are not actively championing it
+or prioritizing its implementation.</li>
+<li><strong>position: defer</strong> – The specification is too early in
+its lifecycle, or WebKit needs more information before making a
+definitive judgment.</li>
+<li><strong>prototyping</strong> – Engineers are actively writing code
+to test the viability of the specification within the WebKit engine,
+though this does not guarantee it will ship in a final version of
+Safari.</li>
+</ul>
+<h3 id="requesting-a-position">Requesting a Position</h3>
+<p>If you are a specification author or developer and cannot find an
+existing issue for a new web standard, you can ask the WebKit team for
+their stance.</p>
+<ol type="1">
+<li>Go to the <strong>Issues</strong> tab in the repository.</li>
+<li>Click the <strong>New Issue</strong> button.</li>
+<li>Select the <strong>Request for position</strong> template.</li>
+<li>Fill out the required links, including the specification URL, the
+explainer document, and links to other browser vendors' positions (such
+as Mozilla or Chromium).</li>
+</ol>
+<p>Once submitted, WebKit engineers and standards representatives will
+review the proposal, discuss it internally, and eventually apply one of
+the position labels to the issue.</p></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/guide-to-the-web-kit-standards-positions-repository';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

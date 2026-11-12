@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OffscreenCanvas in Safari: Rendering Graphics in Web Workers - safari</title>
+    <meta name="description" content="This article provides a comprehensive overview of how the OffscreenCanvas API enables the Safari web browser to execute heavy graphics rendering inside a Web Worker thread, keeping the main user interface thread completely responsive. By decoupling the HT">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/offscreen-canvas-in-safari-rendering-graphics-in-web-workers">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="OffscreenCanvas in Safari: Rendering Graphics in Web Workers - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/offscreen-canvas-in-safari-rendering-graphics-in-web-workers" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article provides a comprehensive overview of how the OffscreenCanvas API enables the Safari web browser to execute heavy graphics rendering inside a Web Worker thread, keeping the main user interface thread completely responsive. By decoupling the HT" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1
+id="offscreencanvas-in-safari-rendering-graphics-in-web-workers">OffscreenCanvas
+in Safari: Rendering Graphics in Web Workers</h1>
+<p>This article provides a comprehensive overview of how the
+OffscreenCanvas API enables the Safari web browser to execute heavy
+graphics rendering inside a Web Worker thread, keeping the main user
+interface thread completely responsive. By decoupling the HTML
+<code>&lt;canvas&gt;</code> element from its rendering context, Safari
+allows developers to transfer drawing operations to a background thread.
+We will explore the mechanics of this thread transfer, how background
+synchronization works, and how Safari’s underlying WebKit architecture
+pushes rendered pixels directly to the screen without causing
+main-thread bottlenecks.</p>
+<h2 id="the-main-thread-bottleneck">The Main Thread Bottleneck</h2>
+<p>Traditionally, the HTML <code>&lt;canvas&gt;</code> element is
+tightly coupled to the Document Object Model (DOM). Because only the
+main UI thread can access the DOM, all canvas rendering
+operations—whether 2D drawings or complex 3D WebGL scenes—must run on
+the same thread responsible for handling user interactions, page layout,
+and JavaScript execution. When a canvas operation requires heavy
+computation, it blocks the main thread, resulting in dropped frames,
+unresponsive buttons, and a stuttering user interface.</p>
+<h2 id="decoupling-the-canvas-from-the-dom">Decoupling the Canvas from
+the DOM</h2>
+<p>The OffscreenCanvas API solves the bottleneck by separating the DOM
+element from the rendering context. In Safari, this is primarily
+achieved using the <code>transferControlToOffscreen()</code> method on a
+standard HTML canvas element.</p>
+<p>When you call this method on the main thread, Safari creates an
+<code>OffscreenCanvas</code> object that acts as a proxy for the visible
+canvas on the page. At this point, the original DOM
+<code>&lt;canvas&gt;</code> becomes a mere placeholder, and its
+rendering control is packaged into a transferable object that no longer
+relies on the DOM to function.</p>
+<h2 id="transferring-control-to-a-web-worker">Transferring Control to a
+Web Worker</h2>
+<p>Once the <code>OffscreenCanvas</code> object is created, the main
+thread passes it to a Web Worker using the standard
+<code>postMessage()</code> method, specifying the
+<code>OffscreenCanvas</code> in the transfer array.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Main Thread</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> htmlCanvas <span class="op">=</span> <span class="bu">document</span><span class="op">.</span><span class="fu">getElementById</span>(<span class="st">&#39;my-canvas&#39;</span>)<span class="op">;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> offscreen <span class="op">=</span> htmlCanvas<span class="op">.</span><span class="fu">transferControlToOffscreen</span>()<span class="op">;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> worker <span class="op">=</span> <span class="kw">new</span> <span class="bu">Worker</span>(<span class="st">&#39;renderer.js&#39;</span>)<span class="op">;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>worker<span class="op">.</span><span class="fu">postMessage</span>({ <span class="dt">canvas</span><span class="op">:</span> offscreen }<span class="op">,</span> [offscreen])<span class="op">;</span></span></code></pre></div>
+<p>Because the object is transferred rather than cloned, ownership of
+the canvas memory is moved entirely to the Web Worker. The main thread
+can no longer manipulate the canvas context, eliminating the risk of
+race conditions.</p>
+<h2 id="rendering-in-the-background">Rendering in the Background</h2>
+<p>Inside the Web Worker, the script receives the
+<code>OffscreenCanvas</code> object and initializes a rendering
+context—such as <code>2d</code>, <code>webgl</code>, or
+<code>webgl2</code>—just as it would on the main thread.</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Web Worker (renderer.js)</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>onmessage <span class="op">=</span> <span class="kw">function</span>(<span class="bu">event</span>) {</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> offscreen <span class="op">=</span> <span class="bu">event</span><span class="op">.</span><span class="at">data</span><span class="op">.</span><span class="at">canvas</span><span class="op">;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> gl <span class="op">=</span> offscreen<span class="op">.</span><span class="fu">getContext</span>(<span class="st">&#39;webgl&#39;</span>)<span class="op">;</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">function</span> <span class="fu">render</span>() {</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Perform heavy WebGL rendering here</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">requestAnimationFrame</span>(render)<span class="op">;</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">requestAnimationFrame</span>(render)<span class="op">;</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span></code></pre></div>
+<p>Safari supports <code>requestAnimationFrame</code> directly inside
+Web Workers. This allows the background thread to run its own rendering
+loop, synchronized with the display's refresh rate, entirely independent
+of the main thread's workload. Even if the main thread is temporarily
+frozen by a massive DOM update or heavy JavaScript calculation, the Web
+Worker continues to execute its <code>requestAnimationFrame</code>
+callbacks smoothly.</p>
+<h2 id="direct-compositing-via-safaris-gpu-process">Direct Compositing
+via Safari's GPU Process</h2>
+<p>The final piece of the puzzle is how the pixels rendered in the Web
+Worker actually appear on the screen without involving the main
+thread.</p>
+<p>Safari (built on the WebKit engine) utilizes a multi-process
+architecture that includes a dedicated GPU Process. When the Web Worker
+executes drawing commands on the <code>OffscreenCanvas</code>, it does
+not send the finished image back to the main thread to be painted.
+Instead, the Web Worker communicates directly with Safari's GPU
+Process.</p>
+<p>When a frame is completed at the end of the worker's
+<code>requestAnimationFrame</code> callback, the
+<code>OffscreenCanvas</code> implicitly commits the rendered frame
+directly to the compositor. The compositor takes the graphical buffer
+generated by the worker and maps it directly onto the placeholder
+<code>&lt;canvas&gt;</code> element's position on the screen. Because
+this handoff happens at the system graphics level, the main UI thread is
+completely bypassed, ensuring zero rendering lag and a consistently
+responsive user experience.</p></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/offscreen-canvas-in-safari-rendering-graphics-in-web-workers';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

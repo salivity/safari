@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Safari Automatically Upgrades HTTP Requests to HTTPS - safari</title>
+    <meta name="description" content="This article explains the technical mechanisms the Safari web browser uses to automatically upgrade insecure HTTP navigation requests to secure HTTPS connections. By leveraging a combination of local preload lists, HTTP Strict Transport Security (HSTS) po">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/how-safari-automatically-upgrades-http-requests-to-https">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Safari Automatically Upgrades HTTP Requests to HTTPS - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/how-safari-automatically-upgrades-http-requests-to-https" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article explains the technical mechanisms the Safari web browser uses to automatically upgrade insecure HTTP navigation requests to secure HTTPS connections. By leveraging a combination of local preload lists, HTTP Strict Transport Security (HSTS) po" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="how-safari-automatically-upgrades-http-requests-to-https">How
+Safari Automatically Upgrades HTTP Requests to HTTPS</h1>
+<p>This article explains the technical mechanisms the Safari web browser
+uses to automatically upgrade insecure HTTP navigation requests to
+secure HTTPS connections. By leveraging a combination of local preload
+lists, HTTP Strict Transport Security (HSTS) policies, DNS HTTPS
+resource records, and optimistic connection upgrading with fallback
+capabilities, Safari protects user privacy and prevents unencrypted data
+transmission whenever a destination website supports encryption.</p>
+<h3 id="local-lists-and-hsts-preloading">Local Lists and HSTS
+Preloading</h3>
+<p>Before sending any request over the network, Safari checks the
+destination domain against locally stored databases. Safari includes a
+built-in list of known HTTPS-supporting domains, which incorporates the
+standard HTTP Strict Transport Security (HSTS) preload list.
+Additionally, if you have visited the website previously and the server
+responded with an HSTS header, Safari caches that directive. If the
+domain matches either the built-in list or the local HSTS cache, Safari
+internally rewrites the <code>http://</code> request to
+<code>https://</code> before any network traffic leaves the device.</p>
+<h3 id="dns-https-resource-records">DNS HTTPS Resource Records</h3>
+<p>When a domain is not found in the local cache, Safari utilizes the
+Domain Name System (DNS) to determine if an upgrade is possible.
+Alongside standard requests for IP addresses (A and AAAA records),
+Safari queries the DNS server for Type 65 (HTTPS) resource records. If
+the website administrator has configured this record, the DNS response
+explicitly informs Safari that the server supports HTTPS. Upon receiving
+this record, Safari automatically upgrades the navigation request to use
+a secure connection before initiating the initial network handshake.</p>
+<h3 id="optimistic-upgrading">Optimistic Upgrading</h3>
+<p>If a website is not on a local list and does not provide a DNS HTTPS
+record, Safari employs an optimistic upgrade strategy, often referred to
+as Automatic HTTPS. Instead of connecting over the requested insecure
+port 80, Safari intercepts the navigation request and attempts to
+establish a secure TLS connection over port 443. This happens
+transparently in the background, assuming by default that most modern
+web servers are configured to handle HTTPS traffic.</p>
+<h3 id="automatic-fallback-to-http">Automatic Fallback to HTTP</h3>
+<p>Not all websites support encryption, so Safari includes a rapid
+fallback mechanism to prevent broken pages during an optimistic upgrade.
+When Safari attempts an unprompted HTTPS connection, it sets a strict
+timeout and monitors the handshake. If the server refuses the
+connection, fails the TLS handshake, presents an invalid certificate, or
+simply takes too long to respond, Safari immediately cancels the HTTPS
+attempt. The browser then seamlessly falls back to the original
+unencrypted HTTP request over port 80, allowing the legacy webpage to
+load normally.</p></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/how-safari-automatically-upgrades-http-requests-to-https';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

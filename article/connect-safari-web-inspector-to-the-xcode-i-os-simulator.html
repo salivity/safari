@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connect Safari Web Inspector to the Xcode iOS Simulator - safari</title>
+    <meta name="description" content="This article provides a step-by-step guide for developers on how to connect the macOS Safari Web Inspector to an instance of the Safari web browser running inside the Xcode iOS Simulator. By linking these tools, you can inspect elements, debug JavaScript,">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/connect-safari-web-inspector-to-the-xcode-i-os-simulator">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Connect Safari Web Inspector to the Xcode iOS Simulator - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/connect-safari-web-inspector-to-the-xcode-i-os-simulator" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article provides a step-by-step guide for developers on how to connect the macOS Safari Web Inspector to an instance of the Safari web browser running inside the Xcode iOS Simulator. By linking these tools, you can inspect elements, debug JavaScript," />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="connect-safari-web-inspector-to-the-xcode-ios-simulator">Connect
+Safari Web Inspector to the Xcode iOS Simulator</h1>
+<p>This article provides a step-by-step guide for developers on how to
+connect the macOS Safari Web Inspector to an instance of the Safari web
+browser running inside the Xcode iOS Simulator. By linking these tools,
+you can inspect elements, debug JavaScript, and analyze network activity
+on a simulated mobile webpage directly from your Mac without needing a
+physical iOS device.</p>
+<h3 id="prerequisites">Prerequisites</h3>
+<p>Before starting, ensure you have Xcode installed on your Mac. Xcode
+includes the iOS Simulator app required for this process. You will also
+need the desktop version of the Safari web browser.</p>
+<h3 id="step-1-enable-the-develop-menu-in-macos-safari">Step 1: Enable
+the Develop Menu in macOS Safari</h3>
+<p>By default, Safari hides its developer tools. You must enable them on
+your Mac first.</p>
+<ol type="1">
+<li>Open the <strong>Safari</strong> browser on your Mac.</li>
+<li>In the top menu bar, click <strong>Safari</strong> and select
+<strong>Settings</strong> (or <strong>Preferences</strong> on older
+macOS versions).</li>
+<li>Click on the <strong>Advanced</strong> tab.</li>
+<li>At the bottom of the window, check the box next to <strong>Show
+features for web developers</strong> (or <strong>Show Develop menu in
+menu bar</strong> on older versions).</li>
+<li>Close the Settings window. You will now see a
+<strong>Develop</strong> option in the top menu bar.</li>
+</ol>
+<h3 id="step-2-launch-the-ios-simulator-and-open-a-webpage">Step 2:
+Launch the iOS Simulator and Open a Webpage</h3>
+<p>Next, you need to start the simulated iOS environment and give the
+Web Inspector a page to inspect.</p>
+<ol type="1">
+<li>Open <strong>Xcode</strong>.</li>
+<li>In the top menu bar, click <strong>Xcode</strong>, hover over
+<strong>Open Developer Tool</strong>, and select
+<strong>Simulator</strong>.</li>
+<li>Wait for the simulated iPhone or iPad to finish booting up.</li>
+<li>Inside the Simulator, click on the <strong>Safari</strong> app icon
+to launch the mobile browser.</li>
+<li>Navigate to the website or local development server URL you wish to
+debug.</li>
+</ol>
+<h3 id="step-3-connect-the-web-inspector">Step 3: Connect the Web
+Inspector</h3>
+<p>With the webpage open in the Simulator, you can now link it to your
+desktop browser.</p>
+<ol type="1">
+<li>Switch back to the desktop <strong>Safari</strong> application on
+your Mac.</li>
+<li>Click on <strong>Develop</strong> in the top menu bar.</li>
+<li>In the dropdown menu, locate your active Simulator device (it will
+be listed by its model name, such as "iPhone 15 Pro" or
+"Simulator").</li>
+<li>Hover your cursor over the Simulator's name. A secondary menu will
+appear showing all open tabs within the simulated mobile Safari.</li>
+<li>Click on the URL of the webpage you want to inspect.</li>
+</ol>
+<h3 id="debugging-your-webpage">Debugging Your Webpage</h3>
+<p>Immediately after clicking the URL, the macOS Safari Web Inspector
+window will open. This window is now actively connected to the iOS
+Simulator.</p>
+<p>You can use the <strong>Elements</strong> tab to modify the DOM and
+CSS in real time, the <strong>Console</strong> tab to view logs and run
+JavaScript commands, and the <strong>Network</strong> tab to monitor
+requests. Hovering over elements in the Web Inspector on your Mac will
+highlight the corresponding elements directly inside the iOS Simulator
+screen.</p></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/connect-safari-web-inspector-to-the-xcode-i-os-simulator';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

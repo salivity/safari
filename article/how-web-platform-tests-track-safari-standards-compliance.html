@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Web Platform Tests Track Safari Standards Compliance - safari</title>
+    <meta name="description" content="This article provides an overview of how the Web Platform Tests (WPT) project uses automated testing pipelines to measure the standards compliance of the Safari web browser. By utilizing Apple&#39;s native WebDriver implementation, JavaScript assertion framew">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/how-web-platform-tests-track-safari-standards-compliance">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Web Platform Tests Track Safari Standards Compliance - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/how-web-platform-tests-track-safari-standards-compliance" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article provides an overview of how the Web Platform Tests (WPT) project uses automated testing pipelines to measure the standards compliance of the Safari web browser. By utilizing Apple&#39;s native WebDriver implementation, JavaScript assertion framew" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="how-web-platform-tests-track-safari-standards-compliance">How
+Web Platform Tests Track Safari Standards Compliance</h1>
+<p>This article provides an overview of how the Web Platform Tests (WPT)
+project uses automated testing pipelines to measure the standards
+compliance of the Safari web browser. By utilizing Apple's native
+WebDriver implementation, JavaScript assertion frameworks, and automated
+visual screenshot comparisons, WPT continuously evaluates Safari against
+official HTML, CSS, and JavaScript specifications. The resulting metrics
+are then compiled into public dashboards to track Safari's pass rates
+and overall web interoperability.</p>
+<h3 id="automated-execution-via-webdriver">Automated Execution via
+WebDriver</h3>
+<p>To track Safari’s compliance without human intervention, the WPT
+infrastructure relies on continuous integration (CI) servers running
+macOS. These servers test both the stable release of Safari and Safari
+Technology Preview. WPT controls the browser using
+<code>safaridriver</code>, Apple's built-in implementation of the W3C
+WebDriver specification. The WPT runner uses <code>safaridriver</code>
+to launch the browser, navigate to specific test URLs hosted on a local
+test server, execute the tests, and record the outcomes.</p>
+<h3 id="tracking-html-and-javascript-with-testharnessjs">Tracking HTML
+and JavaScript with <code>testharness.js</code></h3>
+<p>For HTML specifications, DOM APIs, and JavaScript web integrations,
+WPT primarily relies on an internal framework called
+<code>testharness.js</code>. This framework runs directly inside Safari
+like a standard script.</p>
+<ul>
+<li><strong>HTML Testing:</strong> The test runner loads an HTML
+document designed to trigger specific parsing behaviors, element states,
+or DOM manipulations. The script then queries the DOM to verify if
+Safari structured the document according to the WHATWG HTML
+specification.</li>
+<li><strong>JavaScript Testing:</strong> Synchronous and asynchronous
+JavaScript tests execute API calls, Promises, and event loops. The
+harness uses assertion functions (such as <code>assert_equals</code> or
+<code>assert_true</code>) to compare Safari's actual output against the
+specification's expected result.</li>
+</ul>
+<p>If an API requires a user gesture (like a mouse click or key press)
+to function due to browser security policies, WPT uses a companion
+script called <code>testdriver.js</code>. This script instructs
+<code>safaridriver</code> to simulate native, trusted user inputs so the
+test can proceed automatically.</p>
+<h3 id="tracking-css-with-reference-tests">Tracking CSS with Reference
+Tests</h3>
+<p>Because CSS dictates visual rendering, JavaScript assertions alone
+cannot verify if a layout or style is drawn correctly on the screen. To
+track CSS pass rates, WPT uses Reference Tests, commonly known as
+"reftests."</p>
+<p>A reftest consists of two files: the test file (using the specific
+CSS feature being evaluated) and a reference file (using basic,
+universally supported HTML and CSS to create the exact same visual
+appearance). <code>safaridriver</code> loads the test file in Safari,
+takes a viewport screenshot, and then loads the reference file and takes
+a second screenshot. The WPT runner performs an automated pixel-by-pixel
+comparison of the two images. If the pixels match (or fail to match, in
+the case of a "mismatch" test), Safari passes the test. For non-visual
+CSS specifications, such as parsing rules and the CSS Object Model
+(CSSOM), WPT reverts to using <code>testharness.js</code>.</p>
+<h3 id="calculating-and-reporting-the-pass-rate">Calculating and
+Reporting the Pass Rate</h3>
+<p>As the test suite runs, a single test file may contain dozens of
+individual "subtests." Once a full run across the repository is
+complete, the WPT runner compiles the pass, fail, or timeout status of
+every test and subtest into a standardized JSON report.</p>
+<p>This data is uploaded to the official WPT dashboard (wpt.fyi). The
+dashboard organizes the results based on the repository's folder
+structure, which mirrors official specification bodies (for example,
+<code>/html</code>, <code>/css</code>, and <code>/webaudio</code>). By
+dividing the number of passed tests by the total number of tests in each
+directory, the system tracks and displays Safari's exact standards pass
+rate over time.</p></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/how-web-platform-tests-track-safari-standards-compliance';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Safari: Legacy Meta Tags vs. Modern Web App Manifests - safari</title>
+    <meta name="description" content="This article provides an overview of how the Safari web browser handles the interaction between legacy apple-mobile-web-app-capable meta tags and modern Web App Manifest settings. It covers the historical context of both methods, the exact precedence rule">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/safari-legacy-meta-tags-vs-modern-web-app-manifests">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Safari: Legacy Meta Tags vs. Modern Web App Manifests - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/safari-legacy-meta-tags-vs-modern-web-app-manifests" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article provides an overview of how the Safari web browser handles the interaction between legacy apple-mobile-web-app-capable meta tags and modern Web App Manifest settings. It covers the historical context of both methods, the exact precedence rule" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="safari-legacy-meta-tags-vs-modern-web-app-manifests">Safari:
+Legacy Meta Tags vs. Modern Web App Manifests</h1>
+<p>This article provides an overview of how the Safari web browser
+handles the interaction between legacy
+<code>apple-mobile-web-app-capable</code> meta tags and modern Web App
+Manifest settings. It covers the historical context of both methods, the
+exact precedence rules Safari uses when both are present in a web
+application, how conflicts between the two are resolved, and the best
+practices developers should follow for Progressive Web Apps (PWAs) on
+iOS and iPadOS.</p>
+<h2 id="the-two-approaches-defined">The Two Approaches Defined</h2>
+<p>Before the W3C standardized the Web App Manifest, Apple introduced
+proprietary HTML meta tags to allow websites to look and behave like
+native apps when added to the iOS Home Screen.</p>
+<p><strong>The Legacy Meta Tag:</strong></p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode html"><code class="sourceCode html"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">meta</span><span class="ot"> name</span><span class="op">=</span><span class="st">&quot;apple-mobile-web-app-capable&quot;</span><span class="ot"> content</span><span class="op">=</span><span class="st">&quot;yes&quot;</span><span class="dt">&gt;</span></span></code></pre></div>
+<p>When set to <code>yes</code>, this tag instructs Safari to open the
+web application in "standalone" mode, hiding the standard Safari user
+interface (such as the URL bar and navigation buttons).</p>
+<p><strong>The Web App Manifest:</strong> The modern approach uses a
+JSON file (typically <code>manifest.json</code> or
+<code>manifest.webmanifest</code>) linked in the HTML head. It controls
+the display mode using the <code>display</code> property:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;name&quot;</span><span class="fu">:</span> <span class="st">&quot;My Web App&quot;</span><span class="fu">,</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;display&quot;</span><span class="fu">:</span> <span class="st">&quot;standalone&quot;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<h2 id="how-safari-evaluates-both-settings">How Safari Evaluates Both
+Settings</h2>
+<p>Since iOS 11.3, Safari has supported the Web App Manifest standard.
+However, because millions of websites still use the legacy Apple meta
+tags, Safari follows specific logic to determine how to display a web
+app when both the meta tag and the manifest are present.</p>
+<h3 id="1-alignment-no-conflict">1. Alignment (No Conflict)</h3>
+<p>If the Web App Manifest specifies
+<code>"display": "standalone"</code> and the HTML includes
+<code>&lt;meta name="apple-mobile-web-app-capable" content="yes"&gt;</code>,
+there is no conflict. Safari will launch the Home Screen web app in
+standalone mode without browser UI.</p>
+<h3 id="2-the-meta-tag-override-scenario">2. The Meta Tag Override
+Scenario</h3>
+<p>A conflict arises if the Web App Manifest requests a standard browser
+experience, but the legacy meta tag requests a full-screen
+experience:</p>
+<ul>
+<li><strong>Manifest:</strong> <code>"display": "browser"</code></li>
+<li><strong>Meta Tag:</strong> <code>content="yes"</code></li>
+</ul>
+<p>In this scenario, <strong>the legacy meta tag overrides the Web App
+Manifest</strong>. Safari assumes that by explicitly including the
+Apple-specific meta tag, the developer intends to force the standalone
+experience on iOS devices, ignoring the manifest's <code>browser</code>
+setting.</p>
+<h3 id="3-unsupported-manifest-display-modes">3. Unsupported Manifest
+Display Modes</h3>
+<p>The Web App Manifest specification includes four display modes:
+<code>fullscreen</code>, <code>standalone</code>,
+<code>minimal-ui</code>, and <code>browser</code>. Safari on iOS does
+not support all of them natively and maps them as follows when no meta
+tags are present:</p>
+<ul>
+<li><code>fullscreen</code> falls back to <code>standalone</code>.</li>
+<li><code>standalone</code> renders as <code>standalone</code>.</li>
+<li><code>minimal-ui</code> falls back to <code>browser</code>.</li>
+<li><code>browser</code> renders as <code>browser</code>.</li>
+</ul>
+<p>If you set your manifest to <code>minimal-ui</code>, Safari will
+normally open the app in the standard browser view. However, if you also
+include
+<code>&lt;meta name="apple-mobile-web-app-capable" content="yes"&gt;</code>
+as a fallback in your HTML, the meta tag will intercept the
+<code>minimal-ui</code> fallback and force the app into
+<code>standalone</code> mode instead.</p>
+<h3 id="4-manifest-loading-failures">4. Manifest Loading Failures</h3>
+<p>Safari fetches the Web App Manifest asynchronously. If a user taps
+"Add to Home Screen" before the manifest file has finished downloading,
+or if the manifest is blocked by a network error, Safari immediately
+falls back to the HTML meta tags. If
+<code>apple-mobile-web-app-capable</code> is present, the app will still
+be saved as a standalone app. If the meta tag is omitted and the
+manifest hasn't loaded, the app will be saved as a standard webpage
+bookmark.</p>
+<h2 id="related-companion-tags">Related Companion Tags</h2>
+<p>The <code>apple-mobile-web-app-capable</code> tag also dictates how
+other legacy tags interact with the manifest:</p>
+<ul>
+<li><strong>Status Bar Style:</strong> The
+<code>&lt;meta name="apple-mobile-web-app-status-bar-style"&gt;</code>
+tag only functions if standalone mode is triggered (either via the
+manifest or the capable meta tag). It works alongside the manifest's
+<code>theme_color</code> property to style the top of the iOS
+screen.</li>
+<li><strong>App Titles:</strong> If both the
+<code>&lt;meta name="apple-mobile-web-app-title"&gt;</code> tag and the
+manifest's <code>short_name</code> or <code>name</code> properties are
+present, modern versions of Safari prioritize the
+<code>apple-mobile-web-app-title</code> tag for the Home Screen icon
+label.</li>
+</ul>
+<h2 id="current-best-practices">Current Best Practices</h2>
+<p>Apple has officially begun deprecating the
+<code>apple-mobile-web-app-capable</code> meta tag in favor of the Web
+App Manifest and the more generic
+<code>&lt;meta name="mobile-web-app-capable" content="yes"&gt;</code>
+tag. Modern WebKit consoles now issue warnings when the legacy Apple tag
+is used.</p>
+<p>To ensure predictable behavior in Safari:</p>
+<ol type="1">
+<li><strong>Rely on the Manifest:</strong> Use the Web App Manifest as
+your single source of truth for display modes. All modern iOS devices
+support it.</li>
+<li><strong>Remove the Legacy Tag:</strong> Remove
+<code>apple-mobile-web-app-capable</code> from your HTML unless you
+explicitly need to support iOS versions older than 11.3, or if you need
+a synchronous fallback for users adding the page to their Home Screen on
+very slow connections.</li>
+<li><strong>Avoid Contradictions:</strong> Never leave
+<code>apple-mobile-web-app-capable</code> set to <code>yes</code> if you
+intend to use <code>"display": "browser"</code> or
+<code>"display": "minimal-ui"</code> in your manifest, as the meta tag
+will break your intended layout on iOS.</li>
+</ol></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/safari-legacy-meta-tags-vs-modern-web-app-manifests';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

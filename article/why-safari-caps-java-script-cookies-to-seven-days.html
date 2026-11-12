@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Why Safari Caps JavaScript Cookies to Seven Days - safari</title>
+    <meta name="description" content="Apple’s Safari browser limits the lifespan of client-side cookies created through JavaScript&#39;s document.cookie API to a maximum of seven days. This restriction is a core component of WebKit&#39;s Intelligent Tracking Prevention (ITP) feature, designed to prot">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/why-safari-caps-java-script-cookies-to-seven-days">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Why Safari Caps JavaScript Cookies to Seven Days - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/why-safari-caps-java-script-cookies-to-seven-days" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Apple’s Safari browser limits the lifespan of client-side cookies created through JavaScript&#39;s document.cookie API to a maximum of seven days. This restriction is a core component of WebKit&#39;s Intelligent Tracking Prevention (ITP) feature, designed to prot" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="why-safari-caps-javascript-cookies-to-seven-days">Why Safari
+Caps JavaScript Cookies to Seven Days</h1>
+<p>Apple’s Safari browser limits the lifespan of client-side cookies
+created through JavaScript's <code>document.cookie</code> API to a
+maximum of seven days. This restriction is a core component of WebKit's
+Intelligent Tracking Prevention (ITP) feature, designed to protect user
+privacy. This article explains why Apple implemented this seven-day cap,
+how it prevents third-party scripts from exploiting first-party storage
+for long-term user tracking, its secondary security benefits, and how
+developers can legitimately maintain longer user sessions using
+server-side cookies.</p>
+<h2 id="stopping-the-first-party-tracking-loophole">Stopping the
+First-Party Tracking Loophole</h2>
+<p>Historically, cross-site tracking relied on third-party cookies. When
+Safari blocked third-party cookies by default, tracking companies
+adapted. They began providing website owners with JavaScript snippets to
+embed directly onto their pages.</p>
+<p>Because these scripts run directly on the host website, any cookie
+they create via <code>document.cookie</code> is technically considered a
+"first-party" cookie. Trackers used this method to generate unique user
+IDs that expired years into the future. By pairing these long-lived
+first-party cookies with URL link decoration (passing tracking IDs in
+the URL parameters when a user clicks a link), ad networks could still
+track users across different websites.</p>
+<p>By capping <code>document.cookie</code> lifespans to seven days,
+Safari drastically reduces the effectiveness of this tracking method. If
+a user does not revisit a specific website within a week, the tracker's
+cookie expires, erasing the user's long-term behavioral profile on that
+site.</p>
+<h2 id="the-24-hour-cap-for-link-decoration">The 24-Hour Cap for Link
+Decoration</h2>
+<p>In addition to the standard seven-day cap, Safari enforces an even
+stricter 24-hour expiration limit on <code>document.cookie</code> under
+specific conditions. If a user navigates to a website from a domain
+classified by ITP as a known tracker, and the URL contains query
+parameters or fragments (often used to pass tracking IDs), any
+client-side cookie created on the destination site is capped at just one
+day. This directly neutralizes cross-site tracking via URL
+parameters.</p>
+<h2 id="mitigating-cross-site-scripting-xss-risks">Mitigating Cross-Site
+Scripting (XSS) Risks</h2>
+<p>Beyond privacy, limiting the usefulness of
+<code>document.cookie</code> improves web security. Cookies created or
+read via JavaScript are inherently vulnerable to Cross-Site Scripting
+(XSS) attacks. If a malicious actor injects a script into a website,
+that script can read <code>document.cookie</code> and steal sensitive
+session tokens or user data.</p>
+<p>By discouraging the use of JavaScript-accessible cookies for
+long-term storage, Apple nudges developers toward safer authentication
+and storage practices.</p>
+<h2 id="how-developers-can-persist-sessions-longer">How Developers Can
+Persist Sessions Longer</h2>
+<p>Safari's seven-day cap only applies to cookies created on the client
+side via JavaScript. It does not apply to standard first-party cookies
+set by a web server.</p>
+<p>To maintain user sessions, preferences, or authentication states for
+longer than seven days, developers must set cookies via HTTP response
+headers (<code>Set-Cookie</code>) from a first-party server. For these
+cookies to bypass the seven-day limit, they must meet the following
+criteria:</p>
+<ul>
+<li><strong>Set via HTTP Header:</strong> They must be delivered by the
+server, not generated in the browser via
+<code>document.cookie</code>.</li>
+<li><strong>Same-Site Origin:</strong> The server setting the cookie
+must share the same registrable domain as the website the user is
+visiting.</li>
+<li><strong>No CNAME Cloaking:</strong> The server cannot use DNS CNAME
+records to disguise a third-party tracking server as a first-party
+subdomain (Safari detects this and applies the seven-day cap
+anyway).</li>
+</ul>
+<p>For maximum security, server-set cookies should also include the
+<code>HttpOnly</code> flag, which completely blocks JavaScript from
+accessing the cookie, and the <code>Secure</code> flag, which ensures
+the cookie is only transmitted over encrypted HTTPS connections.</p></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/why-safari-caps-java-script-cookies-to-seven-days';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

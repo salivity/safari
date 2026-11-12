@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Balancing Speed and Optimization in Safari&#39;s DFG JIT - safari</title>
+    <meta name="description" content="This article explores how the Data Flow Graph (DFG) Just-In-Time (JIT) compiler in Safari’s JavaScriptCore engine strikes a critical balance between rapid compilation times and high-speed code execution. By operating as an intermediate tier within a multi">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/balancing-speed-and-optimization-in-safari-s-dfg-jit">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Balancing Speed and Optimization in Safari&#39;s DFG JIT - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/balancing-speed-and-optimization-in-safari-s-dfg-jit" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article explores how the Data Flow Graph (DFG) Just-In-Time (JIT) compiler in Safari’s JavaScriptCore engine strikes a critical balance between rapid compilation times and high-speed code execution. By operating as an intermediate tier within a multi" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="balancing-speed-and-optimization-in-safaris-dfg-jit">Balancing
+Speed and Optimization in Safari's DFG JIT</h1>
+<p>This article explores how the Data Flow Graph (DFG) Just-In-Time
+(JIT) compiler in Safari’s JavaScriptCore engine strikes a critical
+balance between rapid compilation times and high-speed code execution.
+By operating as an intermediate tier within a multi-tiered architecture,
+utilizing dynamic type speculation, and employing On-Stack Replacement
+(OSR), the DFG JIT optimizes frequently executed JavaScript code without
+causing noticeable delays for the user.</p>
+<h2 id="the-multi-tiered-execution-model">The Multi-Tiered Execution
+Model</h2>
+<p>To understand how the DFG JIT balances speed and optimization, it is
+necessary to look at its position within JavaScriptCore (JSC), the
+engine that powers Safari. JSC uses a four-tier execution model:</p>
+<ol type="1">
+<li><strong>LLInt (Low-Level Interpreter):</strong> Starts executing
+code immediately with zero compilation delay.</li>
+<li><strong>Baseline JIT:</strong> Compiles code quickly with minimal
+optimization once it runs a few times.</li>
+<li><strong>DFG JIT:</strong> Steps in when code becomes "warm"
+(executed dozens or hundreds of times).</li>
+<li><strong>FTL (Faster Than Light) JIT:</strong> An aggressive,
+heavy-weight optimizing compiler for the "hottest" code.</li>
+</ol>
+<p>The DFG JIT achieves its balance by refusing to compile everything.
+It relies on the LLInt and Baseline JIT to execute code initially. By
+the time a function reaches the DFG tier, JSC knows the code is
+performance-critical, justifying the CPU time required to compile and
+optimize it.</p>
+<h2 id="profiling-and-speculative-compilation">Profiling and Speculative
+Compilation</h2>
+<p>JavaScript is dynamically typed, meaning a variable can hold a number
+at one moment and a string the next. Compiling every possible type
+combination into machine code takes too long and results in slow
+execution.</p>
+<p>The DFG JIT solves this through speculative compilation. While code
+runs in the LLInt and Baseline tiers, JSC collects profiling data about
+the types of variables passing through functions. When the DFG JIT takes
+over, it reads this profile and makes an educated guess
+(speculation).</p>
+<p>If a variable has only ever been an integer, the DFG JIT compiles the
+code assuming it will <em>always</em> be an integer. This drastically
+reduces compilation time because the compiler completely ignores the
+complex logic required to handle strings, objects, or floating-point
+numbers for that specific operation. The resulting machine code is
+compact and executes rapidly.</p>
+<h2 id="on-stack-replacement-osr">On-Stack Replacement (OSR)</h2>
+<p>Because the DFG JIT relies on assumptions, it needs a safety net for
+when those assumptions are wrong. This is handled via On-Stack
+Replacement (OSR).</p>
+<p>Instead of compiling slow fallback paths for unexpected variable
+types, the DFG JIT inserts lightweight type checks. If a check fails
+during execution (for example, an expected integer suddenly becomes an
+object), the DFG triggers an <strong>OSR Exit</strong>. It immediately
+halts execution of the optimized code, reconstructs the program state,
+and drops back down to the Baseline JIT.</p>
+<p>This mechanism allows the DFG to be aggressively optimistic. It saves
+compilation time by only generating code for the most likely scenarios,
+and it maximizes execution speed by keeping the compiled pathways free
+of bloated, generalized instructions. Once the Baseline JIT gathers new
+profiling data about the unexpected type, the DFG can recompile the
+function with updated assumptions.</p>
+<h2 id="graph-based-optimizations">Graph-Based Optimizations</h2>
+<p>When translating bytecode into machine code, the DFG JIT converts the
+instructions into a Data Flow Graph. This representation explicitly maps
+out how data moves from one operation to another, allowing the compiler
+to quickly perform high-impact optimizations without doing exhaustive,
+time-consuming code analysis.</p>
+<p>Key optimizations performed at this stage include:</p>
+<ul>
+<li><strong>Inlining:</strong> The DFG takes small, frequently called
+functions and copies their bodies directly into the calling function.
+This eliminates the overhead of function calls and allows the compiler
+to optimize the combined code as a single unit.</li>
+<li><strong>Dead Code Elimination:</strong> If the data flow reveals
+that a calculated value is never used, the DFG deletes the instructions
+that generate that value.</li>
+<li><strong>Common Subexpression Elimination:</strong> If the same
+calculation is performed multiple times with the same inputs, the DFG
+computes it once and reuses the result.</li>
+<li><strong>Escape Analysis:</strong> The DFG analyzes whether a newly
+created object ever leaves the scope of the current function. If it does
+not, the compiler avoids slow memory allocations on the heap and places
+the object's data directly into fast CPU registers.</li>
+</ul>
+<h2 id="capping-optimization-depth">Capping Optimization Depth</h2>
+<p>The ultimate secret to the DFG JIT's compilation speed is knowing
+when to stop. Deep, exhaustive optimizations—such as complex loop
+unrolling or heavy register allocation algorithms—take a significant
+amount of time to compute.</p>
+<p>The DFG intentionally skips these heavy optimizations. Its goal is to
+generate "good enough" highly optimized code in a matter of
+milliseconds. If a piece of DFG-compiled code continues to run thousands
+of times, the engine passes the baton to the final tier, the FTL JIT,
+which takes on the heavy compilation burden in a background thread while
+the DFG code continues to run smoothly in the foreground.</p></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/balancing-speed-and-optimization-in-safari-s-dfg-jit';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

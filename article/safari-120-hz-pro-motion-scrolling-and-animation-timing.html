@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Safari 120Hz ProMotion: Scrolling and Animation Timing - safari</title>
+    <meta name="description" content="Apple’s ProMotion technology brings adaptive 120Hz refresh rates to compatible Mac, iPhone, and iPad devices, fundamentally changing how the Safari web browser handles visual rendering. While native webpage scrolling automatically benefits from this ultra">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/safari-120-hz-pro-motion-scrolling-and-animation-timing">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Safari 120Hz ProMotion: Scrolling and Animation Timing - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/safari-120-hz-pro-motion-scrolling-and-animation-timing" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Apple’s ProMotion technology brings adaptive 120Hz refresh rates to compatible Mac, iPhone, and iPad devices, fundamentally changing how the Safari web browser handles visual rendering. While native webpage scrolling automatically benefits from this ultra" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="safari-120hz-promotion-scrolling-and-animation-timing">Safari
+120Hz ProMotion: Scrolling and Animation Timing</h1>
+<p>Apple’s ProMotion technology brings adaptive 120Hz refresh rates to
+compatible Mac, iPhone, and iPad devices, fundamentally changing how the
+Safari web browser handles visual rendering. While native webpage
+scrolling automatically benefits from this ultra-smooth 120
+frames-per-second capability, JavaScript-driven animations using
+<code>requestAnimationFrame</code> generally remain locked at 60Hz due
+to browser power-saving optimizations and legacy web compatibility. This
+article explains the mechanics behind Safari's 120Hz scrolling, why
+<code>requestAnimationFrame</code> timing behaves differently, and how
+web developers must handle variable refresh rates.</p>
+<h2 id="how-promotion-affects-scrolling-in-safari">How ProMotion Affects
+Scrolling in Safari</h2>
+<p>ProMotion displays do not run at a locked 120Hz at all times.
+Instead, the system dynamically adjusts the refresh rate between 10Hz
+(or 1Hz on newer iPhones) and 120Hz depending on the content being
+displayed and the user's input.</p>
+<p>In Safari, scrolling is decoupled from the main JavaScript execution
+thread and is handled directly by the operating system's rendering
+compositor. This affects scrolling in the following ways:</p>
+<ul>
+<li><strong>Immediate 120Hz Ramp-Up:</strong> As soon as a user touches
+the screen on an iPhone or iPad, or uses a trackpad on a Mac, Safari
+signals the display to ramp up to 120Hz, updating the screen every 8.33
+milliseconds.</li>
+<li><strong>Dynamic Deceleration:</strong> As the scroll momentum slows
+down, ProMotion gradually steps down the refresh rate (e.g., to 80Hz,
+60Hz, 30Hz, and finally 10Hz when static) to conserve battery life
+without causing visual stutter.</li>
+<li><strong>Zero Developer Intervention:</strong> Standard CSS overflow
+scrolling and main-page scrolling automatically run at 120Hz. However,
+if a website hijacks native scrolling using JavaScript (scroll-jacking),
+the scrolling smoothness will degrade and drop to the speed of the
+JavaScript execution thread.</li>
+</ul>
+<h2 id="how-promotion-affects-requestanimationframe-timing">How
+ProMotion Affects <code>requestAnimationFrame</code> Timing</h2>
+<p>According to the HTML specification,
+<code>requestAnimationFrame</code> (rAF) is supposed to match the
+display’s refresh rate. On a 120Hz monitor, browsers like Chrome and
+Firefox will trigger <code>requestAnimationFrame</code> callbacks 120
+times per second (approximately every 8.33ms).</p>
+<p>Safari behaves differently. By default, WebKit (Safari's engine) caps
+<code>requestAnimationFrame</code> and standard page rendering updates
+at 60Hz (every 16.67ms), even on 120Hz ProMotion displays.</p>
+<p>Safari enforces this 60Hz cap for two primary reasons:</p>
+<ol type="1">
+<li><strong>Battery Efficiency:</strong> Running complex DOM
+manipulations, canvas rendering, and JavaScript physics at 120Hz rapidly
+drains the battery on mobile devices and laptops.</li>
+<li><strong>Backwards Compatibility:</strong> Historically, many web
+developers wrote animation loops assuming every screen runs at 60Hz.
+They incremented animations by a fixed pixel amount per frame rather
+than calculating elapsed time. On a 120Hz loop, these poorly coded
+animations run at double speed, breaking games and UI transitions.</li>
+</ol>
+<h2 id="overriding-the-60hz-cap-in-safari">Overriding the 60Hz Cap in
+Safari</h2>
+<p>Web developers cannot force Safari to run
+<code>requestAnimationFrame</code> at 120Hz via code. The cap is
+controlled strictly at the browser level via a WebKit feature flag
+titled <strong>Prefer Page Rendering Updates near 60fps</strong>.</p>
+<ul>
+<li><strong>Default State:</strong> Enabled (locks
+<code>requestAnimationFrame</code> to 60Hz).</li>
+<li><strong>Disabled State:</strong> Unlocks
+<code>requestAnimationFrame</code> to run at the native 120Hz refresh
+rate (8.33ms intervals). Users and developers can manually disable this
+flag in Safari's Feature Flags (or Experimental Features) menu on macOS
+and iOS.</li>
+</ul>
+<h2 id="writing-frame-rate-independent-code">Writing Frame-Rate
+Independent Code</h2>
+<p>Because <code>requestAnimationFrame</code> might run at 60Hz in
+Safari, 120Hz in Chrome on the same Mac, 120Hz for Safari users who
+changed their feature flags, or 30Hz when an iPhone is in Low Power
+Mode, developers must never assume a fixed time between frames.</p>
+<p>To ensure animations run at the exact same physical speed regardless
+of whether Safari is outputting 60Hz or 120Hz, always use the
+<code>DOMHighResTimeStamp</code> provided by
+<code>requestAnimationFrame</code> to calculate <strong>delta
+time</strong> (the time elapsed since the last frame).</p>
+<h3 id="incorrect-approach-frame-dependent">Incorrect Approach
+(Frame-Dependent)</h3>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">animate</span>() {</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Moves twice as fast at 120Hz compared to 60Hz</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  element<span class="op">.</span><span class="at">style</span><span class="op">.</span><span class="at">transform</span> <span class="op">=</span> <span class="vs">`translateX(</span><span class="sc">${</span>position <span class="op">+=</span> <span class="dv">2</span><span class="sc">}</span><span class="vs">px)`</span><span class="op">;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">requestAnimationFrame</span>(animate)<span class="op">;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">requestAnimationFrame</span>(animate)<span class="op">;</span></span></code></pre></div>
+<h3 id="correct-approach-time-dependent">Correct Approach
+(Time-Dependent)</h3>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> lastTime <span class="op">=</span> <span class="bu">performance</span><span class="op">.</span><span class="fu">now</span>()<span class="op">;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> position <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> speed <span class="op">=</span> <span class="dv">120</span><span class="op">;</span> <span class="co">// Pixels per second</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">animate</span>(currentTime) {</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Calculate time elapsed in seconds</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> deltaTime <span class="op">=</span> (currentTime <span class="op">-</span> lastTime) <span class="op">/</span> <span class="dv">1000</span><span class="op">;</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  lastTime <span class="op">=</span> currentTime<span class="op">;</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Moves at the exact same speed on 30Hz, 60Hz, and 120Hz</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  position <span class="op">+=</span> speed <span class="op">*</span> deltaTime<span class="op">;</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  element<span class="op">.</span><span class="at">style</span><span class="op">.</span><span class="at">transform</span> <span class="op">=</span> <span class="vs">`translateX(</span><span class="sc">${</span>position<span class="sc">}</span><span class="vs">px)`</span><span class="op">;</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">requestAnimationFrame</span>(animate)<span class="op">;</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="fu">requestAnimationFrame</span>(animate)<span class="op">;</span></span></code></pre></div>
+<p>By relying on delta time and allowing native CSS to handle scrolling
+rather than JavaScript scroll-jacking, web applications will remain
+consistent and responsive across all ProMotion devices.</p></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/safari-120-hz-pro-motion-scrolling-and-animation-timing';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

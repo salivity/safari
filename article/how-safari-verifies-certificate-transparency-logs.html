@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Safari Verifies Certificate Transparency Logs - safari</title>
+    <meta name="description" content="This article explains how the Safari web browser utilizes Certificate Transparency (CT) to validate newly issued TLS certificates before establishing a secure connection to a website. It covers the role and delivery methods of Signed Certificate Timestamp">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/how-safari-verifies-certificate-transparency-logs">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Safari Verifies Certificate Transparency Logs - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/how-safari-verifies-certificate-transparency-logs" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article explains how the Safari web browser utilizes Certificate Transparency (CT) to validate newly issued TLS certificates before establishing a secure connection to a website. It covers the role and delivery methods of Signed Certificate Timestamp" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="how-safari-verifies-certificate-transparency-logs">How Safari
+Verifies Certificate Transparency Logs</h1>
+<p>This article explains how the Safari web browser utilizes Certificate
+Transparency (CT) to validate newly issued TLS certificates before
+establishing a secure connection to a website. It covers the role and
+delivery methods of Signed Certificate Timestamps (SCTs), the
+cryptographic verification process against Apple's trusted log list, and
+the specific policy requirements a certificate must meet to be trusted
+by the browser.</p>
+<h3 id="the-role-of-signed-certificate-timestamps-scts">The Role of
+Signed Certificate Timestamps (SCTs)</h3>
+<p>When you visit a secure website, Safari does not query massive public
+Certificate Transparency logs directly in real time, as doing so would
+slow down browsing and compromise user privacy. Instead, Safari relies
+on Signed Certificate Timestamps (SCTs).</p>
+<p>An SCT is a cryptographic receipt issued by a CT log. It serves as a
+formal promise that a specific TLS certificate has been submitted to the
+log and will be publicly visible within a set timeframe, known as the
+Maximum Merge Delay (usually 24 hours). To trust a newly issued
+certificate, Safari requires proof of logging in the form of valid
+SCTs.</p>
+<h3 id="how-safari-receives-scts">How Safari Receives SCTs</h3>
+<p>During the TLS handshake—the process where Safari and the web server
+establish a secure connection—the browser checks for SCTs accompanying
+the website's TLS certificate. Safari accepts SCTs delivered through any
+of the following three methods:</p>
+<ol type="1">
+<li><strong>X.509v3 Certificate Extension:</strong> The Certificate
+Authority (CA) submits a "pre-certificate" to the CT logs before issuing
+the final certificate. The logs return SCTs, which the CA embeds
+directly into the final TLS certificate.</li>
+<li><strong>TLS Extension:</strong> The web server fetches SCTs from the
+CT logs and sends them directly to Safari using a specific TLS extension
+during the initial connection handshake.</li>
+<li><strong>OCSP Stapling:</strong> The web server requests SCTs from
+the CA alongside the certificate's revocation status and "staples" this
+information to the TLS handshake.</li>
+</ol>
+<h3 id="cryptographic-verification">Cryptographic Verification</h3>
+<p>Once Safari extracts the SCTs from the connection, it must verify
+their authenticity. Apple maintains a curated list of trusted, compliant
+CT logs. This list—which includes the public cryptographic keys for each
+log—is built into macOS and iOS and is updated automatically in the
+background by Apple.</p>
+<p>Safari performs the following checks on each SCT:</p>
+<ul>
+<li><strong>Log Recognition:</strong> Safari checks the Log ID inside
+the SCT against Apple's built-in list of recognized CT logs.</li>
+<li><strong>Signature Validation:</strong> Using the corresponding CT
+log's public key, Safari verifies the digital signature on the SCT. This
+proves the SCT was genuinely issued by that specific log and has not
+been altered.</li>
+<li><strong>Certificate Matching:</strong> Safari ensures the
+cryptographic hash inside the SCT matches the exact TLS certificate
+presented by the website.</li>
+<li><strong>Timestamp Check:</strong> Safari verifies that the timestamp
+in the SCT is in the past, not the future.</li>
+</ul>
+<h3 id="enforcing-apples-ct-policy">Enforcing Apple's CT Policy</h3>
+<p>Cryptographic validity alone is not enough. Safari also enforces
+Apple’s specific Certificate Transparency policy to prevent any single
+compromised CT log or operator from undermining the system.</p>
+<p>To pass Safari's verification, the presented SCTs must meet strict
+diversity and quantity rules:</p>
+<ul>
+<li><strong>Embedded SCTs:</strong> Because current Apple policy limits
+TLS certificate lifetimes to a maximum of 398 days, certificates with
+embedded SCTs must include at least <strong>two</strong> valid SCTs if
+the certificate is valid for 180 days or less, and
+<strong>three</strong> valid SCTs if it is valid for 181 to 398
+days.</li>
+<li><strong>TLS or OCSP Delivered SCTs:</strong> If the SCTs are
+delivered via a TLS extension or OCSP stapling, Safari requires at least
+<strong>two</strong> valid SCTs, regardless of the certificate's
+validity period.</li>
+<li><strong>Operator Diversity:</strong> The required SCTs cannot all
+come from logs run by the same organization. A certificate must have
+SCTs from at least two different log operators (for example, one from a
+Google-operated log and one from a Cloudflare-operated log).</li>
+<li><strong>Log Status:</strong> The logs that issued the SCTs must be
+in a trusted state (categorized by Apple as "Usable," "Qualified," or
+"Read-only") at the time of the check.</li>
+</ul>
+<h3 id="the-final-trust-decision">The Final Trust Decision</h3>
+<p>Safari processes these CT checks in milliseconds alongside standard
+TLS validations, such as checking the certificate's expiration date and
+verifying the Certificate Authority chain.</p>
+<p>If the SCTs are cryptographically valid and satisfy Apple's diversity
+policy, Safari trusts the certificate and loads the website. If the SCTs
+are missing, forged, or fail to meet the policy criteria, Safari
+immediately terminates the connection and displays a full-page warning
+alerting the user that the connection is not private.</p></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/how-safari-verifies-certificate-transparency-logs';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

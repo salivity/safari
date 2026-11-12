@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Handoff Transfers Safari Tabs from iPhone to Mac - safari</title>
+    <meta name="description" content="Apple&#39;s Handoff feature allows users to seamlessly transition an active Safari webpage from an iPhone directly to a Mac with a single click. This article provides an overview of the underlying technology that makes this possible—specifically the combinati">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/how-handoff-transfers-safari-tabs-from-i-phone-to-mac">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Handoff Transfers Safari Tabs from iPhone to Mac - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/how-handoff-transfers-safari-tabs-from-i-phone-to-mac" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Apple&#39;s Handoff feature allows users to seamlessly transition an active Safari webpage from an iPhone directly to a Mac with a single click. This article provides an overview of the underlying technology that makes this possible—specifically the combinati" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="how-handoff-transfers-safari-tabs-from-iphone-to-mac">How
+Handoff Transfers Safari Tabs from iPhone to Mac</h1>
+<p>Apple's Handoff feature allows users to seamlessly transition an
+active Safari webpage from an iPhone directly to a Mac with a single
+click. This article provides an overview of the underlying technology
+that makes this possible—specifically the combination of Bluetooth Low
+Energy, Wi-Fi, and iCloud—alongside the necessary device configurations
+and the exact steps required to pick up your browsing session straight
+from the Mac Dock.</p>
+<h3 id="the-technology-behind-handoff">The Technology Behind
+Handoff</h3>
+<p>Handoff is part of Apple's Continuity suite, and it relies on a
+synchronized effort between local wireless protocols and cloud
+authentication to transfer your Safari session instantly.</p>
+<ul>
+<li><strong>iCloud Authentication:</strong> Both the iPhone and the Mac
+must be signed in to the exact same Apple ID. This establishes a secure
+trust between the devices and ensures your browsing data is only shared
+with hardware you own.</li>
+<li><strong>Bluetooth Low Energy (BLE):</strong> When you open a webpage
+in Safari on your iPhone, the device uses BLE to broadcast a tiny data
+packet to nearby devices. This signal tells your Mac that an active,
+Handoff-compatible task is happening in close proximity.</li>
+<li><strong>Wi-Fi Connection:</strong> Once the Mac detects the iPhone's
+Bluetooth broadcast, the two devices use a direct peer-to-peer Wi-Fi
+connection to securely transfer the specific activity data—in this case,
+the exact URL of the Safari tab you are viewing.</li>
+</ul>
+<h3 id="necessary-device-settings">Necessary Device Settings</h3>
+<p>Before Safari can pass a tab from your iPhone to your Mac, specific
+settings must be active on both devices:</p>
+<ol type="1">
+<li><strong>Same Apple ID:</strong> Both devices must be logged into the
+same iCloud account with two-factor authentication enabled.</li>
+<li><strong>Wireless Radios On:</strong> Bluetooth and Wi-Fi must be
+turned on for both the iPhone and the Mac.</li>
+<li><strong>Enable on iPhone:</strong> Go to <strong>Settings &gt;
+General &gt; AirPlay &amp; Handoff</strong> and toggle
+<strong>Handoff</strong> to the "On" position.</li>
+<li><strong>Enable on Mac:</strong> Go to <strong>System Settings &gt;
+General &gt; AirDrop &amp; Handoff</strong> and turn on <strong>Allow
+Handoff between this Mac and your iCloud devices</strong>.</li>
+</ol>
+<h3 id="how-the-transfer-works-in-real-time">How the Transfer Works in
+Real-Time</h3>
+<p>Once the technology is enabled, transferring a webpage requires no
+manual syncing. The process happens automatically in the background as
+you use your devices.</p>
+<ol type="1">
+<li><strong>Open the Webpage:</strong> Unlock your iPhone, open the
+Safari app, and navigate to any webpage. Keep the screen awake and
+Safari in the foreground.</li>
+<li><strong>Proximity Detection:</strong> Bring your iPhone within
+Bluetooth range of your Mac (typically within 30 feet or 10
+meters).</li>
+<li><strong>The Mac Dock Updates:</strong> Your Mac will instantly read
+the broadcast from your iPhone. A new Safari icon will appear at the far
+right side (or bottom) of your Mac Dock, separated by a divider line.
+This icon will feature a small badge of an iPhone in the corner,
+indicating the source of the Handoff.</li>
+<li><strong>Click to Open:</strong> Click the Handoff Safari icon in the
+Mac Dock. Your Mac's default browser (or Safari specifically) will
+immediately launch and load the exact URL you were just reading on your
+iPhone.</li>
+</ol>
+<p>Because Handoff transfers the URL rather than a cached version of the
+page, your Mac will load the live webpage fresh, allowing you to
+immediately continue reading from the larger screen.</p></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/how-handoff-transfers-safari-tabs-from-i-phone-to-mac';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Safari&#39;s Live Text Extracts Text from Images and Videos - safari</title>
+    <meta name="description" content="This article explores the underlying technology and user mechanics of Apple&#39;s Live Text feature within the Safari web browser. It explains how on-device machine learning and optical character recognition work together to detect, isolate, and convert flatt">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/how-safari-s-live-text-extracts-text-from-images-and-videos">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Safari&#39;s Live Text Extracts Text from Images and Videos - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/how-safari-s-live-text-extracts-text-from-images-and-videos" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article explores the underlying technology and user mechanics of Apple&#39;s Live Text feature within the Safari web browser. It explains how on-device machine learning and optical character recognition work together to detect, isolate, and convert flatt" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="how-safaris-live-text-extracts-text-from-images-and-videos">How
+Safari's Live Text Extracts Text from Images and Videos</h1>
+<p>This article explores the underlying technology and user mechanics of
+Apple's Live Text feature within the Safari web browser. It explains how
+on-device machine learning and optical character recognition work
+together to detect, isolate, and convert flattened pixels from raster
+images and paused video frames into interactive text that users can
+seamlessly select, copy, look up, or translate.</p>
+<h2 id="the-core-technology-on-device-ocr">The Core Technology:
+On-Device OCR</h2>
+<p>Raster images (such as JPEGs, PNGs, and WebP files) and video frames
+do not contain actual text data; they are simply grids of colored
+pixels. To make this visual information interactive, Safari utilizes
+Apple’s Vision framework, which relies on advanced Optical Character
+Recognition (OCR) powered by the device's Neural Engine.</p>
+<p>Because the processing happens entirely on the device rather than on
+a remote cloud server, Safari can analyze visual media almost
+instantaneously while maintaining user privacy.</p>
+<h2 id="step-by-step-text-detection-process">Step-by-Step Text Detection
+Process</h2>
+<p>When you view a webpage or pause a video in Safari, the browser
+executes a rapid sequence of background tasks to make the text
+interactive:</p>
+<ol type="1">
+<li><strong>Frame Capture:</strong> For static images, Safari reads the
+image file directly. For paused HTML5 videos, Safari captures the exact
+video frame buffer currently rendered on the screen and treats it as a
+temporary static raster image.</li>
+<li><strong>Region Identification:</strong> Deep learning models scan
+the pixel grid to distinguish background noise from potential
+characters. The system identifies text blocks regardless of angle,
+curve, or font style, drawing invisible bounding boxes around words and
+lines.</li>
+<li><strong>Character Recognition:</strong> The Neural Engine analyzes
+the pixel patterns within those bounding boxes, matching them against
+known alphabets, symbols, and linguistic structures to convert the
+visual shapes into machine-readable string data.</li>
+<li><strong>Overlay Generation:</strong> Safari generates an invisible,
+interactive vector layer directly over the image or paused video frame,
+mapping the recognized text strings to the exact coordinates of the
+pixels beneath them.</li>
+</ol>
+<h2 id="interacting-with-the-extracted-text">Interacting with the
+Extracted Text</h2>
+<p>Once the invisible overlay is generated, Safari treats the recognized
+areas just like standard HTML text on a webpage. When a user hovers a
+mouse cursor over the text on a Mac, the pointer automatically changes
+into the standard "I-beam" text selection tool. On iOS and iPadOS,
+tapping and holding the text reveals standard selection handles.</p>
+<p>Alternatively, users can click or tap the dedicated Live Text button
+that appears in the corner of compatible images and paused videos to
+highlight all detectable text at once.</p>
+<h2 id="executing-system-actions">Executing System Actions</h2>
+<p>After the pixels are translated into selectable strings via the
+invisible overlay, Safari integrates with the broader operating system
+to perform specific actions:</p>
+<ul>
+<li><strong>Select and Copy:</strong> Dragging across the text
+highlights the mapped coordinates on the overlay. Pressing copy
+transfers the underlying machine-encoded text string directly to the
+system clipboard, stripping away the image data so it can be pasted as
+plain text elsewhere.</li>
+<li><strong>Look Up:</strong> Selecting this option passes the extracted
+text string to the operating system's internal dictionary and Spotlight
+search engine. Safari then displays a pop-up card with definitions,
+Wikipedia entries, and relevant web links.</li>
+<li><strong>Translate:</strong> When triggered, Safari sends the
+recognized text string to Apple's system-wide Translation framework. The
+system detects the source language, translates the string into the
+user's preferred language, and displays the translated text either in a
+pop-up menu or directly over the original pixels in the image or video
+frame.</li>
+</ul>
+<p>For video content, this entire interactive layer remains active only
+while the media is paused. The moment the user presses play, Safari
+discards the temporary overlay and resumes standard video playback.</p></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/how-safari-s-live-text-extracts-text-from-images-and-videos';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

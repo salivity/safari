@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Safari AppleScript Commands and Properties on macOS - safari</title>
+    <meta name="description" content="This article provides a comprehensive reference to the AppleScript dictionary exposed by the Safari web browser on macOS. It covers the core classes, properties, and specific commands available in the Safari Suite and Standard Suite for automating web bro">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/safari-apple-script-commands-and-properties-on-mac-os">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Safari AppleScript Commands and Properties on macOS - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/safari-apple-script-commands-and-properties-on-mac-os" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article provides a comprehensive reference to the AppleScript dictionary exposed by the Safari web browser on macOS. It covers the core classes, properties, and specific commands available in the Safari Suite and Standard Suite for automating web bro" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="safari-applescript-commands-and-properties-on-macos">Safari
+AppleScript Commands and Properties on macOS</h1>
+<p>This article provides a comprehensive reference to the AppleScript
+dictionary exposed by the Safari web browser on macOS. It covers the
+core classes, properties, and specific commands available in the Safari
+Suite and Standard Suite for automating web browsing tasks, managing
+tabs and windows, extracting webpage data, and executing JavaScript
+directly through macOS automation scripts.</p>
+<h2 id="safari-suite-commands">Safari Suite Commands</h2>
+<p>The Safari Suite contains commands specific to web browsing
+operations.</p>
+<ul>
+<li><strong>add reading list item</strong> (verb): Adds a new item to
+the user's Reading List.
+<ul>
+<li><em>Direct Parameter</em> (<code>text</code>): The URL of the item
+to be added.</li>
+<li><strong>and preview text</strong> (<code>text</code>, optional): A
+string of text to use as the preview for the item.</li>
+<li><strong>with title</strong> (<code>text</code>, optional): A string
+to specify the title of the item.</li>
+</ul></li>
+<li><strong>do JavaScript</strong> (verb): Applies a string of
+JavaScript code to a document. Note that "Allow JavaScript from Apple
+Events" must be enabled in Safari's Develop menu for this command to
+work.
+<ul>
+<li><em>Direct Parameter</em> (<code>text</code>): The JavaScript code
+to evaluate.</li>
+<li><strong>in</strong> (<code>tab</code> or <code>document</code>,
+optional): The specific tab or document where the script should
+run.</li>
+<li><em>Result</em> (<code>any</code>): Returns the result of the
+JavaScript evaluation.</li>
+</ul></li>
+<li><strong>email contents</strong> (verb): Emails the contents of a
+specified tab or document using the default macOS mail client.
+<ul>
+<li><strong>of</strong> (<code>tab</code> or <code>document</code>,
+optional): The target tab or document to email.</li>
+</ul></li>
+<li><strong>search the web</strong> (verb): Searches the web using
+Safari's currently selected default search engine.
+<ul>
+<li><strong>for</strong> (<code>text</code>): The search query
+string.</li>
+<li><strong>in</strong> (<code>tab</code> or <code>document</code>,
+optional): The specific tab or document in which to load the search
+results.</li>
+</ul></li>
+<li><strong>show bookmarks</strong> (verb): Opens and displays the
+bookmarks view in Safari.</li>
+</ul>
+<h2 id="safari-suite-classes-and-properties">Safari Suite Classes and
+Properties</h2>
+<p>Safari's scripting architecture revolves around three primary
+objects: <code>document</code>, <code>tab</code>, and
+<code>window</code>.</p>
+<h3 id="document">Document</h3>
+<p>A <code>document</code> represents an open webpage. In modern tabbed
+browsing, a window's document corresponds to the webpage loaded in its
+currently active tab.</p>
+<ul>
+<li><strong>URL</strong> (<code>text</code>, read/write): The current
+web address of the document. Setting this property navigates the
+document to the new URL.</li>
+<li><strong>source</strong> (<code>text</code>, read-only): The raw HTML
+source code of the loaded webpage.</li>
+<li><strong>text</strong> (<code>text</code>, read-only): The rendered
+plain text content of the webpage, stripped of HTML tags.</li>
+<li><strong>name</strong> (<code>text</code>, read-only): The title of
+the webpage or document.</li>
+<li><strong>modified</strong> (<code>boolean</code>, read-only): Returns
+<code>true</code> if the document has been modified since it was last
+saved or loaded.</li>
+</ul>
+<h3 id="tab">Tab</h3>
+<p>A <code>tab</code> represents an individual browser tab contained
+within a <code>window</code> element.</p>
+<ul>
+<li><strong>URL</strong> (<code>text</code>, read/write): The URL
+currently loaded in the tab. Modifying this value forces the tab to load
+the new URL.</li>
+<li><strong>source</strong> (<code>text</code>, read-only): The raw HTML
+source code of the webpage inside the tab.</li>
+<li><strong>text</strong> (<code>text</code>, read-only): The plain text
+content of the webpage inside the tab.</li>
+<li><strong>index</strong> (<code>integer</code>, read-only): The
+ordered position of the tab within its parent window, counting from left
+to right.</li>
+<li><strong>name</strong> (<code>text</code>, read-only): The title of
+the webpage currently displayed in the tab.</li>
+<li><strong>visible</strong> (<code>boolean</code>, read-only):
+Indicates whether the tab is currently visible on the screen.</li>
+</ul>
+<h3 id="window-safari-suite-extensions">Window (Safari Suite
+Extensions)</h3>
+<p>Safari extends the Standard Suite <code>window</code> class with
+properties to manage tabbed browsing. A window contains
+<code>tabs</code> as elements.</p>
+<ul>
+<li><strong>current tab</strong> (<code>tab</code>, read/write): The
+active, currently visible tab in the window. You can switch active tabs
+by setting this property to a different tab object.</li>
+<li><strong>document</strong> (<code>document</code>, read-only): The
+document associated with the window's active tab.</li>
+</ul>
+<h2 id="standard-suite-commands-and-properties">Standard Suite Commands
+and Properties</h2>
+<p>Safari also exposes the AppleScript Standard Suite, which is required
+to manipulate application states, windows, and the creation of new
+elements.</p>
+<h3 id="standard-commands">Standard Commands</h3>
+<ul>
+<li><strong>make</strong>: Creates a new object. Commonly used in Safari
+as <code>make new document</code> (opens a new window/tab depending on
+preferences) or
+<code>make new tab at end of tabs of window 1</code>.</li>
+<li><strong>close</strong>: Closes a specified object, such as a
+<code>window</code>, <code>tab</code>, or <code>document</code>.</li>
+<li><strong>count</strong>: Returns the number of elements of a
+particular class within an object (e.g., counting <code>tabs</code> in a
+<code>window</code>).</li>
+<li><strong>delete</strong>: Deletes an object (can be used to close
+tabs).</li>
+<li><strong>duplicate</strong>: Duplicates an object.</li>
+<li><strong>exists</strong>: Verifies if a specific object (like a tab
+or window) is present.</li>
+<li><strong>move</strong>: Moves an object to a new location (e.g.,
+reordering tabs across or within windows).</li>
+<li><strong>open</strong>: Opens a file or URL in Safari.</li>
+<li><strong>print</strong>: Prints a document or window.</li>
+<li><strong>quit</strong>: Terminates the Safari application.</li>
+</ul>
+<h3 id="standard-application-properties">Standard Application
+Properties</h3>
+<ul>
+<li><strong>frontmost</strong> (<code>boolean</code>, read-only):
+Indicates whether Safari is the active, frontmost application on
+macOS.</li>
+<li><strong>name</strong> (<code>text</code>, read-only): The name of
+the application ("Safari").</li>
+<li><strong>version</strong> (<code>text</code>, read-only): The version
+number of the Safari application.</li>
+</ul>
+<h3 id="standard-window-properties">Standard Window Properties</h3>
+<ul>
+<li><strong>bounds</strong> (<code>rectangle</code>, read/write): A
+four-item list of integers specifying the bounding coordinates (left,
+top, right, bottom) of the window on the screen.</li>
+<li><strong>closeable</strong> (<code>boolean</code>, read-only):
+Indicates if the window has a close box.</li>
+<li><strong>id</strong> (<code>integer</code>, read-only): The unique
+identifier for the window, persistent for the life of the window.</li>
+<li><strong>index</strong> (<code>integer</code>, read/write): The
+front-to-back ordering number of the window. Setting a window's index to
+<code>1</code> brings it to the front.</li>
+<li><strong>miniaturizable</strong> (<code>boolean</code>, read-only):
+Indicates if the window can be minimized to the Dock.</li>
+<li><strong>miniaturized</strong> (<code>boolean</code>, read/write):
+Indicates whether the window is currently minimized to the Dock. Setting
+this to <code>true</code> minimizes the window.</li>
+<li><strong>name</strong> (<code>text</code>, read-only): The title of
+the window (usually matches the title of the
+<code>current tab</code>).</li>
+<li><strong>resizable</strong> (<code>boolean</code>, read-only):
+Indicates if the window size can be changed.</li>
+<li><strong>visible</strong> (<code>boolean</code>, read/write):
+Indicates whether the window is currently visible on the screen.</li>
+<li><strong>zoomable</strong> (<code>boolean</code>, read-only):
+Indicates if the window can be zoomed (maximized).</li>
+<li><strong>zoomed</strong> (<code>boolean</code>, read/write):
+Indicates whether the window is currently zoomed. Setting this to
+<code>true</code> maximizes the window.</li>
+</ul></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/safari-apple-script-commands-and-properties-on-mac-os';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Choosing Precise or Approximate Location in iOS Safari - safari</title>
+    <meta name="description" content="This article provides an overview of how the Safari web browser on iOS lets users control the accuracy of the location data they share with websites. Through a combination of system-level privacy controls and browser prompts, iOS allows users to choose be">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/choosing-precise-or-approximate-location-in-i-os-safari">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Choosing Precise or Approximate Location in iOS Safari - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/choosing-precise-or-approximate-location-in-i-os-safari" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article provides an overview of how the Safari web browser on iOS lets users control the accuracy of the location data they share with websites. Through a combination of system-level privacy controls and browser prompts, iOS allows users to choose be" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="choosing-precise-or-approximate-location-in-ios-safari">Choosing
+Precise or Approximate Location in iOS Safari</h1>
+<p>This article provides an overview of how the Safari web browser on
+iOS lets users control the accuracy of the location data they share with
+websites. Through a combination of system-level privacy controls and
+browser prompts, iOS allows users to choose between granting a website
+their exact coordinates with Precise Location or limiting access to a
+general regional area using Approximate Location.</p>
+<h2 id="the-two-layered-permission-system">The Two-Layered Permission
+System</h2>
+<p>When a website in Safari requests your location, iOS manages the
+request using two distinct layers: the system-level permission for the
+Safari app itself, and the browser-level permission for the individual
+website. The choice between Precise and Approximate location is
+controlled at the system level and applies to all websites accessed
+through Safari.</p>
+<h2 id="selecting-accuracy-on-the-initial-prompt">Selecting Accuracy on
+the Initial Prompt</h2>
+<p>The first time a website requests your location—or if your location
+permissions are set to ask every time—iOS displays a native system
+prompt asking if you want to allow "Safari Websites" to access your
+location. You can choose your accuracy level directly on this
+prompt:</p>
+<ol type="1">
+<li><strong>The Map Preview:</strong> The prompt features a small map in
+the center showing your current area.</li>
+<li><strong>The Precise Toggle:</strong> Overlayed on the left side of
+the map is a pill-shaped button labeled <strong>Precise: On</strong> or
+<strong>Precise: Off</strong>.</li>
+<li><strong>Switching Modes:</strong> Tapping this button switches your
+accuracy mode. When set to <strong>On</strong>, the map displays a
+pinpoint blue dot at your exact coordinates. When set to
+<strong>Off</strong>, the map zooms out and displays a broad shaded
+circle representing your general region.</li>
+<li><strong>Granting Access:</strong> Once you have set the toggle to
+your preference, tap <strong>Allow Once</strong> or <strong>Allow While
+Using App</strong> to confirm.</li>
+</ol>
+<h2 id="subsequent-website-prompts">Subsequent Website Prompts</h2>
+<p>After you have granted the Safari app system-level location access,
+individual websites will trigger a simpler, secondary prompt that reads:
+<em>"[Website] Would Like to Use Your Current Location."</em></p>
+<p>This browser-level prompt only features <strong>Don't Allow</strong>
+and <strong>Allow</strong> buttons. It does not display the Precise
+toggle because it automatically enforces the accuracy setting you
+already selected for Safari at the system level. Websites cannot detect
+that you have downgraded their access to Approximate Location, nor can
+they force the prompt to ask for Precise Location.</p>
+<h2 id="what-the-website-receives">What the Website Receives</h2>
+<ul>
+<li><strong>Precise Location:</strong> Safari utilizes GPS, Bluetooth,
+and Wi-Fi to provide the website with your exact latitude and longitude.
+This is necessary for web apps that provide turn-by-turn directions or
+pinpoint delivery services.</li>
+<li><strong>Approximate Location:</strong> Safari calculates a broad
+geographic grid (typically several square miles) and sends the center
+point of that grid to the website rather than your actual coordinates.
+This protects your exact whereabouts while still allowing websites to
+show relevant local weather, regional news, or nearby businesses.</li>
+</ul>
+<h2 id="changing-accuracy-settings-later">Changing Accuracy Settings
+Later</h2>
+<p>If you chose "Allow While Using App" on the initial system prompt,
+you will not see the map preview toggle again. To switch between Precise
+and Approximate location for Safari websites later, you must use the iOS
+Settings menu:</p>
+<ol type="1">
+<li>Open the <strong>Settings</strong> app on your iOS device.</li>
+<li>Tap <strong>Privacy &amp; Security</strong>.</li>
+<li>Tap <strong>Location Services</strong>.</li>
+<li>Scroll down and select <strong>Safari Websites</strong>.</li>
+<li>Toggle the <strong>Precise Location</strong> switch on or off.</li>
+</ol>
+<p>This adjustment takes effect immediately for all websites currently
+open or visited in the future within Safari.</p></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/choosing-precise-or-approximate-location-in-i-os-safari';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

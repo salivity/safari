@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Submit Safari Bug Reports to Apple Engineers - safari</title>
+    <meta name="description" content="Encountering bugs in the Safari web browser requires a clear reporting process so Apple engineers can identify and resolve the underlying issues. Users and developers have two primary channels for submitting bug reports: Apple&#39;s Feedback Assistant for bro">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/how-to-submit-safari-bug-reports-to-apple-engineers">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How to Submit Safari Bug Reports to Apple Engineers - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/how-to-submit-safari-bug-reports-to-apple-engineers" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Encountering bugs in the Safari web browser requires a clear reporting process so Apple engineers can identify and resolve the underlying issues. Users and developers have two primary channels for submitting bug reports: Apple&#39;s Feedback Assistant for bro" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="how-to-submit-safari-bug-reports-to-apple-engineers">How to
+Submit Safari Bug Reports to Apple Engineers</h1>
+<p>Encountering bugs in the Safari web browser requires a clear
+reporting process so Apple engineers can identify and resolve the
+underlying issues. Users and developers have two primary channels for
+submitting bug reports: Apple's Feedback Assistant for browser interface
+and system-level issues, and the WebKit bug tracker for rendering,
+JavaScript, and web standards issues. This article outlines how to
+create a minimal reproduction case and submit actionable bug reports
+through both platforms.</p>
+<h2 id="creating-a-minimal-reproduction-case">Creating a Minimal
+Reproduction Case</h2>
+<p>Before submitting a bug report on either platform, you must isolate
+the issue. Engineers resolve bugs much faster when provided with a
+minimal reproduction case (often called a "reduction").</p>
+<ol type="1">
+<li><strong>Isolate the Code:</strong> Strip away all unnecessary HTML,
+CSS, and JavaScript until you have the smallest amount of code required
+to trigger the bug.</li>
+<li><strong>Avoid Third-Party Libraries:</strong> If possible, reproduce
+the issue using vanilla JavaScript and standard CSS rather than
+frameworks like React or Bootstrap.</li>
+<li><strong>Host or Package the Files:</strong> Save the code as a
+single <code>.html</code> file, a <code>.zip</code> archive, or host it
+on a live code-sharing site like CodePen or JSFiddle.</li>
+<li><strong>Document the Steps:</strong> Write down the exact,
+step-by-step actions required to trigger the issue, along with the
+expected result and the actual result.</li>
+</ol>
+<h2 id="submitting-bugs-via-feedback-assistant">Submitting Bugs via
+Feedback Assistant</h2>
+<p>Use Apple's Feedback Assistant for issues related to the Safari user
+interface, Safari Extensions, iCloud Tabs, Passkeys, browser crashes, or
+operating system integration.</p>
+<ol type="1">
+<li><strong>Open Feedback Assistant:</strong> On macOS, press
+<code>Command + Space</code> to open Spotlight, type
+<code>Feedback Assistant</code>, and press Enter. On iOS and iPadOS, the
+app is available automatically if you are running beta software, or you
+can launch it by typing <code>applefeedback://</code> into Safari's
+address bar. Alternatively, visit the Feedback Assistant website and
+sign in with your Apple ID.</li>
+<li><strong>Start a New Report:</strong> Click the compose button to
+start a new feedback form.</li>
+<li><strong>Select the Platform:</strong> Choose the operating system
+where the bug occurs (e.g., iOS &amp; iPadOS, macOS, or visionOS).</li>
+<li><strong>Categorize the Issue:</strong> Select
+<strong>Safari</strong> as the area you are seeing an issue with, then
+specify the subcategory (such as Page Loading, Extensions, or
+Crash).</li>
+<li><strong>Provide Details:</strong> Enter a descriptive title. In the
+description field, paste your step-by-step reproduction instructions,
+the expected results, and the actual results.</li>
+<li><strong>Attach Files:</strong> Upload your minimal reproduction
+file, screenshots, or screen recordings. Feedback Assistant will often
+automatically gather a <code>sysdiagnose</code> file from your device;
+allow it to attach this data, as it contains crucial system logs.</li>
+<li><strong>Submit:</strong> Click Submit. You will receive a Feedback
+ID (starting with "FB") which you can use to track the status of your
+report.</li>
+</ol>
+<h2 id="submitting-bugs-via-bugswebkitorg">Submitting Bugs via
+bugs.webkit.org</h2>
+<p>Use the WebKit Bugzilla tracker for issues related to the core web
+engine that powers Safari. This includes bugs in HTML parsing, CSS
+layout and rendering, Web APIs, DOM manipulation, and JavaScript
+execution.</p>
+<ol type="1">
+<li><strong>Access the Tracker:</strong> Navigate to <a
+href="https://bugs.webkit.org">bugs.webkit.org</a> in your web
+browser.</li>
+<li><strong>Create an Account:</strong> If you do not have an account,
+click <strong>New Account</strong> in the top navigation bar and follow
+the verification steps.</li>
+<li><strong>Search for Duplicates:</strong> Before filing a new bug, use
+the search bar to see if the issue has already been reported. If it
+exists, you can add your reproduction case to the existing thread.</li>
+<li><strong>Initiate a Bug Report:</strong> Click <strong>File a
+Bug</strong> on the main page.</li>
+<li><strong>Select the Product:</strong> Choose <strong>WebKit</strong>
+from the list of products.</li>
+<li><strong>Choose a Component:</strong> Select the specific component
+that best matches your bug (e.g., <em>CSS</em>, <em>Layout and
+Rendering</em>, <em>JavaScriptCore</em>, <em>DOM</em>, or
+<em>WebGL</em>). If you are unsure, select <em>New Bugs</em>.</li>
+<li><strong>Fill in the Bug Details:</strong>
+<ul>
+<li><strong>Summary:</strong> Write a concise, technical summary of the
+bug. Include <code>[Safari]</code> or specific platform tags if the bug
+only happens in a specific environment.</li>
+<li><strong>Description:</strong> State the exact Safari and OS versions
+you are using. Provide the steps to reproduce, actual results, and
+expected results. Mention if the code works correctly in other browsers
+like Chrome or Firefox.</li>
+</ul></li>
+<li><strong>Attach the Reproduction Case:</strong> Under the
+<strong>Attachment</strong> section, upload your standalone
+<code>.html</code> file or <code>.zip</code> archive. If you are using
+an online editor like CodePen, paste the URL in the description, though
+uploading a static file directly to the bug tracker is strongly
+preferred by engineers so the code is permanently archived.</li>
+<li><strong>Submit the Bug:</strong> Click <strong>Submit Bug</strong>.
+Your report is now public, and WebKit engineers will triage, comment on,
+and update the status of the ticket directly on the platform.</li>
+</ol></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/how-to-submit-safari-bug-reports-to-apple-engineers';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

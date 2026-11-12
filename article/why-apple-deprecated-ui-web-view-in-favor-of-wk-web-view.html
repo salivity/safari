@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Why Apple Deprecated UIWebView in Favor of WKWebView - safari</title>
+    <meta name="description" content="This article explores the primary reasons behind Apple&#39;s decision to deprecate the legacy UIWebView API and mandate the transition to WKWebView for all iOS and macOS applications. By examining critical factors such as performance bottlenecks, security vul">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/why-apple-deprecated-ui-web-view-in-favor-of-wk-web-view">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Why Apple Deprecated UIWebView in Favor of WKWebView - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/why-apple-deprecated-ui-web-view-in-favor-of-wk-web-view" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article explores the primary reasons behind Apple&#39;s decision to deprecate the legacy UIWebView API and mandate the transition to WKWebView for all iOS and macOS applications. By examining critical factors such as performance bottlenecks, security vul" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="why-apple-deprecated-uiwebview-in-favor-of-wkwebview">Why Apple
+Deprecated UIWebView in Favor of WKWebView</h1>
+<p>This article explores the primary reasons behind Apple's decision to
+deprecate the legacy UIWebView API and mandate the transition to
+WKWebView for all iOS and macOS applications. By examining critical
+factors such as performance bottlenecks, security vulnerabilities,
+memory management, and cross-platform unification, this overview breaks
+down why WKWebView became the mandatory standard for rendering web
+content within the Apple ecosystem.</p>
+<h2 id="superior-performance-with-the-nitro-engine">Superior Performance
+with the Nitro Engine</h2>
+<p>Introduced in iOS 2, UIWebView was not built to handle the demands of
+modern, JavaScript-heavy web applications. The most significant upgrade
+in WKWebView, introduced in iOS 8, is its access to Apple’s Nitro
+JavaScript engine—the exact same engine that powers Mobile Safari.</p>
+<p>Nitro utilizes Just-In-Time (JIT) compilation, which compiles
+JavaScript into machine code on the fly. Because UIWebView lacked access
+to the Nitro engine for security reasons, it processed JavaScript
+significantly slower. By switching to WKWebView, developers gained an
+immediate and massive boost in web rendering speeds, often executing
+JavaScript up to four times faster than before.</p>
+<h2 id="out-of-process-rendering-and-memory-management">Out-of-Process
+Rendering and Memory Management</h2>
+<p>UIWebView operated directly within the host application's main
+process. Consequently, it shared the same memory allocation as the
+native app. If a complex webpage consumed too much RAM, iOS would
+terminate the entire application, resulting in a frustrating crash for
+the user.</p>
+<p>WKWebView solves this by running in a separate, dedicated process
+outside of the main application thread. This out-of-process architecture
+means that WKWebView manages its own memory. If a webpage spikes in
+memory usage and crashes, only the web view terminates, leaving the main
+application running smoothly and allowing the developer to handle the
+error gracefully.</p>
+<h2 id="enhanced-security-architecture">Enhanced Security
+Architecture</h2>
+<p>Running web content in the same process as the main application also
+posed a massive security risk. Because UIWebView was not isolated, a
+vulnerability in the web rendering engine could potentially allow
+malicious JavaScript to access sensitive native application data.</p>
+<p>By moving WKWebView out-of-process, Apple effectively sandboxed all
+web content. Even if a user navigates to a compromised website within an
+app, the malicious code is trapped within the WKWebView process and
+cannot easily penetrate the host application's memory space or access
+system-level APIs. Furthermore, updating and patching one unified engine
+(WKWebView) proved much more secure for Apple than maintaining legacy
+code in UIWebView.</p>
+<h2 id="a-smoother-user-experience">A Smoother User Experience</h2>
+<p>Users expect in-app browsers to feel as responsive as native
+interfaces, which UIWebView struggled to deliver. WKWebView brought
+critical user-experience improvements right out of the box:</p>
+<ul>
+<li><strong>60fps Scrolling:</strong> WKWebView supports a consistent 60
+frames-per-second scrolling rate, matching the fluidity of native iOS
+views.</li>
+<li><strong>Built-in Gestures:</strong> Features like swiping right to
+go back a page are natively supported in WKWebView without requiring
+custom code.</li>
+<li><strong>Modern Web Standards:</strong> WKWebView offers vastly
+superior compatibility with modern HTML5, CSS, and contemporary web
+APIs.</li>
+</ul>
+<h2 id="streamlined-native-to-javascript-communication">Streamlined
+Native-to-JavaScript Communication</h2>
+<p>In UIWebView, passing data between the native Swift/Objective-C code
+and the webpage's JavaScript was a clunky process. Developers often had
+to intercept fake URL requests just to trigger native functions from a
+webpage.</p>
+<p>WKWebView introduced a dedicated, clean API for this exact purpose.
+Using message handlers, developers can securely and asynchronously pass
+data back and forth between the web content and the native app without
+relying on unstable workarounds.</p>
+<h2 id="unification-across-ios-and-macos">Unification Across iOS and
+macOS</h2>
+<p>Before WKWebView, Apple maintained two completely different APIs for
+displaying web content: UIWebView for iOS and WebView for macOS. This
+required developers building apps for both platforms to write and
+maintain two entirely separate sets of web-handling code.</p>
+<p>WKWebView unified the WebKit framework across both operating systems.
+Developers can now use the exact same WKWebView API, classes, and
+methods whether they are building for iPhone, iPad, or Mac, drastically
+reducing development time and maintenance overhead.</p></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/why-apple-deprecated-ui-web-view-in-favor-of-wk-web-view';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

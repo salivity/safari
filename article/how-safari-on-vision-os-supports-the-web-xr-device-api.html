@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Safari on visionOS Supports the WebXR Device API - safari</title>
+    <meta name="description" content="This article provides a comprehensive overview of how the Safari web browser on Apple’s visionOS supports the WebXR Device API to deliver immersive virtual reality (VR) and augmented reality (AR) experiences. It covers the supported WebXR session modes, t">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/how-safari-on-vision-os-supports-the-web-xr-device-api">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Safari on visionOS Supports the WebXR Device API - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/how-safari-on-vision-os-supports-the-web-xr-device-api" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article provides a comprehensive overview of how the Safari web browser on Apple’s visionOS supports the WebXR Device API to deliver immersive virtual reality (VR) and augmented reality (AR) experiences. It covers the supported WebXR session modes, t" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="how-safari-on-visionos-supports-the-webxr-device-api">How Safari
+on visionOS Supports the WebXR Device API</h1>
+<p>This article provides a comprehensive overview of how the Safari web
+browser on Apple’s visionOS supports the WebXR Device API to deliver
+immersive virtual reality (VR) and augmented reality (AR) experiences.
+It covers the supported WebXR session modes, the unique
+privacy-preserving interaction model for eye and hand tracking, the
+graphics rendering pipeline, and how developers can utilize these
+features to build spatial web applications for the Apple Vision Pro.</p>
+<h2 id="supported-webxr-session-modes">Supported WebXR Session
+Modes</h2>
+<p>Safari on visionOS supports the standard WebXR Device API, allowing
+web developers to create cross-platform spatial content. While
+originally hidden behind experimental feature flags in visionOS 1, WebXR
+is enabled by default starting in visionOS 2.</p>
+<p>Safari supports two primary immersive session modes:</p>
+<ul>
+<li><strong><code>immersive-vr</code>:</strong> This mode completely
+replaces the user's real-world surroundings with a fully rendered 3D
+virtual environment from the web browser.</li>
+<li><strong><code>immersive-ar</code>:</strong> This mode composites the
+web page's 3D graphics directly over the Apple Vision Pro’s real-world
+passthrough video feed. The background of the WebGL canvas is rendered
+as transparent, allowing virtual objects to exist in the user's physical
+space.</li>
+</ul>
+<p>Inline sessions (<code>inline</code>), which render 3D content inside
+a standard 2D web page window before entering an immersive state, are
+also fully supported.</p>
+<h2 id="the-interaction-model-gaze-and-pinch">The Interaction Model:
+Gaze and Pinch</h2>
+<p>The most unique aspect of WebXR on visionOS is how it handles user
+input. Unlike traditional VR headsets that rely on physical handheld
+controllers, the Apple Vision Pro relies on eye tracking (gaze) and hand
+gestures (pinch).</p>
+<p>To protect user privacy, visionOS does not expose raw eye-tracking
+data to websites. A web application cannot see where the user is looking
+in real-time. Instead, Apple collaborated with the W3C Immersive Web
+Working Group to introduce a new WebXR input mode called
+<code>transient-pointer</code>.</p>
+<p>Here is how the <code>transient-pointer</code> works during a WebXR
+session:</p>
+<ol type="1">
+<li><strong>System-Level Gaze:</strong> The user looks at a virtual
+object, and the operating system knows the gaze direction, but the web
+page does not.</li>
+<li><strong>Pinch Activation:</strong> When the user pinches their thumb
+and index finger together, the <code>transient-pointer</code> is
+dynamically created.</li>
+<li><strong>Raycasting:</strong> At the exact moment of the pinch,
+Safari sends an input source to the WebXR application. The target ray
+originates from the user's head and points directly at the spot the user
+was looking at when the pinch began.</li>
+<li><strong>Release:</strong> While the user holds the pinch, they can
+move their hand to drag or manipulate the object. Once they release the
+pinch, the input source is destroyed, and the website loses tracking
+data until the next pinch occurs.</li>
+</ol>
+<h2 id="direct-hand-tracking-and-controllers">Direct Hand Tracking and
+Controllers</h2>
+<p>For experiences that require direct physical interaction—such as
+pushing virtual buttons or using two-handed gestures—the
+<code>transient-pointer</code> is often not enough. To solve this,
+Safari on visionOS also supports the WebXR Hand Input Module.</p>
+<p>When a user enters an immersive session, the browser can request
+explicit permission to access skeletal hand data. If the user grants
+this permission, the WebXR API provides the exact 3D positions and
+orientations of 25 joints per hand on every frame. This allows
+developers to render custom virtual hands and enable direct touch
+interactions with virtual objects.</p>
+<p>Additionally, if a user has paired standard Bluetooth gamepads or
+supported spatial controllers with their Vision Pro, Safari maps these
+to the standard WebXR Gamepad module automatically.</p>
+<h2 id="rendering-and-performance">Rendering and Performance</h2>
+<p>WebXR in Safari relies on WebGL (and increasingly WebGPU) to render
+3D graphics. When an immersive session starts, Safari requests a
+stereoscopic rendering layer from the WebXR API. The developer's code
+renders two views—one for the left eye and one for the right eye—to a
+single shared framebuffer.</p>
+<p>To maintain the high resolution and 90Hz+ refresh rates required by
+the Apple Vision Pro, visionOS handles heavy graphical optimizations at
+the system level. Once the WebXR application submits its rendered frame
+to the browser, the visionOS compositor applies system-level dynamic
+foveated rendering and motion reprojection to ensure the experience
+remains smooth and comfortable for the user, reducing the likelihood of
+motion sickness.</p>
+<h2 id="privacy-and-security-architecture">Privacy and Security
+Architecture</h2>
+<p>Because WebXR accesses sensitive hardware data, Safari enforces
+strict security protocols on visionOS:</p>
+<ul>
+<li><strong>HTTPS Requirement:</strong> WebXR APIs will only function in
+secure contexts (HTTPS).</li>
+<li><strong>User Intent:</strong> A website cannot automatically launch
+into a VR or AR session on page load. The session must be triggered by
+an explicit user action, such as looking at and tapping a 2D "Enter VR"
+button on the webpage.</li>
+<li><strong>System Override:</strong> Users can exit any WebXR
+experience instantly by pressing the Digital Crown on the headset,
+preventing malicious websites from trapping users in a virtual
+environment.</li>
+<li><strong>Passthrough Protection:</strong> During an
+<code>immersive-ar</code> session, the website never gains access to the
+camera feed. The website only renders graphics onto a transparent layer,
+and the operating system merges those graphics with the camera feed
+locally on the device.</li>
+</ul></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/how-safari-on-vision-os-supports-the-web-xr-device-api';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

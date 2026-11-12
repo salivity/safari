@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Safari on visionOS Protects Eye-Tracking Privacy - safari</title>
+    <meta name="description" content="This article provides a complete overview of how the Safari web browser on Apple&#39;s visionOS protects user privacy by isolating eye-tracking data from websites. It explains the inherent privacy risks of gaze tracking, how the operating system handles visua">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/how-safari-on-vision-os-protects-eye-tracking-privacy">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Safari on visionOS Protects Eye-Tracking Privacy - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/how-safari-on-vision-os-protects-eye-tracking-privacy" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article provides a complete overview of how the Safari web browser on Apple&#39;s visionOS protects user privacy by isolating eye-tracking data from websites. It explains the inherent privacy risks of gaze tracking, how the operating system handles visua" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="how-safari-on-visionos-protects-eye-tracking-privacy">How Safari
+on visionOS Protects Eye-Tracking Privacy</h1>
+<p>This article provides a complete overview of how the Safari web
+browser on Apple's visionOS protects user privacy by isolating
+eye-tracking data from websites. It explains the inherent privacy risks
+of gaze tracking, how the operating system handles visual hover effects
+entirely out-of-process, the blocking of traditional JavaScript tracking
+events, and how gaze coordinates are exclusively transmitted to a
+webpage only after a user physically pinches their fingers to register a
+click.</p>
+<h2 id="the-privacy-risk-of-eye-tracking">The Privacy Risk of Eye
+Tracking</h2>
+<p>Where a person looks reveals deeply personal information, including
+subconscious preferences, reading speed, cognitive state, and biometric
+identity. On a traditional computer, websites can continuously track a
+user's mouse cursor using JavaScript to build behavioral profiles and
+heatmaps. If websites could similarly track a user's eyes in a spatial
+computing environment, they could harvest intimate psychological and
+physiological data without the user's explicit consent.</p>
+<h2 id="system-level-isolation">System-Level Isolation</h2>
+<p>To prevent unauthorized tracking, visionOS treats eye-tracking
+coordinates as highly sensitive system data. The cameras and sensors
+inside the Apple Vision Pro continuously monitor the user's eyes, but
+this raw data is processed strictly at the operating system level. It is
+completely walled off from individual applications, including the Safari
+web browser and the underlying WebKit engine. Because Safari itself does
+not have continuous access to the raw gaze stream, it cannot pass that
+information along to the websites a user visits.</p>
+<h2 id="blocking-javascript-pointer-events">Blocking JavaScript Pointer
+Events</h2>
+<p>On desktop browsers, moving a mouse across a webpage triggers a
+continuous stream of JavaScript events, such as <code>mousemove</code>,
+<code>mouseover</code>, and <code>mouseenter</code>. Websites use these
+events to know precisely where the cursor is at all times.</p>
+<p>In Safari on visionOS, looking around a webpage does not trigger any
+of these JavaScript events. Even though the user is using their eyes as
+a pointer, WebKit intentionally suppresses all movement and
+hover-related scripts. If a website runs a script attempting to poll the
+current pointer location, the browser returns nothing while the user is
+simply reading or looking around.</p>
+<h2 id="out-of-process-hover-effects">Out-of-Process Hover Effects</h2>
+<p>Users still need visual feedback to know which link or button they
+are currently looking at before they click it. Safari achieves this
+without leaking data to the website through a technique called
+out-of-process rendering.</p>
+<p>When a webpage loads, Safari identifies all interactive elements
+(like buttons, links, and form fields) and maps their boundaries. It
+sends this structural map to the visionOS system compositor. When the
+user's eyes land on a button, the visionOS system—not the
+webpage—applies a subtle visual highlight (the hover effect) over that
+element. Because this visual change happens entirely within the
+operating system's rendering layer, the website remains completely blind
+to the fact that the user is looking at that specific element.
+Furthermore, if a website tries to use JavaScript to inspect the visual
+style of an element to see if it is currently highlighted, Safari hides
+the active hover state from the script.</p>
+<h2 id="the-pinch-to-click-trigger">The Pinch-to-Click Trigger</h2>
+<p>A website only receives coordinate data when the user makes a
+conscious decision to interact with the page. In visionOS, this intent
+is signaled by pinching the thumb and index finger together.</p>
+<p>The exact moment the user pinches, the operating system takes the
+current gaze coordinates and passes that single data point to Safari.
+Safari then immediately generates standard web interaction
+events—specifically <code>pointerdown</code>, <code>pointerup</code>,
+and <code>click</code>—at those exact coordinates and sends them to the
+webpage. To the website, this interaction looks identical to a user
+tapping a screen with their finger on an iPad or iPhone. The website
+learns what the user clicked, but it never learns what the user looked
+at before or after that exact moment.</p></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/how-safari-on-vision-os-protects-eye-tracking-privacy';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

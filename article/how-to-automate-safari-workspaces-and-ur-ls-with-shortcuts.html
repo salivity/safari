@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Automate Safari Workspaces and URLs with Shortcuts - safari</title>
+    <meta name="description" content="This article provides a step-by-step guide on how to use the Apple Shortcuts app to automatically launch specific Safari Tab Groups, Profiles, and predefined sets of URLs. You will learn how to organize your Safari workspaces, build the necessary shortcut">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/how-to-automate-safari-workspaces-and-ur-ls-with-shortcuts">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How to Automate Safari Workspaces and URLs with Shortcuts - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/how-to-automate-safari-workspaces-and-ur-ls-with-shortcuts" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article provides a step-by-step guide on how to use the Apple Shortcuts app to automatically launch specific Safari Tab Groups, Profiles, and predefined sets of URLs. You will learn how to organize your Safari workspaces, build the necessary shortcut" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="how-to-automate-safari-workspaces-and-urls-with-shortcuts">How
+to Automate Safari Workspaces and URLs with Shortcuts</h1>
+<p>This article provides a step-by-step guide on how to use the Apple
+Shortcuts app to automatically launch specific Safari Tab Groups,
+Profiles, and predefined sets of URLs. You will learn how to organize
+your Safari workspaces, build the necessary shortcuts to open these
+links, and configure automatic triggers based on either the time of day
+or active Focus modes across your Apple devices.</p>
+<h3 id="step-1-set-up-your-safari-workspaces">Step 1: Set Up Your Safari
+Workspaces</h3>
+<p>Before building the automation, you can group your URLs natively in
+Safari using Tab Groups or Profiles, though you can also list URLs
+directly inside the Shortcuts app.</p>
+<ol type="1">
+<li>Open <strong>Safari</strong>.</li>
+<li>Open all the websites you want in your workspace.</li>
+<li>Click or tap the <strong>Sidebar</strong> icon, then select the
+<strong>New Tab Group</strong> button.</li>
+<li>Name your Tab Group (e.g., "Morning Work" or "Evening
+Reading").</li>
+</ol>
+<h3 id="step-2-create-the-safari-shortcut">Step 2: Create the Safari
+Shortcut</h3>
+<p>Next, you need to build the shortcut that will execute the action of
+opening your workspace or URLs.</p>
+<p><strong>To open a predefined Safari Tab Group:</strong></p>
+<ol type="1">
+<li>Open the <strong>Shortcuts</strong> app and create a new
+shortcut.</li>
+<li>Search for the <strong>Open Tab Group</strong> action in the search
+bar and add it to your workflow.</li>
+<li>Tap the blue <strong>Tab Group</strong> placeholder text and select
+the specific Safari Tab Group you created in Step 1.</li>
+<li>Name your shortcut and close the editor.</li>
+</ol>
+<p><strong>To open a specific list of URLs without a Tab
+Group:</strong></p>
+<ol type="1">
+<li>Open the <strong>Shortcuts</strong> app and create a new
+shortcut.</li>
+<li>Search for and add the <strong>URL</strong> action.</li>
+<li>Enter the web address. You can add multiple URLs in this single box
+by pressing the <strong>Return</strong> key after each link.</li>
+<li>Search for and add the <strong>Open URLs</strong> action right below
+the URL action.</li>
+<li>(Optional) If you use Safari Profiles, click the arrow on the
+<strong>Open URLs</strong> action (on macOS) or configure Focus Filters
+to ensure they open in the correct profile.</li>
+<li>Name your shortcut and save it.</li>
+</ol>
+<h3 id="step-3-trigger-via-focus-mode">Step 3: Trigger via Focus
+Mode</h3>
+<p>You can link your new shortcut to a Focus mode (such as Work,
+Personal, or Sleep) so your browser workspace opens the moment the Focus
+is activated.</p>
+<p><strong>On iOS and iPadOS:</strong></p>
+<ol type="1">
+<li>Open the <strong>Shortcuts</strong> app and go to the
+<strong>Automation</strong> tab at the bottom.</li>
+<li>Tap the <strong>+</strong> icon to create a new Personal
+Automation.</li>
+<li>Scroll down and select your desired <strong>Focus</strong> mode
+(e.g., "Work").</li>
+<li>Select <strong>When Turning On</strong> and check <strong>Run
+Immediately</strong>, then tap <strong>Next</strong>.</li>
+<li>Select the Safari shortcut you created in Step 2.</li>
+</ol>
+<p><strong>Using Focus Filters (iOS, iPadOS, and macOS):</strong> If you
+only want to switch Safari Profiles or Tab Groups without opening new
+URL lists:</p>
+<ol type="1">
+<li>Open <strong>Settings</strong> (or <strong>System Settings</strong>
+on Mac) and select <strong>Focus</strong>.</li>
+<li>Choose your desired Focus mode.</li>
+<li>Scroll to the bottom and click <strong>Add Filter</strong> under the
+Focus Filters section.</li>
+<li>Select <strong>Safari</strong>.</li>
+<li>Choose the <strong>Profile</strong> and/or <strong>Tab
+Group</strong> you want Safari to automatically switch to when this
+Focus is active, then click <strong>Add</strong>.</li>
+</ol>
+<h3 id="step-4-trigger-via-time-of-day">Step 4: Trigger via Time of
+Day</h3>
+<p>If you prefer your URLs to open on a strict schedule rather than
+tying them to a Focus mode, use a time-based trigger.</p>
+<p><strong>On iOS and iPadOS:</strong></p>
+<ol type="1">
+<li>Open the <strong>Shortcuts</strong> app and tap the
+<strong>Automation</strong> tab.</li>
+<li>Tap the <strong>+</strong> icon and select <strong>Time of
+Day</strong>.</li>
+<li>Set the specific time you want the workspace to open.</li>
+<li>Choose how often to repeat the automation (Daily, Weekly, or
+Monthly).</li>
+<li>Select <strong>Run Immediately</strong> so it does not require your
+confirmation, then tap <strong>Next</strong>.</li>
+<li>Select the Safari shortcut you built in Step 2.</li>
+</ol>
+<p><strong>On macOS:</strong> Because the Mac version of the Shortcuts
+app does not have a built-in Automation tab, you must use the Calendar
+app or convert your Focus schedule into a time trigger.</p>
+<p><em>The Focus Schedule Method (Recommended):</em></p>
+<ol type="1">
+<li>Set up the Focus Filter or Shortcut trigger as outlined in Step
+3.</li>
+<li>Go to <strong>System Settings</strong> &gt; <strong>Focus</strong>
+and select your Focus mode.</li>
+<li>Under <strong>Set a Schedule</strong>, click <strong>Add
+Schedule</strong>, select <strong>Time</strong>, and set the exact hours
+you want the Focus (and thus your Safari workspace) to activate.</li>
+</ol>
+<p><em>The Calendar App Method:</em></p>
+<ol type="1">
+<li>Open the <strong>Shortcuts</strong> app on your Mac, right-click
+your Safari shortcut, and select <strong>Add to Dock</strong>. (This
+saves the shortcut as an application file in
+<code>Users/[YourUsername]/Applications</code>).</li>
+<li>Open the <strong>Calendar</strong> app and create a new event at the
+time you want the URLs to open.</li>
+<li>Set the event to <strong>Repeat</strong> (e.g., Every Day or Every
+Weekday).</li>
+<li>Click on <strong>Alert</strong>, select <strong>Custom</strong>, and
+change "Message with sound" to <strong>Open file</strong>.</li>
+<li>Change the file dropdown from "Calendar" to
+<strong>Other...</strong>, navigate to
+<code>Users/[YourUsername]/Applications</code>, and select your saved
+Shortcut application.</li>
+<li>Set the trigger to <strong>At time of event</strong> and click
+<strong>OK</strong>.</li>
+</ol></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/how-to-automate-safari-workspaces-and-ur-ls-with-shortcuts';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Safari Private Browsing: Cookies, Storage, and History - safari</title>
+    <meta name="description" content="This article provides a quick overview of how the Safari web browser handles your temporary session data when you exit Private Browsing mode. Specifically, it explains the immediate deletion of cookies, the wiping of local storage, and the absence of brow">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/safari-private-browsing-cookies-storage-and-history">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Safari Private Browsing: Cookies, Storage, and History - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/safari-private-browsing-cookies-storage-and-history" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article provides a quick overview of how the Safari web browser handles your temporary session data when you exit Private Browsing mode. Specifically, it explains the immediate deletion of cookies, the wiping of local storage, and the absence of brow" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="safari-private-browsing-cookies-storage-and-history">Safari
+Private Browsing: Cookies, Storage, and History</h1>
+<p>This article provides a quick overview of how the Safari web browser
+handles your temporary session data when you exit Private Browsing mode.
+Specifically, it explains the immediate deletion of cookies, the wiping
+of local storage, and the absence of browsing history logs once all
+private windows are closed, ensuring your local activity remains
+completely erased from the device.</p>
+<h2 id="browsing-history">Browsing History</h2>
+<p>When you use Private Browsing in Safari, the browser never writes
+your visited URLs or search queries to the hard drive.</p>
+<ul>
+<li><strong>During the session:</strong> Safari temporarily remembers
+the pages you visit only so that the "Back" and "Forward" buttons
+function properly within that specific tab.</li>
+<li><strong>When windows are closed:</strong> The moment you close all
+Private Browsing windows, this temporary directional history is
+permanently erased from your device's active memory (RAM). No record of
+the websites you visited or the searches you performed will appear in
+your main History menu. Additionally, your AutoFill information and
+search suggestions remain unaffected.</li>
+</ul>
+<h2 id="cookies">Cookies</h2>
+<p>Websites use cookies to remember your login states, preferences, and
+tracking identifiers. Safari handles cookies in Private Browsing by
+isolating them from your standard browsing profile.</p>
+<ul>
+<li><strong>During the session:</strong> Safari accepts cookies from
+websites you visit so that the sites function correctly—allowing you to
+log into accounts or add items to a shopping cart. However, these
+cookies are stored purely in your device's temporary memory rather than
+on your hard drive, and they cannot access cookies from your normal,
+non-private browsing sessions.</li>
+<li><strong>When windows are closed:</strong> Closing all Private
+Browsing windows triggers Safari to immediately purge all cookies
+collected during that session. If you open a new Private Browsing window
+afterward, websites will treat you as a brand-new visitor, and you will
+be logged out of any accounts you accessed previously.</li>
+</ul>
+<h2 id="local-storage">Local Storage</h2>
+<p>Websites use HTML5 Local Storage, Session Storage, and IndexedDB to
+store larger amounts of data on your device than cookies allow. This
+helps web applications load faster and work offline.</p>
+<ul>
+<li><strong>During the session:</strong> Safari creates a temporary,
+in-memory storage container for websites that require local storage to
+function. The website believes it is writing data to your device, but
+Safari is actually holding this data in a volatile state.</li>
+<li><strong>When windows are closed:</strong> Once all Private Browsing
+windows are closed, Safari destroys this temporary storage container.
+All cached data, web application states, and locally stored files
+generated during the private session are permanently deleted.</li>
+</ul>
+<h2 id="what-remains-after-closing-private-windows">What Remains After
+Closing Private Windows</h2>
+<p>While cookies, local storage, and browsing history are completely
+wiped upon closing all Private Browsing windows, a few user-initiated
+actions will remain on your device:</p>
+<ul>
+<li><strong>Downloaded Files:</strong> Any file you explicitly
+downloaded to your device will stay in your Downloads folder, though the
+list of downloads within Safari's interface will be cleared.</li>
+<li><strong>Bookmarks:</strong> Any new bookmarks you created during the
+private session will be saved.</li>
+<li><strong>Reading List Items:</strong> Pages you manually added to
+your Reading List will remain accessible.</li>
+</ul></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/safari-private-browsing-cookies-storage-and-history';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

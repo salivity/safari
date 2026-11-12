@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Safari 17 Profiles Separate Work and Personal Data - safari</title>
+    <meta name="description" content="Introduced in Safari 17, the Profiles feature allows users to compartmentalize their browsing experiences into distinct contexts, such as work and personal use. This article provides an overview of the technical and practical ways Safari Profiles isolate">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/how-safari-17-profiles-separate-work-and-personal-data">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Safari 17 Profiles Separate Work and Personal Data - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/how-safari-17-profiles-separate-work-and-personal-data" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Introduced in Safari 17, the Profiles feature allows users to compartmentalize their browsing experiences into distinct contexts, such as work and personal use. This article provides an overview of the technical and practical ways Safari Profiles isolate" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="how-safari-17-profiles-separate-work-and-personal-data">How
+Safari 17 Profiles Separate Work and Personal Data</h1>
+<p>Introduced in Safari 17, the Profiles feature allows users to
+compartmentalize their browsing experiences into distinct contexts, such
+as work and personal use. This article provides an overview of the
+technical and practical ways Safari Profiles isolate cookies, browsing
+history, website data, and extensions into separate containers, ensuring
+that your professional and private online activities never overlap.</p>
+<h2 id="isolated-storage-for-cookies-and-website-data">Isolated Storage
+for Cookies and Website Data</h2>
+<p>Safari 17 achieves separation by assigning each profile its own
+dedicated data store at the system level. When you create a new profile,
+the browser generates a completely new, isolated directory for cookies,
+caches, LocalStorage, and IndexedDB databases.</p>
+<p>Because these storage mechanisms are walled off from one another, a
+website opened in a "Work" profile cannot read the cookies or session
+data of the exact same website opened in a "Personal" profile. This
+architecture offers several immediate benefits:</p>
+<ul>
+<li><strong>Simultaneous Logins:</strong> You can remain logged into a
+corporate Google Workspace or Microsoft 365 account in one profile while
+simultaneously browsing your personal Gmail or Outlook in another,
+without experiencing session conflicts or forced logouts.</li>
+<li><strong>Contained Tracking:</strong> Cross-site tracking cookies are
+trapped within the specific profile where they are encountered.
+Advertisers cannot use cookies to link your work activity to your
+personal identity.</li>
+<li><strong>Granular Data Clearing:</strong> If you need to clear cache
+or website data to troubleshoot a broken work web app, you can do so
+within the Work profile without logging yourself out of websites in your
+Personal profile.</li>
+</ul>
+<h2 id="segregated-browsing-history">Segregated Browsing History</h2>
+<p>Each Safari Profile maintains an independent database for your
+browsing history. When you visit URLs or run web searches, Safari logs
+that activity exclusively to the active profile.</p>
+<p>This separation directly impacts how Safari's Smart Search field
+behaves. When you begin typing in the address bar, autocomplete
+suggestions and history matches are pulled strictly from the current
+profile. Your personal browsing habits will never accidentally
+auto-populate in the address bar while you are sharing your screen
+during a work presentation. Furthermore, when you choose to clear your
+browsing history, Safari allows you to wipe the history of a single
+profile while leaving the others intact.</p>
+<h2 id="independent-website-permissions-and-settings">Independent
+Website Permissions and Settings</h2>
+<p>Website data also encompasses the hardware and software permissions
+you grant to specific domains. Safari 17 manages these configurations on
+a per-profile basis.</p>
+<p>If you grant a communication platform like Zoom or Slack permanent
+access to your microphone, camera, or location within your Work profile,
+those permissions do not carry over to your Personal profile. The
+browser treats the domain as a completely unvisited entity when accessed
+from a different profile, prompting you for permissions anew.</p>
+<h2 id="contextual-extensions-and-favorites">Contextual Extensions and
+Favorites</h2>
+<p>To prevent third-party software from bridging the gap between your
+isolated data, Safari 17 separates browser extensions by profile. While
+extensions are installed globally at the browser level, they must be
+enabled or disabled per profile. If an extension has permission to read
+and alter website data, it can only access the data within the profile
+where it is actively turned on.</p>
+<p>Finally, organizational data is also partitioned. Each profile
+utilizes its own distinct Tab Groups and can be assigned a dedicated
+Favorites folder, ensuring that the bookmarks and open tabs required for
+your job remain completely invisible when you switch to your personal
+browsing context.</p></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/how-safari-17-profiles-separate-work-and-personal-data';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

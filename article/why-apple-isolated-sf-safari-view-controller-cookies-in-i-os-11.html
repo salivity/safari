@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Why Apple Isolated SFSafariViewController Cookies in iOS 11 - safari</title>
+    <meta name="description" content="In iOS 11, Apple fundamentally changed how its in-app browser, SFSafariViewController, handles user data by isolating its cookies from the main Safari web browser and other apps. Previously, a shared cookie space allowed developers to offer seamless singl">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/why-apple-isolated-sf-safari-view-controller-cookies-in-i-os-11">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Why Apple Isolated SFSafariViewController Cookies in iOS 11 - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/why-apple-isolated-sf-safari-view-controller-cookies-in-i-os-11" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="In iOS 11, Apple fundamentally changed how its in-app browser, SFSafariViewController, handles user data by isolating its cookies from the main Safari web browser and other apps. Previously, a shared cookie space allowed developers to offer seamless singl" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="why-apple-isolated-sfsafariviewcontroller-cookies-in-ios-11">Why
+Apple Isolated SFSafariViewController Cookies in iOS 11</h1>
+<p>In iOS 11, Apple fundamentally changed how its in-app browser,
+<code>SFSafariViewController</code>, handles user data by isolating its
+cookies from the main Safari web browser and other apps. Previously, a
+shared cookie space allowed developers to offer seamless single sign-on
+experiences and persistent web sessions, but advertising networks
+quickly exploited this architecture to track users across different
+applications without their consent. This article explains the mechanics
+of how this shared cookie loophole was abused for covert cross-app
+tracking, why Apple intervened with strict data sandboxing in iOS 11,
+and how the company introduced new authentication frameworks to preserve
+legitimate login workflows while locking down user privacy.</p>
+<h3 id="the-original-design-in-ios-9-and-10">The Original Design in iOS
+9 and 10</h3>
+<p>When Apple introduced <code>SFSafariViewController</code> in iOS 9,
+the goal was to give developers a secure way to display web content
+inside their apps without forcing users to leave the app and open the
+main Safari browser. Before this, developers built custom in-app
+browsers using <code>UIWebView</code> or <code>WKWebView</code>, which
+gave the host app full access to the web view's data, including
+passwords and cookies.</p>
+<p><code>SFSafariViewController</code> solved this security risk by
+running in a separate process outside the host app's reach. Crucially,
+it shared a single "cookie jar" with the main Safari browser. If a user
+was logged into a website on Safari, they would remain logged into that
+website when opening a link inside a third-party app using
+<code>SFSafariViewController</code>. This shared state also made it easy
+for developers to implement Single Sign-On (SSO) and OAuth flows.</p>
+<h3 id="the-cross-app-tracking-loophole">The Cross-App Tracking
+Loophole</h3>
+<p>Because <code>SFSafariViewController</code> shared cookies across the
+entire operating system, advertising technology companies and data
+brokers realized they could use it to bypass Apple's privacy controls,
+specifically the ability for users to limit ad tracking via the
+Identifier for Advertisers (IDFA).</p>
+<p>Ad networks embedded within third-party apps began abusing
+<code>SFSafariViewController</code> through a technique involving hidden
+or imperceptible web views:</p>
+<ol type="1">
+<li><strong>Silent Loading:</strong> When a user opened an app
+containing a tracking SDK, the app would silently spin up a tiny,
+invisible, or 1x1 pixel <code>SFSafariViewController</code> instance in
+the background, pointing to a tracking domain owned by the ad
+network.</li>
+<li><strong>Writing the Cookie:</strong> That domain would drop a unique
+tracking cookie into the browser's storage. Because
+<code>SFSafariViewController</code> shared storage with the main Safari
+browser, that cookie was now stored globally on the device.</li>
+<li><strong>Cross-App Identification:</strong> When the user opened a
+completely different app that used the same ad network, that second app
+would also silently load an <code>SFSafariViewController</code> pointing
+to the same tracking domain. The domain would read the cookie dropped by
+the first app.</li>
+</ol>
+<p>Through this method, trackers could easily build a comprehensive
+profile of every app a user opened, completely ignoring the user's
+system-level privacy settings and Apple's standard app sandboxing
+rules.</p>
+<h3 id="apples-ios-11-intervention-sandboxed-storage">Apple's iOS 11
+Intervention: Sandboxed Storage</h3>
+<p>To eliminate this covert tracking vector, Apple re-architected
+<code>SFSafariViewController</code> in iOS 11. They severed the link
+between the in-app browser and the main Safari browser.</p>
+<p>Starting in iOS 11, every app using
+<code>SFSafariViewController</code> was given its own isolated,
+sandboxed cookie storage.</p>
+<ul>
+<li>Cookies stored in the main Safari app could no longer be read by
+<code>SFSafariViewController</code>.</li>
+<li>Cookies stored in App A's <code>SFSafariViewController</code> could
+no longer be read by App B's <code>SFSafariViewController</code>.</li>
+</ul>
+<p>This immediately rendered the hidden web view tracking method
+useless. Even if an ad network loaded a hidden
+<code>SFSafariViewController</code> to drop a cookie, that cookie was
+trapped inside that specific app's sandbox, preventing any cross-app
+correlation.</p>
+<h3 id="preserving-single-sign-on">Preserving Single Sign-On</h3>
+<p>While isolating cookies successfully stopped cross-app tracking, it
+broke legitimate use cases, particularly Single Sign-On. Users suddenly
+had to re-enter their credentials in every app rather than relying on
+their existing Safari sessions.</p>
+<p>To solve this, Apple introduced a dedicated API in iOS 11 called
+<code>SFAuthenticationSession</code> (later replaced by
+<code>ASWebAuthenticationSession</code> in iOS 12). This API was built
+specifically for authentication flows and was allowed to access the main
+Safari cookie jar, but with one critical privacy safeguard: a mandatory
+system alert.</p>
+<p>Whenever an app invokes this authentication session, iOS displays a
+prominent, un-spoofable dialog box asking the user for permission (e.g.,
+<em>"App" Wants to Use "example.com" to Sign In</em>). Because this
+prompt requires explicit user interaction before the web view even
+loads, ad networks cannot run it silently in the background. By
+separating general web browsing from explicit user authentication, Apple
+successfully shut down covert cookie tracking while keeping seamless
+login experiences intact.</p></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/why-apple-isolated-sf-safari-view-controller-cookies-in-i-os-11';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

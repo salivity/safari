@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How AirDrop Instantly Shares Webpages from Safari - safari</title>
+    <meta name="description" content="This article explains the underlying technology that allows Apple&#39;s AirDrop feature to instantly transfer and open an active Safari webpage on a nearby iPhone, iPad, or Mac. By combining Safari&#39;s native data packaging, Bluetooth Low Energy for device disc">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/how-air-drop-instantly-shares-webpages-from-safari">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How AirDrop Instantly Shares Webpages from Safari - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/how-air-drop-instantly-shares-webpages-from-safari" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article explains the underlying technology that allows Apple&#39;s AirDrop feature to instantly transfer and open an active Safari webpage on a nearby iPhone, iPad, or Mac. By combining Safari&#39;s native data packaging, Bluetooth Low Energy for device disc" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="how-airdrop-instantly-shares-webpages-from-safari">How AirDrop
+Instantly Shares Webpages from Safari</h1>
+<p>This article explains the underlying technology that allows Apple's
+AirDrop feature to instantly transfer and open an active Safari webpage
+on a nearby iPhone, iPad, or Mac. By combining Safari's native data
+packaging, Bluetooth Low Energy for device discovery, peer-to-peer Wi-Fi
+for rapid transfer, and operating system-level data recognition, AirDrop
+bypasses traditional messaging steps to launch the shared link in the
+receiving device's browser immediately upon acceptance.</p>
+<h3 id="1-packaging-the-webpage-data">1. Packaging the Webpage Data</h3>
+<p>When you tap the Share button in the Safari web browser and select
+AirDrop, your device does not actually send the entire downloaded
+webpage, its images, or its code. Instead, Safari extracts the active
+webpage's Uniform Resource Locator (URL) and packages it into a tiny
+data payload. Along with the raw web address, Safari attaches specific
+metadata—known in Apple’s ecosystem as a Uniform Type Identifier
+(UTI)—that explicitly labels this piece of data as a live web link
+rather than plain text or a document.</p>
+<h3 id="2-device-discovery-via-bluetooth">2. Device Discovery via
+Bluetooth</h3>
+<p>The moment the AirDrop menu opens, your device uses Bluetooth Low
+Energy (BLE) to broadcast a short-range signal. Nearby Apple devices
+that have AirDrop receiving turned on will detect this signal. Bluetooth
+handles the initial "handshake" between the two devices, verifying their
+proximity and checking if the users are in each other's contacts. This
+process requires very little battery power and does not require either
+device to be connected to the internet or a local Wi-Fi network.</p>
+<h3 id="3-transfer-via-peer-to-peer-wi-fi">3. Transfer via Peer-to-Peer
+Wi-Fi</h3>
+<p>Once you tap the recipient's icon to send the webpage, the devices
+shift from Bluetooth to a technology called Apple Wireless Direct Link
+(AWDL). This creates a temporary, encrypted, peer-to-peer Wi-Fi network
+directly between the two devices. Even though a web URL is only a few
+bytes of data, AirDrop always uses this direct Wi-Fi tunnel to ensure
+the transfer is secured with TLS (Transport Layer Security) encryption
+and happens in a fraction of a second.</p>
+<h3 id="4-system-level-recognition-and-instant-launch">4. System-Level
+Recognition and Instant Launch</h3>
+<p>The magic of the webpage opening instantly happens on the receiving
+device's operating system (iOS, iPadOS, or macOS). When the recipient
+taps "Accept" on the AirDrop prompt (or if it is accepted automatically
+between devices signed into the same Apple ID), the operating system
+inspects the incoming payload's Uniform Type Identifier.</p>
+<p>Because the payload is tagged specifically as a URL
+(<code>public.url</code>) rather than an image
+(<code>public.jpeg</code>) or a PDF (<code>com.adobe.pdf</code>), the
+operating system knows not to save the file to the Photos app or the
+Files app. Instead, the OS triggers a system-level command that wakes up
+the default web browser, opens a new active tab, pastes the transferred
+URL into the address bar, and immediately begins loading the live
+webpage over the receiving device's own internet connection.</p></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/how-air-drop-instantly-shares-webpages-from-safari';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

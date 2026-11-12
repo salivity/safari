@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Live Captions Transcribe Safari Audio on macOS and iOS - safari</title>
+    <meta name="description" content="This article explains the underlying technology that enables Live Captions on macOS and iOS to transcribe audio from the Safari web browser in real time. By combining system-level audio interception through Core Audio with the dedicated processing power o">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/how-live-captions-transcribe-safari-audio-on-mac-os-and-i-os">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Live Captions Transcribe Safari Audio on macOS and iOS - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/how-live-captions-transcribe-safari-audio-on-mac-os-and-i-os" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article explains the underlying technology that enables Live Captions on macOS and iOS to transcribe audio from the Safari web browser in real time. By combining system-level audio interception through Core Audio with the dedicated processing power o" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="how-live-captions-transcribe-safari-audio-on-macos-and-ios">How
+Live Captions Transcribe Safari Audio on macOS and iOS</h1>
+<p>This article explains the underlying technology that enables Live
+Captions on macOS and iOS to transcribe audio from the Safari web
+browser in real time. By combining system-level audio interception
+through Core Audio with the dedicated processing power of the Apple
+Neural Engine, Apple devices convert spoken dialogue from web videos,
+podcasts, and audio streams into readable text directly on the device.
+This seamless process happens locally in milliseconds, ensuring minimal
+latency, consistent accuracy, and complete user privacy.</p>
+<h3 id="system-level-audio-interception">System-Level Audio
+Interception</h3>
+<p>Live Captions do not rely on Safari extensions, website code, or
+web-based APIs to function. Instead, the feature operates at the
+operating system level using Apple's Core Audio framework.</p>
+<p>When you play a video or audio file in Safari, the browser decodes
+the media and sends the digital audio stream to the system's central
+audio server. Before this audio reaches your device's speakers or
+headphones, the operating system duplicates the audio buffer. It sends
+one copy to your audio output and routes the other directly to the
+system's accessibility speech-recognition service. Because it taps into
+the audio pipeline at the OS level, Live Captions can transcribe any
+sound coming from Safari, regardless of the website or media player
+being used.</p>
+<h3 id="audio-pre-processing">Audio Pre-Processing</h3>
+<p>Once the system captures the raw audio stream from Safari, it must
+prepare the data for transcription. The audio undergoes instant
+pre-processing where it is downsampled and filtered to isolate human
+speech frequencies from background music or web-based sound effects.</p>
+<p>The system then slices this continuous audio stream into tiny,
+overlapping acoustic frames, each lasting just a few milliseconds. This
+converts the continuous wave of sound from Safari into discrete chunks
+of digital data that a machine learning model can read.</p>
+<h3 id="hardware-acceleration-via-the-neural-engine">Hardware
+Acceleration via the Neural Engine</h3>
+<p>Real-time speech-to-text conversion requires immense computational
+power. To prevent Safari and the rest of the operating system from
+lagging, macOS and iOS offload the transcription workload to the Apple
+Neural Engine (ANE).</p>
+<p>The ANE is a specialized hardware processor built into Apple Silicon
+(A-series chips on iOS and M-series chips on macOS). It is designed
+specifically to execute matrix multiplication and machine learning
+algorithms at high speeds while consuming minimal battery power. This
+hardware requirement is why Live Captions are strictly limited to newer
+Apple devices equipped with Apple Silicon.</p>
+<h3 id="acoustic-and-language-modeling">Acoustic and Language
+Modeling</h3>
+<p>Inside the Neural Engine, the pre-processed audio frames pass through
+two primary machine learning models working in tandem:</p>
+<ol type="1">
+<li><strong>The Acoustic Model:</strong> This neural network analyzes
+the audio frames and predicts the most likely phonemes—the distinct
+units of sound that make up spoken language.</li>
+<li><strong>The Language Model:</strong> This model takes the stream of
+phonemes and assembles them into coherent words and sentences. It uses
+statistical probabilities and contextual awareness to differentiate
+between homophones (such as "two" and "too") and dynamically inserts
+punctuation as the speaker continues talking.</li>
+</ol>
+<h3 id="dynamic-rendering-and-local-privacy">Dynamic Rendering and Local
+Privacy</h3>
+<p>As the machine learning models generate text, the operating system
+pushes the output to the floating Live Captions window overlaid on your
+screen. Because human speech relies heavily on context, you will often
+see the Live Captions interface display a word and then instantly change
+it a split second later. This happens because the language model is
+continuously analyzing the ongoing Safari audio stream and retroactively
+correcting previous words based on new context.</p>
+<p>Because this entire pipeline—from Core Audio interception to Neural
+Engine processing—executes locally on your device's hardware, the
+transcription happens with near-zero latency. Furthermore, no audio data
+from your Safari browsing session is ever sent to Apple's servers or the
+cloud, allowing the feature to work entirely offline while keeping your
+web activity private.</p></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/how-live-captions-transcribe-safari-audio-on-mac-os-and-i-os';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

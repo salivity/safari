@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What Does ApplePaySession.canMakePayments Check? - safari</title>
+    <meta name="description" content="This article explains the exact functionality of the ApplePaySession.canMakePayments method when executed by a script within the Safari web browser. It covers the specific hardware, software, and user restriction criteria this method evaluates to determin">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/what-does-apple-pay-session-can-make-payments-check">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="What Does ApplePaySession.canMakePayments Check? - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/what-does-apple-pay-session-can-make-payments-check" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article explains the exact functionality of the ApplePaySession.canMakePayments method when executed by a script within the Safari web browser. It covers the specific hardware, software, and user restriction criteria this method evaluates to determin" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="what-does-applepaysessioncanmakepayments-check">What Does
+ApplePaySession.canMakePayments Check?</h1>
+<p>This article explains the exact functionality of the
+<code>ApplePaySession.canMakePayments</code> method when executed by a
+script within the Safari web browser. It covers the specific hardware,
+software, and user restriction criteria this method evaluates to
+determine if a device is capable of processing Apple Pay transactions,
+while also clarifying what the method intentionally does not check, such
+as the presence of an active payment card in the user's Wallet.</p>
+<h3 id="the-core-verification-criteria">The Core Verification
+Criteria</h3>
+<p>When a script running in Safari calls
+<code>ApplePaySession.canMakePayments()</code>, it returns a boolean
+value (<code>true</code> or <code>false</code>). To return
+<code>true</code>, the method instantly verifies the following
+conditions on the user's device:</p>
+<ul>
+<li><strong>Hardware Capability:</strong> It checks if the user is on an
+iPhone, iPad, or Mac that possesses the required hardware (such as the
+Secure Element) to process Apple Pay transactions, or is a Mac capable
+of handing off the payment request to a nearby iPhone or Apple Watch via
+Bluetooth.</li>
+<li><strong>Operating System Support:</strong> It verifies that the
+version of iOS, iPadOS, or macOS running on the device supports Apple
+Pay on the web.</li>
+<li><strong>Parental and Device Restrictions:</strong> It checks the
+system settings to ensure that Apple Pay has not been disabled via
+Screen Time (parental controls) or restricted by a Mobile Device
+Management (MDM) profile often used on corporate or educational
+devices.</li>
+</ul>
+<h3 id="prerequisite-environment-checks">Prerequisite Environment
+Checks</h3>
+<p>Before <code>ApplePaySession.canMakePayments</code> can even be
+called, the browser environment implicitly enforces two conditions
+because the <code>ApplePaySession</code> object will not exist
+otherwise:</p>
+<ul>
+<li><strong>Browser Compatibility:</strong> The script must be running
+in Safari, or an approved iOS web view like
+<code>SFSafariViewController</code>.</li>
+<li><strong>Secure Context:</strong> The webpage must be served over
+HTTPS. Apple Pay APIs are completely unavailable on insecure HTTP
+connections.</li>
+</ul>
+<h3 id="what-the-method-does-not-check">What the Method Does Not
+Check</h3>
+<p>A common misconception is that <code>canMakePayments</code> verifies
+whether a user is ready to pay immediately. In reality, this method
+<strong>does not check if the user has a credit or debit card
+provisioned in their Apple Wallet.</strong></p>
+<p>If a user is on a brand-new iPhone using Safari over HTTPS with no
+restrictions enabled, <code>ApplePaySession.canMakePayments()</code>
+will return <code>true</code>, even if their Apple Wallet is completely
+empty.</p>
+<p>Apple designed the method this way so merchants can still display the
+Apple Pay button to capable devices. If a user without an active card
+taps the button, Safari will prompt them to add a card to their Wallet
+and then immediately complete the purchase.</p>
+<h3 id="summary-of-best-usage">Summary of Best Usage</h3>
+<p>Developers should use <code>ApplePaySession.canMakePayments</code>
+when they want to display the Apple Pay button on product pages or in
+the checkout flow to the widest possible audience of Apple users.
+Because it executes locally and does not query Apple's servers to check
+for active cards, it is extremely fast and protects user privacy.</p></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/what-does-apple-pay-session-can-make-payments-check';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

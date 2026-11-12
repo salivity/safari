@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fixing Safari DNS Stalls via Cache and IP Tracking - safari</title>
+    <meta name="description" content="Intermittent domain resolution stalls in Safari typically occur when the browser gets stuck translating a website&#39;s name into its numerical IP address, resulting in a frozen loading bar. This article provides a technical breakdown of how two specific trou">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/fixing-safari-dns-stalls-via-cache-and-ip-tracking">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Fixing Safari DNS Stalls via Cache and IP Tracking - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/fixing-safari-dns-stalls-via-cache-and-ip-tracking" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Intermittent domain resolution stalls in Safari typically occur when the browser gets stuck translating a website&#39;s name into its numerical IP address, resulting in a frozen loading bar. This article provides a technical breakdown of how two specific trou" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="fixing-safari-dns-stalls-via-cache-and-ip-tracking">Fixing
+Safari DNS Stalls via Cache and IP Tracking</h1>
+<p>Intermittent domain resolution stalls in Safari typically occur when
+the browser gets stuck translating a website's name into its numerical
+IP address, resulting in a frozen loading bar. This article provides a
+technical breakdown of how two specific troubleshooting steps—flushing
+the macOS DNS cache and toggling the "Limit IP Address Tracking"
+feature—directly resolve these bottlenecks by clearing corrupted local
+network data and resetting stalled privacy proxy connections.</p>
+<h2 id="the-role-of-the-macos-dns-cache">The Role of the macOS DNS
+Cache</h2>
+<p>When you type a URL into Safari, macOS checks its local Domain Name
+System (DNS) cache before querying an external server. This cache stores
+recent domain-to-IP translations to speed up browsing. However, this
+local database can cause resolution stalls for several reasons:</p>
+<ul>
+<li><strong>Stale Records:</strong> A website may change its IP address
+before your local cache's Time-to-Live (TTL) timer expires, causing
+Safari to repeatedly attempt a connection to a dead server.</li>
+<li><strong>Network Switching:</strong> Moving between different Wi-Fi
+networks or disconnecting from a VPN can leave behind conflicting DNS
+routing information.</li>
+<li><strong>Daemon Glitches:</strong> The background process responsible
+for DNS on macOS, known as <code>mDNSResponder</code>, can occasionally
+experience memory leaks or state corruption, causing it to ignore new
+requests from Safari.</li>
+</ul>
+<h3 id="how-flushing-the-cache-fixes-it">How Flushing the Cache Fixes
+It</h3>
+<p>Flushing the DNS cache forces macOS to wipe its temporary address
+book completely clean. When you run the terminal commands
+<code>sudo dscacheutil -flushcache</code> and
+<code>sudo killall -HUP mDNSResponder</code>, you accomplish two
+things:</p>
+<ol type="1">
+<li>You delete all stored IP translations, eliminating any corrupted or
+outdated routing paths.</li>
+<li>You send a hang-up (<code>HUP</code>) signal to the
+<code>mDNSResponder</code> daemon, forcing it to restart cleanly and
+re-establish communication with your router's DNS servers.</li>
+</ol>
+<p>The next time Safari requests a webpage, it bypasses the broken local
+data and fetches a fresh, working IP address directly from your
+configured DNS provider.</p>
+<h2 id="the-impact-of-limit-ip-address-tracking">The Impact of "Limit IP
+Address Tracking"</h2>
+<p>"Limit IP Address Tracking" is a macOS network setting designed to
+hide your personal IP address from known trackers and protect your DNS
+queries. It uses an architecture similar to iCloud Private Relay,
+routing specific traffic and DNS lookups through encrypted proxies
+managed by Apple and its content delivery partners. While effective for
+privacy, this feature is a common culprit for Safari stalls due to the
+following mechanisms:</p>
+<ul>
+<li><strong>QUIC Protocol Blocks:</strong> The privacy relay relies
+heavily on the QUIC protocol (which uses UDP). Many local routers,
+corporate firewalls, and ISPs throttle or block UDP traffic. When this
+happens, Safari hangs while waiting for the blocked connection to time
+out before falling back to a standard connection.</li>
+<li><strong>Proxy Desynchronization:</strong> Your Mac maintains a
+secure tunnel to Apple's ingress proxies. If your local network drops
+briefly, this tunnel can enter a "zombie" state where macOS thinks it is
+connected, but the proxy is no longer responding to DNS requests.</li>
+<li><strong>Safari-Specific Routing:</strong> Because this feature is
+deeply integrated into WebKit (Safari's engine), Safari will stall when
+the relay fails, whereas third-party browsers like Chrome or
+Firefox—which do not use this specific Apple relay—will continue to work
+normally.</li>
+</ul>
+<h3 id="how-toggling-the-setting-fixes-it">How Toggling the Setting
+Fixes It</h3>
+<p>Navigating to your Wi-Fi or Ethernet settings in macOS and toggling
+"Limit IP Address Tracking" off and back on (or leaving it off) resolves
+the stall by resetting the <code>networkserviceproxy</code> daemon.</p>
+<ul>
+<li><strong>Turning it off</strong> forces Safari to abandon the
+encrypted proxy tunnel entirely. DNS requests immediately revert to
+standard, unproxied channels via your local router, bypassing any QUIC
+blocks or congested Apple servers.</li>
+<li><strong>Turning it back on</strong> initiates a brand-new
+cryptographic handshake with Apple's relay servers. This tears down the
+unresponsive "zombie" tunnel and assigns your Mac a fresh, responsive
+proxy route, allowing Safari to resolve domains instantly again.</li>
+</ul></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/fixing-safari-dns-stalls-via-cache-and-ip-tracking';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

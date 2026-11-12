@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Enable Experimental WebKit Feature Flags in Safari - safari</title>
+    <meta name="description" content="This article provides a step-by-step guide on how web developers can unlock and enable experimental WebKit feature flags in both the standard Safari browser and Safari Technology Preview. By activating the hidden developer tools in Safari&#39;s settings on ma">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/how-to-enable-experimental-web-kit-feature-flags-in-safari">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How to Enable Experimental WebKit Feature Flags in Safari - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/how-to-enable-experimental-web-kit-feature-flags-in-safari" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article provides a step-by-step guide on how web developers can unlock and enable experimental WebKit feature flags in both the standard Safari browser and Safari Technology Preview. By activating the hidden developer tools in Safari&#39;s settings on ma" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="how-to-enable-experimental-webkit-feature-flags-in-safari">How
+to Enable Experimental WebKit Feature Flags in Safari</h1>
+<p>This article provides a step-by-step guide on how web developers can
+unlock and enable experimental WebKit feature flags in both the standard
+Safari browser and Safari Technology Preview. By activating the hidden
+developer tools in Safari's settings on macOS and iOS, you can easily
+search for, toggle, and test upcoming web standards and browser
+technologies before they are officially released to the public.</p>
+<h3 id="step-1-enable-developer-features-on-macos">Step 1: Enable
+Developer Features on macOS</h3>
+<p>To access feature flags on a Mac, you must first unlock Safari's
+developer options. This process is identical for both the standard
+Safari browser and Safari Technology Preview, though Safari Technology
+Preview usually has these enabled by default.</p>
+<ol type="1">
+<li>Open <strong>Safari</strong> or <strong>Safari Technology
+Preview</strong>.</li>
+<li>Click the browser name (<strong>Safari</strong> or <strong>Safari
+Technology Preview</strong>) in the top-left menu bar.</li>
+<li>Select <strong>Settings</strong> (or <strong>Preferences</strong> on
+older macOS versions) from the dropdown menu.</li>
+<li>Click the <strong>Advanced</strong> tab on the far right.</li>
+<li>Check the box at the bottom labeled <strong>Show features for web
+developers</strong> (on older versions of Safari, this is labeled
+<strong>Show Develop menu in menu bar</strong>).</li>
+</ol>
+<h3 id="step-2-access-and-toggle-feature-flags-on-macos">Step 2: Access
+and Toggle Feature Flags on macOS</h3>
+<p>In modern versions of the browser (Safari 17 and later), experimental
+features are managed inside a dedicated settings tab rather than a
+dropdown menu.</p>
+<ol type="1">
+<li>Keep the <strong>Settings</strong> window open after enabling the
+developer features in Step 1.</li>
+<li>Click the newly visible <strong>Feature Flags</strong> tab at the
+top of the Settings window.</li>
+<li>Use the search bar in the top-right corner of the window to find the
+specific CSS, HTML, JavaScript, or Web API feature you want to
+test.</li>
+<li>Check the box next to the specific feature flag to enable it.</li>
+<li>Refresh your webpage, or restart the browser if the specific flag
+requires a full relaunch to take effect.</li>
+</ol>
+<p><strong>For Safari 16 and Earlier:</strong> If you are using an older
+version of Safari, you will not see a Feature Flags tab in the Settings
+window. Instead, close the Settings window, click
+<strong>Develop</strong> in the top menu bar, and hover over
+<strong>Experimental Features</strong> to view and toggle flags from the
+long dropdown list.</p>
+<h3 id="enabling-webkit-feature-flags-on-ios-and-ipados">Enabling WebKit
+Feature Flags on iOS and iPadOS</h3>
+<p>If you are testing experimental features on a mobile device, you can
+toggle the same WebKit flags through the system settings.</p>
+<ol type="1">
+<li>Open the <strong>Settings</strong> app on your iPhone or iPad.</li>
+<li>Scroll down and tap <strong>Safari</strong> (in iOS 18 and later, go
+to <strong>Apps</strong> &gt; <strong>Safari</strong>).</li>
+<li>Scroll to the very bottom and tap <strong>Advanced</strong>.</li>
+<li>Tap <strong>Feature Flags</strong> at the bottom of the list (this
+is labeled <strong>Experimental Features</strong> in iOS 16 and
+earlier).</li>
+<li>Use the search bar at the top or scroll through the alphabetical
+list to toggle on the desired WebKit features.</li>
+</ol>
+<h3 id="how-to-reset-feature-flags-to-default">How to Reset Feature
+Flags to Default</h3>
+<p>Enabling experimental and unshipped features can occasionally cause
+rendering bugs, page instability, or browser crashes.</p>
+<ul>
+<li><strong>On macOS:</strong> Open Safari's <strong>Settings</strong>,
+go to the <strong>Feature Flags</strong> tab, and click the
+<strong>Reset All to Defaults</strong> button in the bottom-right
+corner.</li>
+<li><strong>On iOS/iPadOS:</strong> Navigate back to the <strong>Feature
+Flags</strong> menu in the Settings app, scroll to the very bottom, and
+tap <strong>Reset All to Defaults</strong>.</li>
+</ul></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/how-to-enable-experimental-web-kit-feature-flags-in-safari';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

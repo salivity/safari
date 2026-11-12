@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inside the Interop Project: Boosting Safari Compatibility - safari</title>
+    <meta name="description" content="This article explores the annual Interop project, a collaborative initiative where Apple engineers work directly with peers from Google, Mozilla, and Microsoft to standardize web technologies. It examines how this cross-industry partnership identifies key">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/inside-the-interop-project-boosting-safari-compatibility">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Inside the Interop Project: Boosting Safari Compatibility - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/inside-the-interop-project-boosting-safari-compatibility" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article explores the annual Interop project, a collaborative initiative where Apple engineers work directly with peers from Google, Mozilla, and Microsoft to standardize web technologies. It examines how this cross-industry partnership identifies key" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="inside-the-interop-project-boosting-safari-compatibility">Inside
+the Interop Project: Boosting Safari Compatibility</h1>
+<p>This article explores the annual Interop project, a collaborative
+initiative where Apple engineers work directly with peers from Google,
+Mozilla, and Microsoft to standardize web technologies. It examines how
+this cross-industry partnership identifies key developer pain points,
+utilizes shared testing benchmarks, and ultimately enhances
+cross-browser compatibility for the Safari web browser.</p>
+<h2 id="what-is-the-interop-project">What is the Interop Project?</h2>
+<p>The Interop project is an annual, cross-industry benchmark and
+coalition launched in 2022 by the major entities behind the world’s most
+popular web browsers: Apple, Google, Microsoft, and Mozilla, alongside
+software consultancies Bocoup and Igalia.</p>
+<p>The primary goal of Interop is to eliminate inconsistencies between
+different browser engines—specifically Apple’s WebKit (Safari), Google
+and Microsoft’s Blink (Chrome and Edge), and Mozilla’s Gecko (Firefox).
+Before Interop, web developers frequently had to write extra code and
+workarounds to ensure a website looked and functioned the same way on
+Safari as it did on Chrome or Firefox. Interop solves this by agreeing
+on a set of priority web technologies each year and working until all
+participating browsers pass the exact same automated tests for those
+technologies.</p>
+<h2 id="how-the-browser-vendors-collaborate">How the Browser Vendors
+Collaborate</h2>
+<p>Despite being fierce competitors in the broader tech market, Apple,
+Google, Mozilla, and Microsoft follow a strict, cooperative workflow for
+the Interop project:</p>
+<ul>
+<li><strong>Gathering Developer Feedback:</strong> Each year, the
+coalition reviews survey data, such as the "State of CSS" and "State of
+HTML" reports, and opens a public proposal process. Web developers
+submit the browser bugs and missing features that frustrate them the
+most.</li>
+<li><strong>Selecting Focus Areas:</strong> Engineers from all four
+companies meet to review the proposals. They mutually agree on a list of
+15 to 25 "Focus Areas" for the year. These have historically included
+CSS Grid, Flexbox, typography, color spaces, and form controls.</li>
+<li><strong>Writing Web Platform Tests (WPT):</strong> Once the features
+are chosen, engineers collaboratively write and refine tests in the
+shared Web Platform Tests repository. If a test reveals that a web
+standard is ambiguous, the engineers work together within standards
+bodies like the W3C and WHATWG to rewrite the specification so everyone
+interprets it the same way.</li>
+<li><strong>Public Scoring:</strong> Progress is tracked publicly on a
+live dashboard. Each browser is given a score from 0 to 100 based on how
+many tests it passes in the chosen focus areas.</li>
+</ul>
+<h2 id="enhancing-the-safari-web-browser">Enhancing the Safari Web
+Browser</h2>
+<p>Apple’s participation in the Interop project directly shapes the
+engineering roadmap for WebKit, the engine that powers Safari across
+iOS, iPadOS, macOS, and visionOS.</p>
+<p>Historically, developers often criticized Safari for lagging behind
+Chrome and Firefox in adopting new web standards or fixing long-standing
+layout bugs. Through the Interop project, Apple engineers have
+systematically addressed these complaints.</p>
+<h3 id="1-resolving-ambiguities-in-webkit">1. Resolving Ambiguities in
+WebKit</h3>
+<p>When Safari fails an Interop test, Apple engineers investigate the
+WebKit source code to see why it behaves differently from Blink or
+Gecko. Sometimes, Apple discovers a bug in WebKit and fixes it. Other
+times, Apple engineers prove that Safari is actually following the
+official web standard correctly, and it is Chrome or Firefox that needs
+to change. This back-and-forth ensures that fixes are based on consensus
+rather than one company's dominance.</p>
+<h3 id="2-rapid-feature-deployment">2. Rapid Feature Deployment</h3>
+<p>Because the Interop dashboard is public, there is healthy competitive
+pressure for all browsers to reach a score of 100 by the end of the
+year. To keep Safari’s score high, Apple engineers rapidly implement
+agreed-upon features—such as CSS Container Queries, the
+<code>:has()</code> selector, CSS Subgrid, and the Popover API—and push
+these updates out to users via regular macOS and iOS software
+updates.</p>
+<h3 id="3-testing-in-safari-technology-preview">3. Testing in Safari
+Technology Preview</h3>
+<p>Apple uses the Safari Technology Preview, an experimental version of
+its browser updated roughly every two weeks, as the proving ground for
+Interop fixes. As Apple engineers write code to pass Interop tests,
+those changes are immediately deployed to the Technology Preview. The
+public Interop dashboard tracks this preview browser, allowing Google,
+Mozilla, and Microsoft engineers to verify Apple's progress in real time
+before the features ever reach the standard version of Safari.</p>
+<h2 id="the-result-of-the-partnership">The Result of the
+Partnership</h2>
+<p>By aligning Apple’s WebKit team with the engineering teams at Google,
+Mozilla, and Microsoft, the Interop project has drastically reduced the
+gap between Safari and its competitors. In recent Interop cycles,
+Safari, Chrome, Edge, and Firefox have all finished the year with scores
+well above 95% in the targeted focus areas. For web developers, this
+means less time debugging Safari-specific issues, and for Safari users,
+it results in a faster, more reliable, and visually consistent web
+experience.</p></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/inside-the-interop-project-boosting-safari-compatibility';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

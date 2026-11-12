@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Why Safari Partitions Storage and Caches to Stop Tracking - safari</title>
+    <meta name="description" content="This article provides a comprehensive look at why Apple’s Safari web browser partitions third-party storage and HTTP caches by the top-level site origin. By isolating browser data based on the specific website a user is currently visiting, Safari prevents">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/why-safari-partitions-storage-and-caches-to-stop-tracking">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Why Safari Partitions Storage and Caches to Stop Tracking - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/why-safari-partitions-storage-and-caches-to-stop-tracking" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article provides a comprehensive look at why Apple’s Safari web browser partitions third-party storage and HTTP caches by the top-level site origin. By isolating browser data based on the specific website a user is currently visiting, Safari prevents" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="why-safari-partitions-storage-and-caches-to-stop-tracking">Why
+Safari Partitions Storage and Caches to Stop Tracking</h1>
+<p>This article provides a comprehensive look at why Apple’s Safari web
+browser partitions third-party storage and HTTP caches by the top-level
+site origin. By isolating browser data based on the specific website a
+user is currently visiting, Safari prevents embedded third-party
+trackers from sharing information across different domains. Below, we
+explore how trackers historically exploited shared browser resources and
+how Safari's partitioning model neutralizes cross-site state tracking to
+protect user privacy.</p>
+<h2 id="the-problem-of-unpartitioned-browser-state">The Problem of
+Unpartitioned Browser State</h2>
+<p>Historically, web browsers stored data—such as cookies, LocalStorage,
+IndexedDB, and cached files—using only the origin of the resource that
+created them. This is known as "single-keyed" storage.</p>
+<p>If an advertising network (e.g., <code>tracker.com</code>) was
+embedded on both <code>news-site.com</code> and
+<code>shopping-site.com</code>, the browser gave
+<code>tracker.com</code> access to the exact same storage vault on both
+websites. The tracker could assign a unique identifier to a user on the
+news site, save it in LocalStorage, and immediately read that same
+identifier when the user visited the shopping site. This allowed third
+parties to build detailed browsing profiles without the user's knowledge
+or consent.</p>
+<h2 id="how-trackers-exploited-the-http-cache">How Trackers Exploited
+the HTTP Cache</h2>
+<p>As browsers began restricting third-party cookies to stop tracking,
+surveillance companies turned to more covert methods, such as exploiting
+the HTTP cache. The HTTP cache is designed to speed up browsing by
+saving copies of website files (like images and scripts) on your device
+so they do not need to be downloaded again.</p>
+<p>Trackers abused this performance feature for cross-site state
+tracking:</p>
+<ol type="1">
+<li>When you visited Site A, an embedded tracker would load a tiny file
+with a unique identifier (like an ETag or a specific image) that the
+browser saved to its HTTP cache.</li>
+<li>When you visited Site B, the same embedded tracker would check if
+that specific file was already in your browser's cache.</li>
+<li>By measuring how fast the file loaded or checking server headers,
+the tracker could reconstruct your unique ID and link your activity
+across Site A and Site B, completely bypassing cookie restrictions.</li>
+</ol>
+<h2 id="the-solution-partitioning-by-top-level-origin">The Solution:
+Partitioning by Top-Level Origin</h2>
+<p>To stop both storage-based and cache-based tracking, Safari
+implemented a concept known as storage and cache partitioning, often
+referred to as "double-keying."</p>
+<p>Instead of organizing data solely by the third-party's origin, Safari
+organizes it using a combination of two keys:</p>
+<ol type="1">
+<li><strong>The Top-Level Site Origin:</strong> The actual website
+address shown in the user's URL bar.</li>
+<li><strong>The Resource Origin:</strong> The third-party domain
+requesting the storage or cache.</li>
+</ol>
+<h2 id="how-partitioning-prevents-cross-site-tracking">How Partitioning
+Prevents Cross-Site Tracking</h2>
+<p>With partitioning active, third-party scripts are placed into
+isolated sandboxes for every individual website you visit.</p>
+<p>If <code>tracker.com</code> is embedded on
+<code>news-site.com</code>, Safari assigns it a storage and cache bucket
+labeled <code>(news-site.com, tracker.com)</code>. When you navigate to
+<code>shopping-site.com</code>, Safari assigns the exact same tracker a
+completely different bucket labeled
+<code>(shopping-site.com, tracker.com)</code>.</p>
+<p>Because the buckets are separated by the top-level site origin, the
+tracker cannot access the LocalStorage, IndexedDB, or HTTP cache files
+it created on the previous website. If <code>tracker.com</code> tries to
+load a cached script on the shopping site that you already downloaded on
+the news site, Safari ignores the existing file and forces a brand-new
+download.</p>
+<h2 id="privacy-over-micro-performance">Privacy Over
+Micro-Performance</h2>
+<p>Partitioning the HTTP cache means the browser occasionally has to
+download the same third-party file multiple times across different
+websites, slightly increasing bandwidth usage. However, Safari
+prioritizes user privacy over these minor performance gains. By tying
+all third-party state directly to the top-level site origin, Safari
+ensures that your data cannot be weaponized to follow you across the
+web.</p></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/why-safari-partitions-storage-and-caches-to-stop-tracking';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

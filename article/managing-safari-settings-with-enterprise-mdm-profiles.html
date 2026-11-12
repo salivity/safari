@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Managing Safari Settings with Enterprise MDM Profiles - safari</title>
+    <meta name="description" content="This article provides a comprehensive guide for enterprise IT administrators on how to configure and secure the Safari web browser across corporate Apple devices using Mobile Device Management (MDM) configuration profiles. It covers the exact payloads, pr">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/managing-safari-settings-with-enterprise-mdm-profiles">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Managing Safari Settings with Enterprise MDM Profiles - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/managing-safari-settings-with-enterprise-mdm-profiles" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article provides a comprehensive guide for enterprise IT administrators on how to configure and secure the Safari web browser across corporate Apple devices using Mobile Device Management (MDM) configuration profiles. It covers the exact payloads, pr" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="managing-safari-settings-with-enterprise-mdm-profiles">Managing
+Safari Settings with Enterprise MDM Profiles</h1>
+<p>This article provides a comprehensive guide for enterprise IT
+administrators on how to configure and secure the Safari web browser
+across corporate Apple devices using Mobile Device Management (MDM)
+configuration profiles. It covers the exact payloads, property list
+(plist) keys, and restriction settings required to standardize the
+browser homepage, deploy essential corporate bookmarks, and enforce
+stringent web security policies on both macOS and iOS/iPadOS.</p>
+<h2 id="understanding-safari-mdm-payloads">Understanding Safari MDM
+Payloads</h2>
+<p>To manage Safari, administrators deploy <code>.mobileconfig</code>
+profiles via an MDM solution. Because macOS and iOS/iPadOS handle
+browser management differently, configurations are split into two main
+methods:</p>
+<ul>
+<li><strong>macOS:</strong> Uses a Custom Settings payload targeting the
+<code>com.apple.Safari</code> preference domain.</li>
+<li><strong>iOS/iPadOS:</strong> Uses the standard Restrictions payload
+(<code>com.apple.applicationaccess</code>) and the Web Content Filter
+payload (<code>com.apple.webcontent-filter</code>), requiring the
+devices to be Supervised.</li>
+</ul>
+<h2 id="setting-the-safari-homepage">Setting the Safari Homepage</h2>
+<p>Setting a default homepage is natively supported on macOS. While iOS
+does not have a traditional "homepage" setting in Safari, administrators
+can achieve a similar result using Web Clips.</p>
+<h3 id="macos-configuration">macOS Configuration</h3>
+<p>Deploy a plist file targeting the <code>com.apple.Safari</code>
+domain with the following keys to set and lock the homepage:</p>
+<ul>
+<li><strong>Set the URL:</strong> Use the <code>HomePage</code> key
+(String) and set the value to your desired URL (e.g.,
+<code>https://intranet.company.com</code>).</li>
+<li><strong>Enforce on New Windows:</strong> Use the
+<code>NewWindowBehavior</code> key (Integer) and set the value to
+<code>0</code>. This forces new Safari windows to open the specified
+homepage.</li>
+<li><strong>Enforce on New Tabs:</strong> Use the
+<code>NewTabBehavior</code> key (Integer) and set the value to
+<code>0</code>. This forces new tabs to open the homepage rather than
+the start page or an empty page.</li>
+</ul>
+<h2 id="deploying-corporate-bookmarks">Deploying Corporate
+Bookmarks</h2>
+<p>Administrators cannot easily edit a user's local bookmark file
+without overwriting personal data. Instead, MDM provides non-destructive
+ways to push corporate links.</p>
+<h3 id="iosipados-managed-bookmarks">iOS/iPadOS Managed Bookmarks</h3>
+<p>You can inject a read-only folder of corporate bookmarks directly
+into the iOS Safari Bookmarks menu using the <strong>Web Content
+Filter</strong> payload (<code>com.apple.webcontent-filter</code>):</p>
+<ol type="1">
+<li>Set the <code>FilterType</code> to <code>BuiltIn</code>.</li>
+<li>Add the <code>PermittedURLs</code> or configure the
+<code>WhitelistedBookmarks</code> array.</li>
+<li>For each bookmark in the array, define the <code>URL</code>
+(String), <code>Title</code> (String), and <code>BookmarkPath</code>
+(String) to organize them into folders.</li>
+</ol>
+<h3 id="web-clips-iosipados-and-macos">Web Clips (iOS/iPadOS and
+macOS)</h3>
+<p>As an alternative to in-browser bookmarks, use the <strong>Web
+Clips</strong> payload (<code>com.apple.webClip.managed</code>). This
+places a direct link icon on the iOS Home Screen or in the macOS
+Dock.</p>
+<ul>
+<li><strong>URL:</strong> The target web address.</li>
+<li><strong>Label:</strong> The name displayed under the icon.</li>
+<li><strong>IsRemovable:</strong> Set to <code>false</code> to prevent
+users from deleting the shortcut.</li>
+</ul>
+<h2 id="enforcing-security-and-privacy-policies">Enforcing Security and
+Privacy Policies</h2>
+<p>Securing the browser is critical for preventing data leakage and
+phishing attacks. Below are the essential security policies and the
+corresponding keys for macOS (<code>com.apple.Safari</code>) and iOS
+(<code>com.apple.applicationaccess</code>).</p>
+<h3 id="1-disable-autofill">1. Disable AutoFill</h3>
+<p>Preventing Safari from saving passwords and credit cards ensures
+sensitive data is stored only in approved enterprise password
+managers.</p>
+<ul>
+<li><strong>macOS Keys:</strong> Set <code>AutoFillPasswords</code>,
+<code>AutoFillCreditCardData</code>, and
+<code>AutoFillFromAddressBook</code> to <code>false</code>.</li>
+<li><strong>iOS Key:</strong> Set <code>safariAllowAutoFill</code> to
+<code>false</code>.</li>
+</ul>
+<h3 id="2-enforce-fraudulent-website-warnings">2. Enforce Fraudulent
+Website Warnings</h3>
+<p>This setting forces Safari to check visited URLs against known lists
+of phishing and malware sites.</p>
+<ul>
+<li><strong>macOS Key:</strong> Set
+<code>WarnAboutFraudulentWebsites</code> to <code>true</code>.</li>
+<li><strong>iOS Key:</strong> Set <code>safariForceFraudWarning</code>
+to <code>true</code>.</li>
+</ul>
+<h3 id="3-block-pop-up-windows">3. Block Pop-Up Windows</h3>
+<p>Blocking pop-ups mitigates the risk of malicious redirects, adware,
+and scareware.</p>
+<ul>
+<li><strong>macOS Key:</strong> Set
+<code>WebKitJavaScriptCanOpenWindowsAutomatically</code> and
+<code>com.apple.Safari.ContentPageGroupIdentifier.WebKit2JavaScriptCanOpenWindowsAutomatically</code>
+to <code>false</code>.</li>
+<li><strong>iOS Key:</strong> Set <code>safariAllowPopups</code> to
+<code>false</code>.</li>
+</ul>
+<h3 id="4-prevent-cross-site-tracking-and-manage-cookies">4. Prevent
+Cross-Site Tracking and Manage Cookies</h3>
+<p>Restricting cookies and tracking protects corporate network traffic
+from third-party profiling.</p>
+<ul>
+<li><strong>macOS Key:</strong> Set <code>BlockStoragePolicy</code>
+(Integer) to configure cookie blocking, and set
+<code>WebKitPreferences.storageBlockingPolicy</code> to <code>1</code>
+to block third-party cookies.</li>
+<li><strong>iOS Key:</strong> Set <code>safariAcceptCookies</code>
+(Integer) to <code>0</code> (Never), <code>1</code> (From visited
+sites), or <code>2</code> (Always). Set
+<code>OneTimePasscodeAutoFill</code> to <code>false</code> if you wish
+to stop SMS code interception.</li>
+</ul>
+<h3 id="5-manage-javascript">5. Manage JavaScript</h3>
+<p>While most modern web apps require JavaScript, high-security
+environments may require disabling it entirely.</p>
+<ul>
+<li><strong>macOS Key:</strong> Set <code>WebKitJavaScriptEnabled</code>
+and
+<code>com.apple.Safari.ContentPageGroupIdentifier.WebKit2JavaScriptEnabled</code>
+to <code>false</code>.</li>
+<li><strong>iOS Key:</strong> Set <code>safariAllowJavaScript</code> to
+<code>false</code>.</li>
+</ul>
+<h2 id="deployment-best-practices">Deployment Best Practices</h2>
+<ul>
+<li><strong>Scope Appropriately:</strong> On macOS, deploy the
+<code>com.apple.Safari</code> payload at the Device/Computer level
+rather than the User level to ensure consistency across shared
+machines.</li>
+<li><strong>Validate Plist Syntax:</strong> Before uploading a custom
+plist to your MDM, run <code>plutil -lint filename.plist</code> in the
+macOS Terminal to ensure there are no syntax errors.</li>
+<li><strong>Test in Staging:</strong> Blocking JavaScript or cookies can
+break Single Sign-On (SSO) workflows. Always test your Safari security
+profile on a pilot group of IT devices before a company-wide
+rollout.</li>
+</ul></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/managing-safari-settings-with-enterprise-mdm-profiles';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

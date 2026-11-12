@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Apple Participates in W3C and WHATWG for Safari - safari</title>
+    <meta name="description" content="This article provides an overview of how Apple, primarily through its WebKit engineering team, actively shapes the modern web by participating in the World Wide Web Consortium (W3C) and the Web Hypertext Application Technology Working Group (WHATWG). It c">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/how-apple-participates-in-w-3-c-and-whatwg-for-safari">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Apple Participates in W3C and WHATWG for Safari - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/how-apple-participates-in-w-3-c-and-whatwg-for-safari" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article provides an overview of how Apple, primarily through its WebKit engineering team, actively shapes the modern web by participating in the World Wide Web Consortium (W3C) and the Web Hypertext Application Technology Working Group (WHATWG). It c" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="how-apple-participates-in-w3c-and-whatwg-for-safari">How Apple
+Participates in W3C and WHATWG for Safari</h1>
+<p>This article provides an overview of how Apple, primarily through its
+WebKit engineering team, actively shapes the modern web by participating
+in the World Wide Web Consortium (W3C) and the Web Hypertext Application
+Technology Working Group (WHATWG). It covers Apple's leadership roles
+within these organizations, the step-by-step process its engineers use
+to propose new web technologies, and the strict criteria—such as privacy
+and energy efficiency—that Apple applies when reviewing third-party
+specifications before implementing them into the Safari web browser.</p>
+<h3 id="leadership-and-governance">Leadership and Governance</h3>
+<p>Apple does not just contribute code; it holds foundational leadership
+positions in both major standards bodies.</p>
+<ul>
+<li><strong>WHATWG Steering Group:</strong> Apple is a founding member
+of the WHATWG and holds a permanent seat on its Steering Group alongside
+Google, Mozilla, and Microsoft. This gives Apple direct oversight over
+the "Living Standards" of HTML and the DOM (Document Object Model).</li>
+<li><strong>W3C Working Groups:</strong> Apple is a major financial and
+technical contributor to the W3C. Apple engineers co-chair numerous W3C
+working groups, including those for CSS, WebApps, Privacy, and
+Accessibility. Apple representatives also frequently serve on the W3C
+Advisory Board and the Technical Architecture Group (TAG).</li>
+</ul>
+<h3 id="how-apple-proposes-new-specifications">How Apple Proposes New
+Specifications</h3>
+<p>When Apple wants to introduce a new capability to the web and
+implement it in Safari, it follows a structured incubation and
+standardization process.</p>
+<ol type="1">
+<li><strong>Identifying the Need:</strong> Proposals usually originate
+from limitations developers face on iOS and macOS, or from hardware
+capabilities Apple wants to expose safely to the web (such as 3D
+graphics or biometric authentication).</li>
+<li><strong>Incubation:</strong> Apple engineers draft an explainer
+document detailing the problem and proposed solution. They typically
+introduce this in a W3C Community Group, such as the Web Incubator
+Community Group (WICG), to gather initial feedback from other browser
+vendors.</li>
+<li><strong>Drafting the Specification:</strong> If the idea gains
+traction, Apple engineers act as specification editors. For HTML and DOM
+features, they submit pull requests directly to the relevant WHATWG
+GitHub repositories. For features like CSS, WebGPU, or WebAuthn, they
+work within the specific W3C Working Group to transition the idea into
+an official Working Draft.</li>
+<li><strong>Prototyping in WebKit:</strong> Simultaneously, Apple builds
+an experimental implementation of the feature in WebKit (Safari’s
+underlying engine). Developers can test these proposals in Safari
+Technology Preview by toggling feature flags, allowing Apple to gather
+real-world data to refine the specification.</li>
+</ol>
+<h3 id="how-apple-reviews-specifications">How Apple Reviews
+Specifications</h3>
+<p>Because Google (via the Blink engine) proposes a massive volume of
+new web APIs, a large part of Apple’s standards work involves reviewing,
+modifying, or blocking external proposals.</p>
+<p><strong>The WebKit Standards Positions Process</strong> Apple manages
+its review process publicly on GitHub through the WebKit Standards
+Positions repository. When another browser vendor or developer group
+proposes a new specification at the W3C or WHATWG, they file an issue in
+this repository asking for Apple’s stance. WebKit engineers discuss the
+proposal and assign a formal label, such as "Support" or "Oppose."</p>
+<p>In both the W3C and WHATWG, true standardization requires
+multi-engine support. If Apple opposes a specification and refuses to
+implement it in WebKit, the proposal often stalls, preventing it from
+becoming an official web standard.</p>
+<p><strong>Apple's Review Criteria</strong> When reviewing a
+specification in W3C or WHATWG meetings, Apple evaluates the proposal
+against four strict criteria:</p>
+<ul>
+<li><strong>User Privacy:</strong> This is Apple's primary filter. Apple
+routinely rejects or demands rewrites of specifications that could be
+used for covert user tracking or "fingerprinting" (identifying a user
+based on their device configurations).</li>
+<li><strong>Security:</strong> Apple reviews how a proposed API
+interacts with the underlying operating system, ensuring it does not
+bypass sandboxing or expose users to malware.</li>
+<li><strong>Power and Performance:</strong> Because Safari runs
+predominantly on battery-powered devices (iPhones, iPads, and MacBooks),
+Apple pushes back against specifications that require excessive CPU
+usage or drain battery life.</li>
+<li><strong>Accessibility:</strong> Apple insists that new web
+standards—especially UI components and media features—have built-in
+support for screen readers like VoiceOver and other assistive
+technologies.</li>
+</ul>
+<h3 id="achieving-interoperability">Achieving Interoperability</h3>
+<p>Once a specification passes Apple's review and reaches consensus in
+the W3C or WHATWG, Apple collaborates on the Web Platform Tests (WPT)
+project. Engineers write shared automated tests to ensure that Safari's
+implementation of the specification behaves identically to Chrome’s and
+Firefox’s. Furthermore, Apple participates in the annual "Interop"
+benchmark project, working directly with rival browser makers to fix
+bugs in existing W3C and WHATWG specifications to ensure a consistent
+experience for web developers.</p></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/how-apple-participates-in-w-3-c-and-whatwg-for-safari';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>
