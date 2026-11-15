@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Safari&#39;s FTL JIT Compiler: Optimizing Code Execution - safari</title>
+    <meta name="description" content="This article explores how the Fourth Tier LLVM (FTL) Just-In-Time (JIT) compiler optimizes JavaScript execution within the Safari web browser&#39;s JavaScriptCore engine. It covers the multi-tiered compilation pipeline, how the engine identifies and promotes">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/safari-s-ftl-jit-compiler-optimizing-code-execution">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Safari&#39;s FTL JIT Compiler: Optimizing Code Execution - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/safari-s-ftl-jit-compiler-optimizing-code-execution" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article explores how the Fourth Tier LLVM (FTL) Just-In-Time (JIT) compiler optimizes JavaScript execution within the Safari web browser&#39;s JavaScriptCore engine. It covers the multi-tiered compilation pipeline, how the engine identifies and promotes" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="safaris-ftl-jit-compiler-optimizing-code-execution">Safari's FTL
+JIT Compiler: Optimizing Code Execution</h1>
+<p>This article explores how the Fourth Tier LLVM (FTL) Just-In-Time
+(JIT) compiler optimizes JavaScript execution within the Safari web
+browser's JavaScriptCore engine. It covers the multi-tiered compilation
+pipeline, how the engine identifies and promotes frequently executed
+code, the architectural shift from the LLVM backend to the Bare Bones
+Backend (B3), and the specific low-level optimization techniques used to
+transform dynamic JavaScript into highly efficient native machine
+code.</p>
+<h3 id="the-four-tier-execution-pipeline">The Four-Tier Execution
+Pipeline</h3>
+<p>Safari’s JavaScript engine, JavaScriptCore (JSC), does not compile
+all code at the highest optimization level immediately, as doing so
+would cause massive delays when loading web pages. Instead, it uses a
+four-tier pipeline to balance startup speed with peak execution
+performance:</p>
+<ol type="1">
+<li><strong>Low-Level Interpreter (LLInt):</strong> Executes bytecode
+immediately with zero compilation delay.</li>
+<li><strong>Baseline JIT:</strong> Compiles functions that run multiple
+times into basic machine code while collecting profiling data (such as
+variable types).</li>
+<li><strong>Data Flow Graph (DFG) JIT:</strong> Uses the profiling data
+from the Baseline JIT to generate highly optimized code based on
+speculative assumptions.</li>
+<li><strong>FTL JIT:</strong> Reserved for the "hottest" code—functions
+and loops that run thousands of times. It spends more time compiling to
+generate the fastest possible machine code.</li>
+</ol>
+<h3 id="from-llvm-to-the-bare-bones-backend-b3">From LLVM to the Bare
+Bones Backend (B3)</h3>
+<p>When Apple first introduced the FTL tier, the acronym stood for
+"Fourth Tier LLVM." The engine translated JavaScript into an
+Intermediate Representation (IR) and fed it into the LLVM compiler
+infrastructure to apply C-level optimizations.</p>
+<p>However, LLVM was designed for ahead-of-time compilation, meaning its
+compile times were often too slow for the real-time demands of a web
+browser. To solve this, WebKit engineers replaced LLVM with a custom
+low-level optimizer called the Bare Bones Backend (B3) and retroactively
+changed the FTL acronym to mean "Faster Than Light." B3 delivers the
+same high-quality machine code as LLVM but reduces compilation time and
+memory overhead by stripping out features unnecessary for
+JavaScript.</p>
+<h3 id="type-speculation-and-osr-exits">Type Speculation and OSR
+Exits</h3>
+<p>JavaScript is a dynamically typed language, meaning a variable can
+hold an integer in one moment and a string the next. Checking variable
+types before every operation wastes CPU cycles.</p>
+<p>The FTL compiler bypasses this by using type speculation. Relying on
+the profiling data gathered by the Baseline and DFG tiers, the FTL
+assumes variables will continue to be the same type they have been in
+the past. It then strips away all type-checking logic and compiles math
+and memory operations directly for those assumed types.</p>
+<p>If the JavaScript code suddenly introduces an unexpected data type,
+the FTL's assumption fails. When this happens, the FTL triggers an
+On-Stack Replacement (OSR) exit. The engine pauses execution, safely
+reconstructs the state of the program, and drops the code back down to
+the Baseline JIT to handle the new type, preventing the browser from
+crashing.</p>
+<h3 id="high-level-and-low-level-optimizations">High-Level and Low-Level
+Optimizations</h3>
+<p>The FTL pipeline merges the high-level optimizations of the DFG
+compiler with the low-level optimizations of the B3 backend. When code
+reaches the FTL, it undergoes several aggressive transformations:</p>
+<ul>
+<li><strong>Function Inlining:</strong> The FTL replaces a function call
+with the actual body of the called function. This removes the overhead
+of setting up a new call stack and allows the compiler to optimize the
+combined code as a single unit.</li>
+<li><strong>Loop-Invariant Code Motion (LICM):</strong> If the FTL
+detects a calculation inside a loop that produces the exact same result
+on every iteration, it moves that calculation outside the loop so it
+only runs once.</li>
+<li><strong>Dead Code Elimination:</strong> Any code paths or variable
+assignments that the compiler proves will never affect the final output
+are completely removed before machine code generation.</li>
+<li><strong>Escape Analysis:</strong> The FTL analyzes where objects are
+used. If a new object is created inside a function and never leaves
+(escapes) that function, the FTL skips allocating memory on the heap and
+instead stores the object's properties directly in fast CPU
+registers.</li>
+</ul>
+<h3 id="register-allocation-and-machine-code-generation">Register
+Allocation and Machine Code Generation</h3>
+<p>In the final stage of the FTL pipeline, the B3 backend translates the
+optimized intermediate representation into instructions specific to the
+device's CPU architecture (such as ARM64 for Apple Silicon or x86_64 for
+Intel).</p>
+<p>A critical part of this final step is register allocation. Fetching
+data from the computer's main memory (RAM) is slow. The FTL uses complex
+algorithms to map the most frequently used JavaScript variables directly
+to the CPU's physical hardware registers. By keeping active data inside
+the CPU itself and executing streamlined instructions, the FTL allows
+dynamic JavaScript in Safari to run at speeds approaching natively
+compiled C++ applications.</p></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/safari-s-ftl-jit-compiler-optimizing-code-execution';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

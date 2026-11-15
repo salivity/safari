@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Why Apple Created HLS for Safari and HTML5 Video - safari</title>
+    <meta name="description" content="Apple created the HTTP Live Streaming (HLS) protocol and integrated it directly into the HTML5 video element of the Safari web browser to solve the unique challenges of delivering video to mobile devices. Released in 2009 alongside iOS 3.0, this initiativ">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/why-apple-created-hls-for-safari-and-html-5-video">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Why Apple Created HLS for Safari and HTML5 Video - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/why-apple-created-hls-for-safari-and-html-5-video" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Apple created the HTTP Live Streaming (HLS) protocol and integrated it directly into the HTML5 video element of the Safari web browser to solve the unique challenges of delivering video to mobile devices. Released in 2009 alongside iOS 3.0, this initiativ" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="why-apple-created-hls-for-safari-and-html5-video">Why Apple
+Created HLS for Safari and HTML5 Video</h1>
+<p>Apple created the HTTP Live Streaming (HLS) protocol and integrated
+it directly into the HTML5 video element of the Safari web browser to
+solve the unique challenges of delivering video to mobile devices.
+Released in 2009 alongside iOS 3.0, this initiative allowed Apple to
+eliminate the need for resource-heavy third-party plugins like Adobe
+Flash, resolve streaming failures over fluctuating cellular networks,
+reduce server costs by utilizing standard web infrastructure, and
+maximize device battery life through native hardware acceleration.</p>
+<h3 id="eliminating-the-need-for-adobe-flash">Eliminating the Need for
+Adobe Flash</h3>
+<p>In the late 2000s, the vast majority of web video relied on Adobe
+Flash. However, when Apple introduced the iPhone, the company famously
+refused to support Flash on iOS. Apple argued that Flash was a closed
+system with significant security vulnerabilities, poor performance on
+touchscreens, and massive power consumption that rapidly drained mobile
+batteries.</p>
+<p>To provide users with rich web video without relying on proprietary
+browser plugins, Apple championed the emerging HTML5 standard. By
+utilizing the native HTML5 <code>&lt;video&gt;</code> element in Safari,
+web developers could embed video directly into web pages using standard
+code. However, the standard HTML5 video specification at the time only
+supported basic progressive downloads, which were insufficient for live
+broadcasts or long-form content. Apple needed a robust streaming
+protocol to power this native video element, which led to the creation
+of HLS.</p>
+<h3 id="solving-mobile-network-instability">Solving Mobile Network
+Instability</h3>
+<p>Before HLS, streaming relied heavily on protocols like RTSP
+(Real-Time Streaming Protocol) and Adobe’s RTMP (Real-Time Messaging
+Protocol). These protocols required a persistent, continuous connection
+between the server and the user's device. While this worked reasonably
+well on wired desktop connections, it failed on mobile devices where
+users constantly moved between Wi-Fi and fluctuating cellular networks.
+A drop in bandwidth meant the video would freeze or disconnect
+entirely.</p>
+<p>Apple designed HLS to use Adaptive Bitrate (ABR) streaming to fix
+this problem. Instead of sending a single continuous stream, HLS breaks
+the video down into small, downloadable file segments—typically a few
+seconds long—and encodes them at multiple quality levels. Safari reads a
+master playlist file (an M3U8 manifest) and monitors the device's
+current network speed. If a user's cellular signal drops, Safari
+automatically requests the next video segment at a lower resolution,
+preventing buffering. When the signal improves, it seamlessly switches
+back to high definition.</p>
+<h3 id="leveraging-standard-http-infrastructure">Leveraging Standard
+HTTP Infrastructure</h3>
+<p>Traditional streaming protocols like RTMP required specialized,
+expensive streaming servers to maintain persistent connections with
+every viewer. Furthermore, these protocols operated over specific
+network ports that were frequently blocked by corporate and public Wi-Fi
+firewalls, preventing users from watching videos.</p>
+<p>Apple built HLS on top of standard HTTP, the same protocol used to
+load basic web pages and images. Because HLS simply downloads a series
+of small files over standard web ports, it easily bypasses firewall
+restrictions. Additionally, it eliminated the need for specialized
+streaming servers. Content providers could host HLS video segments on
+ordinary web servers and distribute them globally using existing,
+cost-effective Content Delivery Networks (CDNs). This made scaling live
+broadcasts to millions of concurrent viewers significantly easier and
+cheaper.</p>
+<h3 id="hardware-acceleration-and-battery-efficiency">Hardware
+Acceleration and Battery Efficiency</h3>
+<p>By building HLS support directly into Safari’s HTML5 video element
+rather than leaving it to third-party JavaScript libraries or plugins,
+Apple gained complete control over the video playback pipeline.</p>
+<p>When a user plays an HLS stream in Safari, the browser hands the
+decoding process directly to the device's dedicated media hardware
+chips. Hardware-accelerated decoding requires a fraction of the
+processing power compared to software-based decoding. This tight
+integration between the HLS protocol, the Safari browser, the HTML5
+standard, and Apple’s silicon ensured that users could watch hours of
+high-definition video without overheating their devices or draining
+their batteries.</p></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/why-apple-created-hls-for-safari-and-html-5-video';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

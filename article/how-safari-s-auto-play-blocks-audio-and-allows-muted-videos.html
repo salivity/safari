@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Safari&#39;s Auto-Play Blocks Audio and Allows Muted Videos - safari</title>
+    <meta name="description" content="This article explains the technical mechanisms behind the Safari web browser&#39;s Auto-Play feature. It covers how Safari&#39;s underlying WebKit engine inspects HTML attributes, analyzes media tracks, enforces user gesture requirements, and monitors playback in">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/how-safari-s-auto-play-blocks-audio-and-allows-muted-videos">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Safari&#39;s Auto-Play Blocks Audio and Allows Muted Videos - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/how-safari-s-auto-play-blocks-audio-and-allows-muted-videos" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article explains the technical mechanisms behind the Safari web browser&#39;s Auto-Play feature. It covers how Safari&#39;s underlying WebKit engine inspects HTML attributes, analyzes media tracks, enforces user gesture requirements, and monitors playback in" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="how-safaris-auto-play-blocks-audio-and-allows-muted-videos">How
+Safari's Auto-Play Blocks Audio and Allows Muted Videos</h1>
+<p>This article explains the technical mechanisms behind the Safari web
+browser's Auto-Play feature. It covers how Safari's underlying WebKit
+engine inspects HTML attributes, analyzes media tracks, enforces user
+gesture requirements, and monitors playback in real-time to block
+disruptive videos with sound while seamlessly allowing silent, looping
+videos that function like animations.</p>
+<h2 id="html-attribute-inspection">HTML Attribute Inspection</h2>
+<p>When a webpage loads, Safari’s rendering engine, WebKit, scans the
+document for <code>&lt;video&gt;</code> elements. Before allowing any
+video with the <code>autoplay</code> attribute to start, Safari checks
+for the presence of the <code>muted</code> attribute in the HTML
+code.</p>
+<p>Modern websites frequently use silent, looping MP4 or WebM videos
+instead of traditional GIFs because video files offer vastly superior
+compression and performance. By specifically looking for the combination
+of the <code>autoplay</code>, <code>loop</code>, and <code>muted</code>
+attributes, Safari identifies that the developer intends for the video
+to act as a silent background element or animation, rather than a
+traditional media player, and permits it to play.</p>
+<h2 id="media-track-analysis">Media Track Analysis</h2>
+<p>Safari does not rely solely on HTML tags; it also inspects the actual
+media file being loaded. When a video is queued to play automatically,
+WebKit analyzes the file's container to see if an audio track
+exists.</p>
+<p>A video is granted permission to auto-play under two conditions
+regarding its audio:</p>
+<ol type="1">
+<li>The media file genuinely contains no audio track at all.</li>
+<li>The media file contains an audio track, but the browser's audio
+output for that specific element is programmatically set to silent via
+the <code>muted</code> attribute or volume properties.</li>
+</ol>
+<p>If the engine detects an active, unmuted audio track within the video
+file, the auto-play request is immediately flagged and blocked.</p>
+<h2 id="the-user-gesture-requirement">The User Gesture Requirement</h2>
+<p>To block videos with audio, Safari enforces a strict "user gesture"
+policy. A user gesture is a deliberate action taken by the person using
+the browser, such as a mouse click, a trackpad tap, or a key press.</p>
+<p>If a video contains unmuted audio, Safari suspends the playback
+script until it detects a user gesture on the webpage. If a script
+attempts to force the video to play with sound upon page load without
+user interaction, WebKit rejects the JavaScript playback promise and
+forces the video to remain paused. Once the user clicks anywhere on the
+page—or specifically on the play button—the gesture requirement is
+satisfied, and the video with audio is allowed to play.</p>
+<h2 id="real-time-playback-monitoring">Real-Time Playback
+Monitoring</h2>
+<p>Some websites attempt to bypass auto-play restrictions by starting a
+video as muted and then using JavaScript to automatically unmute the
+audio a few seconds later.</p>
+<p>Safari prevents this through continuous real-time monitoring of the
+media element. If a muted, auto-playing video attempts to unmute itself
+or raise its volume above zero via a background script—without a
+corresponding user click or tap—Safari immediately intervenes and pauses
+the video. The video will only resume if the user manually clicks the
+play or unmute button.</p>
+<h2 id="power-and-visibility-optimization">Power and Visibility
+Optimization</h2>
+<p>Even if a video is muted and set to loop, Safari applies one final
+check before allowing it to auto-play: viewport visibility. To conserve
+battery life and CPU resources, Safari tracks whether the video element
+is actually visible on the user's screen. Muted videos are only allowed
+to auto-play when they are in the active viewport. If the user scrolls
+past the video or switches to a different browser tab, Safari
+automatically pauses the muted video until it becomes visible again.</p></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/how-safari-s-auto-play-blocks-audio-and-allows-muted-videos';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

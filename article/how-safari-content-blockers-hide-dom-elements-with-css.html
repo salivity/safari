@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Safari Content Blockers Hide DOM Elements with CSS - safari</title>
+    <meta name="description" content="This article explains the technical mechanism behind element hiding in the Safari web browser. It covers how Safari Content Blockers utilize a declarative JSON syntax to define rules, how the css-display-none action targets specific Document Object Model">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/how-safari-content-blockers-hide-dom-elements-with-css">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Safari Content Blockers Hide DOM Elements with CSS - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/how-safari-content-blockers-hide-dom-elements-with-css" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article explains the technical mechanism behind element hiding in the Safari web browser. It covers how Safari Content Blockers utilize a declarative JSON syntax to define rules, how the css-display-none action targets specific Document Object Model" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="how-safari-content-blockers-hide-dom-elements-with-css">How
+Safari Content Blockers Hide DOM Elements with CSS</h1>
+<p>This article explains the technical mechanism behind element hiding
+in the Safari web browser. It covers how Safari Content Blockers utilize
+a declarative JSON syntax to define rules, how the
+<code>css-display-none</code> action targets specific Document Object
+Model (DOM) elements, and how WebKit compiles and applies these rules to
+remove unwanted page elements without compromising user privacy or
+browser performance.</p>
+<h3 id="the-declarative-json-architecture">The Declarative JSON
+Architecture</h3>
+<p>Unlike traditional browser extensions that use JavaScript to actively
+read and modify a webpage's DOM, Safari Content Blockers operate on a
+declarative model. Developers provide Safari with a JSON array of rules.
+Safari compiles these rules into efficient bytecode before a webpage
+even loads. This ensures that the content blocker never sees the user's
+browsing activity, while WebKit handles the actual element hiding
+natively at the engine level.</p>
+<p>Every content blocking rule consists of two main parts:</p>
+<ol type="1">
+<li><strong>Trigger:</strong> Defines the conditions (such as the URL
+pattern) under which the rule should be activated.</li>
+<li><strong>Action:</strong> Defines what Safari should do when the
+trigger conditions are met.</li>
+</ol>
+<h3 id="using-the-css-display-none-action">Using the
+<code>css-display-none</code> Action</h3>
+<p>To hide specific DOM elements on a page, Safari provides the
+<code>css-display-none</code> action type. This action requires a
+companion <code>selector</code> field, which accepts a comma-separated
+string of standard CSS selectors.</p>
+<p>When you specify <code>css-display-none</code>, you are instructing
+WebKit to find any HTML elements matching your CSS selectors and prevent
+them from rendering on the screen.</p>
+<p>Here is an example of a valid Safari Content Blocker JSON rule that
+hides specific DOM elements:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ot">[</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">{</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;trigger&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;url-filter&quot;</span><span class="fu">:</span> <span class="st">&quot;.*&quot;</span><span class="fu">,</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;if-domain&quot;</span><span class="fu">:</span> <span class="ot">[</span><span class="st">&quot;example.com&quot;</span><span class="ot">,</span> <span class="st">&quot;www.example.com&quot;</span><span class="ot">]</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">},</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;action&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;type&quot;</span><span class="fu">:</span> <span class="st">&quot;css-display-none&quot;</span><span class="fu">,</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;selector&quot;</span><span class="fu">:</span> <span class="st">&quot;#top-banner, .sidebar-ad, div[data-ad-unit]&quot;</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="ot">]</span></span></code></pre></div>
+<h3 id="breakdown-of-the-rule">Breakdown of the Rule</h3>
+<ul>
+<li><strong><code>"url-filter": ".*"</code></strong>: This regular
+expression tells Safari to evaluate this rule on any URL string.</li>
+<li><strong><code>"if-domain"</code></strong>: This restricts the
+trigger so the CSS selectors are only applied when the user visits
+<code>example.com</code> or <code>www.example.com</code>. Leaving this
+out applies the selector globally to all websites.</li>
+<li><strong><code>"type": "css-display-none"</code></strong>: This tells
+WebKit that the action is strictly cosmetic and meant to hide elements
+rather than block a network request.</li>
+<li><strong><code>"selector"</code></strong>: This contains the exact
+CSS selectors targeting the DOM elements. In the example above, it
+targets an element with the ID <code>top-banner</code>, any element with
+the class <code>sidebar-ad</code>, and any <code>div</code> containing
+the <code>data-ad-unit</code> attribute.</li>
+</ul>
+<h3 id="how-webkit-applies-the-styles">How WebKit Applies the
+Styles</h3>
+<p>When a user navigates to a webpage that matches the
+<code>trigger</code> criteria, WebKit intercepts the page rendering
+process. Before the DOM is painted to the screen, WebKit takes the
+string provided in the <code>selector</code> field and injects a
+high-priority user stylesheet directly into the page context.</p>
+<p>Behind the scenes, the JSON action is translated into the following
+CSS rule:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode css"><code class="sourceCode css"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#top-banner</span><span class="op">,</span> <span class="fu">.sidebar-ad</span><span class="op">,</span> div<span class="ex">[</span><span class="ss">data-ad-unit</span><span class="ex">]</span> {</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">display</span><span class="ch">:</span> <span class="dv">none</span> <span class="at">!important</span><span class="op">;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>Because WebKit applies this at the browser engine level using the
+<code>!important</code> flag, it overrides the webpage's native
+stylesheets and inline styles. The targeted DOM elements remain in the
+HTML source code, but they collapse to zero width and height, rendering
+them completely invisible to the user and preventing them from taking up
+layout space.</p>
+<h3 id="supported-css-selectors">Supported CSS Selectors</h3>
+<p>The <code>selector</code> field supports most standard CSS3 selectors
+that WebKit natively understands. You can use:</p>
+<ul>
+<li><strong>ID selectors:</strong> <code>#newsletter-popup</code></li>
+<li><strong>Class selectors:</strong> <code>.sponsored-post</code></li>
+<li><strong>Attribute selectors:</strong>
+<code>a[href^="https://tracker.example.com"]</code></li>
+<li><strong>Combinators:</strong>
+<code>div.main-content &gt; aside.promo</code></li>
+<li><strong>Pseudo-classes:</strong>
+<code>div:not(.essential-content)</code></li>
+</ul>
+<p>By combining specific triggers with precise CSS selectors, Safari
+Content Blockers efficiently strip away unwanted DOM elements natively,
+avoiding the memory overhead and privacy risks of injected
+JavaScript.</p></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/how-safari-content-blockers-hide-dom-elements-with-css';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

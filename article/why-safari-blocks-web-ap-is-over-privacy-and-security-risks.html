@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Why Safari Blocks Web APIs Over Privacy and Security Risks - safari</title>
+    <meta name="description" content="Apple’s WebKit team, the engineers behind the Safari web browser, has refused to implement several proposed modern Web APIs, most notably Web Bluetooth and Web USB. This article provides an overview of why Apple blocks these features, detailing how they e">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/why-safari-blocks-web-ap-is-over-privacy-and-security-risks">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Why Safari Blocks Web APIs Over Privacy and Security Risks - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/why-safari-blocks-web-ap-is-over-privacy-and-security-risks" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Apple’s WebKit team, the engineers behind the Safari web browser, has refused to implement several proposed modern Web APIs, most notably Web Bluetooth and Web USB. This article provides an overview of why Apple blocks these features, detailing how they e" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="why-safari-blocks-web-apis-over-privacy-and-security-risks">Why
+Safari Blocks Web APIs Over Privacy and Security Risks</h1>
+<p>Apple’s WebKit team, the engineers behind the Safari web browser, has
+refused to implement several proposed modern Web APIs, most notably Web
+Bluetooth and Web USB. This article provides an overview of why Apple
+blocks these features, detailing how they expose users to unavoidable
+browser fingerprinting, break the foundational security sandbox of the
+web, and introduce severe hardware-level vulnerabilities that users
+cannot reasonably defend against.</p>
+<h2 id="the-threat-of-advanced-browser-fingerprinting">The Threat of
+Advanced Browser Fingerprinting</h2>
+<p>Browser fingerprinting is a tracking technique used to identify
+individual users based on their specific device and browser
+configurations, completely bypassing the need for traditional cookies.
+When a website can query a device for its specific characteristics—such
+as screen resolution, installed fonts, and operating system—it can
+stitch those data points together to create a unique profile.</p>
+<p>APIs like Web Bluetooth, Web USB, and the Network Information API
+drastically increase the "surface area" for fingerprinting. If a website
+can detect what kinds of USB devices, Bluetooth accessories, or specific
+hardware configurations are attached to your computer, your device
+becomes instantly identifiable. Even if you clear your cookies, use a
+VPN, or browse in Private Mode, the unique combination of your connected
+hardware allows trackers to permanently identify you across the web.
+Apple refuses to implement APIs that hand over this level of
+identifiable hardware data to websites.</p>
+<h2 id="breaking-the-browser-sandbox">Breaking the Browser Sandbox</h2>
+<p>The fundamental security model of the web relies on "sandboxing."
+When you visit a website, the code on that site runs in a restricted
+environment, isolated from your computer's underlying operating system
+and hardware. This ensures that simply clicking a malicious link cannot
+compromise your entire machine.</p>
+<p>Web USB and Web Bluetooth intentionally pierce this sandbox by
+allowing websites to communicate directly with peripheral hardware. This
+creates massive security risks:</p>
+<ul>
+<li><strong>Firmware Exploitation:</strong> Many USB and Bluetooth
+devices were never designed to defend against attacks coming directly
+from the open web. A malicious website using Web USB could rewrite the
+firmware of a connected device, permanently damaging it or infecting it
+with malware that spreads to other computers.</li>
+<li><strong>Data Theft:</strong> Direct access to peripherals means a
+compromised or malicious site could potentially read data directly from
+connected storage, cameras, medical devices, or even hardware security
+keys, bypassing the operating system's built-in protections.</li>
+<li><strong>Keystroke Injection:</strong> If a website gains access to a
+connected keyboard or mouse receiver via these APIs, it could
+theoretically log keystrokes or inject commands directly into the host
+computer.</li>
+</ul>
+<h2 id="the-illusion-of-user-consent">The Illusion of User Consent</h2>
+<p>Proponents of these APIs, such as Google (which implements them in
+Chrome), argue that the features are safe because the browser asks the
+user for permission via a pop-up prompt before granting hardware
+access.</p>
+<p>Apple’s security team rejects this argument, stating that permission
+prompts are not a valid substitute for inherent security. Most everyday
+users do not understand the deep technical implications of granting a
+website access to a USB port or a Bluetooth controller. A user might
+click "Allow" simply to make a web page function, unknowingly giving
+that site full read-and-write control over a connected device's
+firmware. WebKit engineers argue that a browser should not offer users a
+single button that, if clicked by mistake, completely compromises their
+hardware security.</p>
+<h2 id="the-native-app-alternative">The Native App Alternative</h2>
+<p>By declining to implement these APIs, Safari draws a strict boundary
+between what a website should be able to do and what a native
+application should do. For developers who genuinely need deep access to
+Bluetooth or USB hardware, Apple requires the use of native iOS or macOS
+applications. Native apps must go through a vetting process, are
+cryptographically signed by identified developers, and can be revoked by
+Apple if found to be malicious—safeguards that simply do not exist on
+the open, decentralized web where a user is only one accidental click
+away from a malicious URL.</p></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/why-safari-blocks-web-ap-is-over-privacy-and-security-risks';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

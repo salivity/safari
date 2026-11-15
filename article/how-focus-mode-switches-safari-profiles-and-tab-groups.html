@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Focus Mode Switches Safari Profiles and Tab Groups - safari</title>
+    <meta name="description" content="This article explains how Apple&#39;s Focus mode on macOS and iOS integrates with the Safari web browser to automatically switch active Profiles or Tab Groups. By utilizing a built-in feature called Focus Filters, users can link specific browsing environments">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/how-focus-mode-switches-safari-profiles-and-tab-groups">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Focus Mode Switches Safari Profiles and Tab Groups - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/how-focus-mode-switches-safari-profiles-and-tab-groups" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article explains how Apple&#39;s Focus mode on macOS and iOS integrates with the Safari web browser to automatically switch active Profiles or Tab Groups. By utilizing a built-in feature called Focus Filters, users can link specific browsing environments" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="how-focus-mode-switches-safari-profiles-and-tab-groups">How
+Focus Mode Switches Safari Profiles and Tab Groups</h1>
+<p>This article explains how Apple's Focus mode on macOS and iOS
+integrates with the Safari web browser to automatically switch active
+Profiles or Tab Groups. By utilizing a built-in feature called Focus
+Filters, users can link specific browsing environments—such as Work,
+School, or Personal—directly to their active Focus status. This
+integration ensures that the correct tabs, extensions, cookies, and
+browsing history load automatically the moment a specific Focus mode is
+triggered, eliminating manual switching and reducing digital
+distractions.</p>
+<h2 id="the-core-mechanism-focus-filters">The Core Mechanism: Focus
+Filters</h2>
+<p>The automatic switching of Safari environments relies on a system
+feature called Focus Filters. Introduced in iOS 16 and macOS Ventura,
+and expanded in iOS 17 and macOS Sonoma, Focus Filters allow the
+operating system to pass your current Focus state to individual
+applications.</p>
+<p>When a Focus mode is activated—whether manually, by a set schedule,
+by location, or by opening an app—the operating system checks for any
+configured Focus Filters. If a Safari filter is attached to that Focus
+mode, the system instructs Safari to change its active state to match
+the predefined parameters.</p>
+<p>Depending on your operating system version, this filter controls
+different aspects of Safari:</p>
+<ul>
+<li><strong>iOS 17 and macOS Sonoma (or later):</strong> The Safari
+Focus Filter switches the active <strong>Safari Profile</strong>.
+Because each Profile contains its own separate Tab Groups, history,
+cookies, and extensions, switching the Profile automatically switches
+the available Tab Groups.</li>
+<li><strong>iOS 16 and macOS Ventura:</strong> Before Profiles existed,
+the Safari Focus Filter was used to switch the active <strong>Tab
+Group</strong> directly.</li>
+</ul>
+<h2 id="prerequisites-before-setup">Prerequisites Before Setup</h2>
+<p>Before linking Safari to a Focus mode, you must first create the
+Profiles or Tab Groups inside the Safari app. Focus mode cannot create
+these elements; it can only point to existing ones.</p>
+<ol type="1">
+<li>Open <strong>Safari</strong> on your Mac, iPhone, or iPad.</li>
+<li>Create your desired <strong>Profiles</strong> (via Safari Settings)
+or <strong>Tab Groups</strong> (via the sidebar or tab view).</li>
+<li>Close Safari Settings and move to your device's main system settings
+to configure the automation.</li>
+</ol>
+<h2 id="setting-up-automatic-switching-on-ios-and-ipados">Setting Up
+Automatic Switching on iOS and iPadOS</h2>
+<p>To make Safari automatically switch Profiles or Tab Groups when a
+Focus turns on, configure the filter in the Settings app:</p>
+<ol type="1">
+<li>Open the <strong>Settings</strong> app and tap
+<strong>Focus</strong>.</li>
+<li>Select the specific Focus mode you want to customize (e.g., Work,
+Personal, Sleep).</li>
+<li>Scroll to the bottom of the screen and locate the <strong>Focus
+Filters</strong> section.</li>
+<li>Tap <strong>Add Filter</strong>.</li>
+<li>Select <strong>Safari</strong> from the list of available
+application filters.</li>
+<li>Tap on <strong>Profile</strong> (or <strong>Tab Group</strong> on
+older iOS versions) and choose the specific Safari environment you want
+linked to this Focus.</li>
+<li>Tap <strong>Add</strong> in the top right corner to save the
+automation.</li>
+</ol>
+<h2 id="setting-up-automatic-switching-on-macos">Setting Up Automatic
+Switching on macOS</h2>
+<p>The process on a Mac follows the same logic through System
+Settings:</p>
+<ol type="1">
+<li>Open <strong>System Settings</strong> and click on
+<strong>Focus</strong> in the sidebar.</li>
+<li>Click on the Focus mode you wish to configure on the right side of
+the window.</li>
+<li>Scroll down to the <strong>Focus Filters</strong> section at the
+bottom.</li>
+<li>Click the <strong>Add Filter...</strong> button.</li>
+<li>Choose <strong>Safari</strong> from the pop-up menu.</li>
+<li>Click the dropdown menu next to <strong>Profile</strong> (or
+<strong>Tab Group</strong>) and select the environment you want Safari
+to use during this Focus.</li>
+<li>Click <strong>Add</strong> to finalize the setup.</li>
+</ol>
+<h2 id="how-safari-behaves-during-the-transition">How Safari Behaves
+During the Transition</h2>
+<p>Once configured, the transition happens instantaneously in the
+background.</p>
+<p>When the Focus mode activates, any currently open Safari windows on
+iOS will immediately flip to the designated Profile or Tab Group. On
+macOS, new windows and tabs opened while the Focus is active will
+automatically default to the selected Profile.</p>
+<p>Furthermore, if you use the "Share Across Devices" toggle in your
+Focus settings, triggering a Focus mode on your iPhone will
+simultaneously switch the active Safari Profile or Tab Group on your Mac
+and iPad, keeping your browsing context synchronized across all of your
+Apple hardware. When the Focus mode is turned off, Safari reverts to the
+last used personal Profile or default Tab Group.</p></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/how-focus-mode-switches-safari-profiles-and-tab-groups';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

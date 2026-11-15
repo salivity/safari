@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How iCloud Private Relay Encrypts DNS and Hides Your IP - safari</title>
+    <meta name="description" content="This article explains the technical mechanisms behind Apple&#39;s iCloud Private Relay and how it enhances user privacy in the Safari web browser. Specifically, it covers how the service utilizes a dual-hop architecture to conceal your IP address and employs">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/how-i-cloud-private-relay-encrypts-dns-and-hides-your-ip">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How iCloud Private Relay Encrypts DNS and Hides Your IP - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/how-i-cloud-private-relay-encrypts-dns-and-hides-your-ip" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article explains the technical mechanisms behind Apple&#39;s iCloud Private Relay and how it enhances user privacy in the Safari web browser. Specifically, it covers how the service utilizes a dual-hop architecture to conceal your IP address and employs" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="how-icloud-private-relay-encrypts-dns-and-hides-your-ip">How
+iCloud Private Relay Encrypts DNS and Hides Your IP</h1>
+<p>This article explains the technical mechanisms behind Apple's iCloud
+Private Relay and how it enhances user privacy in the Safari web
+browser. Specifically, it covers how the service utilizes a dual-hop
+architecture to conceal your IP address and employs Oblivious DNS over
+HTTPS (ODoH) to encrypt your DNS queries, ensuring that neither Apple,
+your internet service provider, nor the websites you visit can link your
+identity to your browsing history.</p>
+<h2 id="the-dual-hop-relay-architecture">The Dual-Hop Relay
+Architecture</h2>
+<p>Traditional VPNs route your traffic through a single server, meaning
+the VPN provider can see both your IP address and the websites you
+visit. iCloud Private Relay prevents any single entity from having this
+complete picture by splitting the routing process into two separate
+internet relays:</p>
+<ol type="1">
+<li><strong>The Ingress Proxy (Operated by Apple):</strong> The first
+relay receives your initial connection and knows your real IP address,
+but cannot see the website you want to visit.</li>
+<li><strong>The Egress Proxy (Operated by a Third Party):</strong> The
+second relay, run by trusted content delivery networks, knows the
+website you want to visit, but does not know your real IP address.</li>
+</ol>
+<h2 id="how-dns-queries-are-encrypted">How DNS Queries Are
+Encrypted</h2>
+<p>When you type a URL into Safari, your device must translate that
+website name into a numerical IP address using a Domain Name System
+(DNS) query. Normally, these queries are unencrypted, allowing your
+Internet Service Provider (ISP) to log every website you access.</p>
+<p>iCloud Private Relay secures this process using a protocol called
+Oblivious DNS over HTTPS (ODoH):</p>
+<ul>
+<li><strong>Encryption at the Source:</strong> Before the DNS request
+leaves your device, Safari encrypts the query using a public
+cryptographic key belonging to the second relay (the Egress Proxy).</li>
+<li><strong>Stripping Identity:</strong> Your device sends this
+encrypted packet through an encrypted connection to the first relay
+(Apple). Because the DNS request is locked with the second relay's key,
+Apple cannot read the website name. Apple strips your real IP address
+from the metadata and forwards the encrypted DNS query to the second
+relay.</li>
+<li><strong>Resolving the Query:</strong> The second relay uses its
+private key to decrypt the DNS request, looks up the destination
+website's IP address, encrypts the answer, and sends it back through the
+Apple relay to your device.</li>
+</ul>
+<p>Because of ODoH, your ISP cannot see the DNS request at all, Apple
+only sees that you made a request without knowing what it was for, and
+the DNS server processes the request without knowing who made it.</p>
+<h2 id="how-your-ip-address-is-concealed">How Your IP Address Is
+Concealed</h2>
+<p>Once the DNS query is resolved, Safari needs to connect to the
+website. iCloud Private Relay masks your IP address during this
+connection so the destination website cannot track your physical
+location or build a profile based on your network identity.</p>
+<ul>
+<li><strong>Step 1: Connecting to Apple:</strong> Your device
+establishes a secure connection to Apple’s Ingress Proxy using the QUIC
+transport protocol. Apple authenticates that you are a valid iCloud+
+subscriber and reads your real IP address.</li>
+<li><strong>Step 2: Tunneling to the Partner:</strong> Inside that first
+connection to Apple, Safari creates a second, nested TLS (Transport
+Layer Security) connection directed at the third-party Egress Proxy.
+Apple blindly forwards this encrypted tunnel to the partner relay
+without being able to read its contents, which contain the destination
+website's address.</li>
+<li><strong>Step 3: Assigning a Temporary IP:</strong> The Egress Proxy
+receives the tunnel from Apple, meaning it only sees Apple's IP address,
+not yours. The Egress Proxy decrypts the destination request and assigns
+your session a temporary, shared IP address. Depending on your settings,
+this IP address either reflects your general city (for local content) or
+just your country and time zone.</li>
+<li><strong>Step 4: Reaching the Website:</strong> The Egress Proxy
+connects to the website on your behalf. The destination website only
+sees the temporary IP address provided by the third-party relay,
+completely hiding your true network identity while delivering the web
+page back through the secure two-hop tunnel to Safari.</li>
+</ul></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/how-i-cloud-private-relay-encrypts-dns-and-hides-your-ip';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

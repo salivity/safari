@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Safari User Agent Strings and Why Version Tokens Are Frozen - safari</title>
+    <meta name="description" content="This article provides a comprehensive overview of the Safari web browser&#39;s user agent string structure across both macOS and iOS devices. Additionally, it explains why Apple and the WebKit team have intentionally frozen and simplified specific version tok">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/safari-user-agent-strings-and-why-version-tokens-are-frozen">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Safari User Agent Strings and Why Version Tokens Are Frozen - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/safari-user-agent-strings-and-why-version-tokens-are-frozen" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article provides a comprehensive overview of the Safari web browser&#39;s user agent string structure across both macOS and iOS devices. Additionally, it explains why Apple and the WebKit team have intentionally frozen and simplified specific version tok" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1
+id="safari-user-agent-strings-and-why-version-tokens-are-frozen">Safari
+User Agent Strings and Why Version Tokens Are Frozen</h1>
+<p>This article provides a comprehensive overview of the Safari web
+browser's user agent string structure across both macOS and iOS devices.
+Additionally, it explains why Apple and the WebKit team have
+intentionally frozen and simplified specific version tokens within this
+string to combat user-agent sniffing, enhance user privacy, and prevent
+websites from breaking when new browser and operating system updates are
+released.</p>
+<h3 id="what-the-safari-user-agent-string-looks-like">What the Safari
+User Agent String Looks Like</h3>
+<p>A user agent (UA) string is a text identification that a web browser
+sends to every website it connects to. Historically, it was designed to
+tell the server what operating system and browser the user is
+running.</p>
+<p>Today, a standard Safari user agent string on a desktop Mac looks
+like this:</p>
+<p><code>Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.4 Safari/605.1.15</code></p>
+<p>On an iPhone, the mobile Safari user agent string looks like
+this:</p>
+<p><code>Mozilla/5.0 (iPhone; CPU iPhone OS 17_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.4 Mobile/15E148 Safari/604.1</code></p>
+<p>Here is a breakdown of what these specific tokens mean:</p>
+<ul>
+<li><strong>Mozilla/5.0:</strong> A legacy token used by all modern
+browsers to claim general compatibility with standard web
+rendering.</li>
+<li><strong>(Macintosh; Intel Mac OS X 10_15_7):</strong> The platform
+and operating system token.</li>
+<li><strong>AppleWebKit/605.1.15:</strong> The rendering engine powering
+Safari and its build version.</li>
+<li><strong>(KHTML, like Gecko):</strong> Another legacy token
+indicating that WebKit behaves similarly to the KHTML and Gecko
+rendering engines.</li>
+<li><strong>Version/17.4:</strong> The actual marketing version of the
+Safari browser currently in use.</li>
+<li><strong>Mobile/15E148:</strong> Included on iOS devices to indicate
+a mobile interface.</li>
+<li><strong>Safari/605.1.15:</strong> Identifies the browser itself as
+Safari.</li>
+</ul>
+<h3 id="the-problem-of-user-agent-sniffing">The Problem of User-Agent
+Sniffing</h3>
+<p>User-agent sniffing is the practice where websites read the browser's
+UA string to determine how to display a webpage or which features to
+enable. Instead of checking if a browser actually supports a specific
+piece of code, the website looks at the version numbers in the UA string
+and makes an assumption.</p>
+<p>This practice is fragile. When browser makers update version numbers
+or change the formatting of the UA string, poorly coded websites often
+misinterpret the new numbers. For example, when browsers transitioned
+from version 9 to version 10, many websites only read the first digit
+("1") and blocked the browser, assuming it was an outdated version
+1.</p>
+<h3 id="why-safari-froze-and-simplified-its-tokens">Why Safari Froze and
+Simplified Its Tokens</h3>
+<p>To stop user-agent sniffing and its negative side effects, the WebKit
+team froze most of the version tokens in the Safari UA string. If you
+look closely at the macOS UA string example above, you will notice
+several inaccuracies that are kept there intentionally.</p>
+<p><strong>1. Preventing Website Breakage</strong> The macOS version
+token is permanently frozen at <code>10_15_7</code> (macOS Catalina).
+Even if a user is running macOS 14 (Sonoma) on an Apple Silicon M3 chip,
+Safari still reports that it is running on an <code>Intel</code>
+processor with OS X <code>10_15_7</code>. When Apple transitioned from
+macOS 10 to macOS 11, websites relying on user-agent sniffing failed to
+recognize the "11" and broke. Freezing the OS version and CPU
+architecture ensures legacy websites continue to function properly.
+Similarly, the <code>AppleWebKit/605.1.15</code> token has been frozen
+for years, even though the WebKit engine is updated constantly.</p>
+<p><strong>2. Enhancing User Privacy</strong> Web trackers use a
+technique called "browser fingerprinting" to identify and track users
+across the internet without using cookies. By combining a user's exact
+operating system version, hardware architecture, and browser build
+number, trackers can create a unique profile for an individual. By
+freezing and simplifying the UA string, Apple forces every Mac user to
+broadcast the exact same system information. This makes it significantly
+harder for trackers to distinguish one Safari user from another.</p>
+<p><strong>3. Forcing Modern Feature Detection</strong> By making the UA
+string an unreliable source for system specifications, Apple forces web
+developers to abandon user-agent sniffing. Instead, developers must use
+"feature detection." Feature detection means writing code that directly
+asks the browser if it supports a specific capability before running it,
+rather than guessing based on the browser's name or version number. This
+results in a more stable, future-proof web that works across all
+browsers, regardless of what their user agent string says.</p></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/safari-user-agent-strings-and-why-version-tokens-are-frozen';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

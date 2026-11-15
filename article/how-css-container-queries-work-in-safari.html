@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How CSS Container Queries Work in Safari - safari</title>
+    <meta name="description" content="CSS Container Queries, supported natively starting in Safari 16, fundamentally change responsive web design by allowing components to adapt their styles based on the size of their parent container rather than the entire browser viewport. This article expl">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/how-css-container-queries-work-in-safari">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How CSS Container Queries Work in Safari - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/how-css-container-queries-work-in-safari" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="CSS Container Queries, supported natively starting in Safari 16, fundamentally change responsive web design by allowing components to adapt their styles based on the size of their parent container rather than the entire browser viewport. This article expl" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="how-css-container-queries-work-in-safari">How CSS Container
+Queries Work in Safari</h1>
+<p>CSS Container Queries, supported natively starting in Safari 16,
+fundamentally change responsive web design by allowing components to
+adapt their styles based on the size of their parent container rather
+than the entire browser viewport. This article explains the mechanics
+behind this feature in Safari's WebKit engine, covering how to establish
+a containment context, write container query rules, and utilize
+container-relative units to create modular, reusable UI components that
+look great regardless of where they are placed on a page.</p>
+<h2 id="the-shift-from-viewport-to-parent-container">The Shift from
+Viewport to Parent Container</h2>
+<p>Traditionally, responsive design relied on CSS Media Queries
+(<code>@media</code>), which apply styles based on the dimensions of the
+entire screen or browser window. However, a component might be placed in
+a narrow sidebar on one page and a wide main content area on another.
+Media queries cannot easily account for this because the viewport size
+remains the same in both scenarios.</p>
+<p>Safari solves this with Container Queries. Instead of asking the
+browser how wide the screen is, a component can ask how wide its
+immediate parent (or a specific ancestor) container is, and adjust its
+layout, typography, and visibility accordingly.</p>
+<h2 id="step-1-establishing-a-containment-context">Step 1: Establishing
+a Containment Context</h2>
+<p>For Safari to adapt a component based on its parent, you must first
+tell the browser which element acts as the container. By default, HTML
+elements do not track their own dimensions for query purposes because
+doing so for every element would slow down page rendering.</p>
+<p>You establish a container using the <code>container-type</code>
+property on the parent element:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode css"><code class="sourceCode css"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">.card-wrapper</span> {</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">container-type</span><span class="ch">:</span> <span class="dv">inline-size</span><span class="op">;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">container-name</span><span class="ch">:</span> <span class="dv">card-container</span><span class="op">;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>Safari supports three primary values for
+<code>container-type</code>:</p>
+<ul>
+<li><strong><code>inline-size</code></strong>: Tracks the width of the
+container (in standard horizontal writing modes). This is the most
+commonly used value.</li>
+<li><strong><code>size</code></strong>: Tracks both the width and the
+height of the container.</li>
+<li><strong><code>normal</code></strong>: The default value; the element
+is not a query container for dimensions.</li>
+</ul>
+<p>The optional <code>container-name</code> property allows you to name
+the container, which is useful if a component is nested inside multiple
+containers and you want to target a specific ancestor. You can also use
+the shorthand property
+<code>container: card-container / inline-size;</code>.</p>
+<h2 id="step-2-applying-the-container-rule">Step 2: Applying the
+<code>@container</code> Rule</h2>
+<p>Once the parent has a defined <code>container-type</code>, Safari’s
+WebKit engine monitors that element's dimensions. You can then use the
+<code>@container</code> rule to style any child elements inside it.</p>
+<p>The syntax mirrors standard media queries:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode css"><code class="sourceCode css"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">/* Default styles for narrow containers */</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">.card</span> {</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">display</span><span class="ch">:</span> <span class="dv">flex</span><span class="op">;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">flex-direction</span><span class="ch">:</span> <span class="dv">column</span><span class="op">;</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co">/* Styles applied when the parent container is at least 500px wide */</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="im">@container</span> card-container <span class="fu">(</span><span class="kw">min-width</span><span class="ch">:</span> <span class="dv">500</span><span class="dt">px</span><span class="fu">)</span> {</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">.card</span> {</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">flex-direction</span><span class="ch">:</span> <span class="dv">row</span><span class="op">;</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">gap</span><span class="ch">:</span> <span class="dv">20</span><span class="dt">px</span><span class="op">;</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>When Safari renders the page, it calculates the width of
+<code>.card-wrapper</code>. If that specific element is 500 pixels or
+wider, the <code>.card</code> inside it switches from a vertical column
+layout to a horizontal row layout. If you have two
+<code>.card-wrapper</code> elements on the same page—one at 300 pixels
+wide and one at 600 pixels wide—Safari will simultaneously render the
+narrow card as a column and the wide card as a row.</p>
+<h2 id="step-3-utilizing-container-query-units">Step 3: Utilizing
+Container Query Units</h2>
+<p>In addition to layout changes via the <code>@container</code> rule,
+Safari supports CSS container query length units. These allow elements
+to scale fluidly based on the parent's dimensions without writing
+multiple query breakpoints.</p>
+<p>The most common units include:</p>
+<ul>
+<li><strong><code>cqw</code></strong>: 1% of a query container's
+width.</li>
+<li><strong><code>cqh</code></strong>: 1% of a query container's
+height.</li>
+<li><strong><code>cqi</code></strong>: 1% of a query container's inline
+size (width in horizontal layouts).</li>
+<li><strong><code>cqb</code></strong>: 1% of a query container's block
+size (height in horizontal layouts).</li>
+</ul>
+<p>For example, to make a heading's font size scale dynamically with the
+width of its parent container rather than the viewport, you write:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode css"><code class="sourceCode css"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">.card-title</span> {</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">font-size</span><span class="ch">:</span> <span class="fu">clamp(</span><span class="dv">1</span><span class="dt">rem</span><span class="op">,</span> <span class="dv">4</span><span class="dt">cqi</span><span class="op">,</span> <span class="dv">2.5</span><span class="dt">rem</span><span class="fu">)</span><span class="op">;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<h2 id="how-safari-prevents-infinite-loops">How Safari Prevents Infinite
+Loops</h2>
+<p>A major technical reason Container Queries took years to arrive in
+browsers like Safari was the risk of infinite styling loops. If a parent
+container shrinks to fit its child content, and a container query makes
+the child content larger when the parent is small, the parent would
+expand, triggering the query to shrink the child, causing the parent to
+shrink again infinitely.</p>
+<p>Safari's WebKit engine prevents this by enforcing <strong>size
+containment</strong> when you apply <code>container-type</code>. When
+you set <code>container-type: inline-size</code>, Safari calculates the
+width of the parent container entirely independently of the size of its
+children. Because the children cannot influence the width of the parent,
+the browser can safely apply styles to the children based on the
+parent's width without ever triggering a circular layout
+calculation.</p></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/how-css-container-queries-work-in-safari';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

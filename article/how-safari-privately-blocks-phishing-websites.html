@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Safari Privately Blocks Phishing Websites - safari</title>
+    <meta name="description" content="This article explains how the Safari web browser protects users from malicious phishing sites without compromising their privacy. By combining Google Safe Browsing databases, cryptographic hashing, and Apple-operated proxy servers, Safari verifies the saf">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/how-safari-privately-blocks-phishing-websites">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Safari Privately Blocks Phishing Websites - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/how-safari-privately-blocks-phishing-websites" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article explains how the Safari web browser protects users from malicious phishing sites without compromising their privacy. By combining Google Safe Browsing databases, cryptographic hashing, and Apple-operated proxy servers, Safari verifies the saf" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="how-safari-privately-blocks-phishing-websites">How Safari
+Privately Blocks Phishing Websites</h1>
+<p>This article explains how the Safari web browser protects users from
+malicious phishing sites without compromising their privacy. By
+combining Google Safe Browsing databases, cryptographic hashing, and
+Apple-operated proxy servers, Safari verifies the safety of websites
+predominantly on your local device. This multi-layered approach ensures
+that neither Google nor Apple can see the websites you visit or link
+your browsing activity to your IP address.</p>
+<h3 id="the-privacy-problem-with-phishing-protection">The Privacy
+Problem with Phishing Protection</h3>
+<p>To protect users from phishing scams and malware, web browsers rely
+on massive, constantly updated databases of known dangerous websites.
+Safari uses the Google Safe Browsing service for this data (and Tencent
+Safe Browsing in mainland China).</p>
+<p>If Safari simply sent every URL you visited to Google to check if it
+was safe, Google would have a real-time log of your entire browsing
+history tied directly to your IP address. Safari prevents this by using
+cryptographic hashes and proxy servers.</p>
+<h3 id="step-1-downloading-the-hash-prefixes">Step 1: Downloading the
+Hash Prefixes</h3>
+<p>Instead of checking websites in real-time with a server, Google Safe
+Browsing creates a list of known malicious URLs and runs them through a
+cryptographic algorithm (SHA-256). This turns every bad URL into a
+unique, unreadable string of characters called a hash.</p>
+<p>To save space, Google truncates these hashes, leaving only the first
+few characters, known as a "hash prefix." Safari periodically downloads
+this compact list of hash prefixes and stores it locally on your iPhone,
+iPad, or Mac.</p>
+<h3 id="step-2-the-local-device-check">Step 2: The Local Device
+Check</h3>
+<p>When you type a URL into Safari or click a link, the browser does not
+immediately contact the internet to verify the site's safety. Instead,
+it performs the following actions locally on your device:</p>
+<ol type="1">
+<li>Safari converts the URL you want to visit into a SHA-256 hash.</li>
+<li>It looks at the beginning of that hash (the prefix).</li>
+<li>It compares this prefix against the list of bad hash prefixes
+already downloaded on your device.</li>
+</ol>
+<p>If the prefix does not match anything on the local list, the website
+is deemed safe, and the page loads. No data leaves your device, and no
+outside servers are contacted.</p>
+<h3 id="step-3-using-apple-proxy-servers">Step 3: Using Apple Proxy
+Servers</h3>
+<p>If the hash prefix of the website you are visiting matches a prefix
+on the local list, the site might be dangerous. However, because
+prefixes are just short fragments of a full hash, safe websites and
+dangerous websites occasionally share the same prefix.</p>
+<p>To confirm if the site is actually fraudulent, Safari must request
+the full-length hashes associated with that specific prefix from Google
+Safe Browsing. Sending this request directly to Google would expose your
+IP address and give Google a hint about what site you are visiting.</p>
+<p>To prevent this, Safari routes the request through an Apple proxy
+server:</p>
+<ol type="1">
+<li><strong>Safari to Apple:</strong> Safari sends the matching hash
+prefix to an Apple proxy server. Because it is only sending a hash
+prefix, Apple does not know the actual URL you are trying to visit.</li>
+<li><strong>Apple to Google:</strong> The Apple proxy server strips away
+your IP address and forwards the hash prefix request to Google Safe
+Browsing using Apple’s own IP address.</li>
+<li><strong>Google to Apple:</strong> Google receives the request, sees
+only Apple's IP address, and returns a list of all full-length malicious
+hashes that start with that specific prefix.</li>
+<li><strong>Apple to Safari:</strong> The Apple proxy forwards Google's
+response back to your device.</li>
+</ol>
+<h3 id="step-4-triggering-the-warning">Step 4: Triggering the
+Warning</h3>
+<p>Once your device receives the list of full-length hashes from the
+proxy, Safari compares them to the full hash of the website you are
+trying to visit.</p>
+<p>If there is an exact match, Safari blocks the page from loading and
+displays the red "Fraudulent Website Warning" screen. Throughout this
+entire process, Google never sees your IP address, Apple never sees the
+URL you are visiting, and neither company knows the final result of the
+check.</p></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/how-safari-privately-blocks-phishing-websites';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

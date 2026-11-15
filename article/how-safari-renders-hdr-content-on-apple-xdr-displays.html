@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Safari Renders HDR Content on Apple XDR Displays - safari</title>
+    <meta name="description" content="This article provides a comprehensive overview of how the Safari web browser processes and renders High Dynamic Range (HDR) videos and images on Apple’s Extreme Dynamic Range (XDR) displays. It covers the underlying system frameworks like Extended Dynamic">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/how-safari-renders-hdr-content-on-apple-xdr-displays">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Safari Renders HDR Content on Apple XDR Displays - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/how-safari-renders-hdr-content-on-apple-xdr-displays" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article provides a comprehensive overview of how the Safari web browser processes and renders High Dynamic Range (HDR) videos and images on Apple’s Extreme Dynamic Range (XDR) displays. It covers the underlying system frameworks like Extended Dynamic" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="how-safari-renders-hdr-content-on-apple-xdr-displays">How Safari
+Renders HDR Content on Apple XDR Displays</h1>
+<p>This article provides a comprehensive overview of how the Safari web
+browser processes and renders High Dynamic Range (HDR) videos and images
+on Apple’s Extreme Dynamic Range (XDR) displays. It covers the
+underlying system frameworks like Extended Dynamic Range (EDR), the
+supported video and image codecs, how Safari blends Standard Dynamic
+Range (SDR) web elements with bright HDR highlights, and the specific
+web standards developers use to deliver this content.</p>
+<h2 id="the-foundation-webkit-and-extended-dynamic-range-edr">The
+Foundation: WebKit and Extended Dynamic Range (EDR)</h2>
+<p>Safari’s rendering engine, WebKit, does not handle HDR in isolation.
+Instead, it relies deeply on Apple’s native operating system frameworks,
+specifically Core Animation and the Metal graphics API. On devices with
+XDR displays—such as the Pro Display XDR, MacBook Pro, and iPad
+Pro—Apple utilizes a technology called Extended Dynamic Range (EDR).</p>
+<p>In a traditional SDR environment, brightness values are clamped
+between 0.0 (black) and 1.0 (maximum standard white). EDR uses a 16-bit
+floating-point color pipeline that allows pixel values to exceed 1.0.
+When Safari encounters HDR content, WebKit passes these above-1.0 values
+to the operating system's compositor. The XDR display then illuminates
+those specific pixels using its mini-LED backlight or tandem OLED
+panels, pushing peak brightness up to 1600 nits while keeping standard
+webpage elements at a comfortable, lower brightness.</p>
+<h2 id="hdr-video-playback-and-tone-mapping">HDR Video Playback and Tone
+Mapping</h2>
+<p>Safari supports several industry-standard HDR video formats, ensuring
+broad compatibility across streaming platforms. The browser natively
+decodes:</p>
+<ul>
+<li><strong>Dolby Vision</strong> (Profiles 5 and 8.4)</li>
+<li><strong>HDR10</strong> (using the PQ transfer function)</li>
+<li><strong>Hybrid Log-Gamma (HLG)</strong></li>
+</ul>
+<p>These formats are supported within MP4 (HEVC/H.265) and WebM (VP9 and
+AV1) containers. When a user plays an HDR video in Safari, the browser
+offloads the decoding process to the Apple Silicon Media Engine. This
+hardware acceleration ensures smooth playback and minimal battery
+drain.</p>
+<p>During playback, Safari dynamically tone-maps the video's Rec. 2020
+color space and brightness metadata to match the exact capabilities of
+the connected XDR display. If the user changes the ambient lighting in
+their room or adjusts the display brightness, Safari and the OS
+recalculate the available "EDR headroom" in real-time, adjusting the HDR
+highlights so they never clip or look unnatural.</p>
+<h2 id="rendering-hdr-images-with-gain-maps">Rendering HDR Images with
+Gain Maps</h2>
+<p>Until recently, HDR on the web was mostly limited to video. Safari
+expanded this to static photography by supporting HDR images in HEIC,
+AVIF, and updated JPEG formats.</p>
+<p>A critical component of Safari's image rendering is its support for
+<strong>Gain Maps</strong>. An HDR image with a gain map contains two
+main parts: a standard SDR base image and a grayscale metadata map. When
+Safari loads this file on an XDR display, it reads the gain map to
+determine which pixels need to be brightened and by how much.</p>
+<p>This approach is highly efficient because it degrades gracefully. If
+the user drags the Safari window from a MacBook Pro XDR display to a
+standard external monitor, Safari simply stops applying the gain map and
+displays the base SDR image.</p>
+<h2 id="compositing-sdr-and-hdr-together">Compositing SDR and HDR
+Together</h2>
+<p>One of the hardest challenges for a web browser is displaying a
+blindingly bright HDR image right next to standard black text on a white
+background. If the entire screen brightened to accommodate the HDR file,
+the white webpage background would become painfully bright to read.</p>
+<p>Safari solves this through independent layer compositing. WebKit
+separates the webpage into distinct graphical layers:</p>
+<ol type="1">
+<li><strong>The SDR Layer:</strong> Text, CSS backgrounds, and standard
+images are locked to "reference white" (often around 100 to 200 nits,
+depending on user settings).</li>
+<li><strong>The HDR Layer:</strong> Videos and images tagged with HDR
+color profiles are placed in their own Metal-backed layers.</li>
+</ol>
+<p>The Apple display engine combines these layers at the hardware level.
+The XDR display's local dimming zones only boost the physical backlight
+behind the HDR layer's brightest pixels, leaving the adjacent SDR
+webpage text at a normal, readable luminance.</p>
+<h2 id="web-standards-and-developer-detection">Web Standards and
+Developer Detection</h2>
+<p>Safari uses standard CSS Media Queries to let websites know that it
+is running on an XDR-capable display. Web developers do not need to
+write Apple-specific code to trigger HDR rendering; instead, they use
+the following W3C specifications:</p>
+<ul>
+<li><strong><code>dynamic-range: high</code></strong>: Confirms the
+browser and display combination can render brightness values above
+standard white.</li>
+<li><strong><code>video-dynamic-range: high</code></strong>:
+Specifically checks if the video plane supports HDR rendering.</li>
+<li><strong><code>color-gamut: p3</code></strong>: Confirms the display
+supports the Wide Color (Display P3) spectrum, which is a prerequisite
+for accurate HDR color rendering on Apple devices.</li>
+</ul>
+<p>When Safari evaluates these queries as true, the website delivers the
+high-bit-depth video streams or gain-mapped images, allowing the browser
+to immediately engage the XDR display's full capabilities.</p></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/how-safari-renders-hdr-content-on-apple-xdr-displays';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

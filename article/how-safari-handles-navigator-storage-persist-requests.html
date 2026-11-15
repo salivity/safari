@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Safari Handles navigator.storage.persist() Requests - safari</title>
+    <meta name="description" content="This article provides an overview of how the navigator.storage.persist() API functions within the Safari web browser to protect local web application data from automatic deletion. It covers Safari&#39;s default storage eviction policies, the specific criteria">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/how-safari-handles-navigator-storage-persist-requests">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Safari Handles navigator.storage.persist() Requests - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/how-safari-handles-navigator-storage-persist-requests" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article provides an overview of how the navigator.storage.persist() API functions within the Safari web browser to protect local web application data from automatic deletion. It covers Safari&#39;s default storage eviction policies, the specific criteria" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="how-safari-handles-navigatorstoragepersist-requests">How Safari
+Handles navigator.storage.persist() Requests</h1>
+<p>This article provides an overview of how the
+<code>navigator.storage.persist()</code> API functions within the Safari
+web browser to protect local web application data from automatic
+deletion. It covers Safari's default storage eviction policies, the
+specific criteria WebKit uses to grant persistent storage, and how
+developers can implement this API to secure data against Intelligent
+Tracking Prevention (ITP) and low-disk-space purges.</p>
+<h2 id="understanding-safaris-default-storage-eviction">Understanding
+Safari's Default Storage Eviction</h2>
+<p>By default, Safari treats all website data—such as IndexedDB, Cache
+API, and LocalStorage—as "best-effort." This means the browser can
+automatically delete this data without warning under two specific
+conditions:</p>
+<ol type="1">
+<li><strong>Intelligent Tracking Prevention (ITP):</strong> Safari
+enforces a strict 7-day cap on all script-writable storage. If a user
+does not interact with a website for seven days, Safari automatically
+purges that origin's storage to prevent cross-site tracking.</li>
+<li><strong>Storage Pressure:</strong> If the user's device runs low on
+disk space, Safari will evict data from origins that have not been used
+recently to free up capacity.</li>
+</ol>
+<p>To prevent this automatic deletion, web applications must request an
+exemption using the Storage Standard API.</p>
+<h2 id="how-the-exemption-request-works">How the Exemption Request
+Works</h2>
+<p>When a web application calls
+<code>navigator.storage.persist()</code>, it asks Safari to change the
+origin's storage bucket mode from "best-effort" to "persistent." The
+method returns a JavaScript Promise that resolves to a boolean value:
+<code>true</code> if the exemption is granted, and <code>false</code> if
+it is denied.</p>
+<p>Unlike some browsers that display a permission prompt to the user
+when this API is called, Safari evaluates the request silently in the
+background. WebKit uses internal heuristics to decide whether the origin
+deserves persistent storage.</p>
+<p>Safari will generally grant the exemption and return
+<code>true</code> if the website meets at least one of the following
+criteria:</p>
+<ul>
+<li><strong>Home Screen Installation:</strong> The user has added the
+web application to their Home Screen on iOS or iPadOS, or to the Dock on
+macOS (functioning as a Progressive Web App).</li>
+<li><strong>Notification Permissions:</strong> The user has explicitly
+granted the origin permission to send Web Push Notifications.</li>
+<li><strong>User Engagement:</strong> The user interacts with the site
+frequently, has bookmarked it, or uses it heavily over a sustained
+period.</li>
+</ul>
+<p>If none of these conditions are met, Safari will silently deny the
+request and resolve the Promise to <code>false</code>.</p>
+<h2 id="what-happens-when-exemption-is-granted">What Happens When
+Exemption is Granted</h2>
+<p>Once <code>navigator.storage.persist()</code> resolves to
+<code>true</code>, Safari alters how it manages that specific origin's
+data:</p>
+<ul>
+<li><strong>ITP Exemption:</strong> The 7-day inactivity timer is
+disabled for that origin. Data stored in IndexedDB and the Cache API
+will remain intact even if the user does not visit the site for weeks or
+months.</li>
+<li><strong>Disk Pressure Protection:</strong> If the device runs low on
+physical storage, Safari will delete data from all "best-effort" origins
+first. Persistent origins are exempt from automatic disk-space eviction
+unless all non-persistent data has been purged and the device is still
+critically low on space.</li>
+</ul>
+<p>Note that persistent storage does not protect data from manual
+deletion. The user can still clear the data at any time through Safari’s
+settings or by clearing their browsing history.</p>
+<h2 id="implementing-the-api">Implementing the API</h2>
+<p>To request an exemption from automatic eviction in Safari, developers
+should first check if the storage is already persistent using
+<code>navigator.storage.persisted()</code>, and then request persistence
+if it is not.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">async</span> <span class="kw">function</span> <span class="fu">requestStoragePersistence</span>() {</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Check if the Storage API is supported in the current browser</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="bu">navigator</span><span class="op">.</span><span class="at">storage</span> <span class="op">&amp;&amp;</span> <span class="bu">navigator</span><span class="op">.</span><span class="at">storage</span><span class="op">.</span><span class="at">persist</span>) {</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Check if storage is already persistent</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> isPersisted <span class="op">=</span> <span class="cf">await</span> <span class="bu">navigator</span><span class="op">.</span><span class="at">storage</span><span class="op">.</span><span class="fu">persisted</span>()<span class="op">;</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (isPersisted) {</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>      <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">&quot;Storage is already exempt from automatic eviction.&quot;</span>)<span class="op">;</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>      <span class="cf">return</span> <span class="kw">true</span><span class="op">;</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Request exemption from automatic eviction</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> granted <span class="op">=</span> <span class="cf">await</span> <span class="bu">navigator</span><span class="op">.</span><span class="at">storage</span><span class="op">.</span><span class="fu">persist</span>()<span class="op">;</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (granted) {</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>      <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">&quot;Storage persistence granted by Safari.&quot;</span>)<span class="op">;</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>      <span class="cf">return</span> <span class="kw">true</span><span class="op">;</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">else</span> {</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>      <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">&quot;Storage persistence denied. Data remains best-effort.&quot;</span>)<span class="op">;</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>      <span class="cf">return</span> <span class="kw">false</span><span class="op">;</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> <span class="kw">false</span><span class="op">;</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>Because Safari relies on user actions (like enabling notifications or
+installing the web app) to grant persistence, developers should call
+<code>navigator.storage.persist()</code> immediately after these actions
+occur, rather than on the initial page load.</p></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/how-safari-handles-navigator-storage-persist-requests';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

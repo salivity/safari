@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Apple Intelligence Writing Tools Work in Safari - safari</title>
+    <meta name="description" content="This article explains the technical mechanics of how Apple Intelligence Writing Tools operate within Safari’s &lt;textarea&gt; and contenteditable elements. By leveraging deep integration between the WebKit rendering engine and Apple&#39;s operating system text ser">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/how-apple-intelligence-writing-tools-work-in-safari">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Apple Intelligence Writing Tools Work in Safari - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/how-apple-intelligence-writing-tools-work-in-safari" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article explains the technical mechanics of how Apple Intelligence Writing Tools operate within Safari’s &lt;textarea&gt; and contenteditable elements. By leveraging deep integration between the WebKit rendering engine and Apple&#39;s operating system text ser" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="how-apple-intelligence-writing-tools-work-in-safari">How Apple
+Intelligence Writing Tools Work in Safari</h1>
+<p>This article explains the technical mechanics of how Apple
+Intelligence Writing Tools operate within Safari’s
+<code>&lt;textarea&gt;</code> and <code>contenteditable</code> elements.
+By leveraging deep integration between the WebKit rendering engine and
+Apple's operating system text services, Safari captures user text,
+processes it through language models to proofread, rewrite, or
+summarize, and seamlessly injects the updated content back into the
+webpage's Document Object Model (DOM) without breaking the web
+application's state.</p>
+<h3 id="webkit-and-os-level-integration">WebKit and OS-Level
+Integration</h3>
+<p>Safari relies on the WebKit engine, which acts as a bridge between
+standard web technologies and native Apple frameworks (AppKit on macOS
+and UIKit on iOS and iPadOS). When a user focuses on a standard
+<code>&lt;textarea&gt;</code> or an HTML element with the
+<code>contenteditable</code> attribute, WebKit registers that specific
+DOM node as an active text input client with the operating system. This
+native bridge automatically exposes the Writing Tools
+interface—accessible via the context menu, inline icon, or selection
+callout—without requiring web developers to implement custom APIs.</p>
+<h3 id="text-extraction-and-context-mapping">Text Extraction and Context
+Mapping</h3>
+<p>When a user triggers a command to proofread, rewrite, or summarize,
+WebKit extracts the target text from the webpage:</p>
+<ul>
+<li><strong>Selection Handling:</strong> If the user highlights a
+specific passage, WebKit captures only that selection range. If no text
+is selected, WebKit automatically expands the target range to capture
+the entire contents of the active field.</li>
+<li><strong>Plain Text (<code>&lt;textarea&gt;</code>):</strong> Because
+text areas only support raw strings, WebKit extracts the plain text
+value directly.</li>
+<li><strong>Rich Text (<code>contenteditable</code>):</strong> Since
+<code>contenteditable</code> fields contain complex HTML structures,
+WebKit flattens the text for the language model while maintaining an
+internal map of the underlying DOM nodes. This allows Safari to remember
+where inline styles (like bolding, italics, or links) and structural
+breaks are located.</li>
+</ul>
+<h3 id="processing-proofread-rewrite-and-summarize">Processing:
+Proofread, Rewrite, and Summarize</h3>
+<p>Once extracted, WebKit hands the text payload to the Apple
+Intelligence system daemon, which processes the request using on-device
+foundation models or Private Cloud Compute:</p>
+<ul>
+<li><strong>Proofread:</strong> The model analyzes grammar, spelling,
+and sentence structure. It returns a list of specific character ranges
+and replacement suggestions. WebKit then renders native, non-DOM
+underline markers directly over the webpage's text, allowing the user to
+review and click through changes individually without altering the
+actual HTML until a change is accepted.</li>
+<li><strong>Rewrite:</strong> The model generates a completely new
+string of text adjusted for the user's selected tone (Friendly,
+Professional, or Concise) or a custom prompt.</li>
+<li><strong>Summarize:</strong> The model condenses the extracted text
+into a cohesive paragraph, key bullet points, a table, or a list.</li>
+</ul>
+<h3 id="dom-injection-and-event-firing">DOM Injection and Event
+Firing</h3>
+<p>Inserting AI-generated text back into a modern webpage is complex
+because frameworks like React, Angular, and Vue rely on specific browser
+events to track state. If Safari simply overwrote the HTML, the
+webpage's internal state would desynchronize, causing the new text to
+disappear or corrupt when the user starts typing again.</p>
+<p>To prevent this, WebKit simulates standard user input when applying
+Writing Tools changes:</p>
+<ol type="1">
+<li><strong>The <code>beforeinput</code> Event:</strong> Before changing
+the text, WebKit dispatches a cancelable <code>beforeinput</code> DOM
+event (typically using the <code>insertReplacementText</code> input
+type). This warns the web application's JavaScript that a text
+replacement is imminent, allowing rich-text editors to prepare their
+internal state.</li>
+<li><strong>DOM Mutation:</strong> WebKit replaces the target range with
+the new text. In a <code>&lt;textarea&gt;</code>, it updates the plain
+text string. In a <code>contenteditable</code> field, WebKit reconciles
+the new text with the existing DOM tree to preserve surrounding styles.
+If the user utilized the Summarize tool to create bullet points or
+tables, WebKit automatically converts the model's output into semantic
+HTML tags, such as <code>&lt;ul&gt;</code>, <code>&lt;li&gt;</code>, and
+<code>&lt;table&gt;</code>, and injects them into the editable
+field.</li>
+<li><strong>The <code>input</code> and <code>change</code>
+Events:</strong> Immediately after mutating the DOM, WebKit fires the
+standard <code>input</code> event. This tricks the webpage into treating
+the AI-generated replacement just like a standard user paste or
+autocomplete action, ensuring full compatibility with custom undo/redo
+stacks and state managers.</li>
+</ol>
+<h3 id="developer-controls">Developer Controls</h3>
+<p>While Writing Tools work automatically by default, WebKit provides
+developers with control over this behavior via the HTML
+<code>writingsuggestions</code> attribute. If a developer sets
+<code>writingsuggestions="false"</code> on a
+<code>&lt;textarea&gt;</code> or <code>contenteditable</code> element,
+WebKit instructs the operating system to disable the inline Apple
+Intelligence UI for that specific field, preventing conflicts with
+custom, web-based AI tools or specialized code editors.</p></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/how-apple-intelligence-writing-tools-work-in-safari';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

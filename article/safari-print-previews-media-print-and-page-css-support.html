@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Safari Print Previews: @media print and @page CSS Support - safari</title>
+    <meta name="description" content="This article provides a comprehensive overview of how the Safari web browser interprets and applies @media print and @page CSS rules when generating print previews. While Safari reliably executes standard @media print queries to hide unnecessary interface">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/safari-print-previews-media-print-and-page-css-support">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Safari Print Previews: @media print and @page CSS Support - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/safari-print-previews-media-print-and-page-css-support" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article provides a comprehensive overview of how the Safari web browser interprets and applies @media print and @page CSS rules when generating print previews. While Safari reliably executes standard @media print queries to hide unnecessary interface" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="safari-print-previews-media-print-and-page-css-support">Safari
+Print Previews: <span class="citation" data-cites="media">@media</span>
+print and <span class="citation" data-cites="page">@page</span> CSS
+Support</h1>
+<p>This article provides a comprehensive overview of how the Safari web
+browser interprets and applies <code>@media print</code> and
+<code>@page</code> CSS rules when generating print previews. While
+Safari reliably executes standard <code>@media print</code> queries to
+hide unnecessary interface elements, adjust typography, and restructure
+layouts for paper, its support for the <code>@page</code> rule is
+heavily restricted due to long-standing limitations in the WebKit
+rendering engine. Below is a detailed breakdown of what works, what
+fails, and how to work around Safari's specific print rendering
+behaviors.</p>
+<h2 id="how-safari-handles-media-print">How Safari Handles
+<code>@media print</code></h2>
+<p>Safari offers robust support for the <code>@media print</code> CSS
+query. When a user triggers the print command (Cmd + P on macOS or via
+the Share sheet on iOS), Safari immediately recalculates the document's
+styles, applying everything wrapped inside the <code>@media print</code>
+block before rendering the print preview.</p>
+<h3 id="supported-features">Supported Features</h3>
+<ul>
+<li><strong>Element Visibility:</strong> Hiding navigation bars,
+footers, and sidebars using <code>display: none;</code> works
+flawlessly.</li>
+<li><strong>Typography Adjustments:</strong> Changing font sizes to
+points (<code>pt</code>), switching font families, and forcing black
+text (<code>color: #000;</code>) are fully respected.</li>
+<li><strong>Background Graphics:</strong> By default, Safari strips
+background colors and images to save ink. However, Safari respects the
+<code>-webkit-print-color-adjust: exact;</code> and the standard
+<code>print-color-adjust: exact;</code> properties inside
+<code>@media print</code>, forcing the print preview to render
+backgrounds accurately.</li>
+</ul>
+<h3 id="layout-and-viewport-quirks">Layout and Viewport Quirks</h3>
+<p>When generating a print preview, Safari calculates the printable area
+using a specific viewport width, which often mimics a narrow desktop or
+tablet screen. Because of this, standard responsive media queries (like
+<code>@media (max-width: 768px)</code>) may trigger simultaneously with
+<code>@media print</code>.</p>
+<p>Furthermore, Safari's WebKit engine struggles with paginating modern
+CSS layouts. If a page relies heavily on CSS Grid or Flexbox, Safari’s
+print preview may slice content in half at the bottom of a page or
+overlap elements. Converting structural containers to
+<code>display: block;</code> inside the <code>@media print</code> rule
+is the most reliable way to ensure Safari calculates page height
+correctly.</p>
+<h2 id="how-safari-handles-page-rules">How Safari Handles
+<code>@page</code> Rules</h2>
+<p>The <code>@page</code> rule is part of the CSS Paged Media module,
+designed to control the dimensions, orientation, and margins of the
+printed page itself. Safari has the weakest <code>@page</code> support
+among all major modern browsers.</p>
+<h3 id="page-size-and-orientation-size">Page Size and Orientation
+(<code>size</code>)</h3>
+<p>Safari largely ignores the <code>size</code> property inside the
+<code>@page</code> rule. If you declare
+<code>@page { size: landscape; }</code> or
+<code>@page { size: A4; }</code>, Safari's print preview will still
+default to the paper size and orientation defined by the user's
+operating system and printer settings. Users must manually toggle
+between Portrait and Landscape in the native macOS or iOS print
+dialog.</p>
+<h3 id="page-margins-margin">Page Margins (<code>margin</code>)</h3>
+<p>Safari offers partial support for <code>@page</code> margins. While
+you can define <code>@page { margin: 2cm; }</code>, Safari's native
+print dialog settings often override or conflict with these values.
+Additionally, Safari automatically injects its own headers and footers
+(displaying the webpage title, URL, and date) into the margin space
+unless the user manually unchecks "Print headers and footers" in the
+print preview dialog. Unlike Chromium browsers, setting
+<code>@page { margin: 0; }</code> in Safari does not automatically hide
+these native browser headers and footers.</p>
+<h3 id="unrecognized-page-features">Unrecognized <code>@page</code>
+Features</h3>
+<p>Safari completely ignores advanced CSS Paged Media features. The
+following will have no effect in a Safari print preview:</p>
+<ul>
+<li><strong>Margin Boxes:</strong> Rules like <code>@top-center</code>,
+<code>@bottom-left</code>, and <code>@bottom-right</code> used for
+custom running headers and page numbers are not supported.</li>
+<li><strong>Page Pseudo-classes:</strong> Pseudo-classes such as
+<code>@page :first</code>, <code>@page :left</code>, and
+<code>@page :right</code> (used for styling book-like spreads) are
+mostly ignored or inconsistently applied.</li>
+</ul>
+<h2 id="controlling-page-breaks-in-safari">Controlling Page Breaks in
+Safari</h2>
+<p>Because <code>@page</code> support is minimal, controlling how
+content flows across multiple pages in a Safari print preview must be
+handled within the <code>@media print</code> block using break
+properties.</p>
+<ul>
+<li><strong>Forcing Breaks:</strong> Safari respects both legacy
+(<code>page-break-before: always;</code>,
+<code>page-break-after: always;</code>) and modern
+(<code>break-before: page;</code>, <code>break-after: page;</code>)
+properties. Using both together ensures maximum compatibility.</li>
+<li><strong>Preventing Breaks:</strong> To stop images, tables, or cards
+from being cut in half across two pages, Safari respects
+<code>break-inside: avoid;</code> and
+<code>page-break-inside: avoid;</code>. However, this only works
+reliably in Safari if the targeted element and its parent containers are
+standard block-level elements (<code>display: block;</code> or
+<code>display: inline-block;</code>), not Flex or Grid items.</li>
+</ul>
+<h2 id="summary-of-best-practices-for-safari">Summary of Best Practices
+for Safari</h2>
+<p>To ensure the Safari print preview accurately reflects your intended
+design, follow these guidelines within your stylesheet:</p>
+<ol type="1">
+<li><strong>Use <code>@media print</code> for Margins:</strong> Instead
+of relying on <code>@page { margin: ... }</code>, apply padding or
+margins directly to the <code>body</code> element inside your
+<code>@media print</code> query.</li>
+<li><strong>Flatten the Layout:</strong> Override
+<code>display: flex;</code> and <code>display: grid;</code> with
+<code>display: block;</code> inside <code>@media print</code> so Safari
+can calculate page breaks without overlapping text.</li>
+<li><strong>Force Background Rendering:</strong> Always include
+<code>-webkit-print-color-adjust: exact;</code> and
+<code>print-color-adjust: exact;</code> on elements that require visible
+background colors or images in the print preview.</li>
+<li><strong>Combine Break Properties:</strong> Declare both
+<code>page-break-inside: avoid;</code> and
+<code>break-inside: avoid;</code> on elements that must stay whole
+across page transitions.</li>
+</ol></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/safari-print-previews-media-print-and-page-css-support';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

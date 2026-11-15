@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Safari&#39;s Content Blocking API Protects Browsing Privacy - safari</title>
+    <meta name="description" content="Safari’s declarative Content Blocking API enables extensions to filter out unwanted network requests, such as ads and tracking scripts, without allowing the extension to see what websites the user is visiting. This article explains how Safari achieves thi">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/how-safari-s-content-blocking-api-protects-browsing-privacy">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Safari&#39;s Content Blocking API Protects Browsing Privacy - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/how-safari-s-content-blocking-api-protects-browsing-privacy" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Safari’s declarative Content Blocking API enables extensions to filter out unwanted network requests, such as ads and tracking scripts, without allowing the extension to see what websites the user is visiting. This article explains how Safari achieves thi" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="how-safaris-content-blocking-api-protects-browsing-privacy">How
+Safari's Content Blocking API Protects Browsing Privacy</h1>
+<p>Safari’s declarative Content Blocking API enables extensions to
+filter out unwanted network requests, such as ads and tracking scripts,
+without allowing the extension to see what websites the user is
+visiting. This article explains how Safari achieves this privacy-first
+architecture by separating rule creation from rule execution. By
+requiring extensions to provide a static list of rules upfront, the
+underlying WebKit engine can compile and enforce these rules natively,
+completely removing the extension and its author from the real-time
+browsing process.</p>
+<h2 id="the-privacy-flaw-in-traditional-blockers">The Privacy Flaw in
+Traditional Blockers</h2>
+<p>To understand Safari's approach, it helps to look at how traditional
+content blockers work on other platforms. Historically, ad blockers
+operated imperatively. They required broad permissions to intercept
+every outgoing network request in real time.</p>
+<p>When a user visited a webpage, the browser paused the request and
+passed the URL and metadata to the extension's background script. The
+extension evaluated the URL against its blocklist and told the browser
+whether to allow or cancel the request. While powerful, this method
+meant the extension had direct access to every URL the user visited,
+creating a massive privacy risk if the extension author was malicious or
+compromised.</p>
+<h2 id="the-declarative-rule-list">The Declarative Rule List</h2>
+<p>Safari eliminates this risk by using a declarative model. Instead of
+actively intercepting requests as they happen, a Safari content blocking
+extension simply hands a static JSON file to the browser when the
+extension is initialized or updated.</p>
+<p>This JSON file contains an array of rules. Each rule consists of two
+primary components:</p>
+<ol type="1">
+<li><strong>Trigger:</strong> Defines the conditions that must be met.
+This usually includes a regular expression to match specific URL
+patterns, along with optional parameters like resource type (e.g.,
+script, image, stylesheet) or whether the request is first-party or
+third-party.</li>
+<li><strong>Action:</strong> Defines what Safari should do when the
+trigger conditions are met. Actions include blocking the network request
+entirely, blocking cookies from being sent, or hiding specific page
+elements using CSS selectors.</li>
+</ol>
+<p>Once the extension hands this JSON file over to Safari, the
+extension's active involvement in the content-blocking process is
+completely finished.</p>
+<h2 id="native-compilation-by-webkit">Native Compilation by WebKit</h2>
+<p>After receiving the JSON payload, Safari’s underlying browser engine,
+WebKit, parses the rules and compiles them into highly optimized
+bytecode. Specifically, WebKit translates the text-based triggers and
+actions into a deterministic finite automaton (DFA)—a type of state
+machine.</p>
+<p>This compilation happens locally on the user's device. By converting
+the extension's rules into native machine instructions, Safari no longer
+needs to run any of the extension's code during actual web browsing.
+This not only secures the user's data, but it also dramatically improves
+performance and battery life, as the browser does not have to keep a
+background JavaScript process alive to evaluate requests.</p>
+<h2 id="blind-execution-and-zero-callbacks">Blind Execution and Zero
+Callbacks</h2>
+<p>When a user navigates the web, WebKit checks every outgoing network
+request against the compiled bytecode directly within the browser's
+networking layer. If a request matches a trigger in the state machine,
+WebKit executes the corresponding action immediately.</p>
+<p>Privacy is guaranteed during this phase because the communication is
+strictly one-way. The extension puts rules into WebKit, and nothing ever
+comes back out.</p>
+<ul>
+<li><strong>No Interception:</strong> The extension cannot pause, read,
+or modify a network request in flight.</li>
+<li><strong>No Callbacks:</strong> Safari does not notify the extension
+when a rule is matched or an action is taken.</li>
+<li><strong>No Analytics:</strong> The extension cannot count how many
+ads it has blocked on a page, nor can it log which rules are being used
+the most.</li>
+</ul>
+<p>Because the extension is completely isolated from the execution
+phase, it operates blindly. The extension author can continuously update
+the JSON file with new blocking rules, but they remain entirely ignorant
+of how, when, or where those rules are triggered on the user's
+device.</p></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/how-safari-s-content-blocking-api-protects-browsing-privacy';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

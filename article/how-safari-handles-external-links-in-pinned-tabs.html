@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Safari Handles External Links in Pinned Tabs - safari</title>
+    <meta name="description" content="Pinned Tabs in Apple&#39;s Safari web browser are designed to keep your most frequently visited websites permanently accessible on the left side of the tab bar. This article provides a straightforward explanation of how Safari handles navigation when you clic">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/how-safari-handles-external-links-in-pinned-tabs">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Safari Handles External Links in Pinned Tabs - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/how-safari-handles-external-links-in-pinned-tabs" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Pinned Tabs in Apple&#39;s Safari web browser are designed to keep your most frequently visited websites permanently accessible on the left side of the tab bar. This article provides a straightforward explanation of how Safari handles navigation when you clic" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="how-safari-handles-external-links-in-pinned-tabs">How Safari
+Handles External Links in Pinned Tabs</h1>
+<p>Pinned Tabs in Apple's Safari web browser are designed to keep your
+most frequently visited websites permanently accessible on the left side
+of the tab bar. This article provides a straightforward explanation of
+how Safari handles navigation when you click an external link inside a
+Pinned Tab, detailing the automatic creation of new tabs, the difference
+between internal and external domain routing, and how you can manually
+override this default behavior.</p>
+<h3 id="the-default-behavior-for-external-links">The Default Behavior
+for External Links</h3>
+<p>When you click a link inside a Pinned Tab that points to a completely
+different website (an external domain), Safari will not load that
+webpage inside the Pinned Tab. Instead, Safari automatically opens the
+external link in a brand-new, standard tab. This new tab typically
+appears immediately to the right of your Pinned Tabs section.</p>
+<p>By doing this, Safari ensures that the original website you pinned
+remains untouched and stays in its dedicated spot.</p>
+<h3 id="internal-vs-external-domain-navigation">Internal vs. External
+Domain Navigation</h3>
+<p>Safari uses the website's base domain name to decide how to handle a
+clicked link inside a Pinned Tab:</p>
+<ul>
+<li><strong>Same Domain (Internal):</strong> If you pin
+<code>wikipedia.org</code> and click a link that leads to another
+Wikipedia article, Safari recognizes that you are staying on the same
+domain. The new page will load directly inside the Pinned Tab.</li>
+<li><strong>Different Domain (External):</strong> If you are on your
+pinned <code>wikipedia.org</code> tab and click a reference link that
+leads to <code>bbc.com</code>, Safari detects the domain change. It
+leaves Wikipedia open in the Pinned Tab and launches
+<code>bbc.com</code> in a separate, unpinned tab.</li>
+<li><strong>Subdomains:</strong> Generally, Safari treats subdomains as
+part of the same parent website. Navigating from
+<code>mail.google.com</code> to <code>calendar.google.com</code> will
+usually keep you within the same Pinned Tab, unless the website itself
+forces the link to open in a new window.</li>
+</ul>
+<h3 id="why-safari-uses-this-system">Why Safari Uses This System</h3>
+<p>The primary purpose of a Pinned Tab is persistence. Users typically
+pin web applications they need throughout the day, such as email
+clients, project management tools, or social media feeds. If external
+links loaded inside the Pinned Tab, you would quickly lose track of your
+original web app and end up with a random assortment of websites locked
+into your pinned area. Routing external domains to standard tabs
+protects your workspace layout.</p>
+<h3 id="how-to-override-the-default-behavior">How to Override the
+Default Behavior</h3>
+<p>If you intentionally want a Pinned Tab to navigate to a completely
+different domain without opening a new tab, you cannot do it by simply
+clicking a webpage link. However, you can force the change manually:</p>
+<ol type="1">
+<li>Click on the Pinned Tab to make it active.</li>
+<li>Click into Safari's Smart Search Field (the address bar).</li>
+<li>Type or paste the URL of the new external website and press
+<strong>Return</strong>.</li>
+</ol>
+<p>When you manually enter a URL into the address bar, Safari assumes
+you want to replace the current Pinned Tab. The Pinned Tab will navigate
+to the new domain, and its icon will update to reflect the new
+website.</p></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/how-safari-handles-external-links-in-pinned-tabs';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

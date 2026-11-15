@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Debug iPhone Safari Webpages Using a Mac - safari</title>
+    <meta name="description" content="This article provides a complete walkthrough for developers on how to inspect and debug live webpages running in Safari on a physical iPhone using a Mac. The process involves enabling hidden developer settings on both your iOS and macOS devices, establish">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/how-to-debug-i-phone-safari-webpages-using-a-mac">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How to Debug iPhone Safari Webpages Using a Mac - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/how-to-debug-i-phone-safari-webpages-using-a-mac" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article provides a complete walkthrough for developers on how to inspect and debug live webpages running in Safari on a physical iPhone using a Mac. The process involves enabling hidden developer settings on both your iOS and macOS devices, establish" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="how-to-debug-iphone-safari-webpages-using-a-mac">How to Debug
+iPhone Safari Webpages Using a Mac</h1>
+<p>This article provides a complete walkthrough for developers on how to
+inspect and debug live webpages running in Safari on a physical iPhone
+using a Mac. The process involves enabling hidden developer settings on
+both your iOS and macOS devices, establishing a trusted physical
+connection via USB, and utilizing the macOS Safari Web Inspector to
+manipulate the DOM, debug JavaScript, and analyze network activity in
+real time.</p>
+<h3 id="step-1-enable-web-inspector-on-your-iphone">Step 1: Enable Web
+Inspector on Your iPhone</h3>
+<p>Before your Mac can communicate with Safari on your iPhone, you must
+enable the Web Inspector feature on the mobile device.</p>
+<ol type="1">
+<li>Open the <strong>Settings</strong> app on your iPhone.</li>
+<li>Scroll down and tap on <strong>Safari</strong>.</li>
+<li>Scroll to the very bottom and tap on <strong>Advanced</strong>.</li>
+<li>Toggle the <strong>Web Inspector</strong> switch to the ON (green)
+position.</li>
+</ol>
+<h3 id="step-2-enable-the-develop-menu-in-safari-on-your-mac">Step 2:
+Enable the Develop Menu in Safari on Your Mac</h3>
+<p>By default, Safari on macOS hides its developer tools. You need to
+enable the Develop menu to access connected devices.</p>
+<ol type="1">
+<li>Open the <strong>Safari</strong> browser on your Mac.</li>
+<li>In the top menu bar, click <strong>Safari</strong> and select
+<strong>Settings</strong> (or <strong>Preferences</strong> on older
+macOS versions).</li>
+<li>Click on the <strong>Advanced</strong> tab.</li>
+<li>At the bottom of the window, check the box next to <strong>Show
+features for web developers</strong> (on older macOS versions, this is
+labeled <strong>Show Develop menu in menu bar</strong>).</li>
+<li>Close the Settings window. You will now see a
+<strong>Develop</strong> option in the top menu bar.</li>
+</ol>
+<h3 id="step-3-connect-your-iphone-to-your-mac">Step 3: Connect Your
+iPhone to Your Mac</h3>
+<p>You must establish a physical, trusted connection between the two
+devices.</p>
+<ol type="1">
+<li>Plug your iPhone into your Mac using a USB-C or Lightning
+cable.</li>
+<li>Unlock your iPhone.</li>
+<li>If prompted with a <strong>Trust This Computer?</strong> alert on
+your iPhone, tap <strong>Trust</strong> and enter your device
+passcode.</li>
+</ol>
+<h3 id="step-4-open-the-webpage-and-launch-the-inspector">Step 4: Open
+the Webpage and Launch the Inspector</h3>
+<p>Once both devices are configured and connected, you can begin the
+debugging session.</p>
+<ol type="1">
+<li>On your iPhone, open the <strong>Safari</strong> app and navigate to
+the webpage you want to debug. Keep the screen unlocked and Safari open
+in the foreground.</li>
+<li>On your Mac, return to the <strong>Safari</strong> browser.</li>
+<li>Click on <strong>Develop</strong> in the top menu bar.</li>
+<li>In the dropdown menu, locate your iPhone's name. Hover your cursor
+over it to see a list of currently open Safari tabs on your phone.</li>
+<li>Click on the specific webpage URL you wish to inspect.</li>
+</ol>
+<h3 id="step-5-debug-the-webpage">Step 5: Debug the Webpage</h3>
+<p>Clicking the URL in the Develop menu immediately opens a new Safari
+Web Inspector window on your Mac, linked directly to the tab on your
+iPhone.</p>
+<ul>
+<li><strong>Elements:</strong> Hover over DOM nodes in the Elements tab
+on your Mac to highlight the corresponding elements directly on your
+iPhone's screen. You can edit HTML and CSS in real time to test
+responsive layouts.</li>
+<li><strong>Console:</strong> View logs, errors, and warnings generated
+by the mobile webpage, and execute JavaScript commands directly against
+the iPhone's browser context.</li>
+<li><strong>Sources:</strong> Set breakpoints to step through JavaScript
+execution triggered by touch events on the iPhone.</li>
+<li><strong>Network:</strong> Reload the page from your Mac or iPhone to
+analyze network requests, payload sizes, and loading times over the
+mobile connection.</li>
+</ul>
+<h3 id="enabling-wireless-debugging-optional">Enabling Wireless
+Debugging (Optional)</h3>
+<p>If you want to unplug your iPhone and continue debugging over Wi-Fi,
+ensure both devices are on the same wireless network. Open
+<strong>Xcode</strong> on your Mac, go to <strong>Window</strong> &gt;
+<strong>Devices and Simulators</strong>, select your connected iPhone,
+and check the <strong>Connect via network</strong> box. Once paired,
+your iPhone will appear in the Safari Develop menu even when
+disconnected from the cable.</p></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/how-to-debug-i-phone-safari-webpages-using-a-mac';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

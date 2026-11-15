@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Safari BroadcastChannel API: Real-Time Same-Origin Messaging - safari</title>
+    <meta name="description" content="This article explores how the BroadcastChannel API in the Safari web browser facilitates seamless, real-time communication between different browsing contexts—such as tabs, windows, and iframes—that share the same origin. We will cover the underlying mech">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/safari-broadcast-channel-api-real-time-same-origin-messaging">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Safari BroadcastChannel API: Real-Time Same-Origin Messaging - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/safari-broadcast-channel-api-real-time-same-origin-messaging" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article explores how the BroadcastChannel API in the Safari web browser facilitates seamless, real-time communication between different browsing contexts—such as tabs, windows, and iframes—that share the same origin. We will cover the underlying mech" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1
+id="safari-broadcastchannel-api-real-time-same-origin-messaging">Safari
+BroadcastChannel API: Real-Time Same-Origin Messaging</h1>
+<p>This article explores how the BroadcastChannel API in the Safari web
+browser facilitates seamless, real-time communication between different
+browsing contexts—such as tabs, windows, and iframes—that share the same
+origin. We will cover the underlying mechanism of the API, how to
+initialize a channel, the process of sending and receiving messages
+using JavaScript, and the specific security and memory management
+practices required for optimal performance in Safari.</p>
+<h3 id="the-core-mechanism">The Core Mechanism</h3>
+<p>Supported in Safari since version 15.4, the BroadcastChannel API
+operates on a publish-subscribe model directly within Apple's WebKit
+browser engine. Instead of relying on an external server via WebSockets
+or using workarounds like <code>localStorage</code> event listeners,
+Safari routes messages internally.</p>
+<p>For different browsing contexts to communicate, they must meet two
+strict criteria:</p>
+<ol type="1">
+<li>They must share the exact same origin (identical protocol, domain,
+and port).</li>
+<li>They must connect to a <code>BroadcastChannel</code> instance using
+the exact same channel name.</li>
+</ol>
+<h3 id="initializing-a-channel">Initializing a Channel</h3>
+<p>To establish a communication bridge, each Safari tab, window, or
+iframe must instantiate a <code>BroadcastChannel</code> object and pass
+the same string identifier into the constructor.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Executed in Tab A, Tab B, and an Iframe</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> appChannel <span class="op">=</span> <span class="kw">new</span> <span class="fu">BroadcastChannel</span>(<span class="st">&#39;app_sync_channel&#39;</span>)<span class="op">;</span></span></code></pre></div>
+<p>As soon as this line executes, the browsing context automatically
+joins the underlying channel inside Safari's memory and is immediately
+ready to transmit or listen for data.</p>
+<h3 id="broadcasting-data-in-real-time">Broadcasting Data in Real
+Time</h3>
+<p>Sending data requires the <code>postMessage()</code> method. When one
+tab calls this method, Safari instantly dispatches the message to every
+other active tab, window, or iframe subscribed to that specific channel
+name. The context that sent the message does not receive its own
+broadcast.</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Executed in Tab A</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>appChannel<span class="op">.</span><span class="fu">postMessage</span>({ </span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">action</span><span class="op">:</span> <span class="st">&#39;theme_change&#39;</span><span class="op">,</span> </span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">value</span><span class="op">:</span> <span class="st">&#39;dark&#39;</span> </span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<p>Safari utilizes the structured clone algorithm to serialize the data
+being sent. This allows developers to pass complex JavaScript types—such
+as Objects, Arrays, Blobs, ArrayBuffers, and Maps—directly through the
+channel without needing to manually convert the data into JSON strings
+first.</p>
+<h3 id="receiving-messages">Receiving Messages</h3>
+<p>To react to incoming broadcasts in real time, the receiving contexts
+must attach an event listener to their local instance of the
+<code>BroadcastChannel</code>.</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Executed in Tab B and the Iframe</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>appChannel<span class="op">.</span><span class="at">onmessage</span> <span class="op">=</span> (<span class="bu">event</span>) <span class="kw">=&gt;</span> {</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> data <span class="op">=</span> <span class="bu">event</span><span class="op">.</span><span class="at">data</span><span class="op">;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (data<span class="op">.</span><span class="at">action</span> <span class="op">===</span> <span class="st">&#39;theme_change&#39;</span>) {</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">document</span><span class="op">.</span><span class="at">body</span><span class="op">.</span><span class="at">className</span> <span class="op">=</span> data<span class="op">.</span><span class="at">value</span><span class="op">;</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span></code></pre></div>
+<p>When Tab A sends the message, Safari triggers the
+<code>message</code> event in Tab B and the iframe simultaneously. The
+transmitted payload is accessed directly via the <code>event.data</code>
+property. If the browser fails to deserialize the message, an
+<code>onmessageerror</code> event is fired instead.</p>
+<h3 id="safari-security-and-iframe-partitioning">Safari Security and
+Iframe Partitioning</h3>
+<p>Safari enforces strict privacy rules through Intelligent Tracking
+Prevention (ITP), which directly impacts how iframes use the
+BroadcastChannel API.</p>
+<p>While top-level Safari tabs from the same origin can always
+communicate freely, third-party iframes are subject to partitioning. If
+an iframe from <code>origin-b.com</code> is embedded inside
+<code>site-1.com</code> in one tab, and the exact same
+<code>origin-b.com</code> iframe is embedded inside
+<code>site-2.com</code> in another tab, Safari blocks them from
+communicating via the BroadcastChannel API. To prevent cross-site
+tracking, Safari partitions the API so that iframes can only communicate
+if both the iframe's origin and the top-level webpage's origin
+match.</p>
+<h3 id="closing-the-channel">Closing the Channel</h3>
+<p>Maintaining an open <code>BroadcastChannel</code> with an active
+<code>onmessage</code> listener prevents Safari's garbage collector from
+freeing the object from memory. When a component unmounts or a tab no
+longer requires synchronization, the connection should be explicitly
+terminated.</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>appChannel<span class="op">.</span><span class="fu">close</span>()<span class="op">;</span></span></code></pre></div>
+<p>Calling the <code>close()</code> method instructs WebKit to sever the
+link between the JavaScript object and the browser's internal
+communication bus, allowing Safari to safely reclaim the memory.</p></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/safari-broadcast-channel-api-real-time-same-origin-messaging';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

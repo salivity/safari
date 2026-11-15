@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Why Apple Forced iOS Browsers to Use the WebKit Engine - safari</title>
+    <meta name="description" content="Prior to the enforcement of the European Union&#39;s Digital Markets Act, Apple maintained a strict App Store policy requiring all third-party web browsers on iOS—such as Google Chrome and Mozilla Firefox—to run on its proprietary WebKit rendering engine. Thi">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/why-apple-forced-i-os-browsers-to-use-the-web-kit-engine">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Why Apple Forced iOS Browsers to Use the WebKit Engine - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/why-apple-forced-i-os-browsers-to-use-the-web-kit-engine" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Prior to the enforcement of the European Union&#39;s Digital Markets Act, Apple maintained a strict App Store policy requiring all third-party web browsers on iOS—such as Google Chrome and Mozilla Firefox—to run on its proprietary WebKit rendering engine. Thi" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="why-apple-forced-ios-browsers-to-use-the-webkit-engine">Why
+Apple Forced iOS Browsers to Use the WebKit Engine</h1>
+<p>Prior to the enforcement of the European Union's Digital Markets Act,
+Apple maintained a strict App Store policy requiring all third-party web
+browsers on iOS—such as Google Chrome and Mozilla Firefox—to run on its
+proprietary WebKit rendering engine. This article provides a
+straightforward examination of the reasons behind this long-standing
+requirement, covering Apple's official justifications regarding device
+security, user privacy, and battery efficiency, alongside the antitrust
+arguments that the rule was designed to protect App Store revenue and
+maintain ecosystem control.</p>
+<h2 id="the-reality-of-third-party-browsers-on-ios">The Reality of
+Third-Party Browsers on iOS</h2>
+<p>Under App Store Review Guideline 2.5.6, every browser on an iPhone or
+iPad had to use the WebKit framework. On desktop computers and Android
+devices, Chrome uses the Blink engine and Firefox uses the Gecko engine.
+However, on iOS, these browsers were essentially custom user interfaces
+wrapped around Apple’s Safari engine. They could offer their own
+bookmark syncing, password managers, and visual layouts, but the core
+technology rendering the web pages was identical to Safari.</p>
+<p>Apple justified and maintained this restriction for several key
+reasons.</p>
+<h2 id="1-centralized-security-and-threat-mitigation">1. Centralized
+Security and Threat Mitigation</h2>
+<p>Web browsers are the primary entry point for malware and security
+exploits because they constantly download and execute untrusted code
+from the internet. Modern browser engines use Just-In-Time (JIT)
+compilation to run complex web applications quickly, a process that
+historically introduces significant security vulnerabilities.</p>
+<p>By forcing all browsers to use WebKit, Apple created a single point
+of defense. If a critical vulnerability was discovered in the rendering
+engine, Apple could issue a single iOS update to patch Safari and every
+third-party browser simultaneously. If browsers were allowed to use
+their own engines, iOS users would be entirely dependent on third-party
+developers like Google or Mozilla to quickly find, patch, and submit
+updates for their specific engines, potentially leaving iPhones exposed
+to threats in the interim.</p>
+<h2 id="2-privacy-enforcement">2. Privacy Enforcement</h2>
+<p>Apple heavily markets its devices on the premise of user privacy. By
+controlling the underlying browser engine, Apple could enforce
+system-wide privacy standards that third-party engines might otherwise
+bypass.</p>
+<p>Through WebKit, Apple implemented Intelligent Tracking Prevention
+(ITP), which restricts advertisers from tracking users across different
+websites. If Google were allowed to use its Blink engine on iOS, it
+could theoretically configure Chrome to allow more invasive data
+collection and ad-tracking techniques that run counter to Apple's
+privacy framework.</p>
+<h2 id="3-battery-life-and-hardware-optimization">3. Battery Life and
+Hardware Optimization</h2>
+<p>Apple designs both the hardware (A-series chips) and the software
+(iOS) for its mobile devices. WebKit was specifically engineered to work
+in tandem with Apple's custom silicon.</p>
+<p>This tight integration allowed Apple to maximize performance while
+minimizing power consumption. Third-party engines, built to run across a
+vast array of different operating systems and hardware configurations,
+are not as specifically optimized for iOS. Apple argued that allowing
+alternative engines would lead to higher CPU usage, overheating, and
+faster battery drain, which users would ultimately blame on the iPhone
+hardware rather than the third-party browser app.</p>
+<h2 id="4-ecosystem-control-and-app-store-revenue">4. Ecosystem Control
+and App Store Revenue</h2>
+<p>While Apple cited security, privacy, and performance, regulators and
+competitors argued that the WebKit requirement was primarily a business
+strategy to protect the App Store monopoly.</p>
+<p>Alternative engines, particularly Google's Blink, aggressively
+support advanced web standards that allow for Progressive Web Apps
+(PWAs). PWAs are websites that look, feel, and function just like native
+apps, capable of working offline and sending push notifications, all
+without needing to be downloaded from an app store.</p>
+<p>By forcing all browsers to use WebKit, Apple alone dictated the pace
+at which web apps could evolve on iOS. By withholding features from
+WebKit that would make web apps viable alternatives to native apps,
+Apple ensured that developers had no choice but to build native iOS
+apps. This kept developers locked into the App Store ecosystem, allowing
+Apple to continue collecting its 15% to 30% commission on digital goods
+and subscriptions.</p></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/why-apple-forced-i-os-browsers-to-use-the-web-kit-engine';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

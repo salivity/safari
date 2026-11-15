@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Clicking a Tel Link on a Mac Starts an iPhone Call - safari</title>
+    <meta name="description" content="Clicking a phone number link in Safari on a Mac seamlessly initiates a cellular call through a nearby iPhone using a combination of web standards, macOS system routing, and Apple’s Continuity technology. When you click a tel: link, Safari passes the reque">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/how-clicking-a-tel-link-on-a-mac-starts-an-i-phone-call">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Clicking a Tel Link on a Mac Starts an iPhone Call - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/how-clicking-a-tel-link-on-a-mac-starts-an-i-phone-call" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Clicking a phone number link in Safari on a Mac seamlessly initiates a cellular call through a nearby iPhone using a combination of web standards, macOS system routing, and Apple’s Continuity technology. When you click a tel: link, Safari passes the reque" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="how-clicking-a-tel-link-on-a-mac-starts-an-iphone-call">How
+Clicking a Tel Link on a Mac Starts an iPhone Call</h1>
+<p>Clicking a phone number link in Safari on a Mac seamlessly initiates
+a cellular call through a nearby iPhone using a combination of web
+standards, macOS system routing, and Apple’s Continuity technology. When
+you click a <code>tel:</code> link, Safari passes the request to the
+macOS operating system, which opens the FaceTime app. FaceTime then uses
+Bluetooth and Wi-Fi to securely communicate with your iPhone,
+instructing it to dial the number over its cellular connection while
+routing the call's audio through your Mac's microphone and speakers.</p>
+<h3 id="1-recognizing-the-tel-uri-scheme">1. Recognizing the
+<code>tel:</code> URI Scheme</h3>
+<p>Websites make phone numbers clickable by embedding them in HTML using
+the <code>tel:</code> Uniform Resource Identifier (URI) scheme (for
+example, <code>tel:+1234567890</code>). When you click this link in
+Safari, the browser recognizes that <code>tel:</code> is not a standard
+webpage request. Instead of loading a new page, Safari hands this
+specific URI over to the macOS operating system to handle.</p>
+<h3 id="2-macos-launch-services-routing">2. macOS Launch Services
+Routing</h3>
+<p>Once macOS receives the <code>tel:</code> request from Safari, an
+underlying system framework called Launch Services takes over. Launch
+Services maintains a registry of which applications are assigned to
+handle specific file types and URL schemes. By default on a Mac, the
+FaceTime app is registered as the default handler for all
+<code>tel:</code> links. Launch Services wakes up the FaceTime app and
+passes the phone number to it, prompting a small confirmation banner to
+appear on your Mac's screen.</p>
+<h3 id="3-the-bluetooth-low-energy-handshake">3. The Bluetooth Low
+Energy Handshake</h3>
+<p>When you click "Call" on the FaceTime confirmation banner, Apple’s
+Continuity feature—specifically a function called iPhone Cellular
+Calls—activates. Your Mac uses Bluetooth Low Energy (BLE) to scan for
+nearby devices signed into the same Apple ID. Once your Mac detects your
+iPhone in close proximity, the two devices perform a rapid, encrypted
+cryptographic handshake over Bluetooth to verify their identities and
+establish a secure link.</p>
+<h3 id="4-routing-data-over-wi-fi">4. Routing Data Over Wi-Fi</h3>
+<p>Bluetooth does not have the bandwidth required to transmit
+high-quality, real-time voice audio reliably for this feature.
+Therefore, once the Bluetooth handshake is complete, the Mac and iPhone
+switch their communication to their shared local Wi-Fi network. The Mac
+sends the target phone number and the command to initiate the call
+directly to the iPhone over Wi-Fi.</p>
+<h3 id="5-placing-the-cellular-call">5. Placing the Cellular Call</h3>
+<p>Upon receiving the command from the Mac, the iPhone accesses its
+internal cellular modem and dials the phone number through your mobile
+carrier, just as if you had tapped the number on the iPhone’s own
+screen.</p>
+<p>Once the call connects, the iPhone acts as a relay station. It takes
+the incoming cellular audio, converts it into digital data packages, and
+streams it over the local Wi-Fi network to your Mac. Simultaneously,
+your voice is captured by the Mac's microphone, sent over Wi-Fi to the
+iPhone, and transmitted out over the cellular network.</p>
+<h3 id="system-requirements-for-the-process-to-work">System Requirements
+for the Process to Work</h3>
+<p>For this entire sequence to happen automatically, the following
+conditions must be met:</p>
+<ul>
+<li><strong>Same Apple ID:</strong> Both the Mac and the iPhone must be
+signed into iCloud and FaceTime using the exact same Apple ID.</li>
+<li><strong>Network Connection:</strong> Both devices must be connected
+to the same Wi-Fi network.</li>
+<li><strong>Bluetooth:</strong> Bluetooth must be turned on for both
+devices to allow the initial proximity detection.</li>
+<li><strong>Device Settings:</strong> "Calls on Other Devices" must be
+enabled in the iPhone's cellular settings, and "Calls from iPhone" must
+be checked in the Mac's FaceTime settings.</li>
+</ul></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/how-clicking-a-tel-link-on-a-mac-starts-an-i-phone-call';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

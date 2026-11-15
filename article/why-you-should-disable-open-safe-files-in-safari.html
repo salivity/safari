@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Why You Should Disable &quot;Open Safe Files&quot; in Safari - safari</title>
+    <meta name="description" content="Security experts routinely advise Mac users to disable the &quot;Open &#39;safe&#39; files after downloading&quot; setting in the Safari web browser. While Apple designed this feature for convenience by automatically opening downloaded files like PDFs, images, and ZIP arch">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/why-you-should-disable-open-safe-files-in-safari">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Why You Should Disable &quot;Open Safe Files&quot; in Safari - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/why-you-should-disable-open-safe-files-in-safari" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Security experts routinely advise Mac users to disable the &quot;Open &#39;safe&#39; files after downloading&quot; setting in the Safari web browser. While Apple designed this feature for convenience by automatically opening downloaded files like PDFs, images, and ZIP arch" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="why-you-should-disable-open-safe-files-in-safari">Why You Should
+Disable "Open Safe Files" in Safari</h1>
+<p>Security experts routinely advise Mac users to disable the "Open
+'safe' files after downloading" setting in the Safari web browser. While
+Apple designed this feature for convenience by automatically opening
+downloaded files like PDFs, images, and ZIP archives, it creates a
+significant security vulnerability. By turning this feature off, users
+prevent malicious files disguised as harmless documents from
+automatically launching and exploiting system flaws without their
+explicit consent.</p>
+<h3 id="understanding-the-feature">Understanding the Feature</h3>
+<p>By default, Safari tries to save you a click. When you download a
+file from the internet that Apple categorizes as "safe"—which includes
+movies, pictures, sounds, PDFs, text documents, and compressed
+archives—the browser automatically launches the associated application
+to view or extract the file the moment the download finishes.</p>
+<h3 id="the-danger-of-drive-by-downloads">The Danger of Drive-By
+Downloads</h3>
+<p>The primary risk of this setting is how it interacts with "drive-by
+downloads." Malicious websites, phishing links, or compromised
+advertisement networks can force your browser to download a file
+automatically simply by visiting a webpage.</p>
+<p>Normally, an unsolicited download just sits harmlessly in your
+Downloads folder until you decide to click it. However, if Safari's
+auto-open feature is enabled, the browser immediately opens that
+unsolicited file. This completely removes your ability to inspect,
+verify, or delete the suspicious file before it interacts with your
+operating system.</p>
+<h3 id="safe-files-can-still-be-malicious">"Safe" Files Can Still Be
+Malicious</h3>
+<p>Attackers know what Safari considers safe and use this classification
+to their advantage. While an image or a PDF is not a traditional
+executable program, it can still be dangerous.</p>
+<p>Cybercriminals frequently embed malicious code inside PDFs, audio
+files, or images. This code is designed to exploit unpatched security
+flaws (zero-day vulnerabilities) in the default applications that open
+them, such as Apple's Preview or QuickTime. When Safari automatically
+opens a booby-trapped file, the exploit triggers instantly, potentially
+allowing hackers to run unauthorized code on your Mac without you ever
+clicking a button.</p>
+<h3 id="the-zip-archive-loophole">The ZIP Archive Loophole</h3>
+<p>One of the biggest threats involves compressed archives, such as ZIP
+files. Safari considers archives to be "safe" and will automatically
+unzip them upon download. This presents two major risks:</p>
+<ol type="1">
+<li><strong>Exploiting the Unarchiver:</strong> Security researchers
+have previously discovered vulnerabilities in the macOS Archive Utility
+itself. In these scenarios, the mere act of automatically extracting a
+specially crafted, malicious ZIP file is enough to compromise the
+system.</li>
+<li><strong>Hiding Dangerous Payloads:</strong> Attackers often place
+malicious scripts, terminal commands, or disguised applications inside
+ZIP files. If Safari automatically unzips the file, the dangerous
+payload is placed directly into your Downloads folder, bringing it one
+step closer to accidental execution, or in some cases, triggering
+secondary automated processes.</li>
+</ol>
+<h3 id="how-to-disable-the-setting">How to Disable the Setting</h3>
+<p>Turning this feature off is a simple and effective way to harden your
+Mac's security, putting you back in full control of what opens on your
+computer.</p>
+<p>To disable it, follow these steps:</p>
+<ol type="1">
+<li>Open <strong>Safari</strong> on your Mac.</li>
+<li>Click <strong>Safari</strong> in the top-left menu bar and select
+<strong>Settings</strong> (or <strong>Preferences</strong> on older
+versions of macOS).</li>
+<li>Click on the <strong>General</strong> tab.</li>
+<li>At the very bottom of the window, uncheck the box next to
+<strong>Open "safe" files after downloading</strong>.</li>
+</ol></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/why-you-should-disable-open-safe-files-in-safari';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

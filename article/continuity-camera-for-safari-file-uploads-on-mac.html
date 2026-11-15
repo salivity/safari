@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Continuity Camera for Safari File Uploads on Mac - safari</title>
+    <meta name="description" content="Continuity Camera is an Apple ecosystem feature that bridges macOS and iOS, allowing you to use your iPhone’s camera to capture content directly onto your Mac. This article explains the underlying technology, system prerequisites, and the exact steps requ">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/continuity-camera-for-safari-file-uploads-on-mac">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Continuity Camera for Safari File Uploads on Mac - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/continuity-camera-for-safari-file-uploads-on-mac" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Continuity Camera is an Apple ecosystem feature that bridges macOS and iOS, allowing you to use your iPhone’s camera to capture content directly onto your Mac. This article explains the underlying technology, system prerequisites, and the exact steps requ" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="continuity-camera-for-safari-file-uploads-on-mac">Continuity
+Camera for Safari File Uploads on Mac</h1>
+<p>Continuity Camera is an Apple ecosystem feature that bridges macOS
+and iOS, allowing you to use your iPhone’s camera to capture content
+directly onto your Mac. This article explains the underlying technology,
+system prerequisites, and the exact steps required to take a photo or
+scan a document with your iPhone and upload it directly into a file
+input field within the Safari web browser.</p>
+<h2 id="how-the-integration-works">How the Integration Works</h2>
+<p>Websites use the HTML <code>&lt;input type="file"&gt;</code> element
+to let users upload files from their computer. Normally, interacting
+with this element opens a Finder window where you must select an
+existing file from your hard drive.</p>
+<p>Safari bypasses the need for pre-existing local files by integrating
+directly with macOS system frameworks. When you trigger Continuity
+Camera on a file input field, the following happens behind the
+scenes:</p>
+<ol type="1">
+<li><strong>Device Discovery:</strong> Your Mac uses Bluetooth Low
+Energy (BLE) to detect your nearby iPhone and verify that both devices
+share the same Apple ID.</li>
+<li><strong>Camera Activation:</strong> The Mac sends a wake signal to
+the iPhone, immediately launching a dedicated camera or
+document-scanning interface on the phone's screen.</li>
+<li><strong>Data Transfer:</strong> Once you capture the image or scan,
+the iPhone transmits the data to the Mac over an encrypted, peer-to-peer
+Wi-Fi connection (Apple Wireless Direct Link).</li>
+<li><strong>File Injection:</strong> Safari receives this data,
+automatically wraps it into a temporary file within the system cache,
+and binds it directly to the webpage's
+<code>&lt;input type="file"&gt;</code> element. The website treats this
+incoming data exactly as if you had selected a standard file from your
+hard drive.</li>
+</ol>
+<h2 id="prerequisites">Prerequisites</h2>
+<p>Before using this feature, ensure both your Mac and iPhone meet the
+following requirements:</p>
+<ul>
+<li><strong>Operating System:</strong> Your Mac must be running macOS
+Mojave (10.14) or later, and your iPhone must be running iOS 12 or
+later.</li>
+<li><strong>Apple ID:</strong> Both devices must be signed in to the
+exact same Apple ID using two-factor authentication.</li>
+<li><strong>Connectivity:</strong> Both Wi-Fi and Bluetooth must be
+turned on for both devices (they do not need to be connected to the same
+Wi-Fi network, just have the Wi-Fi radios enabled).</li>
+<li><strong>Settings:</strong> On your iPhone, go to <strong>Settings
+&gt; General &gt; AirPlay &amp; Handoff</strong> (or <strong>Continuity
+Camera</strong>) and ensure the Continuity Camera toggle is turned
+on.</li>
+</ul>
+<h2 id="step-by-step-guide-to-uploading-in-safari">Step-by-Step Guide to
+Uploading in Safari</h2>
+<p>To bypass Finder and upload directly from your iPhone camera into a
+Safari web form, follow these steps:</p>
+<ol type="1">
+<li>Open Safari on your Mac and navigate to the webpage containing the
+file upload field (often labeled as "Choose File" or "Browse").</li>
+<li>Instead of normal left-clicking, <strong>Control-click</strong> (or
+right-click) directly on the "Choose File" button.</li>
+<li>In the context menu that appears, look for your iPhone's name or the
+<strong>Import from iPhone or iPad</strong> submenu.</li>
+<li>Select either <strong>Take Photo</strong> or <strong>Scan
+Documents</strong> from the menu.</li>
+<li>Your iPhone will automatically open the camera interface:
+<ul>
+<li><strong>If taking a photo:</strong> Frame your shot, tap the shutter
+button on your iPhone, and tap <strong>Use Photo</strong>.</li>
+<li><strong>If scanning a document:</strong> Point your iPhone at the
+document. It will automatically detect the edges and capture the scan.
+You can adjust the corners if necessary, scan additional pages, and then
+tap <strong>Save</strong> when finished.</li>
+</ul></li>
+<li>Look back at your Mac. The file input field in Safari will now
+display the name of your newly captured file, ready to be submitted with
+the rest of the web form.</li>
+</ol>
+<h2 id="output-formats-photos-vs-scans">Output Formats: Photos vs.
+Scans</h2>
+<p>Depending on which option you choose in the Safari context menu,
+macOS formats the temporary file differently to suit standard web upload
+requirements:</p>
+<ul>
+<li><strong>Take Photo:</strong> The captured image is converted and
+uploaded as a standard image file (typically a <code>.jpg</code> or
+<code>.png</code>, depending on what the specific web input accepts)
+named something generic like <code>image.jpg</code>.</li>
+<li><strong>Scan Documents:</strong> The iPhone applies perspective
+correction and contrast enhancement to make the document legible. It
+then compiles the scan—even if you scanned multiple pages in a single
+session—into a single, unified <code>.pdf</code> file and attaches it to
+the Safari file input.</li>
+</ul></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/continuity-camera-for-safari-file-uploads-on-mac';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

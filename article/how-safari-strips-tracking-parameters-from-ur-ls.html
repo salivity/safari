@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Safari Strips Tracking Parameters from URLs - safari</title>
+    <meta name="description" content="This article explains how Apple&#39;s Safari web browser protects user privacy through Link Tracking Protection, a feature that automatically identifies and removes known tracking parameters from web addresses. It covers what URL tracking parameters are, the">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/how-safari-strips-tracking-parameters-from-ur-ls">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Safari Strips Tracking Parameters from URLs - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/how-safari-strips-tracking-parameters-from-ur-ls" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article explains how Apple&#39;s Safari web browser protects user privacy through Link Tracking Protection, a feature that automatically identifies and removes known tracking parameters from web addresses. It covers what URL tracking parameters are, the" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="how-safari-strips-tracking-parameters-from-urls">How Safari
+Strips Tracking Parameters from URLs</h1>
+<p>This article explains how Apple's Safari web browser protects user
+privacy through Link Tracking Protection, a feature that automatically
+identifies and removes known tracking parameters from web addresses. It
+covers what URL tracking parameters are, the exact mechanism Safari uses
+to detect and strip them without breaking website functionality, and how
+the feature operates across both Private Browsing and standard browsing
+modes.</p>
+<h2 id="understanding-url-tracking-parameters">Understanding URL
+Tracking Parameters</h2>
+<p>Websites and advertisers frequently append extra data to the end of a
+standard web address, known as query parameters. While some parameters
+are necessary for a website to function—such as loading a specific
+search result or product page—others exist solely to track user behavior
+across the internet.</p>
+<p>When you click a link on a social media platform or in a promotional
+email, the platform often attaches a unique identifier to the URL.
+Common examples include:</p>
+<ul>
+<li><code>fbclid</code> (Facebook Click Identifier)</li>
+<li><code>gclid</code> (Google Click Identifier)</li>
+<li><code>msclkid</code> (Microsoft Click Identifier)</li>
+<li><code>mc_eid</code> (Mailchimp Email Identifier)</li>
+</ul>
+<p>When the destination website loads, embedded scripts read these
+parameters to link your current browsing session back to your profile on
+the originating platform.</p>
+<h2 id="how-safari-removes-the-trackers">How Safari Removes the
+Trackers</h2>
+<p>Introduced in Safari 17 (across iOS 17, iPadOS 17, and macOS Sonoma),
+Link Tracking Protection neutralizes this tracking method before the
+destination webpage even loads. Safari accomplishes this through a
+three-step process integrated into its Intelligent Tracking Prevention
+(ITP) engine.</p>
+<h3 id="1-url-interception-and-parsing">1. URL Interception and
+Parsing</h3>
+<p>When you click a link, paste a URL into the address bar, or copy a
+link to share it, Safari intercepts the web address before initiating a
+network request. The browser's engine parses the URL, separating the
+base address (the domain and path) from the query string (everything
+following the <code>?</code> symbol).</p>
+<h3 id="2-pattern-matching-against-a-known-list">2. Pattern Matching
+Against a Known List</h3>
+<p>Safari maintains an on-device list of known user-identifying tracking
+parameters, which Apple updates periodically. The browser compares the
+keys in the URL's query string against this blocklist.</p>
+<p>Safari specifically targets parameters that carry unique, per-user or
+per-click identifiers. It generally ignores generic campaign parameters
+(like standard <code>utm_source</code> tags) if they only identify an
+advertising campaign broadly rather than tracking an individual
+user.</p>
+<h3 id="3-surgical-stripping">3. Surgical Stripping</h3>
+<p>If a match is found, Safari rewrites the URL by deleting the tracking
+parameter and its associated value. This removal is surgical. If a URL
+contains both a functional parameter and a tracking parameter, Safari
+only removes the tracker.</p>
+<p>For example, if you click a link formatted as:
+<code>https://example.com/shoes?color=blue&amp;fbclid=IwAR123456789</code></p>
+<p>Safari strips the Facebook tracker and requests the following clean
+URL from the server:
+<code>https://example.com/shoes?color=blue</code></p>
+<p>Because the stripping happens locally on the device prior to the
+network request, the destination server never receives the tracking ID,
+while the page still correctly loads the "blue shoes" filter.</p>
+<h2 id="private-browsing-vs-standard-mode">Private Browsing vs. Standard
+Mode</h2>
+<p>By default, Safari applies Link Tracking Protection only in Private
+Browsing mode (as well as links shared within the Apple Mail and
+Messages apps). However, users can manually extend this exact same
+URL-stripping mechanism to standard browsing mode.</p>
+<p>The underlying technology does not change between the two modes; it
+is controlled entirely by a user preference toggle.</p>
+<p>To enable URL stripping in standard mode:</p>
+<ul>
+<li><strong>On iOS and iPadOS:</strong> Go to <strong>Settings</strong>
+&gt; <strong>Safari</strong> &gt; <strong>Advanced</strong> &gt;
+<strong>Advanced Tracking and Fingerprinting Protection</strong>, and
+select <strong>All Browsing</strong>.</li>
+<li><strong>On macOS:</strong> Open Safari, go to
+<strong>Settings</strong> (or Preferences) &gt;
+<strong>Advanced</strong>, check the box for <strong>Use advanced
+tracking and fingerprinting protection</strong>, and set the dropdown
+menu to <strong>in all browsing</strong>.</li>
+</ul>
+<p>Once enabled for all browsing, Safari will intercept, evaluate, and
+sanitize URLs in standard tabs just as aggressively as it does in
+Private Browsing tabs.</p></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/how-safari-strips-tracking-parameters-from-ur-ls';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

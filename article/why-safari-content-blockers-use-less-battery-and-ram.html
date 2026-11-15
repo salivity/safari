@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Why Safari Content Blockers Use Less Battery and RAM - safari</title>
+    <meta name="description" content="Safari Content Blockers consume significantly less battery and RAM than traditional JavaScript-based request interceptors because they offload the filtering process directly to the browser&#39;s core engine. Instead of running persistent background scripts th">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/why-safari-content-blockers-use-less-battery-and-ram">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Why Safari Content Blockers Use Less Battery and RAM - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/why-safari-content-blockers-use-less-battery-and-ram" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Safari Content Blockers consume significantly less battery and RAM than traditional JavaScript-based request interceptors because they offload the filtering process directly to the browser&#39;s core engine. Instead of running persistent background scripts th" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="why-safari-content-blockers-use-less-battery-and-ram">Why Safari
+Content Blockers Use Less Battery and RAM</h1>
+<p>Safari Content Blockers consume significantly less battery and RAM
+than traditional JavaScript-based request interceptors because they
+offload the filtering process directly to the browser's core engine.
+Instead of running persistent background scripts that actively inspect
+every network request using JavaScript, Safari extensions simply hand
+over a static list of rules to WebKit. WebKit compiles these rules into
+highly optimized native bytecode. This architecture eliminates the need
+for continuous JavaScript execution, removes inter-process communication
+bottlenecks, and prevents extensions from hogging system memory,
+resulting in faster browsing and extended battery life.</p>
+<h3 id="the-overhead-of-javascript-based-interceptors">The Overhead of
+JavaScript-Based Interceptors</h3>
+<p>To understand Safari's efficiency, it helps to look at how
+traditional ad blockers work on other browsers. A standard
+JavaScript-based request interceptor relies on a persistent background
+process.</p>
+<p>When you load a webpage, it makes dozens or hundreds of network
+requests for images, scripts, stylesheets, and trackers. A
+JavaScript-based blocker must:</p>
+<ol type="1">
+<li>Keep a massive array of filter rules loaded in RAM at all
+times.</li>
+<li>Pause every single outgoing network request.</li>
+<li>Pass the request details from the browser's networking engine to the
+extension's JavaScript environment.</li>
+<li>Execute JavaScript code to compare the request against thousands of
+rules.</li>
+<li>Send a message back to the browser to either allow or block the
+request.</li>
+</ol>
+<p>Running JavaScript for every network request requires significant CPU
+power, which directly drains the battery. Furthermore, keeping the
+JavaScript engine and massive filter lists active in the background
+consumes hundreds of megabytes of RAM.</p>
+<h3 id="declarative-rules-and-native-bytecode">Declarative Rules and
+Native Bytecode</h3>
+<p>Safari takes a fundamentally different approach called declarative
+content blocking. Safari Content Blockers are not allowed to intercept
+network requests directly via JavaScript. Instead, the extension
+provides Safari with a static JSON file containing "triggers" (what to
+look for) and "actions" (what to do, such as blocking a load or hiding a
+CSS element).</p>
+<p>When you enable a Content Blocker, Safari's underlying engine,
+WebKit, reads this JSON file and compiles it into native machine
+bytecode—specifically, a deterministic finite automaton (DFA).</p>
+<p>When you browse the web, WebKit evaluates network requests against
+this compiled bytecode using native C++ code. Executing compiled C++ at
+the engine level is orders of magnitude faster and requires drastically
+fewer CPU cycles than running interpreted or JIT-compiled JavaScript.
+Fewer CPU cycles mean less heat and significantly less battery
+drain.</p>
+<h3 id="zero-persistent-background-processes">Zero Persistent Background
+Processes</h3>
+<p>Because WebKit takes over the actual blocking duties, the Safari
+Content Blocker extension does not need to run while you browse.</p>
+<p>Once the extension hands its JSON rules over to Safari, the extension
+process is completely terminated. It uses zero RAM in the background.
+The compiled bytecode that WebKit uses is extremely compact and is
+memory-mapped, meaning it can be shared across multiple open tabs
+without duplicating memory usage.</p>
+<h3 id="elimination-of-inter-process-communication-ipc">Elimination of
+Inter-Process Communication (IPC)</h3>
+<p>Modern web browsers use multi-process architectures for security and
+stability. The browser's networking system, the webpage renderer, and
+the extensions all live in separate, isolated processes.</p>
+<p>In a JavaScript-based interceptor model, the networking process must
+constantly communicate with the extension process. This back-and-forth
+data transfer is known as Inter-Process Communication (IPC).
+High-frequency IPC is expensive; it prevents the CPU from entering
+low-power sleep states and creates micro-delays for every element
+loading on a page.</p>
+<p>Safari’s architecture completely eliminates IPC during web browsing.
+Because the compiled blocking bytecode is loaded directly into WebKit's
+networking and rendering processes, the engine can make blocking
+decisions instantly and internally. No data ever leaves the core browser
+process to ask an external extension for permission, saving both time
+and energy.</p>
+<h3 id="privacy-as-a-performance-feature">Privacy as a Performance
+Feature</h3>
+<p>JavaScript interceptors require permission to read all data on every
+webpage you visit so they can decide what to block. Because Safari
+Content Blockers only supply a list of rules and never actually "see"
+your web traffic, Safari does not have to construct and maintain the
+complex programmatic bridges required to feed user data to third-party
+extension code. By stripping away the extension's ability to actively
+monitor traffic, Apple simultaneously solved a major privacy concern and
+removed the biggest performance bottleneck in modern ad blocking.</p></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/why-safari-content-blockers-use-less-battery-and-ram';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

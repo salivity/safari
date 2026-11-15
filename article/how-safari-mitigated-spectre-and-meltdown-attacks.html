@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Safari Mitigated Spectre and Meltdown Attacks - safari</title>
+    <meta name="description" content="In early 2018, the discovery of the Spectre and Meltdown hardware vulnerabilities forced web browser developers to urgently rethink how they handle memory and timing operations. Because modern web browsers execute untrusted JavaScript code from across the">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/how-safari-mitigated-spectre-and-meltdown-attacks">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Safari Mitigated Spectre and Meltdown Attacks - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/how-safari-mitigated-spectre-and-meltdown-attacks" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="In early 2018, the discovery of the Spectre and Meltdown hardware vulnerabilities forced web browser developers to urgently rethink how they handle memory and timing operations. Because modern web browsers execute untrusted JavaScript code from across the" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="how-safari-mitigated-spectre-and-meltdown-attacks">How Safari
+Mitigated Spectre and Meltdown Attacks</h1>
+<p>In early 2018, the discovery of the Spectre and Meltdown hardware
+vulnerabilities forced web browser developers to urgently rethink how
+they handle memory and timing operations. Because modern web browsers
+execute untrusted JavaScript code from across the internet, they became
+a primary vector for exploiting these CPU-level flaws. Apple's Safari
+web browser, powered by the WebKit engine, responded swiftly to protect
+users from these speculative execution side-channel attacks. This
+article explains how Safari neutralized these threats by deliberately
+reducing the precision of the <code>performance.now()</code> timer and
+isolating the <code>SharedArrayBuffer</code> object.</p>
+<h2 id="understanding-the-browser-threat">Understanding the Browser
+Threat</h2>
+<p>Spectre and Meltdown exploit a hardware optimization technique called
+speculative execution. To make processors faster, CPUs guess which
+instructions will be needed next and execute them ahead of time. If the
+guess is wrong, the CPU discards the operation, but traces of the
+speculatively accessed data remain in the CPU's cache.</p>
+<p>While Meltdown was primarily mitigated at the operating system kernel
+level in macOS and iOS, Spectre posed a unique threat to Safari. An
+attacker could use malicious JavaScript on a website to trick the CPU
+into speculatively accessing sensitive memory (like passwords or session
+tokens) belonging to other websites. To actually steal this data, the
+attacker needed a high-precision timer to measure how fast the CPU
+accessed certain memory addresses. Fast access meant the data was in the
+cache, allowing the attacker to deduce the contents of protected memory
+byte by byte.</p>
+<p>To stop Spectre in Safari, Apple didn't need to fix the CPU; they
+simply needed to blind the attacker by removing the high-precision
+clocks available in JavaScript.</p>
+<h2 id="reducing-performancenow-timer-precision">Reducing
+<code>performance.now()</code> Timer Precision</h2>
+<p>The most direct way to measure time in a browser is the
+<code>performance.now()</code> JavaScript API. Originally, this function
+provided timestamps with microsecond precision to help developers
+measure frame rates and benchmark code performance. However, this level
+of accuracy was precise enough for attackers to distinguish between a
+CPU cache hit (fast) and a cache miss (slow).</p>
+<p>To neutralize this side-channel, the WebKit team immediately degraded
+the accuracy of <code>performance.now()</code>.</p>
+<ul>
+<li><strong>Resolution Clamping:</strong> Safari reduced the timer's
+resolution to 1 millisecond (1,000 microseconds). Because CPU cache
+operations happen in nanoseconds, a 1-millisecond tick is far too coarse
+to measure the difference between cached and uncached memory.</li>
+<li><strong>Timer Jitter:</strong> In addition to rounding the time,
+WebKit introduced random noise, or "jitter," to the timestamps. This
+prevented attackers from using statistical analysis over thousands of
+attempts to guess the exact moment a millisecond ticked over.</li>
+</ul>
+<h2 id="disabling-and-isolating-sharedarraybuffer">Disabling and
+Isolating <code>SharedArrayBuffer</code></h2>
+<p>Degrading <code>performance.now()</code> was only half the battle.
+Clever attackers realized they could build their own high-resolution
+timer using a JavaScript feature called
+<code>SharedArrayBuffer</code>.</p>
+<p><code>SharedArrayBuffer</code> allows a website to share memory
+simultaneously between the main browser thread and background threads
+(Web Workers). An attacker could set up a Web Worker whose only job was
+to endlessly increment a number in a shared memory space (e.g., 1, 2, 3,
+4...). By reading this rapidly increasing number from the main thread
+before and after a memory operation, the attacker had a makeshift
+stopwatch capable of nanosecond-level precision, completely bypassing
+the crippled <code>performance.now()</code> timer.</p>
+<p>Safari handled <code>SharedArrayBuffer</code> in two distinct
+phases:</p>
+<h3 id="phase-1-complete-removal">Phase 1: Complete Removal</h3>
+<p>Because <code>SharedArrayBuffer</code> could be weaponized as a
+custom clock, Apple completely disabled the feature in Safari 11.1. By
+removing the API from the browser entirely, attackers could no longer
+use concurrent threads to measure the speed of speculative
+execution.</p>
+<h3 id="phase-2-cross-origin-isolation">Phase 2: Cross-Origin
+Isolation</h3>
+<p>While disabling <code>SharedArrayBuffer</code> secured the browser,
+it broke legitimate high-performance web applications, such as video
+editors and 3D games, that relied on shared memory. To bring the feature
+back safely, Safari implemented a security model called Cross-Origin
+Isolation (introduced in Safari 15.2).</p>
+<p>Even if a Spectre attack succeeds, it can only read memory that
+exists within the same operating system process. Therefore, Safari now
+requires websites that want to use <code>SharedArrayBuffer</code> to opt
+into strict security headers:</p>
+<ul>
+<li><strong>Cross-Origin-Opener-Policy (COOP)</strong></li>
+<li><strong>Cross-Origin-Embedder-Policy (COEP)</strong></li>
+</ul>
+<p>When a website sends these headers, Safari places the webpage into
+its own isolated process and blocks it from loading resources from other
+websites unless those sites explicitly allow it. Because no sensitive
+cross-origin data exists in the same process anymore, an attacker has
+nothing to steal. Only when a website is fully isolated in this manner
+does Safari unlock <code>SharedArrayBuffer</code> and restore
+high-precision timers.</p></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/how-safari-mitigated-spectre-and-meltdown-attacks';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

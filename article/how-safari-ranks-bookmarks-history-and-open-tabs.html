@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Safari Ranks Bookmarks, History, and Open Tabs - safari</title>
+    <meta name="description" content="This article explains the underlying logic Apple&#39;s Safari web browser uses to rank and prioritize autocomplete suggestions in the Smart Search Field. By examining how Safari weighs Bookmarks, browsing History, and currently Open Tabs, you will understand">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/how-safari-ranks-bookmarks-history-and-open-tabs">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Safari Ranks Bookmarks, History, and Open Tabs - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/how-safari-ranks-bookmarks-history-and-open-tabs" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article explains the underlying logic Apple&#39;s Safari web browser uses to rank and prioritize autocomplete suggestions in the Smart Search Field. By examining how Safari weighs Bookmarks, browsing History, and currently Open Tabs, you will understand" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="how-safari-ranks-bookmarks-history-and-open-tabs">How Safari
+Ranks Bookmarks, History, and Open Tabs</h1>
+<p>This article explains the underlying logic Apple's Safari web browser
+uses to rank and prioritize autocomplete suggestions in the Smart Search
+Field. By examining how Safari weighs Bookmarks, browsing History, and
+currently Open Tabs, you will understand how the browser predicts your
+destination using frequency, recency, and explicit user intent to
+deliver the most relevant results instantly.</p>
+<h2 id="the-core-ranking-metric-frecency">The Core Ranking Metric:
+"Frecency"</h2>
+<p>When you begin typing in the Smart Search Field, Safari does not
+simply list items alphabetically. Instead, it relies on an algorithmic
+concept known as <strong>frecency</strong>—a combination of
+<strong>fre</strong>quency (how often you visit a site) and
+<strong>rec</strong>ency (how recently you visited it). Every URL stored
+in your browser is assigned a dynamic score based on these two factors,
+which dictates how high it appears in the autocomplete dropdown.</p>
+<h2 id="how-the-three-data-sources-compete">How the Three Data Sources
+Compete</h2>
+<p>Safari pulls data from your Bookmarks, History, and Open Tabs
+simultaneously, applying different weights to each based on what they
+represent about your browsing habits.</p>
+<h3 id="1-the-top-hit-highest-priority">1. The "Top Hit" (Highest
+Priority)</h3>
+<p>Before categorizing results, Safari identifies one or two "Top Hits"
+and places them at the very top of the autocomplete list. A Top Hit is
+almost always pulled from your Bookmarks or History. To achieve Top Hit
+status, a URL must have a massive frecency score and strongly match the
+characters typed so far (usually matching the beginning of the domain
+name).</p>
+<h3 id="2-bookmarks-vs-history">2. Bookmarks vs. History</h3>
+<p>In the visual dropdown menu, Safari combines these two sources into a
+single section labeled <strong>Bookmarks and History</strong>. Behind
+the scenes, they are weighted differently:</p>
+<ul>
+<li><strong>Bookmarks (Explicit Intent):</strong> Bookmarks receive a
+permanent baseline boost in Safari’s ranking algorithm. Because you
+manually saved the link, Safari assumes the page is important to you.
+Even if you haven't visited a bookmarked page recently, it will often
+outrank a history item that you only visited once or twice. Safari
+matches typed queries against both the Bookmark’s URL and your custom
+Bookmark title.</li>
+<li><strong>History (Implicit Habit):</strong> History relies entirely
+on frecency. A unbookmarked website that you visit every morning will
+quickly accumulate a high score, allowing it to outrank older, rarely
+clicked Bookmarks. However, History items decay in rank rapidly if you
+stop visiting them, whereas Bookmarks maintain their baseline
+priority.</li>
+</ul>
+<h3 id="3-open-tabs-switch-to-tab">3. Open Tabs ("Switch to Tab")</h3>
+<p>Safari treats currently Open Tabs—both on your current device and
+across your iCloud-connected devices—as high-priority contextual
+matches.</p>
+<p>Instead of forcing you to reload a webpage from your History or
+Bookmarks, Safari recognizes when your typed query matches the title or
+URL of an active session. It surfaces these results with a
+<strong>Switch to Tab</strong> label. If an open tab is a strong match
+for your query, Safari will often pin it above the standard "Bookmarks
+and History" section (just below the Top Hit and Search Suggestions) to
+prevent you from accidentally opening duplicate tabs.</p>
+<h2 id="the-visual-hierarchy-in-the-smart-search-field">The Visual
+Hierarchy in the Smart Search Field</h2>
+<p>While frecency scores determine <em>which</em> specific items are
+selected, Safari uses a strict visual layout in the dropdown menu to
+organize them. From top to bottom, the browser generally prioritizes the
+display order as follows:</p>
+<ol type="1">
+<li><strong>Top Hit:</strong> The single highest-scoring Bookmark,
+History item, or popular web destination.</li>
+<li><strong>Search Engine Suggestions:</strong> Relevant queries pulled
+from your default search engine.</li>
+<li><strong>Switch to Tab:</strong> Matching pages that are currently
+open in your browser.</li>
+<li><strong>Bookmarks and History:</strong> A combined list of up to
+five or six of the next highest-scoring saved links and past
+visits.</li>
+</ol>
+<h2 id="on-device-learning-and-keystroke-mapping">On-Device Learning and
+Keystroke Mapping</h2>
+<p>Safari constantly refines its prioritization using on-device machine
+learning. The browser maps specific keystrokes to your final
+selections.</p>
+<p>For example, if you type the letter "R" and bypass the Top Hit to
+click on a specific Bookmark three times in a row, Safari alters its
+local weighting. The next time you type "R", that specific Bookmark will
+be promoted to the Top Hit, overriding a History item that might
+technically have a higher overall visit count. This ensures that your
+active choices ultimately trump raw historical data.</p></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/how-safari-ranks-bookmarks-history-and-open-tabs';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

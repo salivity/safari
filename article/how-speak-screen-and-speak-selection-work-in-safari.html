@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Speak Screen and Speak Selection Work in Safari - safari</title>
+    <meta name="description" content="This article explains the technical process behind Apple&#39;s Speak Screen and Speak Selection accessibility features within the Safari web browser. It covers how Safari extracts text from a webpage&#39;s code, filters out unnecessary elements for a clean readin">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/how-speak-screen-and-speak-selection-work-in-safari">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Speak Screen and Speak Selection Work in Safari - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/how-speak-screen-and-speak-selection-work-in-safari" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article explains the technical process behind Apple&#39;s Speak Screen and Speak Selection accessibility features within the Safari web browser. It covers how Safari extracts text from a webpage&#39;s code, filters out unnecessary elements for a clean readin" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="how-speak-screen-and-speak-selection-work-in-safari">How Speak
+Screen and Speak Selection Work in Safari</h1>
+<p>This article explains the technical process behind Apple's Speak
+Screen and Speak Selection accessibility features within the Safari web
+browser. It covers how Safari extracts text from a webpage's code,
+filters out unnecessary elements for a clean reading experience, and
+utilizes the operating system's text-to-speech engine to convert written
+digital content into spoken audio.</p>
+<h3 id="accessing-the-webpage-structure">Accessing the Webpage
+Structure</h3>
+<p>When a webpage loads in Safari, the browser creates a Document Object
+Model (DOM), which is a structured map of all the text, code, and
+elements on the page. Alongside the DOM, Safari generates an
+"Accessibility Tree." This tree strips away purely visual styling and
+organizes the webpage into a hierarchy of information specifically
+designed for assistive technologies. When you activate Speak Screen or
+Speak Selection, the operating system communicates directly with
+Safari’s Accessibility Tree to locate the text.</p>
+<h3 id="speak-selection-targeted-extraction">Speak Selection: Targeted
+Extraction</h3>
+<p>Speak Selection is the simpler of the two processes because the user
+defines the boundaries of the text.</p>
+<ol type="1">
+<li><strong>Boundary Detection:</strong> When you highlight text on a
+webpage, Safari identifies the exact start and end points of your
+selection within the DOM.</li>
+<li><strong>Text Scraping:</strong> When you tap "Speak," Safari
+extracts only the plain text within those boundaries, ignoring
+underlying HTML tags like bolding or hyperlinks.</li>
+<li><strong>Audio Conversion:</strong> That isolated block of text is
+sent directly to the system's speech synthesizer to be read aloud.</li>
+</ol>
+<h3 id="speak-screen-intelligent-filtering">Speak Screen: Intelligent
+Filtering</h3>
+<p>Speak Screen is more complex because it must read an entire webpage
+without reading clutter like navigation menus, advertisements, and
+sidebars.</p>
+<ol type="1">
+<li><strong>Reader Mode Integration:</strong> When triggered with a
+two-finger swipe down from the top of the screen, Speak Screen often
+relies on the same underlying algorithm that powers Safari's "Reader"
+view.</li>
+<li><strong>Content Scoring:</strong> Safari analyzes the webpage's HTML
+tags (looking for <code>&lt;article&gt;</code>,
+<code>&lt;main&gt;</code>, or <code>&lt;p&gt;</code> tags) and
+calculates the density of text versus links. This allows it to separate
+the core article from the surrounding webpage template.</li>
+<li><strong>Sequential Queuing:</strong> Once the main content is
+identified, Safari queues the headings and paragraphs in the logical
+order they appear on the page, skipping hidden text and decorative
+elements.</li>
+</ol>
+<h3 id="language-detection-and-processing">Language Detection and
+Processing</h3>
+<p>Before a single word is spoken, the system must know how to pronounce
+the text. Safari checks the webpage's HTML code for language attributes
+(such as <code>lang="en"</code> for English or <code>lang="es"</code>
+for Spanish).</p>
+<p>If the webpage is coded correctly, the Speak feature will
+automatically switch its voice accent and pronunciation rules to match
+the language of the text. If no language is specified in the code, the
+system analyzes the first few words of the extracted text to guess the
+language before defaulting to the user's primary device language.</p>
+<h3 id="speech-synthesis-and-real-time-highlighting">Speech Synthesis
+and Real-Time Highlighting</h3>
+<p>Once the text is extracted and the language is determined, the data
+is handed over to the operating system’s Text-to-Speech (TTS)
+engine.</p>
+<ol type="1">
+<li><strong>Text Normalization:</strong> The TTS engine converts
+symbols, numbers, and abbreviations into full words (for example,
+changing "$5" to "five dollars" or "Dr." to "Doctor") based on the
+context of the sentence.</li>
+<li><strong>Prosody Generation:</strong> The engine analyzes
+punctuation—such as commas, periods, and question marks—to apply
+natural-sounding pauses and vocal inflections.</li>
+<li><strong>Visual Synchronization:</strong> If the "Highlight Content"
+setting is turned on, the TTS engine sends time-stamped data back to
+Safari as it speaks. Safari uses this data to draw a visual highlight
+box over the exact word and sentence currently being read, scrolling the
+webpage automatically as the voice progresses down the page.</li>
+</ol></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/how-speak-screen-and-speak-selection-work-in-safari';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

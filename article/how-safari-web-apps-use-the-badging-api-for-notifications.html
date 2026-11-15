@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Safari Web Apps Use the Badging API for Notifications - safari</title>
+    <meta name="description" content="This article explains how the Badging API enables web applications installed through the Safari browser to display unread notification counts directly on their Home Screen or macOS Dock icons. It covers the system and permission prerequisites for using th">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/how-safari-web-apps-use-the-badging-api-for-notifications">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Safari Web Apps Use the Badging API for Notifications - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/how-safari-web-apps-use-the-badging-api-for-notifications" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article explains how the Badging API enables web applications installed through the Safari browser to display unread notification counts directly on their Home Screen or macOS Dock icons. It covers the system and permission prerequisites for using th" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="how-safari-web-apps-use-the-badging-api-for-notifications">How
+Safari Web Apps Use the Badging API for Notifications</h1>
+<p>This article explains how the Badging API enables web applications
+installed through the Safari browser to display unread notification
+counts directly on their Home Screen or macOS Dock icons. It covers the
+system and permission prerequisites for using the API on Apple devices,
+the specific JavaScript methods required to set and clear badges, and
+how the API integrates with Service Workers to update counts even when
+the web app is closed.</p>
+<h3 id="prerequisites-for-safari-web-apps">Prerequisites for Safari Web
+Apps</h3>
+<p>Before a web app can display an icon badge via Safari, it must meet
+specific installation and permission criteria enforced by WebKit:</p>
+<ol type="1">
+<li><strong>Installation:</strong> The web app cannot display badges
+inside a standard Safari browser tab. On iOS and iPadOS (16.4 or later),
+the user must install the app using the "Add to Home Screen" option in
+the Share menu. On macOS Sonoma (Safari 17 or later), the user must
+install it using the "Add to Dock" option.</li>
+<li><strong>Notification Permission:</strong> For privacy reasons,
+Safari requires the user to explicitly grant notification permissions
+before allowing a web app to display a badge. The app must call
+<code>Notification.requestPermission()</code> and receive a
+<code>"granted"</code> status before the Badging API will function.</li>
+</ol>
+<h3 id="setting-the-unread-count">Setting the Unread Count</h3>
+<p>The Badging API is exposed on the global <code>navigator</code>
+object. This allows developers to update the badge both from the main
+application window and from a background Service Worker.</p>
+<p>To display an unread count, you use the <code>setAppBadge()</code>
+method and pass an integer representing the number of unread items:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Sets the badge on the Home Screen or Dock icon to 5</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="st">&#39;setAppBadge&#39;</span> <span class="kw">in</span> <span class="bu">navigator</span>) {</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="bu">navigator</span><span class="op">.</span><span class="fu">setAppBadge</span>(<span class="dv">5</span>)<span class="op">.</span><span class="fu">catch</span>((error) <span class="kw">=&gt;</span> {</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">error</span>(<span class="st">&#39;Failed to set app badge:&#39;</span><span class="op">,</span> error)<span class="op">;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  })<span class="op">;</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>The method returns a Promise, allowing developers to handle any
+potential errors if the platform fails to apply the badge.</p>
+<h3 id="clearing-the-badge">Clearing the Badge</h3>
+<p>Once a user opens the web app and views their messages or
+notifications, the badge should be removed. There are two ways to clear
+the badge using the API:</p>
+<ol type="1">
+<li>Call the dedicated <code>clearAppBadge()</code> method.</li>
+<li>Pass the number <code>0</code> into the <code>setAppBadge()</code>
+method.</li>
+</ol>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Removes the badge from the app icon</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="st">&#39;clearAppBadge&#39;</span> <span class="kw">in</span> <span class="bu">navigator</span>) {</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="bu">navigator</span><span class="op">.</span><span class="fu">clearAppBadge</span>()<span class="op">.</span><span class="fu">catch</span>((error) <span class="kw">=&gt;</span> {</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">error</span>(<span class="st">&#39;Failed to clear app badge:&#39;</span><span class="op">,</span> error)<span class="op">;</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  })<span class="op">;</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<h3 id="updating-badges-in-the-background">Updating Badges in the
+Background</h3>
+<p>For an unread count to be useful, it must update even when the user
+does not have the web app actively open. Safari supports this by
+allowing the Badging API to run inside a Service Worker alongside the
+Push API.</p>
+<p>When a backend server sends a push notification to the user's device,
+the web app's Service Worker wakes up in the background to handle the
+<code>push</code> event. Within this event listener, the Service Worker
+parses the incoming data to determine the new unread count and updates
+the icon immediately:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Inside sw.js (Service Worker)</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>self<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">&#39;push&#39;</span><span class="op">,</span> (<span class="bu">event</span>) <span class="kw">=&gt;</span> {</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> data <span class="op">=</span> <span class="bu">event</span><span class="op">.</span><span class="at">data</span><span class="op">.</span><span class="fu">json</span>()<span class="op">;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> unreadCount <span class="op">=</span> data<span class="op">.</span><span class="at">unreadCount</span><span class="op">;</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Update the badge count</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="st">&#39;setAppBadge&#39;</span> <span class="kw">in</span> <span class="bu">navigator</span>) {</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="bu">event</span><span class="op">.</span><span class="fu">waitUntil</span>(<span class="bu">navigator</span><span class="op">.</span><span class="fu">setAppBadge</span>(unreadCount))<span class="op">;</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Display the standard push notification to the user</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  <span class="bu">event</span><span class="op">.</span><span class="fu">waitUntil</span>(</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    self<span class="op">.</span><span class="at">registration</span><span class="op">.</span><span class="fu">showNotification</span>(data<span class="op">.</span><span class="at">title</span><span class="op">,</span> {</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>      <span class="dt">body</span><span class="op">:</span> data<span class="op">.</span><span class="at">message</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>  )<span class="op">;</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<p>By tying <code>navigator.setAppBadge()</code> to the
+<code>push</code> event using <code>event.waitUntil()</code>, the
+Service Worker ensures the operating system does not terminate the
+background process before the Home Screen or Dock icon badge is
+successfully updated.</p></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/how-safari-web-apps-use-the-badging-api-for-notifications';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Dynamic Viewport Units Fixed Mobile Safari&#39;s Address Bar - safari</title>
+    <meta name="description" content="For years, web developers struggled with mobile Safari&#39;s expanding and collapsing address bar, which caused elements sized with the traditional 100vh CSS unit to overflow the screen and hide critical content. The introduction of new CSS viewport units—spe">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/how-dynamic-viewport-units-fixed-mobile-safari-s-address-bar">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Dynamic Viewport Units Fixed Mobile Safari&#39;s Address Bar - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/how-dynamic-viewport-units-fixed-mobile-safari-s-address-bar" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="For years, web developers struggled with mobile Safari&#39;s expanding and collapsing address bar, which caused elements sized with the traditional 100vh CSS unit to overflow the screen and hide critical content. The introduction of new CSS viewport units—spe" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="how-dynamic-viewport-units-fixed-mobile-safaris-address-bar">How
+Dynamic Viewport Units Fixed Mobile Safari's Address Bar</h1>
+<p>For years, web developers struggled with mobile Safari's expanding
+and collapsing address bar, which caused elements sized with the
+traditional <code>100vh</code> CSS unit to overflow the screen and hide
+critical content. The introduction of new CSS viewport
+units—specifically <code>svh</code>, <code>lvh</code>, and
+<code>dvh</code>—finally resolved this issue by giving developers
+precise control over how elements respond to dynamic browser interfaces.
+This article explains the mechanics of the original mobile Safari
+viewport problem and how these three modern CSS units provide a native,
+JavaScript-free solution.</p>
+<h3 id="the-problem-with-100vh-in-mobile-safari">The Problem with
+<code>100vh</code> in Mobile Safari</h3>
+<p>Historically, the <code>vh</code> (viewport height) unit was designed
+to represent 1% of the visible screen height. Setting an element to
+<code>100vh</code> meant it should take up the entire height of the
+screen. However, mobile Safari features a dynamic user interface: when a
+user first loads a webpage, the address bar and bottom navigation
+toolbar are fully visible. When the user scrolls down, these toolbars
+shrink or disappear to provide more reading space.</p>
+<p>Originally, if Safari recalculated <code>100vh</code> as the toolbars
+shrank, every element using <code>vh</code> units would resize during a
+scroll. This caused a jarring, jumpy user experience and terrible
+scrolling performance.</p>
+<p>To prevent this layout shift, Apple made a controversial decision:
+mobile Safari permanently calculated <code>100vh</code> as if the
+browser toolbars were <em>always</em> hidden. Consequently, when a user
+first landed on a page with the toolbars visible, any element set to
+<code>100vh</code> was actually taller than the visible screen. This
+caused the bottom of the element—often containing important buttons or
+navigation—to be cut off or hidden behind the browser UI, forcing an
+unwanted scrollbar on what was meant to be a single-screen layout.</p>
+<p>Before the new units were introduced, developers had to rely on
+clunky JavaScript event listeners measuring
+<code>window.innerHeight</code> to manually set heights, or inconsistent
+CSS hacks like <code>-webkit-fill-available</code>.</p>
+<h3 id="the-solution-svh-lvh-and-dvh">The Solution: <code>svh</code>,
+<code>lvh</code>, and <code>dvh</code></h3>
+<p>To solve this permanently, the CSS Working Group introduced new
+viewport units that explicitly account for dynamic browser toolbars.
+Instead of forcing one static definition of the viewport, developers can
+now choose between three distinct states.</p>
+<h4 id="1-small-viewport-height-svh">1. Small Viewport Height
+(<code>svh</code>)</h4>
+<p>The <code>svh</code> unit represents the "Small Viewport"—the visible
+screen area when all browser toolbars (like Safari's address bar) are
+fully expanded.</p>
+<ul>
+<li><strong>How it solves the problem:</strong> Setting a hero section
+or modal to <code>100svh</code> guarantees that the element will fit
+entirely on the screen the moment the page loads. Nothing will be hidden
+behind the Safari toolbar, and no unwanted scrolling will occur. When
+the user scrolls down and the address bar shrinks, the
+<code>100svh</code> element remains the exact same size, preventing any
+jumpy layout shifts.</li>
+</ul>
+<h4 id="2-large-viewport-height-lvh">2. Large Viewport Height
+(<code>lvh</code>)</h4>
+<p>The <code>lvh</code> unit represents the "Large Viewport"—the visible
+screen area when the browser toolbars are completely retracted.</p>
+<ul>
+<li><strong>How it solves the problem:</strong> <code>100lvh</code>
+effectively standardizes the behavior that mobile Safari previously
+forced upon <code>100vh</code>. It is useful for background elements or
+layouts where you intentionally want the element to fill the maximum
+possible screen space once the user begins scrolling, and you do not
+mind if the bottom is slightly obscured on the initial load.</li>
+</ul>
+<h4 id="3-dynamic-viewport-height-dvh">3. Dynamic Viewport Height
+(<code>dvh</code>)</h4>
+<p>The <code>dvh</code> unit represents the "Dynamic Viewport." It is a
+fluid unit that automatically transitions between the <code>svh</code>
+and <code>lvh</code> values in real-time as the browser interface
+expands and collapses.</p>
+<ul>
+<li><strong>How it solves the problem:</strong> When a page loads in
+mobile Safari, <code>100dvh</code> equals <code>100svh</code>, fitting
+perfectly between the visible toolbars. As the user scrolls and the
+address bar shrinks, <code>100dvh</code> dynamically recalculates and
+grows until it matches <code>100lvh</code>. This ensures an element is
+always flush with the edges of the visible screen, regardless of the
+toolbar's state.</li>
+</ul>
+<h3 id="choosing-the-right-unit">Choosing the Right Unit</h3>
+<p>While <code>dvh</code> sounds like the ultimate fix, it comes with a
+performance caveat. Because <code>100dvh</code> forces the browser to
+recalculate the layout as the user scrolls, it can still cause visual
+jumping and frame drops on complex pages.</p>
+<p>Therefore, the problem is best solved by using these units
+strategically:</p>
+<ul>
+<li>Use <strong><code>100dvh</code></strong> for fixed, non-scrolling
+application layouts (like a chat interface or a full-screen mobile menu)
+where the UI must constantly hug the bottom of the screen.</li>
+<li>Use <strong><code>100svh</code></strong> for standard scrolling web
+pages (like a website's top hero section). It guarantees the content
+fits perfectly on initial load without causing layout shifts when the
+user scrolls down the page.</li>
+</ul></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/how-dynamic-viewport-units-fixed-mobile-safari-s-address-bar';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

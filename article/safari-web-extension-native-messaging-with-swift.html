@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Safari Web Extension Native Messaging with Swift - safari</title>
+    <meta name="description" content="This article provides a quick overview and step-by-step guide on establishing communication between a Safari Web Extension and its containing native macOS or iOS application using Swift. By leveraging Apple&#39;s Native Messaging APIs, developers can pass dat">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/safari-web-extension-native-messaging-with-swift">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Safari Web Extension Native Messaging with Swift - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/safari-web-extension-native-messaging-with-swift" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article provides a quick overview and step-by-step guide on establishing communication between a Safari Web Extension and its containing native macOS or iOS application using Swift. By leveraging Apple&#39;s Native Messaging APIs, developers can pass dat" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="safari-web-extension-native-messaging-with-swift">Safari Web
+Extension Native Messaging with Swift</h1>
+<p>This article provides a quick overview and step-by-step guide on
+establishing communication between a Safari Web Extension and its
+containing native macOS or iOS application using Swift. By leveraging
+Apple's Native Messaging APIs, developers can pass data from the
+browser's JavaScript environment to the native app extension handler,
+send responses back, and bridge that data to the main host application
+using App Groups.</p>
+<h3 id="1-configure-the-extension-manifest">1. Configure the Extension
+Manifest</h3>
+<p>To enable communication between your JavaScript files and the native
+Swift code, you must first declare the <code>nativeMessaging</code>
+permission in your extension's <code>manifest.json</code> file.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;manifest_version&quot;</span><span class="fu">:</span> <span class="dv">3</span><span class="fu">,</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;name&quot;</span><span class="fu">:</span> <span class="st">&quot;Example Extension&quot;</span><span class="fu">,</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;version&quot;</span><span class="fu">:</span> <span class="st">&quot;1.0&quot;</span><span class="fu">,</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;permissions&quot;</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;nativeMessaging&quot;</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;background&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;scripts&quot;</span><span class="fu">:</span> <span class="ot">[</span><span class="st">&quot;background.js&quot;</span><span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;type&quot;</span><span class="fu">:</span> <span class="st">&quot;module&quot;</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<h3 id="2-send-a-message-from-javascript">2. Send a Message from
+JavaScript</h3>
+<p>Only the extension's background script or popup script can
+communicate directly with the native Swift layer. If you need to send
+data from a content script (which runs in the context of a web page),
+you must first pass the data to your background script using
+<code>browser.runtime.sendMessage</code>.</p>
+<p>From your <code>background.js</code> or popup script, use
+<code>browser.runtime.sendNativeMessage</code> to send a
+JSON-serializable payload to the Swift handler.</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Inside background.js or popup.js</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">sendToNativeApp</span>() {</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> payload <span class="op">=</span> { </span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>        <span class="dt">action</span><span class="op">:</span> <span class="st">&quot;processData&quot;</span><span class="op">,</span> </span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>        <span class="dt">data</span><span class="op">:</span> <span class="st">&quot;Hello from JavaScript&quot;</span> </span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    }<span class="op">;</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Safari ignores the application ID string, so a placeholder is used.</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    browser<span class="op">.</span><span class="at">runtime</span><span class="op">.</span><span class="fu">sendNativeMessage</span>(<span class="st">&quot;application.id&quot;</span><span class="op">,</span> payload)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>        <span class="op">.</span><span class="fu">then</span>((response) <span class="kw">=&gt;</span> {</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>            <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">&quot;Received response from Swift:&quot;</span><span class="op">,</span> response)<span class="op">;</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>        })</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>        <span class="op">.</span><span class="fu">catch</span>((error) <span class="kw">=&gt;</span> {</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>            <span class="bu">console</span><span class="op">.</span><span class="fu">error</span>(<span class="st">&quot;Error communicating with native app:&quot;</span><span class="op">,</span> error)<span class="op">;</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>        })<span class="op">;</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<h3 id="3-receive-and-respond-in-swift">3. Receive and Respond in
+Swift</h3>
+<p>When you create a Safari Web Extension project in Xcode, it
+automatically generates a <code>SafariWebExtensionHandler.swift</code>
+file inside the extension target. This class conforms to
+<code>NSExtensionRequestHandling</code> and intercepts all native
+messages sent from JavaScript.</p>
+<p>Messages arrive in the <code>beginRequest(with:)</code> method. You
+extract the data using <code>SFExtensionMessageKey</code> and send a
+response back by completing the request with a new
+<code>NSExtensionItem</code>.</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode swift"><code class="sourceCode swift"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="im">SafariServices</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="im">os</span><span class="op">.</span><span class="im">log</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> SafariWebExtensionHandler<span class="op">:</span> <span class="dt">NSObject</span><span class="op">,</span> <span class="dt">NSExtensionRequestHandling</span> <span class="op">{</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">func</span> <span class="fu">beginRequest</span><span class="op">(</span><span class="va">with</span> <span class="va">context</span><span class="op">:</span> <span class="dt">NSExtensionContext</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>        <span class="co">// 1. Extract the incoming message</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">guard</span> <span class="kw">let</span> <span class="va">item</span> <span class="op">=</span> context<span class="op">.</span>inputItems<span class="op">.</span>first <span class="kw">as</span><span class="op">?</span> NSExtensionItem<span class="op">,</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>              <span class="kw">let</span> <span class="va">userInfo</span> <span class="op">=</span> item<span class="op">.</span>userInfo <span class="kw">as</span><span class="op">?</span> <span class="op">[</span>String<span class="op">:</span> Any<span class="op">],</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>              <span class="kw">let</span> <span class="va">message</span> <span class="op">=</span> userInfo<span class="op">[</span>SFExtensionMessageKey<span class="op">]</span> <span class="kw">as</span><span class="op">?</span> <span class="op">[</span>String<span class="op">:</span> Any<span class="op">]</span> <span class="cf">else</span> <span class="op">{</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>            context<span class="op">.</span>completeRequest<span class="op">(</span>returningItems<span class="op">:</span> <span class="kw">nil</span><span class="op">,</span> completionHandler<span class="op">:</span> <span class="kw">nil</span><span class="op">)</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>            <span class="kw">return</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>        <span class="co">// 2. Process the message payload</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>        <span class="kw">let</span> <span class="va">action</span> <span class="op">=</span> message<span class="op">[</span><span class="st">&quot;action&quot;</span><span class="op">]</span> <span class="kw">as</span><span class="op">?</span> String <span class="op">??</span> <span class="st">&quot;Unknown&quot;</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>        <span class="kw">let</span> <span class="va">data</span> <span class="op">=</span> message<span class="op">[</span><span class="st">&quot;data&quot;</span><span class="op">]</span> <span class="kw">as</span><span class="op">?</span> String <span class="op">??</span> <span class="st">&quot;No Data&quot;</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>        os_log<span class="op">(.</span><span class="kw">default</span><span class="op">,</span> <span class="st">&quot;Received action: %{public}@ with data: %{public}@&quot;</span><span class="op">,</span> action<span class="op">,</span> data<span class="op">)</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>        <span class="co">// 3. Create a response</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>        <span class="kw">let</span> <span class="va">response</span> <span class="op">=</span> NSExtensionItem<span class="op">()</span></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>        <span class="kw">let</span> <span class="va">responsePayload</span><span class="op">:</span> <span class="op">[</span>String<span class="op">:</span> Any<span class="op">]</span> <span class="op">=</span> <span class="op">[</span></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>            <span class="st">&quot;status&quot;</span><span class="op">:</span> <span class="st">&quot;success&quot;</span><span class="op">,</span></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>            <span class="st">&quot;reply&quot;</span><span class="op">:</span> <span class="st">&quot;Swift received your message: </span><span class="er">\(</span><span class="st">data)&quot;</span></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>        <span class="op">]</span></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>        response<span class="op">.</span>userInfo <span class="op">=</span> <span class="op">[</span>SFExtensionMessageKey<span class="op">:</span> responsePayload<span class="op">]</span></span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>        <span class="co">// 4. Send the response back to JavaScript</span></span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>        context<span class="op">.</span>completeRequest<span class="op">(</span>returningItems<span class="op">:</span> <span class="op">[</span>response<span class="op">],</span> completionHandler<span class="op">:</span> <span class="kw">nil</span><span class="op">)</span></span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h3 id="4-share-data-with-the-containing-native-app">4. Share Data with
+the Containing Native App</h3>
+<p>A crucial architectural detail in iOS and macOS is that
+<code>SafariWebExtensionHandler</code> runs in the <strong>Extension
+Target</strong>, which is a separate process and sandbox from your
+<strong>Containing App Target</strong> (the main Swift app).</p>
+<p>To share data between the extension handler and the containing native
+app, you must configure an App Group:</p>
+<ol type="1">
+<li>Open your project in Xcode.</li>
+<li>Select your <strong>Main App Target</strong>, go to the
+<strong>Signing &amp; Capabilities</strong> tab, and click <strong>+
+Capability</strong>.</li>
+<li>Add <strong>App Groups</strong> and create a new group identifier
+(e.g., <code>group.com.yourcompany.appname</code>).</li>
+<li>Select your <strong>Extension Target</strong>, go to <strong>Signing
+&amp; Capabilities</strong>, add the <strong>App Groups</strong>
+capability, and check the exact same group identifier.</li>
+</ol>
+<p>Once configured, both targets can read and write to a shared
+<code>UserDefaults</code> suite, or access a shared file container (for
+CoreData or SQLite databases).</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode swift"><code class="sourceCode swift"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Writing data in SafariWebExtensionHandler.swift</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="kw">let</span> <span class="va">sharedDefaults</span> <span class="op">=</span> UserDefaults<span class="op">(</span>suiteName<span class="op">:</span> <span class="st">&quot;group.com.yourcompany.appname&quot;</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    sharedDefaults<span class="op">.</span><span class="kw">set</span><span class="op">(</span>data<span class="op">,</span> forKey<span class="op">:</span> <span class="st">&quot;lastReceivedExtensionData&quot;</span><span class="op">)</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co">// Reading data in the Containing App (e.g., ViewController.swift or ContentView.swift)</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="kw">let</span> <span class="va">sharedDefaults</span> <span class="op">=</span> UserDefaults<span class="op">(</span>suiteName<span class="op">:</span> <span class="st">&quot;group.com.yourcompany.appname&quot;</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> <span class="va">savedData</span> <span class="op">=</span> sharedDefaults<span class="op">.</span>string<span class="op">(</span>forKey<span class="op">:</span> <span class="st">&quot;lastReceivedExtensionData&quot;</span><span class="op">)</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    print<span class="op">(</span><span class="st">&quot;Data from extension: </span><span class="er">\(</span><span class="st">savedData ?? &quot;</span>None<span class="st">&quot;)&quot;</span><span class="op">)</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h3 id="5-establish-persistent-connections-optional">5. Establish
+Persistent Connections (Optional)</h3>
+<p>If you need to send multiple messages back and forth without closing
+the communication channel, use
+<code>browser.runtime.connectNative</code> in JavaScript instead of
+<code>sendNativeMessage</code>.</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Establish a port connection in background.js</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> port <span class="op">=</span> browser<span class="op">.</span><span class="at">runtime</span><span class="op">.</span><span class="fu">connectNative</span>(<span class="st">&quot;application.id&quot;</span>)<span class="op">;</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co">// Listen for messages from Swift</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>port<span class="op">.</span><span class="at">onMessage</span><span class="op">.</span><span class="fu">addListener</span>((message) <span class="kw">=&gt;</span> {</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">&quot;Received from Swift via port:&quot;</span><span class="op">,</span> message)<span class="op">;</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co">// Send a message through the port</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>port<span class="op">.</span><span class="fu">postMessage</span>({ <span class="dt">status</span><span class="op">:</span> <span class="st">&quot;Connected&quot;</span> })<span class="op">;</span></span></code></pre></div>
+<p>On the Swift side, <code>connectNative</code> triggers the exact same
+<code>beginRequest(with:)</code> method in
+<code>SafariWebExtensionHandler</code>, allowing you to handle single
+requests and port connections using the same Swift logic.</p></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/safari-web-extension-native-messaging-with-swift';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

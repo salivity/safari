@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio and Video Codecs Supported by the Safari Browser - safari</title>
+    <meta name="description" content="This article provides a complete breakdown of the audio and video codecs supported by Apple’s Safari web browser. It details how specific compression formats—including HEVC, VP8, VP9, and Opus—are supported inside media containers like MP4, WebM, and Quic">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/audio-and-video-codecs-supported-by-the-safari-browser">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Audio and Video Codecs Supported by the Safari Browser - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/audio-and-video-codecs-supported-by-the-safari-browser" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article provides a complete breakdown of the audio and video codecs supported by Apple’s Safari web browser. It details how specific compression formats—including HEVC, VP8, VP9, and Opus—are supported inside media containers like MP4, WebM, and Quic" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="audio-and-video-codecs-supported-by-the-safari-browser">Audio
+and Video Codecs Supported by the Safari Browser</h1>
+<p>This article provides a complete breakdown of the audio and video
+codecs supported by Apple’s Safari web browser. It details how specific
+compression formats—including HEVC, VP8, VP9, and Opus—are supported
+inside media containers like MP4, WebM, and QuickTime across macOS, iOS,
+and iPadOS.</p>
+<h2 id="video-codecs">Video Codecs</h2>
+<p>Safari relies heavily on hardware acceleration for video playback.
+Support for specific video codecs depends on both the Safari version and
+the underlying Apple hardware.</p>
+<ul>
+<li><strong>H.264 (AVC):</strong> The most universally supported video
+codec in Safari. It is supported inside MP4 (<code>.mp4</code>),
+QuickTime (<code>.mov</code>), and fragmented MP4 (fMP4) containers
+across all versions of Safari.</li>
+<li><strong>HEVC (H.265):</strong> Supported in Safari 11 and later.
+HEVC video must be packaged inside MP4, QuickTime, or fMP4 containers.
+Playback requires a device with hardware decoding capabilities (macOS
+High Sierra or later, and iOS 11 or later).</li>
+<li><strong>VP8:</strong> Initially supported only for WebRTC streams,
+VP8 is now supported for standard media playback inside the WebM
+(<code>.webm</code>) container starting with Safari 14 on macOS Big Sur
+and iOS 14.</li>
+<li><strong>VP9:</strong> Supported in Safari 14 and later. Like VP8,
+VP9 must be placed inside a WebM container. It enables 4K and HDR video
+playback on platforms like YouTube.</li>
+<li><strong>AV1:</strong> Supported starting in Safari 17, but strictly
+limited to Apple devices with hardware-level AV1 decoding (such as the
+iPhone 15 Pro, M3 Macs, and newer). AV1 is supported inside both MP4 and
+WebM containers.</li>
+</ul>
+<h2 id="audio-codecs">Audio Codecs</h2>
+<p>Safari supports a wide range of lossy and lossless audio codecs,
+though container requirements are strict for newer formats like
+Opus.</p>
+<ul>
+<li><strong>AAC (Advanced Audio Coding):</strong> Safari’s primary audio
+codec. It is supported in MP4, M4A (<code>.m4a</code>), QuickTime, and
+Audio Data Transport Stream (ADTS) containers.</li>
+<li><strong>Opus:</strong> Supported in Safari 11 and later, Initially,
+Safari only allowed Opus inside Apple's Core Audio Format
+(<code>.caf</code>) container or via WebRTC. Starting with Safari 14,
+Opus is fully supported inside the WebM container. Safari does not
+reliably support Opus inside standard Ogg (<code>.ogg</code>) containers
+without custom JavaScript decoders.</li>
+<li><strong>MP3:</strong> Universally supported in Safari as a
+standalone audio format (<code>.mp3</code>) or encapsulated within MP4,
+QuickTime, and WAV containers.</li>
+<li><strong>FLAC:</strong> Lossless audio codec supported in Safari 11
+and later. It can be played as a standalone <code>.flac</code> file or
+inside MP4, QuickTime, and CAF containers.</li>
+<li><strong>ALAC (Apple Lossless):</strong> Natively supported across
+all modern Safari versions inside MP4, M4A, QuickTime, and CAF
+containers.</li>
+<li><strong>Vorbis:</strong> Supported in Safari 14 and later,
+exclusively when packaged inside a WebM container.</li>
+<li><strong>Linear PCM:</strong> Uncompressed audio supported inside WAV
+(<code>.wav</code>), AIFF (<code>.aiff</code>), QuickTime, and CAF
+containers.</li>
+</ul>
+<h2 id="media-container-compatibility-summary">Media Container
+Compatibility Summary</h2>
+<p>To ensure media plays correctly using the HTML5
+<code>&lt;video&gt;</code> and <code>&lt;audio&gt;</code> elements in
+Safari, you must pair the right codecs within the correct
+containers.</p>
+<p><strong>MPEG-4 (<code>.mp4</code>, <code>.m4v</code>,
+<code>.m4a</code>) and QuickTime (<code>.mov</code>)</strong></p>
+<ul>
+<li><strong>Supported Video:</strong> H.264, HEVC, AV1 (Hardware
+dependent)</li>
+<li><strong>Supported Audio:</strong> AAC, MP3, ALAC, FLAC, Linear
+PCM</li>
+</ul>
+<p><strong>WebM (<code>.webm</code>)</strong></p>
+<ul>
+<li><strong>Supported Video:</strong> VP8, VP9, AV1 (Hardware
+dependent)</li>
+<li><strong>Supported Audio:</strong> Opus, Vorbis</li>
+</ul>
+<p><strong>Core Audio Format (<code>.caf</code>)</strong></p>
+<ul>
+<li><strong>Supported Video:</strong> None (Audio-only container)</li>
+<li><strong>Supported Audio:</strong> Opus, AAC, ALAC, FLAC, MP3, Linear
+PCM</li>
+</ul>
+<p><strong>Standalone Audio Formats</strong></p>
+<ul>
+<li><strong>MP3 (<code>.mp3</code>):</strong> MPEG-1/2 Audio Layer
+III</li>
+<li><strong>FLAC (<code>.flac</code>):</strong> Free Lossless Audio
+Codec</li>
+<li><strong>WAV (<code>.wav</code>) / AIFF
+(<code>.aiff</code>):</strong> Linear PCM</li>
+</ul></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/audio-and-video-codecs-supported-by-the-safari-browser';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How the Safari AirPlay Icon Streams Video to Your Smart TV - safari</title>
+    <meta name="description" content="This article explains the underlying technology of the AirPlay icon found inside Safari web video players and how it seamlessly streams media to an Apple TV or AirPlay-compatible smart TV. By utilizing local network discovery, Safari&#39;s built-in web engine">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/how-the-safari-air-play-icon-streams-video-to-your-smart-tv">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How the Safari AirPlay Icon Streams Video to Your Smart TV - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/how-the-safari-air-play-icon-streams-video-to-your-smart-tv" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article explains the underlying technology of the AirPlay icon found inside Safari web video players and how it seamlessly streams media to an Apple TV or AirPlay-compatible smart TV. By utilizing local network discovery, Safari&#39;s built-in web engine" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="how-the-safari-airplay-icon-streams-video-to-your-smart-tv">How
+the Safari AirPlay Icon Streams Video to Your Smart TV</h1>
+<p>This article explains the underlying technology of the AirPlay icon
+found inside Safari web video players and how it seamlessly streams
+media to an Apple TV or AirPlay-compatible smart TV. By utilizing local
+network discovery, Safari's built-in web engine, and direct media URL
+handoffs, the browser allows your television to fetch and play web
+videos independently while turning your computer or mobile device into a
+remote control.</p>
+<h3 id="automatic-device-discovery-via-bonjour">Automatic Device
+Discovery via Bonjour</h3>
+<p>Before you even click play on a video, your Apple device is quietly
+scanning your local Wi-Fi network using an Apple technology called
+Bonjour. Bonjour is a zero-configuration networking protocol that allows
+devices on the same network to automatically discover each other without
+needing manual IP address entries. When your iPhone, iPad, or Mac
+detects an Apple TV or an AirPlay 2-compatible smart TV on the same
+Wi-Fi network, it signals to the operating system that an external
+playback target is available.</p>
+<h3 id="webkit-and-html5-integration">WebKit and HTML5 Integration</h3>
+<p>The Safari browser is built on an engine called WebKit. When you load
+a webpage containing a modern HTML5 video player, WebKit automatically
+scans the code. Because the operating system already knows an AirPlay
+receiver is nearby (thanks to Bonjour), WebKit dynamically injects the
+AirPlay icon directly into the video player's control bar. Web
+developers can also use specific Apple-provided APIs to customize this
+button so it matches the design of their custom video players.</p>
+<h3 id="the-url-handoff-how-the-video-actually-streams">The URL Handoff
+(How the Video Actually Streams)</h3>
+<p>A common misconception is that your phone or computer downloads the
+video and beams it to the TV. While this happens during screen
+mirroring, clicking the AirPlay icon inside a Safari video player works
+much more efficiently.</p>
+<p>When you select your TV from the AirPlay menu, Safari extracts the
+direct web address (URL) of the video stream—typically formatted in
+Apple’s HTTP Live Streaming (HLS) protocol—and sends only that text link
+to the TV.</p>
+<p>Once the TV receives the link, the TV connects directly to the
+internet to download and play the video itself. This method provides
+several advantages:</p>
+<ul>
+<li><strong>Zero Quality Loss:</strong> The video is not compressed a
+second time by your device; the TV plays the highest quality stream
+available directly from the source.</li>
+<li><strong>Battery Efficiency:</strong> Because your phone or laptop
+isn't processing the video, its battery drain is minimal. You can even
+lock your iPhone screen, and the video will keep playing.</li>
+<li><strong>Multitasking:</strong> You can switch to other tabs in
+Safari or use other apps without interrupting the video on the TV.</li>
+</ul>
+<h3 id="local-streaming-fallback">Local Streaming Fallback</h3>
+<p>If the video you are watching in Safari is a local file stored on
+your device, or if it uses a web format the TV cannot fetch on its own,
+AirPlay switches methods. In this scenario, Safari decodes the video on
+your device, compresses it into an H.264 or HEVC video stream, and sends
+the actual video and audio data over your local Wi-Fi network to the TV
+using a secure, peer-to-peer connection.</p>
+<h3 id="real-time-playback-control">Real-Time Playback Control</h3>
+<p>Once the video is playing on the television, Safari shifts the video
+player on your device into a remote control interface. The browser
+maintains an active, encrypted network connection with the TV. When you
+click pause, adjust the volume, or scrub through the timeline in Safari,
+your device sends small data packets containing these commands over the
+Wi-Fi network, instructing the TV on how to manipulate the video stream
+in real time.</p></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/how-the-safari-air-play-icon-streams-video-to-your-smart-tv';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

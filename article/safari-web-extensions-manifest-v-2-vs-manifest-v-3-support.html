@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Safari WebExtensions: Manifest V2 vs. Manifest V3 Support - safari</title>
+    <meta name="description" content="This article provides a direct comparison of Manifest V2 (MV2) and Manifest V3 (MV3) support within the Apple Safari web browser. As the web extension ecosystem transitions from MV2 to MV3 to improve privacy, security, and performance, Safari has implemen">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/safari-web-extensions-manifest-v-2-vs-manifest-v-3-support">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Safari WebExtensions: Manifest V2 vs. Manifest V3 Support - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/safari-web-extensions-manifest-v-2-vs-manifest-v-3-support" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article provides a direct comparison of Manifest V2 (MV2) and Manifest V3 (MV3) support within the Apple Safari web browser. As the web extension ecosystem transitions from MV2 to MV3 to improve privacy, security, and performance, Safari has implemen" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="safari-webextensions-manifest-v2-vs-manifest-v3-support">Safari
+WebExtensions: Manifest V2 vs. Manifest V3 Support</h1>
+<p>This article provides a direct comparison of Manifest V2 (MV2) and
+Manifest V3 (MV3) support within the Apple Safari web browser. As the
+web extension ecosystem transitions from MV2 to MV3 to improve privacy,
+security, and performance, Safari has implemented support for both
+standards—starting with MV2 in Safari 14 and introducing MV3 in Safari
+15.4. Because Apple prioritizes user privacy and battery life, Safari’s
+implementation of MV2 already shared several traits with the modern MV3
+standard, making the transition in Safari unique compared to
+Chromium-based browsers. Below are the specific technical differences
+between MV2 and MV3 within Safari's WebExtensions architecture.</p>
+<h2 id="background-processing">Background Processing</h2>
+<p>The way extensions run tasks in the background is a primary
+architectural change between the two manifest versions.</p>
+<ul>
+<li><strong>Manifest V2:</strong> Uses background pages defined via the
+<code>background.scripts</code> or <code>background.page</code> keys.
+While MV2 allows persistent background pages on desktop browsers, Safari
+on iOS never supported persistent background pages due to memory
+constraints, forcing developers to use non-persistent event pages.</li>
+<li><strong>Manifest V3:</strong> Replaces background pages entirely
+with Service Workers, defined using the
+<code>background.service_worker</code> key. Service Workers are strictly
+event-driven, terminate when not in use, and do not have access to the
+DOM or the <code>window</code> object.</li>
+</ul>
+<h2 id="network-request-modification">Network Request Modification</h2>
+<p>Content blocking and network request modification work very
+differently across the two versions, though Safari’s MV2 implementation
+was already restrictive.</p>
+<ul>
+<li><strong>Manifest V2:</strong> Relies on the <code>webRequest</code>
+API. However, unlike Chrome and Firefox, Safari never supported the
+<code>webRequestBlocking</code> capability in MV2. Extension developers
+could observe network requests in Safari using MV2, but they could not
+intercept, block, or modify them on the fly using this API.</li>
+<li><strong>Manifest V3:</strong> Introduces the
+<code>declarativeNetRequest</code> API. Instead of the extension
+intercepting requests dynamically, it provides Safari with a list of
+rules. Safari compiles these rules into its native WebKit Content
+Blocker engine. This allows MV3 extensions in Safari to block content,
+strip cookies, and redirect requests without the extension needing read
+access to the user's network traffic.</li>
+</ul>
+<h2 id="code-execution-and-security">Code Execution and Security</h2>
+<p>Manifest V3 enforces stricter security boundaries regarding how and
+where code is executed compared to Manifest V2.</p>
+<ul>
+<li><strong>Script Injection:</strong> In MV2, extensions inject
+JavaScript and CSS into web pages using
+<code>browser.tabs.executeScript()</code> and
+<code>browser.tabs.insertCSS()</code>. In MV3, these methods are removed
+from the <code>tabs</code> API and moved to the new
+<code>scripting</code> API, requiring the <code>"scripting"</code>
+permission and using <code>browser.scripting.executeScript()</code> and
+<code>browser.scripting.insertCSS()</code>.</li>
+<li><strong>Remotely Hosted Code:</strong> Safari's MV2 implementation
+allows some flexibility with Content Security Policy (CSP) definitions,
+permitting the execution of remotely hosted code and strings evaluated
+via <code>eval()</code>. In MV3, Safari strictly forbids remotely hosted
+code. All executable logic must be bundled within the extension package
+submitted to the App Store, and <code>eval()</code> is blocked by
+default.</li>
+</ul>
+<h2 id="toolbar-actions">Toolbar Actions</h2>
+<p>The configuration for extension icons in the Safari toolbar is
+simplified in the newer manifest.</p>
+<ul>
+<li><strong>Manifest V2:</strong> Splits toolbar configurations into
+<code>browser_action</code> (for extensions that apply to all pages) and
+<code>page_action</code> (for extensions that apply only to specific
+pages). Historically, Safari treated both nearly identically in the
+browser UI.</li>
+<li><strong>Manifest V3:</strong> Deprecates both keys and unifies them
+into a single <code>action</code> key in the <code>manifest.json</code>
+file, pairing it with the <code>browser.action</code> API.</li>
+</ul>
+<h2 id="host-permissions">Host Permissions</h2>
+<p>How an extension declares and requests access to specific websites is
+separated in Manifest V3.</p>
+<ul>
+<li><strong>Manifest V2:</strong> API permissions (like
+<code>"storage"</code> or <code>"tabs"</code>) and website URL
+permissions (like <code>"*://*.example.com/*"</code>) are grouped
+together in the same <code>permissions</code> array, or
+<code>optional_permissions</code> array.</li>
+<li><strong>Manifest V3:</strong> Website URLs must be removed from the
+standard <code>permissions</code> array and placed into a dedicated
+<code>host_permissions</code> or <code>optional_host_permissions</code>
+array.</li>
+</ul>
+<p><em>Note on Safari's Permission Model:</em> Regardless of whether an
+extension uses MV2 or MV3, Safari treats all host permissions as
+optional at runtime. Users are always prompted to grant "Always Allow"
+or "Allow for One Day" on a per-site basis. MV3 brings the rest of the
+browser industry in line with the permission model Safari had already
+established in MV2.</p>
+<h2 id="web-accessible-resources">Web Accessible Resources</h2>
+<p>Exposing extension assets (like images or scripts) to web pages
+requires more explicit definitions in MV3.</p>
+<ul>
+<li><strong>Manifest V2:</strong> Defines
+<code>web_accessible_resources</code> as a simple array of file path
+strings. Any website can access the listed resources if it knows the
+URL.</li>
+<li><strong>Manifest V3:</strong> Requires
+<code>web_accessible_resources</code> to be an array of objects. Each
+object must specify both the <code>resources</code> (the file paths) and
+the <code>matches</code> (an array of specific URLs or origins that are
+allowed to access those files), preventing arbitrary websites from
+fingerprinting the user's installed Safari extensions.</li>
+</ul>
+<h2 id="promises-support">Promises Support</h2>
+<ul>
+<li><strong>Manifest V2:</strong> When using the <code>chrome.*</code>
+namespace in Safari, asynchronous APIs require callback functions.
+Promises are only natively supported in MV2 if the developer uses the
+<code>browser.*</code> namespace.</li>
+<li><strong>Manifest V3:</strong> Safari supports JavaScript Promises
+across both the <code>browser.*</code> and <code>chrome.*</code>
+namespaces for almost all asynchronous API methods, eliminating the need
+for callback functions or external polyfill libraries.</li>
+</ul></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/safari-web-extensions-manifest-v-2-vs-manifest-v-3-support';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

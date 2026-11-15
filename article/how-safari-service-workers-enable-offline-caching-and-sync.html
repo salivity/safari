@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Safari Service Workers Enable Offline Caching and Sync - safari</title>
+    <meta name="description" content="This article explains how Service Workers function within the Safari web browser to intercept network requests, manage offline caching, and handle background data synchronization. By acting as a client-side proxy between the web application and the networ">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/how-safari-service-workers-enable-offline-caching-and-sync">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Safari Service Workers Enable Offline Caching and Sync - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/how-safari-service-workers-enable-offline-caching-and-sync" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article explains how Service Workers function within the Safari web browser to intercept network requests, manage offline caching, and handle background data synchronization. By acting as a client-side proxy between the web application and the networ" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="how-safari-service-workers-enable-offline-caching-and-sync">How
+Safari Service Workers Enable Offline Caching and Sync</h1>
+<p>This article explains how Service Workers function within the Safari
+web browser to intercept network requests, manage offline caching, and
+handle background data synchronization. By acting as a client-side proxy
+between the web application and the network, Service Workers allow
+developers to build resilient, offline-first web applications in Apple's
+WebKit engine. Below, we cover the registration lifecycle, the mechanics
+of network interception via the Fetch API, Cache API storage strategies,
+and the specific workarounds required to achieve background sync in
+Safari.</p>
+<h3 id="registration-and-lifecycle">Registration and Lifecycle</h3>
+<p>Before a Service Worker can intercept requests in Safari, it must be
+registered by the main JavaScript thread. Because Service Workers can
+hijack network connections, Safari strictly requires the web application
+to be served over HTTPS (with the exception of <code>localhost</code>
+for development).</p>
+<ol type="1">
+<li><strong>Registration:</strong> The web app calls
+<code>navigator.serviceWorker.register('/sw.js')</code>.</li>
+<li><strong>Installation:</strong> Safari downloads the script and
+triggers the <code>install</code> event in the background. This is where
+developers typically pre-fetch and cache static assets.</li>
+<li><strong>Activation:</strong> Once installed, the Service Worker
+triggers the <code>activate</code> event. Upon activation, the Service
+Worker takes control of all pages within its defined scope, positioning
+itself between Safari and the network.</li>
+</ol>
+<h3 id="intercepting-network-requests">Intercepting Network
+Requests</h3>
+<p>An active Service Worker acts as a programmable network proxy. Every
+time the Safari browser attempts to fetch a resource—whether it is an
+HTML document, a CSS file, an image, or a JSON payload from an API—the
+request passes through the Service Worker first.</p>
+<p>This interception is handled via the <code>fetch</code> event
+listener inside the Service Worker script:</p>
+<ul>
+<li><strong>Listening:</strong> The Service Worker listens for the
+<code>fetch</code> event, which fires every time a network request is
+made by the controlled page.</li>
+<li><strong>Hijacking:</strong> Inside the event listener, the method
+<code>event.respondWith()</code> is called. This explicitly tells Safari
+to halt its default network request behavior and wait for the Service
+Worker to provide a custom <code>Response</code> object, which can be
+generated dynamically, fetched from the network, or pulled from local
+storage.</li>
+</ul>
+<h3 id="enabling-offline-caching">Enabling Offline Caching</h3>
+<p>Offline capabilities rely on combining <code>fetch</code>
+interception with the browser's <code>Cache</code> API. Unlike standard
+HTTP browser cache, the Cache API is fully programmable and persists
+until explicitly deleted by the script or evicted by Safari.</p>
+<p>Developers generally use two phases to enable offline access:</p>
+<ul>
+<li><strong>Pre-caching (Install Phase):</strong> During the
+<code>install</code> event, the Service Worker opens a named cache using
+<code>caches.open()</code> and downloads essential app shell files
+(HTML, CSS, core JS) using <code>cache.addAll()</code>.
+<code>event.waitUntil()</code> is used to ensure the Service Worker does
+not finish installing until all files are safely cached.</li>
+<li><strong>Runtime Intercept (Fetch Phase):</strong> When the user
+navigates the app offline, the <code>fetch</code> event intercepts the
+request. The Service Worker calls
+<code>caches.match(event.request)</code> to check if the requested file
+exists in the Cache API.</li>
+<li><strong>Serving the Response:</strong> If a match is found, the
+cached response is passed into <code>event.respondWith()</code>, loading
+the page instantly without a network connection. If no match is found,
+the Service Worker attempts a real network <code>fetch()</code>. If the
+network fails, it catches the error and returns a custom offline
+fallback page from the cache.</li>
+</ul>
+<p><em>Note on Safari Storage:</em> Safari utilizes Intelligent Tracking
+Prevention (ITP). If a user does not interact with a standard website
+for roughly seven days, Safari may automatically purge the Service
+Worker's Cache API storage to save space and protect privacy. However,
+if the user adds the website to their iOS or macOS Home Screen as a
+Progressive Web App (PWA), this seven-day eviction limit is largely
+lifted.</p>
+<h3 id="background-sync-in-safari">Background Sync in Safari</h3>
+<p>Background synchronization is designed to defer data transmission
+(like submitting a form or uploading a message) until the user has a
+stable internet connection.</p>
+<p><strong>The Standard Approach vs. Safari's Reality</strong> In
+Chromium-based browsers, a failed network request is stored in
+<code>IndexedDB</code>, and the app registers a sync task via
+<code>registration.sync.register()</code>. When connectivity returns,
+the browser wakes the Service Worker and fires a <code>sync</code> event
+to send the data, even if the user closed the tab.</p>
+<p>However, Safari (WebKit) <strong>does not natively support the
+Background Sync API</strong> due to stringent battery life and user
+privacy constraints. Safari will not wake up a Service Worker in the
+background if the browser or web app is completely closed.</p>
+<p><strong>How to Implement Sync in Safari</strong> To achieve reliable
+data synchronization in Safari, developers must combine Service Worker
+request interception with <code>IndexedDB</code> and foreground event
+listeners:</p>
+<ol type="1">
+<li><strong>Intercept and Store:</strong> When the user submits data
+(<code>POST</code> or <code>PUT</code> requests) while offline, the
+Service Worker intercepts the request during the <code>fetch</code>
+event. Upon detecting a network failure in the <code>.catch()</code>
+block, the Service Worker extracts the request payload and saves it into
+an "outbox" store inside Safari's <code>IndexedDB</code>.</li>
+<li><strong>Return a Mock Response:</strong> The Service Worker returns
+a custom 200/202 HTTP response to the main UI thread, letting the
+application know the data has been safely queued for later.</li>
+<li><strong>Trigger Sync on Reconnection:</strong> Because Safari will
+not fire a background <code>sync</code> event, the main application
+thread must listen for the browser's
+<code>window.addEventListener('online')</code> event. When the device
+regains connectivity while the app is open, the main thread sends a
+message to the Service Worker via <code>postMessage()</code>.</li>
+<li><strong>Flush the Queue on App Launch:</strong> If the user closes
+the Safari tab while offline and reopens it later when online, the
+Service Worker will wake up to intercept the initial page load
+<code>fetch</code> request. During this wake-up cycle, or during the
+Service Worker's <code>activate</code> event, the script checks
+<code>IndexedDB</code> for any queued requests, replays them over the
+network, and deletes them from the database upon success.</li>
+</ol></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/how-safari-service-workers-enable-offline-caching-and-sync';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Porting Extensions with safari-web-extension-converter - safari</title>
+    <meta name="description" content="This article explores how Apple’s xcrun safari-web-extension-converter command-line tool simplifies the process of porting existing Chrome and Firefox extensions to the Safari web browser. By automating the creation of a native Xcode project, wrapping sta">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/porting-extensions-with-safari-web-extension-converter">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Porting Extensions with safari-web-extension-converter - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/porting-extensions-with-safari-web-extension-converter" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article explores how Apple’s xcrun safari-web-extension-converter command-line tool simplifies the process of porting existing Chrome and Firefox extensions to the Safari web browser. By automating the creation of a native Xcode project, wrapping sta" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="porting-extensions-with-safari-web-extension-converter">Porting
+Extensions with safari-web-extension-converter</h1>
+<p>This article explores how Apple’s
+<code>xcrun safari-web-extension-converter</code> command-line tool
+simplifies the process of porting existing Chrome and Firefox extensions
+to the Safari web browser. By automating the creation of a native Xcode
+project, wrapping standard web technologies, and identifying API
+incompatibilities, the tool allows developers to quickly transition
+their extensions to macOS and iOS ecosystems without rewriting their
+core codebase.</p>
+<h2 id="automated-xcode-project-generation">Automated Xcode Project
+Generation</h2>
+<p>Unlike Chrome and Firefox, which distribute extensions as standalone
+compressed packages, Safari requires web extensions to be bundled inside
+a native macOS or iOS application. Building this wrapper manually in
+Xcode can be time-consuming for web developers unfamiliar with Apple's
+native development environment.</p>
+<p>The <code>xcrun safari-web-extension-converter</code> tool solves
+this by automatically generating a fully configured Xcode project. When
+you point the tool at your existing extension directory, it creates the
+required native app container, links your web extension files (HTML,
+CSS, and JavaScript), and configures the necessary build targets for
+distribution through the App Store.</p>
+<h2 id="compatibility-warnings-and-manifest-analysis">Compatibility
+Warnings and Manifest Analysis</h2>
+<p>During the conversion process, the tool reads and analyzes the
+extension's <code>manifest.json</code> file. While Safari supports the
+industry-standard WebExtensions API, there are still slight differences
+in API support among browsers.</p>
+<p>Once the converter finishes running, it outputs a compatibility
+report directly in the terminal. This report highlights specific keys,
+permissions, or JavaScript APIs present in your Chrome or Firefox
+extension that Safari does not currently support. This immediate
+feedback saves developers hours of manual debugging by pinpointing
+exactly which parts of the code need workarounds or polyfills.</p>
+<h2 id="streamlined-cross-platform-support">Streamlined Cross-Platform
+Support</h2>
+<p>Safari Web Extensions can run on macOS, iOS, and iPadOS. The
+converter tool configures the generated Xcode project to support all of
+these platforms simultaneously. By default, it generates a universal
+project containing both macOS and iOS app targets that share the same
+underlying web extension code. Developers can also use specific flags to
+limit the conversion to a single platform if desired.</p>
+<h2 id="how-to-use-the-tool">How to Use the Tool</h2>
+<p>To use the converter, you must have Xcode installed on a Mac. Open
+the Terminal application and run the following command, replacing the
+path with the location of your existing unpacked extension folder (the
+folder containing your <code>manifest.json</code> file):</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">xcrun</span> safari-web-extension-converter /path/to/your/extension</span></code></pre></div>
+<p>When executed, the tool provides an interactive prompt to configure
+your project, or you can pass flags to automate the setup:</p>
+<ul>
+<li><code>--project-location</code>: Specifies where the new Xcode
+project should be saved.</li>
+<li><code>--app-name</code>: Sets the name of the generated wrapper
+application.</li>
+<li><code>--bundle-identifier</code>: Defines the unique bundle ID
+required for Apple Developer signing.</li>
+<li><code>--swift</code> or <code>--objc</code>: Chooses the language
+for the native wrapper app (Swift is the default).</li>
+<li><code>--mac-only</code> or <code>--ios-only</code>: Restricts the
+generated project to a single platform.</li>
+<li><code>--copy-resources</code>: Copies the extension files into the
+new project rather than referencing the original files.</li>
+</ul>
+<h2 id="maintaining-a-unified-codebase">Maintaining a Unified
+Codebase</h2>
+<p>By default, the converter tool references your existing extension
+files in their original location rather than duplicating them, unless
+the <code>--copy-resources</code> flag is used. This architecture is
+deliberate. It allows developers to maintain a single source of truth
+for their HTML, CSS, and JavaScript files. When you update your core
+extension code for Chrome or Firefox, those changes are automatically
+reflected in your Safari Xcode project, drastically reducing the
+overhead of multi-browser maintenance.</p></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/porting-extensions-with-safari-web-extension-converter';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

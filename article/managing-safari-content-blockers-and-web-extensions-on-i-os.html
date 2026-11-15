@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Managing Safari Content Blockers and WebExtensions on iOS - safari</title>
+    <meta name="description" content="This article provides a straightforward guide on how to distinguish and separately manage Content Blockers and standard WebExtensions in Safari on iOS. While Apple groups both tool types under a single menu in the system settings, they operate differently">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/managing-safari-content-blockers-and-web-extensions-on-i-os">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Managing Safari Content Blockers and WebExtensions on iOS - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/managing-safari-content-blockers-and-web-extensions-on-i-os" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article provides a straightforward guide on how to distinguish and separately manage Content Blockers and standard WebExtensions in Safari on iOS. While Apple groups both tool types under a single menu in the system settings, they operate differently" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1
+id="managing-safari-content-blockers-and-webextensions-on-ios">Managing
+Safari Content Blockers and WebExtensions on iOS</h1>
+<p>This article provides a straightforward guide on how to distinguish
+and separately manage Content Blockers and standard WebExtensions in
+Safari on iOS. While Apple groups both tool types under a single menu in
+the system settings, they operate differently and feature distinct
+management controls. Below, you will learn how to identify which type of
+extension you are adjusting in the iOS Settings app, how to configure
+their specific permissions, and how to toggle Content Blockers
+independently from WebExtensions directly inside the Safari browser.</p>
+<h3 id="navigating-to-the-safari-extensions-menu">Navigating to the
+Safari Extensions Menu</h3>
+<p>To manage your browser add-ons, you must first access the central
+extensions menu in your device settings:</p>
+<ol type="1">
+<li>Open the <strong>Settings</strong> app on your iPhone or iPad.</li>
+<li>Scroll down and tap <strong>Safari</strong> (on iOS 18 and later,
+tap <strong>Apps</strong> at the bottom of the settings list, then
+select <strong>Safari</strong>).</li>
+<li>Scroll to the General section and tap
+<strong>Extensions</strong>.</li>
+</ol>
+<p>In earlier versions of iOS, Apple separated this menu into two
+distinct headers: "Allow These Content Blockers" and "Allow These
+Extensions." In modern versions of iOS, both types are merged into a
+single alphabetical list. Because they are combined, you must tap on an
+individual item to manage its specific behavior.</p>
+<h3 id="managing-content-blockers-in-settings">Managing Content Blockers
+in Settings</h3>
+<p>Content Blockers do not actively read your webpage data; instead,
+they feed a list of rules to Safari to block ads, trackers, or specific
+page elements before they load. Because they do not access your browsing
+data, their settings menu is minimal.</p>
+<ol type="1">
+<li>In the <strong>Extensions</strong> menu, tap on the name of a
+Content Blocker (many apps will include words like "Blocker," "AdGuard,"
+or "1Blocker" in their sub-tools).</li>
+<li>Toggle <strong>Allow Extension</strong> on or off to enable or
+disable the blocker entirely.</li>
+<li>Toggle <strong>Allow in Private Browsing</strong> if you want the
+rules applied in private tabs.</li>
+</ol>
+<p>You can immediately identify an item as a Content Blocker because
+there will be <strong>no Website Permissions section</strong> at the
+bottom of its settings page.</p>
+<h3 id="managing-standard-webextensions-in-settings">Managing Standard
+WebExtensions in Settings</h3>
+<p>Standard WebExtensions actively read and modify webpage content to
+perform tasks like filling in passwords, checking grammar, or applying
+coupon codes. Managing them requires setting both an activation toggle
+and data access permissions.</p>
+<ol type="1">
+<li>In the <strong>Extensions</strong> menu, tap on the name of a
+standard WebExtension.</li>
+<li>Toggle <strong>Allow Extension</strong> on or off.</li>
+<li>Below the main toggles, look for the <strong>Permissions</strong>
+section. This section only appears for standard WebExtensions.</li>
+<li>Set access levels for specific websites, or tap <strong>All
+Websites</strong> to set a global rule (<strong>Ask</strong>,
+<strong>Deny</strong>, or <strong>Allow</strong>).</li>
+</ol>
+<p>By adjusting the Permissions settings rather than the main toggle,
+you can keep a WebExtension enabled while restricting it from running
+automatically, whereas Content Blockers are strictly all-or-nothing in
+the Settings app.</p>
+<h3 id="toggling-content-blockers-separately-inside-safari">Toggling
+Content Blockers Separately Inside Safari</h3>
+<p>If a website is broken and you want to disable your Content Blockers
+without turning off your active WebExtensions (like your password
+manager), you do not need to go into the iOS Settings app. Safari
+provides a dedicated override solely for Content Blockers in the address
+bar.</p>
+<p><strong>To toggle Content Blockers only:</strong></p>
+<ol type="1">
+<li>Open <strong>Safari</strong> and navigate to a webpage.</li>
+<li>Tap the <strong>Page Menu</strong> icon (the <strong>aA</strong>
+icon or the <strong>puzzle piece/rectangle</strong> icon, depending on
+your iOS version) on the left side of the address bar.</li>
+<li>Tap <strong>Turn Off Content Blockers</strong>. This immediately
+reloads the page without ad or tracker blocking, while leaving all
+standard WebExtensions fully operational.</li>
+<li>Alternatively, you can touch and hold the <strong>Reload</strong>
+button (the circular arrow) in the address bar and select <strong>Reload
+Without Content Blockers</strong> for a one-time bypass.</li>
+</ol>
+<p><strong>To toggle WebExtensions only:</strong></p>
+<ol type="1">
+<li>Tap the <strong>Page Menu</strong> icon in the Safari address
+bar.</li>
+<li>Tap <strong>Manage Extensions</strong>.</li>
+<li>Use the switches here to toggle standard WebExtensions on or off.
+Note that pure Content Blockers will not appear in this in-browser
+pop-up list; they can only be toggled globally via the main iOS Settings
+app or bypassed per-site using the "Turn Off Content Blockers"
+button.</li>
+</ol></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/managing-safari-content-blockers-and-web-extensions-on-i-os';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

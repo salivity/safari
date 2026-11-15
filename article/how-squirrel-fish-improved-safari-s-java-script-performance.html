@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How SquirrelFish Improved Safari&#39;s JavaScript Performance - safari</title>
+    <meta name="description" content="In June 2008, the WebKit team introduced SquirrelFish, a revamped JavaScript engine that drastically improved the performance of Apple&#39;s Safari web browser. This article provides an overview of how SquirrelFish achieved this leap in speed by replacing the">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/how-squirrel-fish-improved-safari-s-java-script-performance">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How SquirrelFish Improved Safari&#39;s JavaScript Performance - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/how-squirrel-fish-improved-safari-s-java-script-performance" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="In June 2008, the WebKit team introduced SquirrelFish, a revamped JavaScript engine that drastically improved the performance of Apple&#39;s Safari web browser. This article provides an overview of how SquirrelFish achieved this leap in speed by replacing the" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="how-squirrelfish-improved-safaris-javascript-performance">How
+SquirrelFish Improved Safari's JavaScript Performance</h1>
+<p>In June 2008, the WebKit team introduced SquirrelFish, a revamped
+JavaScript engine that drastically improved the performance of Apple's
+Safari web browser. This article provides an overview of how
+SquirrelFish achieved this leap in speed by replacing the browser's
+older, slower tree-walking interpreter with a highly optimized,
+register-based bytecode interpreter. By compiling JavaScript into
+compact bytecode, utilizing direct instruction dispatch, and deferring
+compilation until necessary, SquirrelFish eliminated massive execution
+bottlenecks and laid the foundation for modern web application
+performance.</p>
+<h3 id="eliminating-the-tree-walking-bottleneck">Eliminating the
+Tree-Walking Bottleneck</h3>
+<p>Before SquirrelFish, Safari's JavaScriptCore executed code by parsing
+scripts into a hierarchical data structure called an Abstract Syntax
+Tree (AST) and recursively walking through the branches of that tree.
+This approach was slow because it required countless C++ function calls
+and pointer lookups just to navigate the structure of the code,
+resulting in high overhead and poor CPU cache utilization.</p>
+<p>SquirrelFish solved this by introducing a compilation step that
+translated the AST into bytecode—a flat, linear sequence of compact
+instructions stored in a contiguous block of memory. By executing a
+linear array of instructions rather than traversing a complex tree,
+SquirrelFish dramatically reduced memory access times and eliminated the
+overhead of recursive function calls.</p>
+<h3 id="adopting-a-register-based-virtual-machine">Adopting a
+Register-Based Virtual Machine</h3>
+<p>Bytecode interpreters generally fall into two categories: stack-based
+or register-based. Stack-based machines must constantly push and pop
+values onto a central stack to perform operations, which requires a high
+number of instructions and constant memory copying.</p>
+<p>SquirrelFish was engineered as a register-based virtual machine.
+Instead of using a stack, its instructions directly referenced virtual
+registers—specific slots within a function's local call frame. For
+example, adding two numbers in SquirrelFish required a single
+instruction that specified the two source registers and the destination
+register. This architectural choice significantly reduced the total
+number of instructions needed to execute a script and minimized the
+movement of data in memory.</p>
+<h3 id="compile-time-optimizations">Compile-Time Optimizations</h3>
+<p>Introducing a bytecode compiler allowed SquirrelFish to analyze and
+optimize the JavaScript code before a single instruction was executed.
+The most significant optimization was the resolution of local
+variables.</p>
+<p>In the older engine, finding the value of a local variable required
+looking up its name in a dictionary-like scope chain at runtime.
+SquirrelFish's compiler resolved local variables and function arguments
+directly to specific virtual registers at compile time. During
+execution, accessing a local variable became an instant array-index
+lookup rather than a slow string-based search. The compiler also
+stripped out unnecessary syntax and folded constants, ensuring the
+interpreter only did essential work.</p>
+<h3 id="direct-threading-for-faster-dispatch">Direct Threading for
+Faster Dispatch</h3>
+<p>Even with efficient bytecode, an interpreter must decode and dispatch
+each instruction. Traditional interpreters use a giant loop containing a
+<code>switch</code> statement to figure out what each bytecode
+instruction does. This causes performance bottlenecks because modern
+CPUs struggle to predict where the <code>switch</code> statement will
+jump next, leading to stalled processor pipelines.</p>
+<p>SquirrelFish bypassed this bottleneck using a technique called direct
+threading, utilizing a compiler extension known as "computed goto."
+Instead of using integer codes and a central <code>switch</code>
+statement, SquirrelFish represented each bytecode instruction as the
+actual memory address of the machine code responsible for executing that
+operation. At the end of each operation, the engine jumped directly to
+the address of the next instruction. This distributed the dispatch
+logic, vastly improved CPU branch prediction, and made transitioning
+between instructions nearly instantaneous.</p>
+<h3 id="lazy-bytecode-generation">Lazy Bytecode Generation</h3>
+<p>Compiling JavaScript into bytecode takes time, and websites often
+load large JavaScript libraries while only using a small fraction of
+their functions. If SquirrelFish compiled every script in its entirety
+upon loading, webpages would freeze initially.</p>
+<p>To keep page load times fast, SquirrelFish implemented lazy bytecode
+generation. When a webpage loaded, the engine quickly scanned the
+JavaScript solely to verify that the syntax was valid. It delayed the
+actual AST generation and bytecode compilation of a specific function
+until the exact millisecond that the function was called for the first
+time. Once compiled, the bytecode was cached in memory so subsequent
+calls to that function ran at full speed. This ensured that Safari never
+wasted time or memory compiling dead code.</p></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/how-squirrel-fish-improved-safari-s-java-script-performance';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

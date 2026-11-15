@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web App Manifest Properties Supported by Safari - safari</title>
+    <meta name="description" content="This article provides a breakdown of the specific Web App Manifest JSON properties that Apple&#39;s Safari browser reads and applies when configuring a standalone Progressive Web Application (PWA). By understanding how Safari utilizes properties for display m">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/web-app-manifest-properties-supported-by-safari">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Web App Manifest Properties Supported by Safari - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/web-app-manifest-properties-supported-by-safari" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article provides a breakdown of the specific Web App Manifest JSON properties that Apple&#39;s Safari browser reads and applies when configuring a standalone Progressive Web Application (PWA). By understanding how Safari utilizes properties for display m" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="web-app-manifest-properties-supported-by-safari">Web App
+Manifest Properties Supported by Safari</h1>
+<p>This article provides a breakdown of the specific Web App Manifest
+JSON properties that Apple's Safari browser reads and applies when
+configuring a standalone Progressive Web Application (PWA). By
+understanding how Safari utilizes properties for display modes, icons,
+colors, and navigation scopes, developers can ensure their web
+applications behave like native apps across iOS, iPadOS, and macOS.</p>
+<h3 id="name-and-short_name"><code>name</code> and
+<code>short_name</code></h3>
+<p>Safari reads these properties to determine the text label displayed
+beneath the application icon on the iOS Home Screen, iPadOS Home Screen,
+or macOS Dock. Safari prioritizes <code>short_name</code> if it is
+present so the text does not truncate. If <code>short_name</code> is
+omitted, it falls back to <code>name</code>.</p>
+<h3 id="display"><code>display</code></h3>
+<p>This property dictates how much of the standard browser user
+interface is shown to the user. To configure a standalone web
+application, Safari looks for the <code>standalone</code> value, which
+hides the Safari address bar and bottom navigation toolbars. Safari also
+reads <code>fullscreen</code>, <code>minimal-ui</code>, and
+<code>browser</code>. However, on iOS and iPadOS,
+<code>fullscreen</code> falls back to <code>standalone</code> (keeping
+the system status bar visible), and <code>minimal-ui</code> falls back
+to standard <code>browser</code> behavior.</p>
+<h3 id="start_url"><code>start_url</code></h3>
+<p>Safari reads the <code>start_url</code> property to determine which
+specific URL to load when the user launches the application from their
+Home Screen or Dock. If this property is missing, Safari defaults to the
+URL of the page the user was viewing when they added the app to their
+device.</p>
+<h3 id="scope"><code>scope</code></h3>
+<p>The <code>scope</code> property defines the navigation boundary of
+the web application. Safari reads this to know which URLs belong to the
+app. If a user clicks a link that leads to a URL within the defined
+<code>scope</code>, the navigation stays inside the standalone window.
+If the user clicks a link outside the <code>scope</code>, Safari opens
+that link in an overlay browser view (SFSafariViewController) on
+iOS/iPadOS or in a standard Safari tab on macOS.</p>
+<h3 id="icons"><code>icons</code></h3>
+<p>Modern versions of Safari (iOS 15.4+ and macOS Sonoma+) read the
+<code>icons</code> array to set the application icon. Safari looks for
+the <code>src</code>, <code>sizes</code>, and <code>type</code>
+sub-properties to pick the highest-resolution image available. Note that
+if an HTML document includes the legacy
+<code>&lt;link rel="apple-touch-icon"&gt;</code> tag, Safari will
+prioritize the HTML tag over the manifest's <code>icons</code>
+property.</p>
+<h3 id="theme_color"><code>theme_color</code></h3>
+<p>Safari uses the <code>theme_color</code> property to style the native
+window frame surrounding the web content. In a standalone app on iOS and
+iPadOS, this color is applied to the background of the top system status
+bar. On macOS, Safari applies this color to the standalone window's
+title bar.</p>
+<h3 id="background_color"><code>background_color</code></h3>
+<p>Safari reads the <code>background_color</code> property to render a
+solid background color immediately when the user launches the standalone
+app. This color remains visible in the application window until the web
+app's own CSS stylesheets have loaded and rendered.</p>
+<h3 id="id"><code>id</code></h3>
+<p>Safari reads the <code>id</code> property to uniquely identify the
+standalone web app. This allows Safari and the underlying operating
+system to differentiate between multiple standalone web applications
+that might be hosted on the exact same origin/domain.</p>
+<h3 id="orientation"><code>orientation</code></h3>
+<p>Safari reads the <code>orientation</code> property (such as
+<code>portrait</code> or <code>landscape</code>) to lock the display
+orientation of the standalone application. This is primarily enforced on
+iOS, as iPadOS multitasking features and macOS window management allow
+users to resize windows freely, overriding this manifest property.</p>
+<h3 id="shortcuts"><code>shortcuts</code></h3>
+<p>On iOS and iPadOS, Safari reads the <code>shortcuts</code> array to
+generate quick actions. When a user long-presses the standalone web
+app's icon on the Home Screen, the operating system displays a context
+menu containing the links and titles defined in this property.</p></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/web-app-manifest-properties-supported-by-safari';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

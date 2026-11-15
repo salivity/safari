@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iOS 16 Expands Apple Pay to Third-Party Browsers on iPhone - safari</title>
+    <meta name="description" content="With the release of iOS 16, Apple ended the exclusivity of Apple Pay on the Safari web browser by extending support to third-party browsers like Chrome, Edge, and Firefox on the iPhone. This article explains how Apple updated its underlying WebKit engine">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/i-os-16-expands-apple-pay-to-third-party-browsers-on-i-phone">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="iOS 16 Expands Apple Pay to Third-Party Browsers on iPhone - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/i-os-16-expands-apple-pay-to-third-party-browsers-on-i-phone" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="With the release of iOS 16, Apple ended the exclusivity of Apple Pay on the Safari web browser by extending support to third-party browsers like Chrome, Edge, and Firefox on the iPhone. This article explains how Apple updated its underlying WebKit engine" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="ios-16-expands-apple-pay-to-third-party-browsers-on-iphone">iOS
+16 Expands Apple Pay to Third-Party Browsers on iPhone</h1>
+<p>With the release of iOS 16, Apple ended the exclusivity of Apple Pay
+on the Safari web browser by extending support to third-party browsers
+like Chrome, Edge, and Firefox on the iPhone. This article explains how
+Apple updated its underlying WebKit engine to unlock payment APIs for
+non-Safari browsers, the technical mechanics behind the expansion, the
+regulatory pressures that influenced the decision, and how the update
+streamlines the mobile checkout experience for users and merchants.</p>
+<h2 id="the-pre-ios-16-limitation">The Pre-iOS 16 Limitation</h2>
+<p>Before iOS 16, Apple Pay on the web was strictly limited to Safari.
+If an iPhone user set Google Chrome, Mozilla Firefox, or Microsoft Edge
+as their default browser, the "Buy with Apple Pay" button would not
+appear at online checkouts. Users had to either manually enter their
+credit card details into the third-party browser or copy the website URL
+and paste it into Safari to complete the transaction using Apple
+Pay.</p>
+<h2 id="unlocking-the-webkit-engine">Unlocking the WebKit Engine</h2>
+<p>The technical expansion of Apple Pay in iOS 16 was made possible
+through changes to WebKit, Apple’s proprietary browser engine. Due to
+Apple's App Store guidelines, all third-party web browsers on iOS are
+required to use WebKit as their core rendering engine rather than their
+own engines (such as Google’s Blink or Mozilla’s Gecko).</p>
+<p>Because third-party browsers were already built on top of WebKit
+using Apple's <code>WKWebView</code> framework, the infrastructure to
+support Apple Pay was already present. However, prior to iOS 16, Apple
+blocked non-Safari browsers from accessing the specific Apple Pay
+JavaScript APIs and the W3C Payment Request API necessary to trigger the
+payment sheet.</p>
+<p>In iOS 16, Apple removed this software restriction. By granting
+third-party <code>WKWebView</code> instances permission to communicate
+with the iPhone's Secure Element—the hardware chip where encrypted
+payment information is stored—Apple enabled rival browsers to process
+Apple Pay transactions securely.</p>
+<h2 id="how-it-works-for-users-and-merchants">How It Works for Users and
+Merchants</h2>
+<p>For iPhone users running iOS 16 or later, the checkout process in a
+third-party browser is now identical to the experience in Safari:</p>
+<ol type="1">
+<li>The user taps the Apple Pay button on a supported merchant's website
+within Chrome, Edge, Firefox, or any other updated browser.</li>
+<li>iOS 16 intercepts the payment request from the browser and brings up
+the native Apple Pay payment sheet.</li>
+<li>The user authenticates the transaction using Face ID, Touch ID, or
+their device passcode.</li>
+<li>The Secure Element generates a one-time payment token, and the
+browser sends it to the merchant to finalize the purchase without
+exposing the user's actual credit card numbers.</li>
+</ol>
+<p>For e-commerce merchants and web developers, this expansion required
+little to no extra coding. Websites that already utilized standard Apple
+Pay on the Web APIs automatically displayed the Apple Pay button in
+third-party browsers once the user updated to iOS 16 and the browser
+developer updated their app to support the new iOS 16 SDK.</p>
+<h2 id="the-catalyst-for-the-change">The Catalyst for the Change</h2>
+<p>Apple's decision to open up Apple Pay to competing browsers was
+largely driven by global antitrust scrutiny. Regulators in the European
+Union, the United States, and the United Kingdom had been investigating
+Apple for anti-competitive behavior, specifically regarding the
+restrictions placed on third-party browsers and the exclusivity of the
+iPhone's Near-Field Communication (NFC) chip and payment systems. By
+opening Apple Pay APIs to all WebKit-based browsers on iOS 16, Apple
+addressed a major complaint from both competing browser developers and
+international regulators regarding fair competition on the iOS
+platform.</p></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/i-os-16-expands-apple-pay-to-third-party-browsers-on-i-phone';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

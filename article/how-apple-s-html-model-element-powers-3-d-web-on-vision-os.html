@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Apple&#39;s HTML Model Element Powers 3D Web on visionOS - safari</title>
+    <meta name="description" content="This article explores how Apple’s proposed HTML &lt;model&gt; element enables web developers to seamlessly embed interactive 3D objects into Safari web pages on visionOS. By functioning similarly to standard media tags like &lt;video&gt; and &lt;img&gt;, the &lt;model&gt; elemen">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/how-apple-s-html-model-element-powers-3-d-web-on-vision-os">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Apple&#39;s HTML Model Element Powers 3D Web on visionOS - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/how-apple-s-html-model-element-powers-3-d-web-on-vision-os" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article explores how Apple’s proposed HTML &lt;model&gt; element enables web developers to seamlessly embed interactive 3D objects into Safari web pages on visionOS. By functioning similarly to standard media tags like &lt;video&gt; and &lt;img&gt;, the &lt;model&gt; elemen" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="how-apples-html-model-element-powers-3d-web-on-visionos">How
+Apple's HTML Model Element Powers 3D Web on visionOS</h1>
+<p>This article explores how Apple’s proposed HTML
+<code>&lt;model&gt;</code> element enables web developers to seamlessly
+embed interactive 3D objects into Safari web pages on visionOS. By
+functioning similarly to standard media tags like
+<code>&lt;video&gt;</code> and <code>&lt;img&gt;</code>, the
+<code>&lt;model&gt;</code> element simplifies 3D web development,
+offering built-in spatial rendering, user interaction, and augmented
+reality capabilities without requiring complex third-party JavaScript
+libraries.</p>
+<h2 id="native-3d-media-in-the-dom">Native 3D Media in the DOM</h2>
+<p>Traditionally, displaying 3D content on the web required heavy
+JavaScript frameworks like Three.js and complex WebGL programming.
+Apple’s <code>&lt;model&gt;</code> element bypasses this by introducing
+a native HTML tag designed specifically for 3D assets.</p>
+<p>Just as a browser inherently knows how to render a JPEG using an
+<code>&lt;img&gt;</code> tag, Safari on visionOS inherently knows how to
+render a 3D file—specifically in the USDZ format—using the
+<code>&lt;model&gt;</code> tag. Because the element is part of the
+standard Document Object Model (DOM), it can be styled with CSS,
+positioned alongside standard text, and manipulated with basic
+JavaScript.</p>
+<h2 id="simple-code-implementation">Simple Code Implementation</h2>
+<p>Embedding a 3D object requires minimal markup. Developers wrap a
+<code>&lt;source&gt;</code> tag inside the <code>&lt;model&gt;</code>
+element and provide fallback content for browsers that do not yet
+support the standard.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode html"><code class="sourceCode html"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">model</span><span class="ot"> interactive style</span><span class="op">=</span><span class="st">&quot;width: 400px; height: 400px;&quot;</span><span class="dt">&gt;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">source</span><span class="ot"> src</span><span class="op">=</span><span class="st">&quot;sneaker.usdz&quot;</span><span class="ot"> type</span><span class="op">=</span><span class="st">&quot;model/vnd.usdz+zip&quot;</span><span class="dt">&gt;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">p</span><span class="dt">&gt;</span>Your browser does not support the HTML model element.<span class="dt">&lt;/</span><span class="kw">p</span><span class="dt">&gt;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">model</span><span class="dt">&gt;</span></span></code></pre></div>
+<h2 id="stereoscopic-rendering-on-visionos">Stereoscopic Rendering on
+visionOS</h2>
+<p>When a webpage containing the <code>&lt;model&gt;</code> element is
+loaded in Safari on visionOS, the browser does not flatten the 3D object
+into a 2D image. Instead, it renders the object with true stereoscopic
+depth. The 3D model appears to have actual volume inside the flat
+webpage container, reacting dynamically as the user moves their
+head.</p>
+<p>Additionally, visionOS automatically applies system-level
+environmental lighting to the model. If the user is in a bright room,
+the 3D object inside the Safari window reflects that lighting
+accurately, making the asset feel physically present without the
+developer needing to program custom shaders or lighting rigs.</p>
+<h2 id="built-in-spatial-interactivity">Built-in Spatial
+Interactivity</h2>
+<p>Developers can allow users to manipulate the 3D object directly on
+the page simply by adding the <code>interactive</code> attribute to the
+<code>&lt;model&gt;</code> tag.</p>
+<p>In Safari on visionOS, this attribute unlocks native spatial
+gestures:</p>
+<ul>
+<li><strong>Rotation:</strong> Users can look at the model, pinch their
+fingers, and drag to rotate the object on its axis directly within the
+webpage's layout.</li>
+<li><strong>Scaling:</strong> Users can use a two-handed pinch gesture
+to zoom in and out of the model.</li>
+<li><strong>Spatial Extraction:</strong> Users can pinch, hold, and drag
+the 3D model completely out of the Safari browser window, dropping a
+full-scale version of the object into their physical room via Apple’s
+Quick Look system.</li>
+</ul>
+<h2 id="javascript-api-control">JavaScript API Control</h2>
+<p>Beyond basic embedding, the <code>&lt;model&gt;</code> element
+features a dedicated JavaScript API. This allows developers to build
+custom interfaces around the 3D object. Through JavaScript, a webpage
+can:</p>
+<ul>
+<li>Play, pause, and scrub through animations baked into the 3D
+file.</li>
+<li>Change the model's orientation or camera angle when a user scrolls
+down the page.</li>
+<li>Swap out textures or trigger specific animations when a user clicks
+standard HTML buttons next to the model.</li>
+</ul>
+<h2 id="privacy-first-architecture">Privacy-First Architecture</h2>
+<p>A major hurdle for 3D and spatial web development is user privacy, as
+rendering objects correctly in space usually requires access to device
+cameras and sensors. The <code>&lt;model&gt;</code> element solves this
+by offloading the rendering to the visionOS system.</p>
+<p>While visionOS uses the Apple Vision Pro's cameras and sensors to
+light the 3D model and track the user's eyes and hands for interaction,
+that spatial data is never exposed to the website itself. The browser
+simply tells the system where the <code>&lt;model&gt;</code> box is
+located on the page, and the operating system handles the rest. This
+allows interactive 3D objects to load instantly in Safari without
+interrupting the user with permission pop-ups.</p></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/how-apple-s-html-model-element-powers-3-d-web-on-vision-os';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

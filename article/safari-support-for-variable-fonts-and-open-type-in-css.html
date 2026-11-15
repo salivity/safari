@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Safari Support for Variable Fonts and OpenType in CSS - safari</title>
+    <meta name="description" content="This article provides a comprehensive overview of how Apple&#39;s Safari web browser supports Variable Fonts and OpenType font features through Cascading Style Sheets (CSS). It covers the required system milestones, the correct declaration of @font-face rules">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/safari-support-for-variable-fonts-and-open-type-in-css">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Safari Support for Variable Fonts and OpenType in CSS - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/safari-support-for-variable-fonts-and-open-type-in-css" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article provides a comprehensive overview of how Apple&#39;s Safari web browser supports Variable Fonts and OpenType font features through Cascading Style Sheets (CSS). It covers the required system milestones, the correct declaration of @font-face rules" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="safari-support-for-variable-fonts-and-opentype-in-css">Safari
+Support for Variable Fonts and OpenType in CSS</h1>
+<p>This article provides a comprehensive overview of how Apple's Safari
+web browser supports Variable Fonts and OpenType font features through
+Cascading Style Sheets (CSS). It covers the required system milestones,
+the correct declaration of <code>@font-face</code> rules, the
+implementation of high-level and low-level CSS properties for
+typographic control, and specific WebKit rendering behaviors that
+developers must manage to ensure optimal web typography.</p>
+<h3 id="system-and-browser-requirements">System and Browser
+Requirements</h3>
+<p>Safari relies on Apple’s underlying operating system text engine
+(CoreText) to render typography. While OpenType features have been
+supported in Safari for over a decade, support for Variable Fonts was
+introduced in Safari 11. Because Safari updates are tied to operating
+system updates, users must be on macOS High Sierra (10.13) or iOS 11 and
+later for Variable Fonts to render correctly.</p>
+<h3 id="loading-variable-fonts-with-font-face">Loading Variable Fonts
+with <code>@font-face</code></h3>
+<p>To use a variable font in Safari, you must declare it within a
+<code>@font-face</code> rule. Safari supports the
+<code>woff2-variations</code> format hint, though modern versions of
+Safari (Safari 15+) also understand the standard <code>woff2</code>
+format for variable fonts.</p>
+<p>Critically, Safari requires you to define the specific range for
+weights and widths inside the <code>@font-face</code> block. If you omit
+these ranges, Safari will clamp the values or apply faux-bolding.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode css"><code class="sourceCode css"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">@font-face</span> {</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">font-family</span><span class="ch">:</span> <span class="st">&#39;MyVariableFont&#39;</span><span class="op">;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">src</span><span class="ch">:</span> <span class="fu">url(</span><span class="st">&#39;font.woff2&#39;</span><span class="fu">)</span> <span class="fu">format(</span><span class="st">&#39;woff2-variations&#39;</span><span class="fu">)</span><span class="op">,</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>       <span class="fu">url(</span><span class="st">&#39;font.woff2&#39;</span><span class="fu">)</span> <span class="fu">format(</span><span class="st">&#39;woff2&#39;</span><span class="fu">)</span><span class="op">;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">font-weight</span><span class="ch">:</span> <span class="dv">100</span> <span class="dv">900</span><span class="op">;</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">font-stretch</span><span class="ch">:</span> <span class="dv">75</span><span class="dt">%</span> <span class="dv">125</span><span class="dt">%</span><span class="op">;</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="kw">font-style</span><span class="ch">:</span> <span class="dv">oblique</span> <span class="dv">0</span><span class="dt">deg</span> <span class="dv">20</span><span class="dt">deg</span><span class="op">;</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<h3 id="controlling-variable-font-axes">Controlling Variable Font
+Axes</h3>
+<p>Safari supports both registered (standard) axes and custom axes
+defined by the type designer. WebKit’s rendering engine prioritizes
+high-level CSS properties over low-level settings.</p>
+<p><strong>Registered Axes (High-Level Properties)</strong> Whenever
+possible, use standard CSS properties to control the five registered
+variable font axes in Safari:</p>
+<ul>
+<li><strong>Weight (<code>wght</code>):</strong> Controlled via
+<code>font-weight: 350;</code> (accepts any integer between 1 and
+1000).</li>
+<li><strong>Width (<code>wdth</code>):</strong> Controlled via
+<code>font-stretch: 115%;</code>.</li>
+<li><strong>Optical Size (<code>opsz</code>):</strong> Controlled via
+<code>font-optical-sizing: auto;</code>. Safari enables this by default
+for variable fonts that contain an optical size axis.</li>
+<li><strong>Italic (<code>ital</code>) and Slant
+(<code>slnt</code>):</strong> Controlled via
+<code>font-style: italic;</code> or
+<code>font-style: oblique 14deg;</code>.</li>
+</ul>
+<p><strong>Custom Axes (Low-Level Property)</strong> For custom axes
+(such as Grade <code>GRAD</code> or X-Height <code>XHGT</code>), you
+must use the <code>font-variation-settings</code> property. Custom axes
+are always written in czter-letter uppercase tags, while registered axes
+are lowercase.</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode css"><code class="sourceCode css"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">.custom-heading</span> {</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">font-family</span><span class="ch">:</span> <span class="st">&#39;MyVariableFont&#39;</span><span class="op">,</span> <span class="dv">sans-serif</span><span class="op">;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">font-weight</span><span class="ch">:</span> <span class="dv">650</span><span class="op">;</span> </span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">font-variation-settings</span><span class="ch">:</span> <span class="st">&#39;GRAD&#39;</span> <span class="dv">88</span><span class="op">,</span> <span class="st">&#39;XHGT&#39;</span> <span class="dv">500</span><span class="op">;</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<h3 id="implementing-opentype-font-features">Implementing OpenType Font
+Features</h3>
+<p>OpenType features—such as ligatures, small caps, swashes, and tabular
+numbers—are fully supported in Safari. Similar to variable fonts, Safari
+supports both high-level and low-level CSS properties to activate these
+features.</p>
+<p><strong>High-Level Properties (<code>font-variant-*</code>)</strong>
+Apple’s WebKit team strongly recommends using the
+<code>font-variant</code> sub-properties to trigger OpenType features.
+These properties cascade cleanly and do not overwrite one another.</p>
+<ul>
+<li><strong>Ligatures:</strong>
+<code>font-variant-ligatures: common-ligatures discretionary-ligatures;</code></li>
+<li><strong>Caps:</strong>
+<code>font-variant-caps: small-caps;</code></li>
+<li><strong>Numbers:</strong>
+<code>font-variant-numeric: oldstyle-nums tabular-nums slashed-zero;</code></li>
+<li><strong>East Asian Text:</strong>
+<code>font-variant-east-asian: jis78 full-width;</code></li>
+<li><strong>Alternates:</strong>
+<code>font-variant-alternates: stylistic(1);</code> (Supported fully in
+Safari 16.4+)</li>
+</ul>
+<p><strong>Low-Level Property
+(<code>font-feature-settings</code>)</strong> If an OpenType feature
+does not have a corresponding <code>font-variant</code> property (such
+as specific stylistic sets <code>ss01</code> through <code>ss20</code>
+in older Safari versions, or contextual alternates <code>calt</code>),
+you can use <code>font-feature-settings</code>.</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode css"><code class="sourceCode css"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">.tabular-data</span> {</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">/* Preferred method in Safari */</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">font-variant-numeric</span><span class="ch">:</span> <span class="dv">tabular-nums</span><span class="op">;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="co">/* Fallback or for specific stylistic sets */</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">font-feature-settings</span><span class="ch">:</span> <span class="st">&quot;tnum&quot;</span> <span class="dv">1</span><span class="op">,</span> <span class="st">&quot;ss01&quot;</span> <span class="dv">1</span><span class="op">,</span> <span class="st">&quot;kern&quot;</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p><em>Note: In Safari, <code>font-feature-settings</code> overrides
+<code>font-variant</code>. Additionally, because
+<code>font-feature-settings</code> resets all unlisted features to their
+default state, you must redeclare all desired four-letter OpenType tags
+whenever you update the property on a child element.</em></p>
+<h3 id="preventing-faux-styles-in-safari">Preventing Faux Styles in
+Safari</h3>
+<p>A common issue in Safari when using Variable Fonts and OpenType
+features is the browser's tendency to synthesize bold and italic styles
+(faux-bold and faux-italic) if it does not immediately recognize the
+font's capabilities. This ruins the design of variable fonts and can
+disable certain OpenType features.</p>
+<p>To prevent Safari from generating artificial styles, always include
+the <code>font-synthesis</code> property in your CSS:</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode css"><code class="sourceCode css"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>body {</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">font-family</span><span class="ch">:</span> <span class="st">&#39;MyVariableFont&#39;</span><span class="op">,</span> <span class="dv">sans-serif</span><span class="op">;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">font-synthesis</span><span class="ch">:</span> <span class="dv">none</span><span class="op">;</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>Setting <code>font-synthesis: none;</code> instructs Safari’s WebKit
+engine to rely strictly on the variable font axes and OpenType tables
+provided in the font file, ensuring accurate typographic rendering.</p></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/safari-support-for-variable-fonts-and-open-type-in-css';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

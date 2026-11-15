@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Why Safari Still Uses the -webkit- CSS Vendor Prefix - safari</title>
+    <meta name="description" content="This article explores the reasons why the Safari web browser continues to support and sometimes require the -webkit- vendor prefix for certain CSS properties, such as -webkit-backdrop-filter. It covers the history of browser rendering engines, the timelin">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/why-safari-still-uses-the-webkit-css-vendor-prefix">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Why Safari Still Uses the -webkit- CSS Vendor Prefix - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/why-safari-still-uses-the-webkit-css-vendor-prefix" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article explores the reasons why the Safari web browser continues to support and sometimes require the -webkit- vendor prefix for certain CSS properties, such as -webkit-backdrop-filter. It covers the history of browser rendering engines, the timelin" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="why-safari-still-uses-the--webkit--css-vendor-prefix">Why Safari
+Still Uses the -webkit- CSS Vendor Prefix</h1>
+<p>This article explores the reasons why the Safari web browser
+continues to support and sometimes require the <code>-webkit-</code>
+vendor prefix for certain CSS properties, such as
+<code>-webkit-backdrop-filter</code>. It covers the history of browser
+rendering engines, the timeline of CSS standardization, the necessity of
+backward compatibility for the open web, and how Apple’s operating
+system update model keeps legacy prefixes relevant for modern web
+developers.</p>
+<h2 id="the-purpose-of-vendor-prefixes">The Purpose of Vendor
+Prefixes</h2>
+<p>Browser makers originally introduced vendor prefixes to allow
+developers to test and use experimental CSS features before those
+features were officially standardized by the World Wide Web Consortium
+(W3C). Because Safari is powered by the WebKit rendering engine, Apple
+used the <code>-webkit-</code> prefix.</p>
+<p>When a new CSS concept was invented, browser engineers could not
+guarantee how the final, official specification would behave. By placing
+a feature behind <code>-webkit-</code>, Safari allowed developers to use
+cutting-edge styles without risking future conflicts if the W3C decided
+to change how the standard property worked.</p>
+<h2 id="delayed-w3c-standardization">Delayed W3C Standardization</h2>
+<p>Many CSS features were invented directly by Apple engineers and
+implemented in Safari long before other browsers adopted them. A prime
+example is <code>backdrop-filter</code>, which Apple introduced in 2015
+for iOS 9 and OS X El Capitan using the
+<code>-webkit-backdrop-filter</code> syntax.</p>
+<p>Because the W3C standardization process is slow and requires
+consensus from multiple browser vendors, it can take years for an
+experimental feature to become an official standard. During the years a
+property remains in limbo, Safari continues to require the
+<code>-webkit-</code> prefix because an finalized, unprefixed standard
+does not yet exist or hasn't been fully agreed upon. In the case of
+<code>backdrop-filter</code>, Safari did not drop the prefix requirement
+until version 18, nearly a decade after the feature was first
+introduced.</p>
+<h2 id="preserving-backward-compatibility">Preserving Backward
+Compatibility</h2>
+<p>Even after a CSS property is officially standardized and Safari adds
+support for the unprefixed version, the browser cannot simply delete the
+<code>-webkit-</code> version from its engine. Doing so would break the
+visual layout of millions of older, unmaintained websites that were
+coded when the prefix was mandatory.</p>
+<p>A core principle of web browser development is "don't break the web."
+To ensure that legacy websites continue to render correctly for users,
+WebKit maintains aliases in its code. This means the engine treats the
+old <code>-webkit-</code> property and the new standard property as the
+exact same command.</p>
+<h2 id="safari-updates-are-tied-to-the-os">Safari Updates Are Tied to
+the OS</h2>
+<p>Developers often have to keep writing <code>-webkit-</code> prefixes
+in their stylesheets because of how Apple distributes Safari updates.
+Unlike Chrome or Firefox, which update automatically in the background
+regardless of the user's operating system, Safari updates are bundled
+directly with macOS and iOS system updates.</p>
+<p>When an iPhone or Mac reaches the end of its supported lifecycle, it
+can no longer receive OS updates, which means it can no longer receive
+Safari updates. Users on older hardware are permanently locked into
+legacy versions of Safari. Because those legacy versions were released
+before certain CSS properties were unprefixed, developers must still
+include properties like <code>-webkit-backdrop-filter</code> alongside
+the standard <code>backdrop-filter</code> to ensure the visual effect
+works on older Apple devices.</p>
+<h2 id="non-standard-webkit-features">Non-Standard WebKit Features</h2>
+<p>Finally, some <code>-webkit-</code> properties still exist because
+they were never meant to be standards, or the W3C outright rejected
+them. Properties like <code>-webkit-line-clamp</code> or
+<code>-webkit-text-stroke</code> were created by Apple to solve specific
+design problems. Because developers heavily adopted them, they became de
+facto standards. Safari—and even competing browsers like Chrome and
+Firefox—must continue to support these specific <code>-webkit-</code>
+prefixes indefinitely, as no unprefixed equivalents exist to replace
+them.</p></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/why-safari-still-uses-the-webkit-css-vendor-prefix';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

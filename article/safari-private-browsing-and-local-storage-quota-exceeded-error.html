@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Safari Private Browsing and LocalStorage QuotaExceededError - safari</title>
+    <meta name="description" content="This article provides an overview of how the Safari web browser manages LocalStorage and triggers the QuotaExceededError exception during Private Browsing mode. It covers the significant shift from Safari&#39;s legacy zero-byte quota restriction to its modern">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/safari-private-browsing-and-local-storage-quota-exceeded-error">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Safari Private Browsing and LocalStorage QuotaExceededError - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/safari-private-browsing-and-local-storage-quota-exceeded-error" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article provides an overview of how the Safari web browser manages LocalStorage and triggers the QuotaExceededError exception during Private Browsing mode. It covers the significant shift from Safari&#39;s legacy zero-byte quota restriction to its modern" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1
+id="safari-private-browsing-and-localstorage-quotaexceedederror">Safari
+Private Browsing and LocalStorage QuotaExceededError</h1>
+<p>This article provides an overview of how the Safari web browser
+manages <code>LocalStorage</code> and triggers the
+<code>QuotaExceededError</code> exception during Private Browsing mode.
+It covers the significant shift from Safari's legacy zero-byte quota
+restriction to its modern in-memory storage allocation, explains why the
+exception occurs, and demonstrates how developers can properly catch and
+handle this error to prevent web applications from crashing.</p>
+<h3
+id="legacy-behavior-the-zero-byte-quota-safari-10-and-earlier">Legacy
+Behavior: The Zero-Byte Quota (Safari 10 and Earlier)</h3>
+<p>Historically, Safari handled <code>LocalStorage</code> in Private
+Browsing mode in a way that frequently broke web applications. Instead
+of disabling the <code>window.localStorage</code> object entirely,
+Safari kept the object available and defined, meaning standard
+feature-detection checks like <code>if (window.localStorage)</code>
+would return <code>true</code>.</p>
+<p>However, Safari assigned a storage quota of 0 bytes to
+<code>LocalStorage</code> during Private Browsing sessions. Reading from
+storage using <code>getItem()</code> functioned without error (simply
+returning <code>null</code>), but any attempt to write data using
+<code>setItem()</code> immediately exceeded the 0-byte limit.
+Consequently, Safari threw a <code>DOMException</code> with the name
+<code>QuotaExceededError</code> (error code 22). If a web application
+did not explicitly wrap write operations in a <code>try...catch</code>
+block, this unhandled exception would halt JavaScript execution and
+break the application.</p>
+<h3
+id="modern-behavior-ephemeral-in-memory-storage-safari-11-and-later">Modern
+Behavior: Ephemeral In-Memory Storage (Safari 11 and Later)</h3>
+<p>Starting with iOS 11 and macOS High Sierra (Safari 11), Apple changed
+how Private Browsing handles <code>LocalStorage</code> to align better
+with other modern browsers.</p>
+<p>In current versions of Safari, Private Browsing creates a temporary,
+in-memory data store for <code>LocalStorage</code>. Web applications can
+read and write data normally during the private session, up to the
+standard 5MB per-origin limit. In this modern environment, Safari only
+throws a <code>QuotaExceededError</code> if the web application
+genuinely attempts to store more than the 5MB limit allows. Once the
+user closes the Private Browsing tab or window, Safari immediately
+purges this in-memory storage.</p>
+<h3 id="recent-privacy-protections-partitioned-storage">Recent Privacy
+Protections: Partitioned Storage</h3>
+<p>In addition to ephemeral storage, modern Safari utilizes Intelligent
+Tracking Prevention (ITP), which partitions <code>LocalStorage</code> in
+both standard and Private Browsing modes. If a third-party iframe
+attempts to write to <code>LocalStorage</code>, that storage is isolated
+to the specific top-level site the user is visiting, and its quota is
+managed separately. Exceeding the limit within that specific partition
+will also trigger a <code>QuotaExceededError</code>.</p>
+<h3 id="how-to-handle-the-exception-in-code">How to Handle the Exception
+in Code</h3>
+<p>Because users may be on older devices, or may genuinely run out of
+the allotted 5MB of storage space in modern Safari, relying on a simple
+existence check for <code>window.localStorage</code> is insufficient.
+Developers must wrap <code>setItem()</code> calls in a
+<code>try...catch</code> block to handle the
+<code>QuotaExceededError</code> gracefully.</p>
+<p>Here is the standard pattern for safely writing to
+<code>LocalStorage</code> in Safari:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">safeSetLocalStorage</span>(key<span class="op">,</span> value) {</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">try</span> {</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">window</span><span class="op">.</span><span class="at">localStorage</span><span class="op">.</span><span class="fu">setItem</span>(key<span class="op">,</span> value)<span class="op">;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="kw">true</span><span class="op">;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">catch</span> (error) {</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>      error <span class="kw">instanceof</span> <span class="bu">DOMException</span> <span class="op">&amp;&amp;</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>      (error<span class="op">.</span><span class="at">code</span> <span class="op">===</span> <span class="dv">22</span> <span class="op">||</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>        error<span class="op">.</span><span class="at">name</span> <span class="op">===</span> <span class="st">&quot;QuotaExceededError&quot;</span> <span class="op">||</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>        error<span class="op">.</span><span class="at">name</span> <span class="op">===</span> <span class="st">&quot;NS_ERROR_DOM_QUOTA_REACHED&quot;</span>)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    ) {</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>      <span class="co">// Handle the QuotaExceededError (e.g., fallback to in-memory storage)</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>      <span class="bu">console</span><span class="op">.</span><span class="fu">warn</span>(<span class="st">&quot;LocalStorage quota exceeded or disabled in Private Mode.&quot;</span>)<span class="op">;</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>      <span class="cf">return</span> <span class="kw">false</span><span class="op">;</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Rethrow if it is a different, unexpected error</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">throw</span> error<span class="op">;</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<h3 id="implementing-an-in-memory-fallback">Implementing an In-Memory
+Fallback</h3>
+<p>When Safari throws a <code>QuotaExceededError</code>, the most
+effective mitigation strategy is to fall back to a temporary JavaScript
+object. This mimics the behavior of modern Private Browsing by holding
+data in the browser's RAM until the page is refreshed or closed.</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> memoryStorage <span class="op">=</span> {}<span class="op">;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setStorageData</span>(key<span class="op">,</span> value) {</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> success <span class="op">=</span> <span class="fu">safeSetLocalStorage</span>(key<span class="op">,</span> value)<span class="op">;</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="op">!</span>success) {</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    memoryStorage[key] <span class="op">=</span> <span class="bu">String</span>(value)<span class="op">;</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">getStorageData</span>(key) {</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> value <span class="op">=</span> <span class="bu">window</span><span class="op">.</span><span class="at">localStorage</span><span class="op">.</span><span class="fu">getItem</span>(key)<span class="op">;</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (value <span class="op">!==</span> <span class="kw">null</span>) {</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> value<span class="op">;</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> memoryStorage[key] <span class="op">||</span> <span class="kw">null</span><span class="op">;</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>By intercepting the <code>QuotaExceededError</code> and redirecting
+data to an in-memory object, web applications can ensure uninterrupted
+functionality regardless of the Safari version or the user's browsing
+mode.</p></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/safari-private-browsing-and-local-storage-quota-exceeded-error';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

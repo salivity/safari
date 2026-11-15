@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Safari Uses HTTP/3 and QUIC to Reduce Cellular Latency - safari</title>
+    <meta name="description" content="This article provides an overview of how the Safari web browser utilizes the HTTP/3 and QUIC protocols to significantly reduce connection latency on unstable, high-packet-loss cellular networks. By shifting away from traditional TCP connections in favor o">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/how-safari-uses-http-3-and-quic-to-reduce-cellular-latency">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Safari Uses HTTP/3 and QUIC to Reduce Cellular Latency - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/how-safari-uses-http-3-and-quic-to-reduce-cellular-latency" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article provides an overview of how the Safari web browser utilizes the HTTP/3 and QUIC protocols to significantly reduce connection latency on unstable, high-packet-loss cellular networks. By shifting away from traditional TCP connections in favor o" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="how-safari-uses-http3-and-quic-to-reduce-cellular-latency">How
+Safari Uses HTTP/3 and QUIC to Reduce Cellular Latency</h1>
+<p>This article provides an overview of how the Safari web browser
+utilizes the HTTP/3 and QUIC protocols to significantly reduce
+connection latency on unstable, high-packet-loss cellular networks. By
+shifting away from traditional TCP connections in favor of a modern
+UDP-based transport layer, Safari eliminates head-of-line blocking,
+shortens cryptographic handshakes, and enables seamless network
+switching. These advancements directly translate to faster page loads
+and a more resilient browsing experience when cellular signals are
+weak.</p>
+<h3 id="the-shift-from-tcp-to-udp">The Shift from TCP to UDP</h3>
+<p>To understand how Safari reduces latency, it is necessary to look at
+the underlying transport protocols. Older web standards, such as
+HTTP/1.1 and HTTP/2, rely on the Transmission Control Protocol (TCP).
+TCP is designed for reliability and strict ordering, requiring constant
+back-and-forth verification between the browser and the server. On a
+cellular network with high packet loss, this strictness creates severe
+bottlenecks.</p>
+<p>HTTP/3 abandons TCP entirely. Instead, it runs on QUIC (Quick UDP
+Internet Connections), a transport layer protocol built on top of the
+User Datagram Protocol (UDP). By default, UDP "fires and forgets" data
+packets without waiting for confirmation. QUIC takes the raw speed of
+UDP and builds its own lighter, faster reliability and security
+mechanisms directly into the protocol.</p>
+<h3 id="eliminating-head-of-line-blocking">Eliminating Head-of-Line
+Blocking</h3>
+<p>The primary cause of latency on high-packet-loss cellular networks is
+a phenomenon known as Head-of-Line (HoL) blocking.</p>
+<p>When loading a webpage, Safari requests multiple files
+simultaneously—such as HTML, CSS, JavaScript, and images. Under HTTP/2,
+these files are sent as multiple streams over a single TCP connection.
+However, TCP views all these streams as one single sequence of bytes. If
+a single packet of data is lost due to a poor cellular signal, TCP halts
+the entire connection. None of the already-received data can be
+processed by Safari until that one missing packet is retransmitted and
+received.</p>
+<p>QUIC solves this by managing streams independently at the transport
+layer. When Safari uses HTTP/3 over QUIC, each file is assigned its own
+distinct stream. If a packet containing an image is lost on a spotty
+cellular connection, QUIC only pauses the stream for that specific
+image. The HTML, CSS, and JavaScript streams continue to load and render
+on the screen without waiting.</p>
+<h3 id="faster-handshakes-with-0-rtt">Faster Handshakes with 0-RTT</h3>
+<p>Establishing a secure connection over a cellular network inherently
+involves high latency because signals must travel between the mobile
+device, cell towers, and the target server.</p>
+<p>With TCP, the browser must first complete a three-way handshake to
+establish the connection, followed by a separate TLS handshake to secure
+and encrypt it. This requires multiple round-trip times (RTT) before
+Safari can even ask for the webpage data. If a packet drops during this
+setup phase, the delay multiplies.</p>
+<p>QUIC combines the transport and cryptographic (TLS 1.3) handshakes
+into a single step.</p>
+<ul>
+<li><strong>1-RTT (First Visit):</strong> When connecting to a new
+server, Safari establishes a secure QUIC connection in just one round
+trip.</li>
+<li><strong>0-RTT (Repeat Visits):</strong> If a user visits a website
+they have connected to previously, Safari can use Zero Round-Trip Time
+(0-RTT) resumption. The browser sends the actual webpage request in the
+very first packet, along with the encryption keys, eliminating handshake
+latency entirely.</li>
+</ul>
+<h3 id="seamless-connection-migration">Seamless Connection
+Migration</h3>
+<p>Mobile users are constantly in motion, which causes their devices to
+switch between different cell towers or transition from Wi-Fi to
+cellular data.</p>
+<p>TCP connections are defined by a four-part identifier: the source IP,
+source port, destination IP, and destination port. When a user's
+cellular network shifts and their device is assigned a new IP address,
+the existing TCP connection breaks. Safari is forced to tear down the
+connection and start a new handshake from scratch, causing a massive
+latency spike.</p>
+<p>QUIC bypasses this issue using "Connection IDs." When Safari
+initiates an HTTP/3 session, a unique Connection ID is generated that
+remains independent of the user's IP address or network interface. If
+the user loses Wi-Fi and drops onto a lossy 4G network, Safari simply
+continues sending packets with the same Connection ID. The server
+recognizes the ID and continues the session seamlessly, requiring no
+reconnection or re-authentication.</p>
+<h3 id="enhanced-packet-loss-recovery">Enhanced Packet Loss
+Recovery</h3>
+<p>Cellular networks experience erratic fluctuations in bandwidth and
+signal quality. In TCP, when a packet is lost and then retransmitted,
+the protocol struggles to distinguish whether an acknowledgment (ACK)
+from the server is for the original packet or the retransmitted one.
+This "retransmission ambiguity" leads to inaccurate latency calculations
+and inefficient data throttling.</p>
+<p>Safari’s QUIC implementation assigns a new, unique packet number to
+every single transmission, even if it is carrying retransmitted data.
+This gives the browser precise measurements of the cellular network's
+current round-trip time. Furthermore, QUIC supports many more ACK ranges
+than TCP, allowing Safari to quickly inform the server exactly which
+packets survived a burst of cellular interference and which ones need to
+be resent.</p></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/how-safari-uses-http-3-and-quic-to-reduce-cellular-latency';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

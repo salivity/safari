@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Safari Implements CSS Grid and Subgrid for Web Layouts - safari</title>
+    <meta name="description" content="This article provides a technical breakdown of how the Safari web browser implements CSS Grid and CSS Subgrid to render complex two-dimensional webpage layouts. It examines the underlying mechanics of Safari&#39;s WebKit rendering engine, detailing how the br">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/how-safari-implements-css-grid-and-subgrid-for-web-layouts">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Safari Implements CSS Grid and Subgrid for Web Layouts - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/how-safari-implements-css-grid-and-subgrid-for-web-layouts" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article provides a technical breakdown of how the Safari web browser implements CSS Grid and CSS Subgrid to render complex two-dimensional webpage layouts. It examines the underlying mechanics of Safari&#39;s WebKit rendering engine, detailing how the br" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="how-safari-implements-css-grid-and-subgrid-for-web-layouts">How
+Safari Implements CSS Grid and Subgrid for Web Layouts</h1>
+<p>This article provides a technical breakdown of how the Safari web
+browser implements CSS Grid and CSS Subgrid to render complex
+two-dimensional webpage layouts. It examines the underlying mechanics of
+Safari's WebKit rendering engine, detailing how the browser parses grid
+properties, executes the track sizing algorithm, and manages layout
+calculations. Additionally, it explains how Safari resolves nested
+layout dependencies through CSS Subgrid and optimizes rendering
+performance for modern web applications.</p>
+<h3 id="the-webkit-rendering-engine-and-rendergrid">The WebKit Rendering
+Engine and <code>RenderGrid</code></h3>
+<p>Safari relies on the open-source WebKit layout engine to convert HTML
+and CSS into pixels on the screen. When Safari encounters an element
+with <code>display: grid</code> or <code>display: inline-grid</code>,
+WebKit instantiates a specific C++ class in its render tree called
+<code>RenderGrid</code>.</p>
+<p>The <code>RenderGrid</code> object is responsible for managing the
+two-dimensional coordinate system. Unlike traditional block or inline
+layouts that process elements sequentially along a single axis,
+<code>RenderGrid</code> evaluates both rows and columns simultaneously.
+It achieves this by dividing the layout process into distinct phases:
+item placement, track sizing, and alignment.</p>
+<h3 id="step-1-grid-item-placement">Step 1: Grid Item Placement</h3>
+<p>Before Safari can calculate the size of the grid, it must know where
+every child element (grid item) belongs. WebKit constructs an internal
+representation of the grid called the Grid Matrix.</p>
+<ol type="1">
+<li><strong>Explicit Placement:</strong> Safari first places items that
+have defined coordinates (using properties like
+<code>grid-column-start</code> or <code>grid-row</code>).</li>
+<li><strong>Implicit Placement:</strong> For items without explicit
+coordinates, Safari runs the "grid auto-placement algorithm." WebKit
+iterates through the unoccupied cells in the Grid Matrix, placing items
+according to the <code>grid-auto-flow</code> property (either row by
+row, column by column, or filling in gaps using the <code>dense</code>
+keyword). If there are not enough defined tracks to hold the items,
+WebKit dynamically generates implicit tracks to accommodate them.</li>
+</ol>
+<h3 id="step-2-the-track-sizing-algorithm">Step 2: The Track Sizing
+Algorithm</h3>
+<p>Once all items are mapped to the Grid Matrix, Safari executes the CSS
+Grid Track Sizing Algorithm to determine the exact pixel dimensions of
+every row and column. WebKit processes tracks in the following
+order:</p>
+<ul>
+<li><strong>Fixed Tracks:</strong> Columns and rows defined with
+absolute units (like pixels) or percentages that can be immediately
+resolved against the grid container’s size are calculated first.</li>
+<li><strong>Intrinsic Tracks:</strong> Tracks using keywords like
+<code>min-content</code>, <code>max-content</code>, or <code>auto</code>
+require Safari to measure the actual content inside the grid items.
+WebKit queries the child elements for their minimum and maximum
+intrinsic sizes and expands the tracks accordingly.</li>
+<li><strong>Flexible Tracks (<code>fr</code>):</strong> Finally, Safari
+calculates tracks using the fractional unit (<code>fr</code>). WebKit
+takes the remaining available space in the grid container—after
+subtracting fixed tracks, intrinsic tracks, and grid gaps—and
+distributes it proportionally among the flexible tracks.</li>
+</ul>
+<p>To handle two-dimensional dependencies (where the width of a column
+might affect the height of text in a row), WebKit executes a multi-pass
+layout cycle. It calculates column widths first, constrains the grid
+items to those widths to determine how content wraps, and then
+calculates the resulting row heights.</p>
+<h3 id="implementing-css-subgrid">Implementing CSS Subgrid</h3>
+<p>Introduced in Safari 16, CSS Subgrid allows a nested grid item to
+adopt the tracks of its parent grid container. Without Subgrid, nested
+grids operate as entirely independent layout contexts, making it
+impossible for grandchild elements to align with the main parent grid
+based on content size.</p>
+<p>When Safari encounters <code>grid-template-columns: subgrid</code> or
+<code>grid-template-rows: subgrid</code> on a child
+<code>RenderGrid</code> object, it alters the standard layout boundary
+rules:</p>
+<ol type="1">
+<li><strong>Shared Sizing Context:</strong> The subgrid does not run its
+own independent track sizing algorithm for the subgridded dimension.
+Instead, it binds its tracks directly to the parent
+<code>RenderGrid</code>’s tracks that it spans across.</li>
+<li><strong>Hoisting Grandchild Metrics:</strong> During the intrinsic
+sizing phase, WebKit "hoists" the sizing requirements of the subgrid's
+children up into the parent grid's calculation. The parent grid treats
+the subgrid's items as if they were its own direct children for the
+purpose of calculating <code>min-content</code>,
+<code>max-content</code>, and <code>auto</code> track sizes.</li>
+<li><strong>Accounting for Box Model Offsets:</strong> A subgrid can
+have its own margins, borders, and padding, as well as its own custom
+<code>gap</code> sizes. Safari’s engine calculates the difference
+between the parent's gap and the subgrid's gap, alongside the subgrid's
+box-model edges. It then subtracts these values from the intrinsic space
+contributed by the subgrid's edge items, ensuring the nested items align
+perfectly with the outer tracks without overflowing.</li>
+</ol>
+<h3 id="layout-optimization-and-caching">Layout Optimization and
+Caching</h3>
+<p>Calculating two-dimensional layouts—especially with deeply nested
+subgrids—is computationally expensive. To maintain 60-frames-per-second
+(or 120fps on ProMotion displays) scrolling and animation performance,
+Safari employs aggressive caching strategies within WebKit:</p>
+<ul>
+<li><strong>Intrinsic Size Caching:</strong> Measuring text and images
+is the slowest part of grid layout. Safari caches the
+<code>min-content</code> and <code>max-content</code> sizes of grid
+items. If the viewport resizes, Safari re-runs the track sizing math
+using the cached content metrics rather than re-measuring the DOM nodes,
+provided the content itself hasn't changed.</li>
+<li><strong>Dirty-Bit Tracking:</strong> WebKit uses a system of "dirty
+bits" in the render tree. If a single grid item changes its content,
+Safari marks only that specific node and its immediate track
+dependencies as "dirty," preventing a full recalculation of the entire
+webpage layout.</li>
+</ul>
+<h3 id="developer-tooling-integration">Developer Tooling
+Integration</h3>
+<p>To help developers visualize this implementation, Safari includes a
+dedicated Grid Overlay tool within the Web Inspector. This tool hooks
+directly into the <code>RenderGrid</code> C++ objects, extracting the
+final computed values of the Grid Matrix. It renders visual lines over
+the webpage showing explicit tracks, implicit tracks, grid gaps, and
+extended subgrid lines, reflecting the exact mathematical boundaries
+WebKit used to paint the layout.</p></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/how-safari-implements-css-grid-and-subgrid-for-web-layouts';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

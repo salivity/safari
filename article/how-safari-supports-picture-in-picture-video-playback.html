@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Safari Supports Picture-in-Picture Video Playback - safari</title>
+    <meta name="description" content="This article provides a comprehensive overview of how the Safari web browser enables Picture-in-Picture (PiP) video playback across macOS, iOS, and iPadOS. It covers the underlying web technologies Safari uses to separate video streams from web pages, how">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/how-safari-supports-picture-in-picture-video-playback">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Safari Supports Picture-in-Picture Video Playback - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/how-safari-supports-picture-in-picture-video-playback" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article provides a comprehensive overview of how the Safari web browser enables Picture-in-Picture (PiP) video playback across macOS, iOS, and iPadOS. It covers the underlying web technologies Safari uses to separate video streams from web pages, how" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="how-safari-supports-picture-in-picture-video-playback">How
+Safari Supports Picture-in-Picture Video Playback</h1>
+<p>This article provides a comprehensive overview of how the Safari web
+browser enables Picture-in-Picture (PiP) video playback across macOS,
+iOS, and iPadOS. It covers the underlying web technologies Safari uses
+to separate video streams from web pages, how the browser communicates
+with the operating system to create a floating window, and the various
+built-in controls available for users to trigger and manage PiP mode
+over other applications.</p>
+<h2 id="the-underlying-technology-html5-and-webkit-apis">The Underlying
+Technology: HTML5 and WebKit APIs</h2>
+<p>Safari supports Picture-in-Picture by leveraging standard HTML5 video
+elements combined with specific programming interfaces built into
+WebKit, Apple’s browser engine.</p>
+<p>When a website plays a video using the HTML5
+<code>&lt;video&gt;</code> tag, Safari identifies the media stream.
+Safari supports both the standard W3C Picture-in-Picture API and its own
+legacy <code>WebKitPresentationMode</code> API. These interfaces allow
+web developers—and the browser itself—to toggle the video's presentation
+state from "inline" (embedded on the page) or "fullscreen" to
+"picture-in-picture."</p>
+<h2 id="operating-system-hand-off">Operating System Hand-off</h2>
+<p>Once Picture-in-Picture is triggered, Safari does not actually render
+the floating window itself. Instead, it hands the decoded video stream
+directly to the host operating system (macOS, iOS, or iPadOS).</p>
+<p>This system-level integration is how the video stays visible over
+other applications, even if you minimize Safari or switch to a different
+workspace. Because the operating system manages the floating window, it
+utilizes hardware-accelerated video decoding, which ensures smooth
+playback and minimizes battery drain. Meanwhile, Safari maintains a
+placeholder on the original web page to indicate the video is playing
+elsewhere and keeps the audio-video synchronization intact.</p>
+<h2 id="how-safari-lets-users-trigger-pip">How Safari Lets Users Trigger
+PiP</h2>
+<p>Safari provides several built-in methods for users to activate
+Picture-in-Picture, ensuring the feature works even if a website
+developer has not explicitly coded a PiP button into their custom video
+player.</p>
+<h3 id="1-standard-player-controls">1. Standard Player Controls</h3>
+<p>When viewing a video that uses Apple's native HTML5 media controls,
+Safari automatically displays a dedicated Picture-in-Picture icon (two
+overlapping rectangles with an arrow). Clicking or tapping this icon
+immediately detaches the video into a floating window.</p>
+<h3 id="2-the-address-bar-audio-icon-macos">2. The Address Bar Audio
+Icon (macOS)</h3>
+<p>On a Mac, when a video is playing in a Safari tab, a small speaker
+icon appears in the address bar (Smart Search field) or on the tab
+itself. Users can right-click (or Control-click) this audio icon and
+select <strong>Enter Picture in Picture</strong> from the drop-down
+menu. This forces the video into PiP mode without needing to interact
+with the video player directly.</p>
+<h3 id="3-the-double-right-click-method-macos">3. The Double Right-Click
+Method (macOS)</h3>
+<p>Some websites, such as YouTube, use custom video overlays that hide
+Safari’s native controls. When a user right-clicks a video on these
+sites, the website's custom menu appears. Safari bypasses this by
+allowing users to right-click a second time to reveal the native macOS
+context menu, which includes the <strong>Enter Picture in
+Picture</strong> option.</p>
+<h3 id="4-automatic-activation-ios-and-ipados">4. Automatic Activation
+(iOS and iPadOS)</h3>
+<p>On iPhone and iPad, Safari links PiP directly to system gestures. If
+a user is watching a video in fullscreen mode within Safari and swipes
+up to go to the Home Screen (or presses the Home button on older
+devices), Safari automatically transitions the fullscreen video into a
+floating PiP window.</p>
+<h2 id="managing-the-floating-window">Managing the Floating Window</h2>
+<p>Once Safari hands the video off to the operating system, the floating
+window operates under strict rules to prevent it from blocking the
+user's workflow:</p>
+<ul>
+<li><strong>Corner Snapping:</strong> The window cannot be placed
+arbitrarily in the center of the screen; it automatically snaps to one
+of the four corners of the display. (On macOS, holding the Command key
+while dragging overrides this, allowing free placement).</li>
+<li><strong>Resizing:</strong> Users can drag the corners of the window
+on a Mac, or pinch-to-zoom on an iPhone or iPad, to make the video
+larger or smaller.</li>
+<li><strong>Stowing:</strong> Users can drag the video off the side of
+the screen. The video will tuck itself away, leaving a small tab
+visible, while the audio continues to play in the background.</li>
+<li><strong>Playback Controls:</strong> The floating window retains
+basic controls—play/pause, skip forward/backward 15 seconds (on mobile),
+a close button, and a button to return the video back to its original
+Safari tab.</li>
+</ul></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/how-safari-supports-picture-in-picture-video-playback';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

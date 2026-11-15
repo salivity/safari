@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Safari declarativeNetRequest Rule Priority Explained - safari</title>
+    <meta name="description" content="This article provides a complete overview of how the Safari web browser resolves conflicts when multiple extensions use the declarativeNetRequest API to intercept the same network request. By understanding how WebKit evaluates action types, rule prioritie">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/safari-declarative-net-request-rule-priority-explained">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Safari declarativeNetRequest Rule Priority Explained - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/safari-declarative-net-request-rule-priority-explained" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article provides a complete overview of how the Safari web browser resolves conflicts when multiple extensions use the declarativeNetRequest API to intercept the same network request. By understanding how WebKit evaluates action types, rule prioritie" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="safari-declarativenetrequest-rule-priority-explained">Safari
+declarativeNetRequest Rule Priority Explained</h1>
+<p>This article provides a complete overview of how the Safari web
+browser resolves conflicts when multiple extensions use the
+<code>declarativeNetRequest</code> API to intercept the same network
+request. By understanding how WebKit evaluates action types, rule
+priorities, and extension states, developers and users can predict
+whether a network request will ultimately be blocked, redirected, or
+modified.</p>
+<h2 id="1-action-type-precedence-across-extensions">1. Action Type
+Precedence Across Extensions</h2>
+<p>When multiple extensions target the same network request, Safari
+first evaluates the rules based on the <strong>type of action</strong>
+being performed. Safari translates <code>declarativeNetRequest</code>
+rules into native WebKit content-blocking rules, which strictly enforce
+the following global hierarchy across all active extensions:</p>
+<ol type="1">
+<li><strong>Block (<code>block</code>):</strong> Blocking rules have the
+highest global priority. If any enabled extension instructs Safari to
+block a request, the request is terminated immediately. No other
+extension can override this block.</li>
+<li><strong>Redirect and Upgrade (<code>redirect</code>,
+<code>upgradeScheme</code>):</strong> If no extension blocks the
+request, Safari evaluates redirects and scheme upgrades (such as forcing
+HTTPS). An <code>upgradeScheme</code> action is treated as a specialized
+redirect.</li>
+<li><strong>Modify Headers (<code>modifyHeaders</code>):</strong> If the
+request is neither blocked nor redirected to a new destination, Safari
+processes rules that add, modify, or remove HTTP request and response
+headers.</li>
+</ol>
+<h2 id="2-the-scope-of-allow-rules">2. The Scope of "Allow" Rules</h2>
+<p>A common point of confusion is how <code>allow</code> and
+<code>allowAllRequests</code> actions behave when multiple extensions
+are installed.</p>
+<p>In Safari, <strong>allow rules only apply within the extension that
+defines them.</strong> If Extension A has a high-priority
+<code>allow</code> rule for a specific URL, it only prevents Extension
+A's own <code>block</code> or <code>redirect</code> rules from firing.
+It does not stop Extension B from blocking or redirecting that same
+URL.</p>
+<h2 id="3-how-the-priority-property-works">3. How the
+<code>priority</code> Property Works</h2>
+<p>In the <code>declarativeNetRequest</code> API, developers assign a
+numeric <code>priority</code> to each rule. However, Safari only uses
+this number to resolve conflicts <strong>within a single
+extension</strong>.</p>
+<p>For example, if Extension A has a <code>redirect</code> rule with a
+priority of <code>10</code> and a <code>block</code> rule with a
+priority of <code>1</code>, Extension A will redirect the request rather
+than block it.</p>
+<p>Safari does not compare rule priority numbers across different
+extensions. Extension A cannot set a rule priority of
+<code>999999</code> to override a rule with a priority of <code>1</code>
+in Extension B.</p>
+<h2 id="4-resolving-ties-between-multiple-extensions">4. Resolving Ties
+Between Multiple Extensions</h2>
+<p>When two or more extensions attempt to perform the exact same
+category of action on a request—and neither is a <code>block</code>
+action—Safari must break the tie. This happens in two specific
+scenarios:</p>
+<h3 id="competing-redirects">Competing Redirects</h3>
+<p>If Extension A wants to redirect a URL to <code>example.com</code>
+and Extension B wants to redirect the same URL to <code>test.com</code>,
+Safari cannot execute both. To resolve this, Safari prioritizes the
+<strong>most recently enabled extension</strong>. If both were enabled
+at the same time, the most recently installed or updated extension
+wins.</p>
+<h3 id="competing-header-modifications">Competing Header
+Modifications</h3>
+<p>When multiple extensions use <code>modifyHeaders</code> on the same
+request, Safari attempts to merge the changes whenever possible:</p>
+<ul>
+<li><strong>Different Headers:</strong> If Extension A modifies the
+<code>User-Agent</code> header and Extension B modifies the
+<code>Cookie</code> header, both modifications are applied.</li>
+<li><strong>Appending Headers:</strong> If multiple extensions use the
+<code>append</code> operation on the same header, Safari combines the
+appended values.</li>
+<li><strong>Conflicting Operations:</strong> If Extension A tries to
+<code>set</code> (overwrite) a header while Extension B tries to
+<code>remove</code> that same header, or if both try to <code>set</code>
+the same header to different values, the conflict is resolved in favor
+of the most recently enabled extension.</li>
+</ul>
+<h2 id="summary-of-the-evaluation-flow">Summary of the Evaluation
+Flow</h2>
+<p>When a network request is made in Safari with multiple extensions
+active, the browser follows this exact sequence:</p>
+<ol type="1">
+<li><strong>Internal Evaluation:</strong> Each extension independently
+determines its single winning action for the request using its own rules
+and numeric <code>priority</code> values (where internal
+<code>allow</code> rules can cancel out internal <code>block</code>
+rules).</li>
+<li><strong>Global Block Check:</strong> Safari checks the winning
+actions from all extensions. If any extension outputs a
+<code>block</code> action, the request is blocked.</li>
+<li><strong>Global Redirect Check:</strong> If there are no blocks,
+Safari checks for <code>redirect</code> or <code>upgradeScheme</code>
+actions. If multiple extensions output a redirect, the most recently
+enabled extension's redirect is executed.</li>
+<li><strong>Header Modifications:</strong> Before the final request is
+sent (or when the response is received), Safari applies all
+<code>modifyHeaders</code> actions, giving precedence to the most
+recently enabled extension if two extensions directly conflict on the
+same header name.</li>
+</ol></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/safari-declarative-net-request-rule-priority-explained';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

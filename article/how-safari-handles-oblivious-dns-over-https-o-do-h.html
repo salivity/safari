@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Safari Handles Oblivious DNS over HTTPS (ODoH) - safari</title>
+    <meta name="description" content="This article explains how the Safari web browser utilizes Oblivious DNS over HTTPS (ODoH) to protect user privacy by separating a user&#39;s IP address from their DNS queries. While standard DNS over HTTPS (DoH) encrypts domain name lookups, the DNS provider">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/how-safari-handles-oblivious-dns-over-https-o-do-h">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Safari Handles Oblivious DNS over HTTPS (ODoH) - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/how-safari-handles-oblivious-dns-over-https-o-do-h" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article explains how the Safari web browser utilizes Oblivious DNS over HTTPS (ODoH) to protect user privacy by separating a user&#39;s IP address from their DNS queries. While standard DNS over HTTPS (DoH) encrypts domain name lookups, the DNS provider" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="how-safari-handles-oblivious-dns-over-https-odoh">How Safari
+Handles Oblivious DNS over HTTPS (ODoH)</h1>
+<p>This article explains how the Safari web browser utilizes Oblivious
+DNS over HTTPS (ODoH) to protect user privacy by separating a user's IP
+address from their DNS queries. While standard DNS over HTTPS (DoH)
+encrypts domain name lookups, the DNS provider can still see who is
+making the request. Safari solves this by combining public-key
+encryption with a dual-server relay architecture—most notably used in
+iCloud Private Relay—ensuring that no single server or provider can
+simultaneously know both your identity and the websites you visit.</p>
+<h3 id="the-limitation-of-standard-doh">The Limitation of Standard
+DoH</h3>
+<p>To understand how Safari uses ODoH, it helps to look at the flaw in
+standard DoH. When you type a URL into a browser using standard DoH,
+your browser sends an encrypted request to a DNS resolver (like
+Cloudflare or Google) to get the website's IP address. Because the
+connection is direct, the DNS provider sees your IP address and decrypts
+your DNS query. This allows the provider to build a profile of your
+browsing history tied directly to your IP address.</p>
+<h3 id="safaris-two-hop-odoh-architecture">Safari's Two-Hop ODoH
+Architecture</h3>
+<p>Safari prevents this data correlation by splitting the DNS resolution
+process between two separate entities operated by different companies.
+In the Apple ecosystem, this is composed of:</p>
+<ol type="1">
+<li><strong>The Client:</strong> The Safari browser running on your
+macOS or iOS device.</li>
+<li><strong>The Oblivious Proxy (Ingress Proxy):</strong> A server
+operated by Apple.</li>
+<li><strong>The Oblivious Target (DNS Resolver):</strong> A server
+operated by a trusted third-party DNS provider (such as
+Cloudflare).</li>
+</ol>
+<h3 id="step-by-step-how-safari-processes-a-query">Step-by-Step: How
+Safari Processes a Query</h3>
+<p>When you attempt to visit a website in Safari with ODoH enabled, the
+browser executes the following steps in milliseconds:</p>
+<ul>
+<li><strong>Step 1: Query Encryption.</strong> Before the DNS request
+ever leaves your device, Safari encrypts the DNS query using the public
+cryptographic key of the third-party Oblivious Target.</li>
+<li><strong>Step 2: Routing Through the Proxy.</strong> Safari sends
+this encrypted package over an HTTPS connection to Apple’s Oblivious
+Proxy. Because you are connecting directly to Apple's server, Apple
+knows your IP address. However, because the DNS query inside the package
+is encrypted with the third-party Target's key, Apple cannot read the
+website name you are requesting.</li>
+<li><strong>Step 3: Forwarding to the Target.</strong> The Oblivious
+Proxy strips your IP address from the request and forwards the encrypted
+DNS query to the Oblivious Target.</li>
+<li><strong>Step 4: Decryption and Resolution.</strong> The Oblivious
+Target receives the request. It only sees the IP address of Apple’s
+proxy, not yours. The Target uses its private key to decrypt the DNS
+query, looks up the IP address for the requested website, and encrypts
+the answer using a key provided in your original request.</li>
+<li><strong>Step 5: Returning the Answer.</strong> The Target sends the
+encrypted DNS response back to the Oblivious Proxy, which then blindly
+forwards it back to Safari.</li>
+<li><strong>Step 6: Final Connection.</strong> Safari decrypts the
+response, obtains the website's IP address, and loads the webpage.</li>
+</ul>
+<h3 id="cryptographic-separation-of-trust">Cryptographic Separation of
+Trust</h3>
+<p>Safari’s implementation of ODoH relies on the division of knowledge.
+By architectural design:</p>
+<ul>
+<li><strong>The Proxy (Apple)</strong> knows <em>who</em> you are (your
+IP address), but does not know <em>what</em> you are looking up.</li>
+<li><strong>The Target (DNS Provider)</strong> knows <em>what</em> is
+being looked up, but does not know <em>who</em> is asking.</li>
+</ul>
+<p>Because Apple and the third-party DNS providers are separate entities
+locked under strict contractual and technical constraints not to
+collude, neither party can log your browsing behavior. Even if a
+malicious actor compromises the DNS provider, they will only see a
+massive stream of DNS queries originating from Apple's proxy servers,
+making it impossible to trace any specific query back to an individual
+Safari user's IP address.</p></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/how-safari-handles-oblivious-dns-over-https-o-do-h';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

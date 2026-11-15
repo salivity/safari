@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Debug iOS WebViews with Safari Web Inspector - safari</title>
+    <meta name="description" content="Debugging web content embedded within native iOS applications is essential for ensuring a seamless user experience in hybrid apps. This article provides a step-by-step guide on how developers can use macOS Safari&#39;s built-in Web Inspector to inspect, debug">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/how-to-debug-i-os-web-views-with-safari-web-inspector">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How to Debug iOS WebViews with Safari Web Inspector - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/how-to-debug-i-os-web-views-with-safari-web-inspector" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Debugging web content embedded within native iOS applications is essential for ensuring a seamless user experience in hybrid apps. This article provides a step-by-step guide on how developers can use macOS Safari&#39;s built-in Web Inspector to inspect, debug" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="how-to-debug-ios-webviews-with-safari-web-inspector">How to
+Debug iOS WebViews with Safari Web Inspector</h1>
+<p>Debugging web content embedded within native iOS applications is
+essential for ensuring a seamless user experience in hybrid apps. This
+article provides a step-by-step guide on how developers can use macOS
+Safari's built-in Web Inspector to inspect, debug, and profile WebViews
+inside third-party iOS applications currently under development. By
+configuring your iOS device, enabling developer tools in desktop Safari,
+and adding a single property to your app's source code, you can access
+the full suite of web debugging tools in real time.</p>
+<h3 id="prerequisites">Prerequisites</h3>
+<p>To debug a WebView inside a third-party iOS app, you need the
+following:</p>
+<ul>
+<li>A Mac with the Safari web browser installed.</li>
+<li>An iOS device connected to your Mac via cable, or the iOS Simulator
+running on your Mac.</li>
+<li>The iOS application must be a development build signed with a
+development provisioning profile and installed via Xcode. Production
+apps downloaded from the App Store cannot be inspected.</li>
+</ul>
+<h3 id="step-1-enable-web-inspector-on-the-ios-device">Step 1: Enable
+Web Inspector on the iOS Device</h3>
+<p>If you are using the iOS Simulator, Web Inspector is enabled by
+default, and you can skip to Step 2. If you are using a physical iPhone
+or iPad, you must enable the feature manually:</p>
+<ol type="1">
+<li>Open the <strong>Settings</strong> app on your iOS device.</li>
+<li>Scroll down and tap <strong>Safari</strong>.</li>
+<li>Scroll to the bottom and tap <strong>Advanced</strong>.</li>
+<li>Toggle on the <strong>Web Inspector</strong> switch.</li>
+</ol>
+<h3 id="step-2-enable-the-develop-menu-in-macos-safari">Step 2: Enable
+the Develop Menu in macOS Safari</h3>
+<p>By default, Safari on macOS hides its web development tools. To turn
+them on:</p>
+<ol type="1">
+<li>Open <strong>Safari</strong> on your Mac.</li>
+<li>In the top menu bar, click <strong>Safari</strong> and select
+<strong>Settings</strong> (or <strong>Preferences</strong> on older
+macOS versions).</li>
+<li>Click the <strong>Advanced</strong> tab.</li>
+<li>At the bottom of the window, check the box next to <strong>Show
+features for web developers</strong> (or <strong>Show Develop menu in
+menu bar</strong> on older Safari versions).</li>
+<li>Close the Settings window. You will now see a
+<strong>Develop</strong> menu in the top menu bar.</li>
+</ol>
+<h3 id="step-3-enable-webview-inspection-in-your-apps-code">Step 3:
+Enable WebView Inspection in Your App's Code</h3>
+<p>Starting with iOS 16.4 and iPadOS 16.4, Apple disabled the ability to
+inspect <code>WKWebView</code> instances by default, even in development
+builds. You must explicitly enable inspection in your application's
+source code.</p>
+<p>In the view controller or class where you initialize your
+<code>WKWebView</code>, set the <code>isInspectable</code> property to
+<code>true</code>.</p>
+<p><strong>For Swift:</strong></p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode swift"><code class="sourceCode swift"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="im">WebKit</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> <span class="va">webView</span> <span class="op">=</span> WKWebView<span class="op">(</span>frame<span class="op">:</span> <span class="op">.</span>zero<span class="op">)</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> #available<span class="op">(</span>iOS <span class="fl">16.4</span><span class="op">,</span> <span class="op">*)</span> <span class="op">{</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    webView<span class="op">.</span>isInspectable <span class="op">=</span> <span class="kw">true</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p><strong>For Objective-C:</strong></p>
+<pre class="objc"><code>#import &lt;WebKit/WebKit.h&gt;
+
+WKWebView *webView = [[WKWebView alloc] initWithFrame:CGRectZero];
+if (@available(iOS 16.4, *)) {
+    webView.inspectable = YES;
+}</code></pre>
+<p><em>Note: If you are using a cross-platform framework like Cordova,
+Ionic, or React Native, ensure your framework and its WebView plugins
+are updated to versions that support iOS 16.4+, as they handle this
+property automatically in debug builds.</em></p>
+<h3 id="step-4-connect-and-inspect-the-webview">Step 4: Connect and
+Inspect the WebView</h3>
+<p>Once your devices and code are configured, you can begin
+debugging:</p>
+<ol type="1">
+<li>Connect your iOS device to your Mac using a USB or USB-C cable. If
+prompted on the iOS device, tap <strong>Trust This Computer</strong> and
+enter your passcode.</li>
+<li>Build and run your application from Xcode onto your iOS device or
+Simulator.</li>
+<li>In the running app, navigate to the specific screen that loads and
+displays the <code>WKWebView</code>. The WebView must be active on the
+screen to be detected.</li>
+<li>Switch to <strong>Safari</strong> on your Mac.</li>
+<li>Click <strong>Develop</strong> in the top menu bar.</li>
+<li>Find and hover over your iOS device's name or the Simulator in the
+dropdown menu.</li>
+<li>A submenu will appear showing your app's name and the currently
+active URLs or page titles inside the WebView. Click on the WebView
+entry you wish to debug.</li>
+</ol>
+<p>A Safari Web Inspector window will immediately open on your Mac. From
+this window, you can modify the DOM and CSS in the
+<strong>Elements</strong> tab, view logs and run JavaScript commands in
+the <strong>Console</strong> tab, debug scripts in the
+<strong>Sources</strong> tab, and monitor API calls in the
+<strong>Network</strong> tab, just as you would for a standard
+website.</p></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/how-to-debug-i-os-web-views-with-safari-web-inspector';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

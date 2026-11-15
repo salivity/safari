@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Persistent Per-Domain Content Blocker Settings in Safari - safari</title>
+    <meta name="description" content="This article explains how the Safari web browser utilizes its built-in Website Settings feature to let users disable Content Blockers on a per-domain basis. It covers the underlying mechanism of how Safari remembers your preferences, as well as the step-b">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/persistent-per-domain-content-blocker-settings-in-safari">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Persistent Per-Domain Content Blocker Settings in Safari - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/persistent-per-domain-content-blocker-settings-in-safari" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article explains how the Safari web browser utilizes its built-in Website Settings feature to let users disable Content Blockers on a per-domain basis. It covers the underlying mechanism of how Safari remembers your preferences, as well as the step-b" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1
+id="persistent-per-domain-content-blocker-settings-in-safari">Persistent
+Per-Domain Content Blocker Settings in Safari</h1>
+<p>This article explains how the Safari web browser utilizes its
+built-in Website Settings feature to let users disable Content Blockers
+on a per-domain basis. It covers the underlying mechanism of how Safari
+remembers your preferences, as well as the step-by-step instructions to
+configure and manage these persistent exceptions on both macOS and iOS
+devices so that trusted websites always load without content
+restrictions.</p>
+<h3 id="how-safaris-per-domain-persistence-works">How Safari's
+Per-Domain Persistence Works</h3>
+<p>Safari manages third-party ad blockers and privacy extensions through
+a native API called Content Blockers. Rather than letting the extensions
+read your browsing data directly, Safari compiles a list of rules
+provided by the extension and applies them itself.</p>
+<p>Because Safari controls the blocking engine, it also controls where
+those rules are applied. When you alter the Website Settings for a
+specific site, Safari records the root domain (for example,
+<code>example.com</code>) in a local preference database.</p>
+<p>When you disable Content Blockers using Website Settings, the
+following occurs:</p>
+<ul>
+<li><strong>Domain-Wide Application:</strong> The exception is tied to
+the domain, meaning the blocker remains off as you navigate to different
+pages within that same website.</li>
+<li><strong>Session Persistence:</strong> Unlike the temporary "Reload
+Without Content Blockers" option, changing the Website Setting writes a
+permanent rule. The setting survives tab closures, browser restarts, and
+device reboots.</li>
+<li><strong>iCloud Syncing:</strong> If you have Safari enabled in your
+iCloud settings, these per-domain exceptions will automatically sync
+across your other Apple devices signed into the same Apple ID.</li>
+</ul>
+<h3 id="configuring-website-settings-on-macos">Configuring Website
+Settings on macOS</h3>
+<p>You can persistently disable Content Blockers for a specific domain
+in Safari on a Mac using two different methods.</p>
+<p><strong>Method 1: Via the Address Bar (Quickest)</strong></p>
+<ol type="1">
+<li>Navigate to the website you want to whitelist.</li>
+<li>Right-click (or Control-click) the <strong>Smart Search
+Field</strong> (the address bar).</li>
+<li>Select <strong>Settings for [Website Name]...</strong> from the
+context menu.</li>
+<li>Uncheck the box next to <strong>Enable Content
+Blockers</strong>.</li>
+<li>Refresh the page. The browser will now remember this choice
+permanently for this domain.</li>
+</ol>
+<p><strong>Method 2: Via the Safari Settings Menu</strong></p>
+<ol type="1">
+<li>Keep the target website open in an active tab.</li>
+<li>In the top menu bar, click <strong>Safari</strong> and select
+<strong>Settings</strong> (or <strong>Preferences</strong> on older
+macOS versions).</li>
+<li>Click the <strong>Websites</strong> tab at the top of the
+window.</li>
+<li>Select <strong>Content Blockers</strong> from the left-hand
+sidebar.</li>
+<li>Locate the website under the "Currently Open Websites" section.</li>
+<li>Click the dropdown menu next to the website's name and change it
+from <strong>On</strong> to <strong>Off</strong>.</li>
+</ol>
+<p>From this same menu, you can also view the "Configured Websites" list
+to manage, revert, or delete persistent rules you have set in the
+past.</p>
+<h3 id="configuring-website-settings-on-ios-and-ipados">Configuring
+Website Settings on iOS and iPadOS</h3>
+<p>On an iPhone or iPad, the per-domain settings are accessed directly
+through the address bar menu. Note that merely holding down the refresh
+button only disables the blocker temporarily for a single page load. For
+a persistent change, follow these steps:</p>
+<ol type="1">
+<li>Open Safari and go to the website where you want to disable the
+blocker.</li>
+<li>Tap the <strong>Page Settings</strong> icon on the left side of the
+address bar (this looks like <strong>"aA"</strong> or a rectangle with
+two lines, depending on your iOS version).</li>
+<li>Tap <strong>Website Settings</strong> from the pop-up menu.</li>
+<li>Under the settings specific to that domain, toggle off the switch
+for <strong>Use Content Blockers</strong>.</li>
+<li>Tap <strong>Done</strong> in the top right corner.</li>
+</ol>
+<p>Safari will immediately reload the webpage without applying any
+Content Blocker rules, and it will retain this configuration every time
+you return to the domain in the future.</p></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/persistent-per-domain-content-blocker-settings-in-safari';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

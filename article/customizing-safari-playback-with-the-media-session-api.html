@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customizing Safari Playback with the Media Session API - safari</title>
+    <meta name="description" content="This article explores how the Media Session API in the Safari web browser empowers web developers to customize media playback controls and metadata displayed directly on the iOS Lock Screen, Control Center, and macOS Now Playing widget. By utilizing this">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/customizing-safari-playback-with-the-media-session-api">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Customizing Safari Playback with the Media Session API - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/customizing-safari-playback-with-the-media-session-api" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article explores how the Media Session API in the Safari web browser empowers web developers to customize media playback controls and metadata displayed directly on the iOS Lock Screen, Control Center, and macOS Now Playing widget. By utilizing this" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1
+id="customizing-safari-playback-with-the-media-session-api">Customizing
+Safari Playback with the Media Session API</h1>
+<p>This article explores how the Media Session API in the Safari web
+browser empowers web developers to customize media playback controls and
+metadata displayed directly on the iOS Lock Screen, Control Center, and
+macOS Now Playing widget. By utilizing this JavaScript API, websites can
+provide a native-like media experience, displaying rich track
+information such as titles, artists, and album artwork, while
+simultaneously mapping system-level hardware and software buttons to
+custom web-based playback actions.</p>
+<h2 id="displaying-custom-metadata">Displaying Custom Metadata</h2>
+<p>When a user plays audio or video on a webpage in Safari, the
+operating system attempts to show basic information in the Lock Screen
+and Control Center. Without the Media Session API, Safari simply
+displays the webpage's title and URL.</p>
+<p>To override this default behavior, websites use the
+<code>MediaMetadata</code> interface. By instantiating a new
+<code>MediaMetadata</code> object and assigning it to
+<code>navigator.mediaSession.metadata</code>, developers can explicitly
+define the title, artist, album name, and artwork for the currently
+playing media.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="st">&#39;mediaSession&#39;</span> <span class="kw">in</span> <span class="bu">navigator</span>) {</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="bu">navigator</span><span class="op">.</span><span class="at">mediaSession</span><span class="op">.</span><span class="at">metadata</span> <span class="op">=</span> <span class="kw">new</span> <span class="fu">MediaMetadata</span>({</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">title</span><span class="op">:</span> <span class="st">&#39;Episode 1: The Web Audio Revolution&#39;</span><span class="op">,</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">artist</span><span class="op">:</span> <span class="st">&#39;Tech Daily Podcast&#39;</span><span class="op">,</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">album</span><span class="op">:</span> <span class="st">&#39;Season 4&#39;</span><span class="op">,</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">artwork</span><span class="op">:</span> [</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>      { <span class="dt">src</span><span class="op">:</span> <span class="st">&#39;https://example.com/album-art-512x512.jpg&#39;</span><span class="op">,</span> <span class="dt">sizes</span><span class="op">:</span> <span class="st">&#39;512x512&#39;</span><span class="op">,</span> <span class="dt">type</span><span class="op">:</span> <span class="st">&#39;image/jpeg&#39;</span> }</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    ]</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  })<span class="op">;</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>Safari reads this object and immediately updates the Lock Screen and
+Control Center interfaces with the provided strings and fetches the
+specified image URL to display as the thumbnail artwork.</p>
+<h2 id="customizing-playback-controls">Customizing Playback
+Controls</h2>
+<p>Beyond displaying information, the Media Session API allows websites
+to dictate which playback buttons appear in the system UI and how they
+behave when tapped. This is achieved using the
+<code>setActionHandler</code> method on the
+<code>navigator.mediaSession</code> object.</p>
+<p>Safari supports several action types, including:</p>
+<ul>
+<li><code>play</code> and <code>pause</code></li>
+<li><code>previoustrack</code> and <code>nexttrack</code></li>
+<li><code>seekbackward</code> and <code>seekforward</code></li>
+<li><code>seekto</code></li>
+</ul>
+<p>When a developer registers an action handler, Safari enables the
+corresponding button on the Lock Screen and in the Control Center. If an
+action handler is not set (or is set to <code>null</code>), Safari will
+either hide that specific control or fall back to default browser
+behavior.</p>
+<h3 id="adding-next-and-previous-track-buttons">Adding Next and Previous
+Track Buttons</h3>
+<p>For a music or playlist website, enabling track skipping requires
+mapping the system buttons to the website's internal playlist logic:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="bu">navigator</span><span class="op">.</span><span class="at">mediaSession</span><span class="op">.</span><span class="fu">setActionHandler</span>(<span class="st">&#39;previoustrack&#39;</span><span class="op">,</span> () <span class="kw">=&gt;</span> {</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Custom logic to load and play the previous media file</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">playPreviousSong</span>()<span class="op">;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="bu">navigator</span><span class="op">.</span><span class="at">mediaSession</span><span class="op">.</span><span class="fu">setActionHandler</span>(<span class="st">&#39;nexttrack&#39;</span><span class="op">,</span> () <span class="kw">=&gt;</span> {</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Custom logic to load and play the next media file</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">playNextSong</span>()<span class="op">;</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<h3 id="enabling-skip-forward-and-backward-buttons">Enabling Skip
+Forward and Backward Buttons</h3>
+<p>Podcasts and audiobooks typically prefer 10- or 15-second skip
+buttons instead of track-skipping buttons. If <code>seekbackward</code>
+and <code>seekforward</code> handlers are defined instead of track
+handlers, Safari automatically swaps the UI icons on the Lock Screen to
+reflect time-skipping controls:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="bu">navigator</span><span class="op">.</span><span class="at">mediaSession</span><span class="op">.</span><span class="fu">setActionHandler</span>(<span class="st">&#39;seekbackward&#39;</span><span class="op">,</span> (details) <span class="kw">=&gt;</span> {</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> skipTime <span class="op">=</span> details<span class="op">.</span><span class="at">seekOffset</span> <span class="op">||</span> <span class="dv">15</span><span class="op">;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  audioElement<span class="op">.</span><span class="at">currentTime</span> <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">max</span>(audioElement<span class="op">.</span><span class="at">currentTime</span> <span class="op">-</span> skipTime<span class="op">,</span> <span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="bu">navigator</span><span class="op">.</span><span class="at">mediaSession</span><span class="op">.</span><span class="fu">setActionHandler</span>(<span class="st">&#39;seekforward&#39;</span><span class="op">,</span> (details) <span class="kw">=&gt;</span> {</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> skipTime <span class="op">=</span> details<span class="op">.</span><span class="at">seekOffset</span> <span class="op">||</span> <span class="dv">15</span><span class="op">;</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  audioElement<span class="op">.</span><span class="at">currentTime</span> <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">min</span>(audioElement<span class="op">.</span><span class="at">currentTime</span> <span class="op">+</span> skipTime<span class="op">,</span> audioElement<span class="op">.</span><span class="at">duration</span>)<span class="op">;</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<h2 id="synchronizing-timeline-and-scrubbing">Synchronizing Timeline and
+Scrubbing</h2>
+<p>Safari displays a progress bar in the Lock Screen and Control Center
+that allows users to scrub through the media. To ensure this progress
+bar accurately reflects the web player's state—especially when playback
+speed changes or when custom skipping occurs—developers use the
+<code>setPositionState</code> method.</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">updatePositionState</span>() {</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="st">&#39;setPositionState&#39;</span> <span class="kw">in</span> <span class="bu">navigator</span><span class="op">.</span><span class="at">mediaSession</span>) {</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">navigator</span><span class="op">.</span><span class="at">mediaSession</span><span class="op">.</span><span class="fu">setPositionState</span>({</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>      <span class="dt">duration</span><span class="op">:</span> audioElement<span class="op">.</span><span class="at">duration</span><span class="op">,</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>      <span class="dt">playbackRate</span><span class="op">:</span> audioElement<span class="op">.</span><span class="at">playbackRate</span><span class="op">,</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>      <span class="dt">position</span><span class="op">:</span> audioElement<span class="op">.</span><span class="at">currentTime</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    })<span class="op">;</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>To allow the user to drag the playhead on the Lock Screen to a new
+time, the <code>seekto</code> action handler must also be
+implemented:</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="bu">navigator</span><span class="op">.</span><span class="at">mediaSession</span><span class="op">.</span><span class="fu">setActionHandler</span>(<span class="st">&#39;seekto&#39;</span><span class="op">,</span> (details) <span class="kw">=&gt;</span> {</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (details<span class="op">.</span><span class="at">fastSeek</span> <span class="op">&amp;&amp;</span> <span class="st">&#39;fastSeek&#39;</span> <span class="kw">in</span> audioElement) {</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    audioElement<span class="op">.</span><span class="fu">fastSeek</span>(details<span class="op">.</span><span class="at">seekTime</span>)<span class="op">;</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span><span class="op">;</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  audioElement<span class="op">.</span><span class="at">currentTime</span> <span class="op">=</span> details<span class="op">.</span><span class="at">seekTime</span><span class="op">;</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">updatePositionState</span>()<span class="op">;</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<h2 id="safari-specific-requirements">Safari-Specific Requirements</h2>
+<p>For the Media Session API to successfully take control of the Lock
+Screen and Control Center in Safari, the webpage must actively be
+playing media through a standard HTML <code>&lt;audio&gt;</code> or
+<code>&lt;video&gt;</code> element, or via the Web Audio API. Safari
+requires a user gesture (like a tap or click) to initiate the playback
+first. Once the audio stream is active, Safari grants the webpage
+permission to populate the system-level media controls with the defined
+metadata and action handlers. Additionally, because the API integrates
+directly with Apple's native "Now Playing" architecture, any
+customizations made for the Lock Screen and Control Center automatically
+extend to connected devices, including AirPods, CarPlay, and the Apple
+Watch.</p></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/customizing-safari-playback-with-the-media-session-api';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

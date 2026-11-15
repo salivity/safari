@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Convert Safari Articles to Markdown with iOS Shortcuts - safari</title>
+    <meta name="description" content="This article provides a step-by-step guide on how to build an iOS Shortcut that captures the active webpage from the Safari Share Sheet, strips away clutter using Safari Reader, converts the article into Markdown text, and saves the result directly to App">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/convert-safari-articles-to-markdown-with-i-os-shortcuts">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Convert Safari Articles to Markdown with iOS Shortcuts - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/convert-safari-articles-to-markdown-with-i-os-shortcuts" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article provides a step-by-step guide on how to build an iOS Shortcut that captures the active webpage from the Safari Share Sheet, strips away clutter using Safari Reader, converts the article into Markdown text, and saves the result directly to App" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="convert-safari-articles-to-markdown-with-ios-shortcuts">Convert
+Safari Articles to Markdown with iOS Shortcuts</h1>
+<p>This article provides a step-by-step guide on how to build an iOS
+Shortcut that captures the active webpage from the Safari Share Sheet,
+strips away clutter using Safari Reader, converts the article into
+Markdown text, and saves the result directly to Apple Notes.</p>
+<h3 id="1-enable-the-share-sheet-trigger">1. Enable the Share Sheet
+Trigger</h3>
+<p>To allow the Shortcut to access your active Safari tab, you must
+configure it to accept inputs from the iOS Share Sheet.</p>
+<ol type="1">
+<li>Open the <strong>Shortcuts</strong> app on your iPhone or iPad and
+tap the <strong>+</strong> (plus) icon in the top right corner to create
+a new Shortcut.</li>
+<li>Tap theShortcut name at the top to rename it (e.g., "Article to
+Markdown").</li>
+<li>Tap the <strong>Info (i)</strong> icon at the bottom of the screen
+(or at the top in iPadOS) and toggle on <strong>Show in Share
+Sheet</strong>. Tap <strong>Done</strong>.</li>
+<li>A new banner will appear at the top of your workflow that reads
+<em>Receive Any input from Share Sheet</em>. Tap <strong>Any</strong>,
+tap <strong>Clear</strong> to deselect everything, and then select only
+<strong>Safari web pages</strong>, <strong>Articles</strong>, and
+<strong>URLs</strong>. Tap <strong>Done</strong>.</li>
+</ol>
+<h3 id="2-extract-the-article-content">2. Extract the Article
+Content</h3>
+<p>Next, you need to pull the clean text and formatting from the
+webpage, bypassing ads and navigation menus.</p>
+<ol type="1">
+<li>Tap the search bar at the bottom of the screen and type <strong>Get
+Article</strong>.</li>
+<li>Select the <strong>Get Article using Safari Reader</strong>
+action.</li>
+<li>The action will automatically link to your first step and read:
+<em>Get article using Safari Reader from Shortcut Input</em>.</li>
+</ol>
+<h3 id="3-convert-the-article-to-markdown">3. Convert the Article to
+Markdown</h3>
+<p>Safari Reader extracts the article as Rich Text. You must now add an
+action to convert that Rich Text into Markdown syntax.</p>
+<ol type="1">
+<li>Search for <strong>Markdown</strong> in the action search bar.</li>
+<li>Select the <strong>Make Markdown from Rich Text</strong>
+action.</li>
+<li>By default, this will grab the main body of the article. It should
+read: <em>Make Markdown from Article</em>.</li>
+<li><em>(Optional)</em> If you want to ensure the article's title and
+URL are included at the top of your Markdown text, add a
+<strong>Text</strong> action after the Markdown conversion. Inside the
+Text box, insert the <strong>Article</strong> variable (tap it and
+change its property to <strong>Title</strong>), add a line break, insert
+the <strong>Article</strong> variable again (change its property to
+<strong>URL</strong>), add another line break, and finally insert the
+<strong>Markdown from Rich Text</strong> variable.</li>
+</ol>
+<h3 id="4-save-to-apple-notes">4. Save to Apple Notes</h3>
+<p>Depending on your workflow, you can either save the raw Markdown text
+into Apple Notes or save the formatted Rich Text directly.</p>
+<p><strong>To save the raw Markdown syntax into a Note:</strong></p>
+<ol type="1">
+<li>Search for and add the <strong>Create Note</strong> action.</li>
+<li>Ensure the action reads: <em>Create note with Markdown from Rich
+Text</em> (or <em>Text</em>, if you completed the optional step
+above).</li>
+<li>Tap the arrow next to the action to toggle <strong>Open When
+Run</strong> off, which allows the Shortcut to save the note silently in
+the background.</li>
+</ol>
+<p><strong>To save the clean, formatted article (not raw Markdown) into
+a Note:</strong></p>
+<ol type="1">
+<li>Skip Step 3 entirely.</li>
+<li>Add the <strong>Create Note</strong> action directly after the
+<strong>Get Article using Safari Reader</strong> action.</li>
+<li>Tap the input variable in the Create Note action, select
+<strong>Article</strong>, and change its property from <em>Article</em>
+to <strong>Body</strong>. This transfers the headings, bold text, and
+links directly into Apple Notes formatting.</li>
+</ol>
+<p><strong>To copy the Markdown to your clipboard instead:</strong></p>
+<ol type="1">
+<li>Instead of the Create Note action, search for and select the
+<strong>Copy to Clipboard</strong> action.</li>
+<li>Set it to copy the <strong>Markdown from Rich Text</strong>
+variable.</li>
+</ol>
+<h3 id="5-run-the-shortcut-in-safari">5. Run the Shortcut in Safari</h3>
+<ol type="1">
+<li>Open <strong>Safari</strong> and navigate to any news story or blog
+post.</li>
+<li>Tap the <strong>Share</strong> button at the bottom of the
+screen.</li>
+<li>Scroll down the list of options and tap the name of your new
+Shortcut.</li>
+<li>On the first run, iOS will ask for permission to allow the Shortcut
+to access the webpage and Apple Notes. Tap <strong>Always
+Allow</strong>.</li>
+</ol></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/convert-safari-articles-to-markdown-with-i-os-shortcuts';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Safari ITP and the 7-Day Storage Eviction Rule - safari</title>
+    <meta name="description" content="This article explains the specific conditions under which Apple&#39;s Intelligent Tracking Prevention (ITP) in the Safari web browser deletes all script-writable storage for a website origin after seven days. It outlines the exact user interaction requirement">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/safari-itp-and-the-7-day-storage-eviction-rule">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Safari ITP and the 7-Day Storage Eviction Rule - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/safari-itp-and-the-7-day-storage-eviction-rule" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article explains the specific conditions under which Apple&#39;s Intelligent Tracking Prevention (ITP) in the Safari web browser deletes all script-writable storage for a website origin after seven days. It outlines the exact user interaction requirement" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="safari-itp-and-the-7-day-storage-eviction-rule">Safari ITP and
+the 7-Day Storage Eviction Rule</h1>
+<p>This article explains the specific conditions under which Apple's
+Intelligent Tracking Prevention (ITP) in the Safari web browser deletes
+all script-writable storage for a website origin after seven days. It
+outlines the exact user interaction requirements, the types of browser
+storage affected, how server-side data differs, and the specific
+exceptions to this seven-day privacy rule.</p>
+<p>To prevent cross-site tracking and protect user privacy, Safari
+enforces a strict seven-day cap on website data. ITP will evict all
+script-writable storage for an origin after seven days when all of the
+following conditions are met.</p>
+<h3 id="1-the-storage-is-created-by-client-side-scripts">1. The Storage
+is Created by Client-Side Scripts</h3>
+<p>The seven-day eviction rule strictly targets "script-writable"
+storage. This means the data was generated or modified in the browser
+using JavaScript, rather than being set exclusively by a server via HTTP
+response headers.</p>
+<p>If the condition is met, ITP deletes the following script-writable
+data types:</p>
+<ul>
+<li>Client-side cookies created via <code>document.cookie</code></li>
+<li>LocalStorage</li>
+<li>SessionStorage</li>
+<li>IndexedDB databases</li>
+<li>Service Worker registrations and the Cache API</li>
+<li>Web SQL databases (legacy)</li>
+</ul>
+<p><em>(Note: Cookies set via the HTTP <code>Set-Cookie</code> header
+that are never modified by JavaScript are not subject to this specific
+script-writable storage eviction, provided they are not flagged by CNAME
+cloaking defenses).</em></p>
+<h3 id="2-absence-of-first-party-user-interaction">2. Absence of
+First-Party User Interaction</h3>
+<p>The seven-day timer begins the moment the user visits the website and
+the script-writable storage is created. For the eviction to occur, there
+must be a complete lack of "user interaction" with that origin as a
+first-party website for seven consecutive days.</p>
+<p>Safari defines user interaction as deliberate action taken on the
+page—such as clicking a link, tapping a button, or typing in a
+form—while the website's domain is visible in the main URL address bar.
+Simply loading the website in the background, or loading the origin's
+scripts as a third-party iframe on a different website, does not reset
+the seven-day countdown. If the user interacts with the site on day
+four, the seven-day timer resets. If they do not return and interact by
+the end of day seven, the storage is wiped.</p>
+<h3 id="3-the-visit-did-not-involve-tracker-link-decoration">3. The
+Visit Did Not Involve Tracker Link Decoration</h3>
+<p>For the standard seven-day rule to apply, the user's initial visit
+must not trigger ITP’s stricter 24-hour eviction rule.</p>
+<p>If a user navigates to a website by clicking a link on a domain that
+ITP has classified as a known cross-site tracker, and that link contains
+"link decoration" (such as URL query parameters or fragments used for
+tracking), ITP bypasses the seven-day rule and evicts all
+script-writable storage after just 24 hours of no interaction.
+Therefore, the seven-day condition only holds if the traffic source was
+clean of classified tracker decoration.</p>
+<h3 id="4-the-website-is-not-installed-on-the-home-screen">4. The
+Website is Not Installed on the Home Screen</h3>
+<p>The user must be accessing the website through the standard Safari
+browser tab environment. If a user on iOS or iPadOS adds the website or
+Progressive Web App (PWA) to their device's Home Screen, Safari exempts
+that specific origin from the seven-day storage eviction rule.</p>
+<h3 id="summary-of-the-eviction-trigger">Summary of the Eviction
+Trigger</h3>
+<p>In short, Safari's ITP will completely erase an origin's client-side
+storage on the eighth day if:</p>
+<ol type="1">
+<li>The data was written via JavaScript.</li>
+<li>The user did not arrive via a decorated link from a known tracker
+(which would trigger a 24-hour wipe instead).</li>
+<li>The web app is not saved to the user's Home Screen.</li>
+<li>The user has not actively clicked, tapped, or typed on the website
+as a top-level domain for seven full days.</li>
+</ol></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/safari-itp-and-the-7-day-storage-eviction-rule';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

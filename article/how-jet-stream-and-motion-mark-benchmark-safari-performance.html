@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How JetStream and MotionMark Benchmark Safari Performance - safari</title>
+    <meta name="description" content="This article provides a comprehensive overview of how the JetStream and MotionMark benchmark suites evaluate the performance of the Safari web browser. It breaks down the exact methodologies JetStream uses to test JavaScript and WebAssembly compilation th">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/how-jet-stream-and-motion-mark-benchmark-safari-performance">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How JetStream and MotionMark Benchmark Safari Performance - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/how-jet-stream-and-motion-mark-benchmark-safari-performance" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article provides a comprehensive overview of how the JetStream and MotionMark benchmark suites evaluate the performance of the Safari web browser. It breaks down the exact methodologies JetStream uses to test JavaScript and WebAssembly compilation th" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="how-jetstream-and-motionmark-benchmark-safari-performance">How
+JetStream and MotionMark Benchmark Safari Performance</h1>
+<p>This article provides a comprehensive overview of how the JetStream
+and MotionMark benchmark suites evaluate the performance of the Safari
+web browser. It breaks down the exact methodologies JetStream uses to
+test JavaScript and WebAssembly compilation throughput, alongside how
+MotionMark stresses Safari's graphics rendering pipeline to measure
+visual fidelity and frame rate stability. By examining the internal
+mechanics of Safari's WebKit engine and the scoring systems of these two
+tools, you will understand how browser speed and graphical efficiency
+are accurately quantified.</p>
+<h3
+id="jetstream-measuring-javascript-compilation-throughput">JetStream:
+Measuring JavaScript Compilation Throughput</h3>
+<p>JetStream is a benchmark suite focused on advanced web applications
+that rely heavily on JavaScript and WebAssembly. In Safari, JavaScript
+execution is handled by the JavaScriptCore (JSC) engine, which uses a
+multi-tiered Just-In-Time (JIT) compilation architecture. JetStream
+measures compilation throughput by stressing every tier of this
+architecture across dozen of distinct subtests.</p>
+<p>JavaScriptCore processes code through four main tiers:</p>
+<ol type="1">
+<li><strong>LLInt (Low-Level Interpreter):</strong> Starts executing
+code immediately with zero compilation delay.</li>
+<li><strong>Baseline JIT:</strong> Compiles code quickly with minimal
+optimization for functions that run repeatedly.</li>
+<li><strong>DFG (Data Flow Graph) JIT:</strong> Applies aggressive
+optimizations based on profiling data gathered during execution.</li>
+<li><strong>FTL (Faster Than Light) JIT:</strong> Uses the B3 backend to
+compile heavily used code into highly optimized machine code.</li>
+</ol>
+<p>JetStream evaluates how efficiently Safari moves code through these
+tiers by breaking its measurement of each workload into specific
+phases:</p>
+<ul>
+<li><strong>Startup Performance:</strong> JetStream measures the time it
+takes to parse, compile, and run the first iteration of a test. This
+directly tests the efficiency of Safari’s parser, the LLInt, and the
+Baseline JIT. If Safari takes too long to compile code upfront, the
+startup score drops.</li>
+<li><strong>Worst-Case Execution:</strong> As Safari runs the test, it
+decides when to promote code to the DFG and FTL compilers. This
+compilation happens on background threads, but it still consumes CPU
+resources and requires memory. JetStream measures the slowest iterations
+after startup to penalize "jank" or pauses caused by heavy JIT
+compilation throughput bottlenecks and garbage collection.</li>
+<li><strong>Average (Sustained) Performance:</strong> Once the code is
+fully optimized by the FTL JIT, JetStream measures the execution speed
+of the remaining iterations. This evaluates the raw quality of the
+machine code generated by Safari's highest compiler tier.</li>
+</ul>
+<p>To calculate the final score, JetStream takes the geometric mean of
+all subtests, weighting startup, worst-case, and average performance
+equally. This ensures Safari cannot achieve a high score solely by
+having a fast optimizing compiler; it must also compile code quickly and
+manage memory efficiently without stalling the main thread.</p>
+<h3 id="motionmark-measuring-graphics-rendering-performance">MotionMark:
+Measuring Graphics Rendering Performance</h3>
+<p>While JetStream focuses on CPU-bound code execution, MotionMark is
+designed to measure a browser's graphics rendering capabilities. Safari
+relies on the WebKit rendering engine, which utilizes Apple's Core
+Animation and the Metal graphics API to offload rendering tasks to the
+GPU.</p>
+<p>Unlike traditional benchmarks that run a fixed workload as fast as
+possible, MotionMark locks onto the display's target refresh
+rate—typically 60 frames per second (FPS), or 120 FPS on ProMotion
+displays—and measures how much visual complexity Safari can handle
+before the frame rate drops.</p>
+<p>MotionMark evaluates Safari's rendering pipeline through the
+following methodology:</p>
+<ul>
+<li><strong>Diverse Rendering Subtests:</strong> The suite runs tests
+utilizing different web technologies, including HTML5 Canvas (2D
+context), SVG (Scalable Vector Graphics), and complex CSS compositing
+and animations. These tests draw thousands of paths, lines, gradients,
+and particles.</li>
+<li><strong>Dynamic Complexity Scaling:</strong> During a test,
+MotionMark operates in a feedback loop. It begins by rendering a simple
+scene with a few elements. If Safari easily maintains the target frame
+rate (e.g., completing each frame in under 16.67 milliseconds for a 60Hz
+display), MotionMark dynamically increases the number of elements on the
+screen. If the frame rate dips, it reduces the element count.</li>
+<li><strong>CPU-to-GPU Bottleneck Detection:</strong> By scaling the
+workload, MotionMark finds the exact breaking point of Safari’s
+rendering pipeline. In CSS and SVG tests, this often measures how fast
+WebKit can calculate layouts, update the Document Object Model (DOM),
+and build display lists on the CPU. In Canvas tests, it measures how
+efficiently Safari translates drawing commands into Metal API calls and
+how quickly the GPU can rasterize the pixels.</li>
+</ul>
+<p>At the end of each subtest, MotionMark uses piecewise regression
+analysis on the recorded frame times versus element counts. The score
+for a test represents the maximum number of elements Safari can render
+while still maintaining a smooth, locked frame rate. The final
+MotionMark score is the geometric mean of all individual subtest
+scores.</p>
+<h3 id="summary-of-benchmark-roles">Summary of Benchmark Roles</h3>
+<p>Together, JetStream and MotionMark provide a complete performance
+profile of the Safari browser. JetStream ensures that JavaScriptCore can
+parse, compile, and optimize complex logic with high throughput and
+minimal latency. MotionMark ensures that WebKit can take the visual
+output of that logic and render it smoothly to the screen using hardware
+acceleration.</p></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/how-jet-stream-and-motion-mark-benchmark-safari-performance';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

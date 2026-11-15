@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Safari Honors Accessibility CSS Media Queries - safari</title>
+    <meta name="description" content="This article provides a comprehensive overview of how the Safari web browser translates operating system accessibility configurations into actionable CSS media queries. Specifically, it explains how Apple’s WebKit engine listens to macOS, iOS, and iPadOS">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/how-safari-honors-accessibility-css-media-queries">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Safari Honors Accessibility CSS Media Queries - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/how-safari-honors-accessibility-css-media-queries" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article provides a comprehensive overview of how the Safari web browser translates operating system accessibility configurations into actionable CSS media queries. Specifically, it explains how Apple’s WebKit engine listens to macOS, iOS, and iPadOS" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="how-safari-honors-accessibility-css-media-queries">How Safari
+Honors Accessibility CSS Media Queries</h1>
+<p>This article provides a comprehensive overview of how the Safari web
+browser translates operating system accessibility configurations into
+actionable CSS media queries. Specifically, it explains how Apple’s
+WebKit engine listens to macOS, iOS, and iPadOS system preferences to
+trigger the <code>prefers-reduced-motion</code> and
+<code>prefers-contrast</code> media features, allowing web developers to
+deliver tailored, accessible user experiences automatically.</p>
+<h3 id="the-bridge-between-os-settings-and-webkit">The Bridge Between OS
+Settings and WebKit</h3>
+<p>Safari relies on its underlying layout engine, WebKit, to communicate
+directly with the host operating system. When a user adjusts their
+accessibility preferences in macOS, iOS, or iPadOS, the operating system
+broadcasts this state change. Safari intercepts these system-level flags
+and maps them directly to standard W3C CSS Media Queries. This happens
+in real-time, meaning open web pages will immediately adapt to the new
+settings without requiring a page reload.</p>
+<h3 id="how-safari-handles-prefers-reduced-motion">How Safari Handles
+<code>prefers-reduced-motion</code></h3>
+<p>The <code>prefers-reduced-motion</code> media query is used to detect
+if the user has requested the system minimize the amount of
+non-essential animation or motion it uses. This is critical for users
+with vestibular motion disorders.</p>
+<p><strong>System Configuration:</strong></p>
+<ul>
+<li><strong>macOS:</strong> Enabled via <em>System Settings &gt;
+Accessibility &gt; Display &gt; Reduce motion</em>.</li>
+<li><strong>iOS/iPadOS:</strong> Enabled via <em>Settings &gt;
+Accessibility &gt; Motion &gt; Reduce Motion</em>.</li>
+</ul>
+<p><strong>Safari’s Implementation:</strong> By default, if the user has
+not altered their settings, Safari evaluates the media query value as
+<code>no-preference</code>. Once the user toggles the "Reduce Motion"
+switch on in their system settings, Safari switches the active value to
+<code>reduce</code>.</p>
+<p>Web developers can hook into this behavior using CSS:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode css"><code class="sourceCode css"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">.animation-element</span> {</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">transition</span><span class="ch">:</span> <span class="dv">transform 0.5</span><span class="dt">s</span> <span class="dv">ease-in-out</span><span class="op">;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">@media</span> <span class="fu">(</span><span class="kw">prefers-reduced-motion</span><span class="ch">:</span> <span class="dv">reduce</span><span class="fu">)</span> {</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">.animation-element</span> {</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">transition</span><span class="ch">:</span> <span class="dv">none</span><span class="op">;</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>When Safari detects the system setting is active, it applies the CSS
+rules inside the <code>@media (prefers-reduced-motion: reduce)</code>
+block, effectively stripping out the transition.</p>
+<h3 id="how-safari-handles-prefers-contrast">How Safari Handles
+<code>prefers-contrast</code></h3>
+<p>The <code>prefers-contrast</code> media query is used to detect if
+the user has requested the system increase or decrease the amount of
+contrast between adjacent colors. This assists users with low vision or
+color blindness.</p>
+<p><strong>System Configuration:</strong></p>
+<ul>
+<li><strong>macOS:</strong> Enabled via <em>System Settings &gt;
+Accessibility &gt; Display &gt; Increase contrast</em>.</li>
+<li><strong>iOS/iPadOS:</strong> Enabled via <em>Settings &gt;
+Accessibility &gt; Display &amp; Text Size &gt; Increase
+Contrast</em>.</li>
+</ul>
+<p><strong>Safari’s Implementation:</strong> The CSS specification
+allows for several values: <code>no-preference</code>,
+<code>more</code>, <code>less</code>, and <code>custom</code>. Because
+Apple's operating systems only provide a binary toggle to "Increase
+Contrast", Safari specifically maps this setting to two values:</p>
+<ol type="1">
+<li><strong><code>no-preference</code>:</strong> The default state when
+"Increase Contrast" is turned off.</li>
+<li><strong><code>more</code>:</strong> The active state when "Increase
+Contrast" is turned on.</li>
+</ol>
+<p>Safari does not natively trigger the <code>less</code> value from
+standard system accessibility toggles, as there is no "Decrease
+Contrast" setting in macOS or iOS that maps to WebKit for this purpose
+(the "Reduce White Point" setting on iOS does not trigger this
+query).</p>
+<p>Developers use this in Safari to harden UI elements and improve text
+legibility:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode css"><code class="sourceCode css"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">.text-box</span> {</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">color</span><span class="ch">:</span> <span class="cn">#666666</span><span class="op">;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">border</span><span class="ch">:</span> <span class="dv">1</span><span class="dt">px</span> <span class="dv">solid</span> <span class="dv">transparent</span><span class="op">;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="im">@media</span> <span class="fu">(</span><span class="kw">prefers-contrast</span><span class="ch">:</span> <span class="dv">more</span><span class="fu">)</span> {</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">.text-box</span> {</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">color</span><span class="ch">:</span> <span class="cn">#000000</span><span class="op">;</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">border</span><span class="ch">:</span> <span class="dv">2</span><span class="dt">px</span> <span class="dv">solid</span> <span class="cn">#000000</span><span class="op">;</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<h3 id="detecting-changes-via-javascript-in-safari">Detecting Changes
+via JavaScript in Safari</h3>
+<p>In addition to CSS, Safari exposes these accessibility states to the
+Document Object Model (DOM) via the <code>window.matchMedia()</code>
+API. This is necessary when animations or contrast levels are controlled
+by JavaScript (such as HTML5 Canvas animations or WebGL) rather than
+CSS.</p>
+<p>Safari allows developers to check the current state and listen for
+real-time changes if a user toggles their settings while browsing:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Check for Reduced Motion in Safari</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> motionQuery <span class="op">=</span> <span class="bu">window</span><span class="op">.</span><span class="fu">matchMedia</span>(<span class="st">&#39;(prefers-reduced-motion: reduce)&#39;</span>)<span class="op">;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">handleMotionChange</span>(<span class="bu">event</span>) {</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="bu">event</span><span class="op">.</span><span class="fu">matches</span>) {</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Stop JavaScript-driven animations</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Resume animations</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="co">// Listen for system setting changes</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>motionQuery<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">&#39;change&#39;</span><span class="op">,</span> handleMotionChange)<span class="op">;</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="co">// Initial check on page load</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="fu">handleMotionChange</span>(motionQuery)<span class="op">;</span></span></code></pre></div>
+<p>Through both CSS evaluation and JavaScript event listeners, Safari
+ensures that a user's physical needs configured at the OS level are
+strictly honored by the web content they consume.</p></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/how-safari-honors-accessibility-css-media-queries';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

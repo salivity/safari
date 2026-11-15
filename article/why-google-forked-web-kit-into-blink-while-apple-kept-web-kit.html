@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Why Google Forked WebKit into Blink While Apple Kept WebKit - safari</title>
+    <meta name="description" content="In 2013, Google made the monumental decision to fork the open-source WebKit rendering engine to create Blink, the engine that now powers Google Chrome and other Chromium-based browsers. Meanwhile, Apple chose to stay the course and continue developing Web">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/why-google-forked-web-kit-into-blink-while-apple-kept-web-kit">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Why Google Forked WebKit into Blink While Apple Kept WebKit - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/why-google-forked-web-kit-into-blink-while-apple-kept-web-kit" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="In 2013, Google made the monumental decision to fork the open-source WebKit rendering engine to create Blink, the engine that now powers Google Chrome and other Chromium-based browsers. Meanwhile, Apple chose to stay the course and continue developing Web" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="why-google-forked-webkit-into-blink-while-apple-kept-webkit">Why
+Google Forked WebKit into Blink While Apple Kept WebKit</h1>
+<p>In 2013, Google made the monumental decision to fork the open-source
+WebKit rendering engine to create Blink, the engine that now powers
+Google Chrome and other Chromium-based browsers. Meanwhile, Apple chose
+to stay the course and continue developing WebKit for its Safari
+browser. This split occurred primarily due to conflicting multi-process
+architectures, increasing codebase complexity, and a mutual desire by
+both tech giants to accelerate their respective paces of innovation
+without hindering the other.</p>
+<h2 id="the-conflict-over-multi-process-architecture">The Conflict Over
+Multi-Process Architecture</h2>
+<p>When Google launched Chrome in 2008, it used Apple’s WebKit engine to
+render web pages. However, Chrome introduced a unique multi-process
+architecture that isolated each browser tab into its own sandboxed
+process. This prevented a single crashing tab from taking down the
+entire browser and improved security.</p>
+<p>Years later, Apple decided WebKit also needed a multi-process
+framework and introduced "WebKit2." Because Google had already built its
+own custom multi-process system on top of the original WebKit, Chrome
+could not easily adopt WebKit2 without a massive rewrite. Consequently,
+the WebKit codebase had to support two completely different ways of
+handling processes, creating friction between Google and Apple
+engineers.</p>
+<h2 id="different-javascript-engines">Different JavaScript Engines</h2>
+<p>Another point of divergence was how the two companies handled
+JavaScript. Apple used its native JavaScriptCore engine within WebKit.
+Google, wanting faster performance for complex web applications, built
+and used its own engine called V8.</p>
+<p>Maintaining compatibility for both JavaScriptCore and V8 within the
+single WebKit project required complex abstraction layers. This added
+unnecessary bulk to the code and created extra work for developers on
+both sides whenever they wanted to make core changes.</p>
+<h2 id="slowing-pace-of-innovation">Slowing Pace of Innovation</h2>
+<p>Because Chrome had a uniquely different underlying architecture
+compared to Safari and other WebKit browsers, engineers had to spend a
+significant amount of time ensuring their updates did not break the
+other company's browser.</p>
+<p>A change made by Google for Chrome’s benefit could accidentally break
+Safari, and vice versa. Reviewing code, debating architectural
+direction, and maintaining backward compatibility slowed down the
+development process for both companies.</p>
+<h2 id="the-birth-of-blink">The Birth of Blink</h2>
+<p>To solve these issues, Google forked WebKit in April 2013 to create
+Blink. By taking a copy of the WebKit code and striking out on its own,
+Google achieved immediate benefits:</p>
+<ul>
+<li><strong>Code Reduction:</strong> Google was able to immediately
+delete roughly 4.5 million lines of WebKit code that existed solely to
+support Apple’s architecture and other non-Chrome platforms.</li>
+<li><strong>Architectural Freedom:</strong> Google could now make deep
+structural changes to the rendering engine to improve speed and security
+without needing approval from Apple.</li>
+<li><strong>Out-of-Process Iframes:</strong> The fork allowed Google to
+easily implement features like out-of-process iframes, which vastly
+improved Chrome's security model.</li>
+</ul>
+<h2 id="why-apple-stayed-with-webkit">Why Apple Stayed with WebKit</h2>
+<p>While Google needed an engine tailored for the sprawling,
+cross-platform ecosystem of Chrome, Apple had different priorities that
+made sticking with WebKit the logical choice.</p>
+<ul>
+<li><strong>Hardware Optimization:</strong> Apple designs both the
+hardware and software for macOS and iOS. Continuing with WebKit allowed
+Apple to tightly integrate the engine with its own chips, focusing
+heavily on battery life, energy efficiency, and smooth rendering on
+Apple devices.</li>
+<li><strong>System Integration:</strong> WebKit is not just the engine
+for Safari; it is a core framework of iOS and macOS. Thousands of
+third-party apps rely on the system's WebKit framework to display web
+content. Abandoning or drastically altering it would break app
+compatibility across Apple's ecosystem.</li>
+<li><strong>Clean Slate Without Google:</strong> Just as Google
+benefited from removing Apple-specific code, Apple benefited from
+Google's departure. Apple engineers were able to strip out all of
+Chrome’s custom hooks and V8 compatibility layers, leaving WebKit
+leaner, faster, and fully aligned with the WebKit2 architecture.</li>
+</ul>
+<p>Ultimately, the split was a necessary evolution. The fork freed both
+Google and Apple from the burden of compromise, allowing Blink to evolve
+for cross-platform speed and web application dominance, while WebKit
+evolved for power efficiency and deep integration within the Apple
+ecosystem.</p></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/why-google-forked-web-kit-into-blink-while-apple-kept-web-kit';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

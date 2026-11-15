@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Why Dynamic Ad Blockers Struggle With Safari&#39;s API - safari</title>
+    <meta name="description" content="Traditional dynamic ad blockers like uBlock Origin cannot function at full capacity on the Safari web browser due to the strict architectural limitations of Apple&#39;s Content Blocker API. While traditional blockers rely on active, real-time inspection and m">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/why-dynamic-ad-blockers-struggle-with-safari-s-api">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Why Dynamic Ad Blockers Struggle With Safari&#39;s API - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/why-dynamic-ad-blockers-struggle-with-safari-s-api" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Traditional dynamic ad blockers like uBlock Origin cannot function at full capacity on the Safari web browser due to the strict architectural limitations of Apple&#39;s Content Blocker API. While traditional blockers rely on active, real-time inspection and m" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="why-dynamic-ad-blockers-struggle-with-safaris-api">Why Dynamic
+Ad Blockers Struggle With Safari's API</h1>
+<p>Traditional dynamic ad blockers like uBlock Origin cannot function at
+full capacity on the Safari web browser due to the strict architectural
+limitations of Apple's Content Blocker API. While traditional blockers
+rely on active, real-time inspection and modification of web requests
+using JavaScript, Safari requires extensions to submit static lists of
+rules that the browser compiles and executes natively. This fundamental
+shift from an imperative, dynamic approach to a declarative, static
+model restricts the rule capacities, complex filtering syntax, and
+advanced script-injection techniques that make tools like uBlock Origin
+so effective on other browsers.</p>
+<h2 id="the-shift-from-imperative-to-declarative-architecture">The Shift
+from Imperative to Declarative Architecture</h2>
+<p>The core conflict lies in how the browser processes network requests.
+uBlock Origin was designed for an imperative API (traditionally the
+<code>webRequest</code> API in Chromium and Firefox). In this model, the
+browser pauses a network request and passes it to the ad blocker. The
+extension runs its own JavaScript engine to evaluate the request against
+complex logic, dynamically decides what to do, and tells the browser to
+either block, redirect, or allow the connection.</p>
+<p>Safari’s Content Blocker API uses a declarative model designed to
+maximize battery life and user privacy. Safari does not allow the
+content blocker to see individual network requests in real time.
+Instead, the extension must hand Safari a static JSON file containing
+"triggers" and "actions." Safari compiles this list into native bytecode
+and evaluates web traffic itself. Because the extension's logic engine
+is completely removed from the real-time evaluation loop, the dynamic,
+on-the-fly decision-making that powers uBlock Origin is architecturally
+impossible.</p>
+<h2 id="strict-limits-on-rule-capacity">Strict Limits on Rule
+Capacity</h2>
+<p>Filter lists are the backbone of any ad blocker, and uBlock Origin
+utilizes massive, community-maintained lists that easily exceed 300,000
+distinct rules in a standard installation. Because uBlock Origin
+evaluates these rules using its own highly optimized internal engine,
+there is no hard cap on how many rules a user can enable.</p>
+<p>Safari imposes a strict ceiling on the number of rules a Content
+Blocker can load—originally capped at 50,000 rules, and later increased
+to 150,000 rules per extension. This limit exists because compiling
+massive JSON lists into native bytecode consumes significant system
+memory. To adapt to Safari, developers have to aggressively trim filter
+lists, which reduces blocking effectiveness, or bundle multiple separate
+content-blocking extensions inside a single app just to pool their rule
+limits together.</p>
+<h2 id="incompatible-syntax-and-regular-expressions">Incompatible Syntax
+and Regular Expressions</h2>
+<p>uBlock Origin uses a rich, specialized filtering syntax that allows
+for surgical precision when targeting ads and trackers. When adapting to
+Safari, every single rule must be translated from standard ad-blocking
+syntax into Apple's proprietary JSON format. Many advanced rules simply
+have no equivalent in Safari's ecosystem.</p>
+<p>Furthermore, while Safari supports Regular Expressions (regex) for
+matching URLs, it only supports a heavily restricted subset. Safari
+compiles its rules into a Deterministic Finite Automaton (DFA) to ensure
+fast execution. Complex regex features—such as lookaheads, lookbehinds,
+and certain quantifiers—can cause exponential memory growth during DFA
+compilation. Therefore, Safari outright rejects them, rendering many of
+uBlock Origin's most potent anti-tracking rules unusable.</p>
+<h2 id="the-loss-of-advanced-scriptlets-and-dom-manipulation">The Loss
+of Advanced Scriptlets and DOM Manipulation</h2>
+<p>Modern ad blocking requires more than just blocking network URLs and
+hiding page elements with CSS. Websites increasingly use anti-adblock
+scripts, first-party ads, and server-side ad insertion (common on video
+platforms). uBlock Origin counters these by dynamically injecting
+"scriptlets"—tiny snippets of JavaScript—into the webpage before it
+loads to defuse tracking scripts and bypass ad-Blocker detection.</p>
+<p>Safari’s Content Blocker API is strictly limited to blocking network
+requests, blocking cookies, and hiding elements via CSS. It cannot
+inject JavaScript. While a developer can use a separate Safari Web
+Extension API to inject scripts, doing so requires the user to grant the
+extension permission to "read and alter all data on all websites."
+Furthermore, because the Web Extension API and the Content Blocker API
+operate separately, injected scripts often suffer from execution delays
+(race conditions), allowing in-page scripts to load ads before the
+blocker can defuse them.</p>
+<h2 id="no-dynamic-filtering-matrix">No Dynamic Filtering Matrix</h2>
+<p>A signature feature of uBlock Origin is its dynamic filtering matrix,
+which allows advanced users to create on-the-fly rules based on the
+specific relationship between the current website (first-party) and the
+external servers it contacts (third-party).</p>
+<p>In uBlock Origin, toggling a rule in this matrix takes effect
+instantly because the extension simply updates a variable in its active
+memory. In Safari, any change to the blocking rules requires the
+extension to generate a new JSON file and force WebKit to recompile the
+entire rule list into bytecode. This compilation process takes several
+seconds and uses substantial CPU power, making real-time, interactive
+rule toggling sluggish and impractical for daily browsing.</p></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/why-dynamic-ad-blockers-struggle-with-safari-s-api';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

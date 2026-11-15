@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Safari Validates SSL/TLS Certificates on macOS and iOS - safari</title>
+    <meta name="description" content="This article provides a comprehensive overview of the process the Safari web browser uses to validate SSL/TLS server certificates on macOS and iOS devices. It covers the steps from the initial TLS handshake and chain-of-trust verification against the buil">
+    <link rel="canonical" href="https://salivity.github.io/safari/article/how-safari-validates-ssl-tls-certificates-on-mac-os-and-i-os">
+    <link rel="search" type="application/opensearchdescription+xml" title="safari" href="/safari/opensearch.xml">
+    <link rel="icon" href="/safari/favicon.ico">
+    <link rel="stylesheet" href="/safari/css/style.css">
+    <link media="print" rel="stylesheet" href="/safari/css/print.css">
+    <script src="/safari/js/fuse.min.js"></script>
+    <script src="/safari/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Safari Validates SSL/TLS Certificates on macOS and iOS - safari" />
+    <meta property="og:url" content="https://salivity.github.io/safari/article/how-safari-validates-ssl-tls-certificates-on-mac-os-and-i-os" />
+    <meta property="og:image" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/safari/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article provides a comprehensive overview of the process the Safari web browser uses to validate SSL/TLS server certificates on macOS and iOS devices. It covers the steps from the initial TLS handshake and chain-of-trust verification against the buil" />
+    <link rel="manifest" href="/safari/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/safari/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>safari</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/safari/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+    <div class="article-layout">
+        <aside id="profile-sidebar" class="profile-column" aria-label="Author Profile"></aside>
+        <div class="article-main-column">
+            <article><h1 id="how-safari-validates-ssltls-certificates-on-macos-and-ios">How
+Safari Validates SSL/TLS Certificates on macOS and iOS</h1>
+<p>This article provides a comprehensive overview of the process the
+Safari web browser uses to validate SSL/TLS server certificates on macOS
+and iOS devices. It covers the steps from the initial TLS handshake and
+chain-of-trust verification against the built-in Apple Root Certificate
+Program to policy enforcement, real-time revocation checks, and
+Certificate Transparency validation.</p>
+<h3 id="the-tls-handshake-and-os-integration">The TLS Handshake and OS
+Integration</h3>
+<p>When a user navigates to an HTTPS website in Safari, the browser
+initiates a TLS handshake with the web server. During this process, the
+server presents its leaf SSL/TLS certificate along with one or more
+intermediate certificates.</p>
+<p>Safari does not maintain its own independent certificate store or
+validation engine. Instead, it delegates this responsibility to the
+underlying operating system (macOS or iOS). Safari passes the received
+certificate chain to the system’s <code>Security.framework</code>,
+specifically a background daemon known as <code>trustd</code>, which
+executes the cryptographic verification against the Apple Root
+Certificate Program store.</p>
+<h3 id="building-and-verifying-the-chain-of-trust">Building and
+Verifying the Chain of Trust</h3>
+<p>The <code>trustd</code> daemon attempts to construct a valid
+cryptographic path from the website's leaf certificate up to a known
+root certificate.</p>
+<ol type="1">
+<li><strong>Leaf Certificate:</strong> The certificate issued
+specifically to the website's domain.</li>
+<li><strong>Intermediate Certificates:</strong> Certificates that act as
+a bridge, signed by a root authority to issue leaf certificates.</li>
+<li><strong>Root Certificate:</strong> A self-signed certificate held by
+a Certificate Authority (CA).</li>
+</ol>
+<p>Each certificate in the chain must be digitally signed by the entity
+immediately above it. For the chain to be trusted, it must terminate at
+a Root CA that is actively included in the Apple Root Certificate
+Program. These root certificates are pre-installed on macOS and iOS and
+are updated securely by Apple through operating system updates. If the
+chain cannot be linked to an Apple-trusted root (or a root manually
+installed and trusted by the device administrator), validation fails
+immediately.</p>
+<h3 id="enforcing-apples-certificate-policies">Enforcing Apple’s
+Certificate Policies</h3>
+<p>Once a valid chain to a trusted root is established, the operating
+system evaluates the certificate against strict structural and security
+policies set by Apple:</p>
+<ul>
+<li><strong>Domain Name Matching:</strong> The domain name in Safari’s
+address bar must exactly match a name listed in the certificate's
+Subject Alternative Name (SAN) extension. Checking the legacy Common
+Name (CN) field is no longer sufficient.</li>
+<li><strong>Validity Period:</strong> The current system date and time
+must fall between the certificate's "Not Before" and "Not After"
+timestamps. Furthermore, Apple enforces a strict maximum lifespan
+policy: any TLS server certificate issued on or after September 1, 2020,
+will be rejected by Safari if its validity period exceeds 398 days.</li>
+<li><strong>Cryptographic Standards:</strong> The certificates must
+utilize strong cryptographic algorithms. Apple rejects certificates
+using SHA-1 hashes or RSA keys smaller than 2048 bits (or Elliptic Curve
+Cryptography keys smaller than 256 bits).</li>
+</ul>
+<h3 id="certificate-revocation-checking">Certificate Revocation
+Checking</h3>
+<p>A cryptographically valid certificate may still be untrustworthy if
+its private key was compromised. To ensure the certificate has not been
+revoked by the issuing CA, macOS and iOS use three mechanisms:</p>
+<ul>
+<li><strong>Apple's "Valid" Service:</strong> Apple aggregates
+revocation data (CRLs) from trusted CAs, compiles it into a compact
+format, and periodically pushes this data directly to macOS and iOS
+devices. <code>trustd</code> checks this local cache first, which
+preserves user privacy and speeds up validation.</li>
+<li><strong>OCSP Stapling:</strong> A web server can include a
+timestamped Online Certificate Status Protocol (OCSP) response directly
+within the TLS handshake. If present, the OS validates this stapled
+response without needing to make an external network request.</li>
+<li><strong>Live OCSP Check:</strong> If the certificate is not covered
+by Apple's local cache and does not include a stapled response,
+<code>trustd</code> will query the issuing CA's OCSP server directly
+over the network to confirm the certificate is still active.</li>
+</ul>
+<h3 id="certificate-transparency-ct-enforcement">Certificate
+Transparency (CT) Enforcement</h3>
+<p>As a final step, Safari enforces Apple’s Certificate Transparency
+policy to protect against misissued or rogue certificates.</p>
+<p>When a CA issues a certificate, it must submit it to multiple public,
+append-only CT logs, which return a Signed Certificate Timestamp (SCT).
+The server must deliver these SCTs to Safari during the TLS handshake
+(typically embedded in the certificate itself or via OCSP stapling). The
+operating system verifies that the certificate is accompanied by the
+required number of valid SCTs from distinct, Apple-approved CT logs.</p>
+<p>If the certificate passes chain building, policy checks, revocation
+verification, and Certificate Transparency validation,
+<code>trustd</code> informs Safari that the connection is secure, and
+the webpage loads. If any critical step fails, Safari terminates the
+connection and displays a warning to the user.</p></article>
+        <div id='disqus_thread'></div>
+        <script>
+
+            var disqus_config = function () {
+                this.page.url =         'https://salivity.github.io/safari/article/how-safari-validates-ssl-tls-certificates-on-mac-os-and-i-os';  
+                //this.page.identifier =  PAGE_IDENTIFIER; 
+            };
+            
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://salivity-github-io.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+        </div>
+    </div>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="https://smvc.dev/contact">Contact</a></li>
+                <li><a href="/safari/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/safari/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>
